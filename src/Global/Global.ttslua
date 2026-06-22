@@ -2565,7 +2565,7 @@ function createActionTrackerUI()
       active                               = visibilityString ~= "",
       height                               = 30 * #usedMatColors,
       width                                = "300",
-      offsetXY                             = "-2 396",
+      offsetXY                             = "-2 436",
       columnWidths                         = "0 150",
       padding                              = "4 4 4 4",
       cellSpacing                          = "5",
@@ -4221,7 +4221,7 @@ end
 -- loads the default options
 function onClick_defaultSettings()
   -- clean reset of variables
-  optionPanel = {
+  loadOptionPanelState({
     uiLanguage                = "en",
     changePlayAreaImage       = false,
     defaultHardExpert         = false,
@@ -4249,15 +4249,7 @@ function onClick_defaultSettings()
     useCustomResourceImages   = true,
     useResourceCounters       = "disabled",
     useSnapTags               = true
-  }
-
-  -- applying changes
-  for id, state in pairs(optionPanel) do
-    applyOptionPanelChange(id, state)
-  end
-
-  -- update UI
-  updateOptionPanelState()
+  }, false)
 
   -- ensure correct language for UIs
   Wait.frames(function()
