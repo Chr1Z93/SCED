@@ -1,0 +1,71 @@
+<Defaults>
+  <Button class="bGrey"
+    color="grey"/>
+  <Button class="bWhite"
+    color="white"/>
+
+  <Button class="windowButton"
+    hoverClass="bGrey"
+    pressClass="bWhite"
+    selectClass="bWhite"
+    color="#888888"
+    font="font_teutonic-arkham"/>
+
+  <!-- other -->
+  <Text class="headerText"
+    fontSize="35"/>
+  <VerticalLayout childForceExpandHeight="false"/>
+</Defaults>
+
+<VerticalLayout id="abConnector"
+  active="true"
+  color="black"
+  height="400"
+  width="600"
+  outlineSize="2 2"
+  outline="#303030">
+
+  <!-- window header -->
+  <Panel preferredHeight="60"
+    padding="10 10 5 5"
+    spacing="10"
+    outlineSize="2 2"
+    outline="#303030"
+    color="black">
+    <Text id="ABC_title"
+      fontSize="32"
+      font="font_teutonic-arkham"
+      preferredWidth="600"
+      alignment="MiddleLeft">arkham.build Connector</Text>
+    <Panel preferredWidth="50">
+      <Button id="ABC_close_tooltip"
+        rectAlignment="MiddleRight"
+        width="50"
+        color="#00000000"
+        icon="close"
+        tooltip="Close"
+        tooltipOffset="20"
+        tooltipPosition="Right"
+        tooltipBackgroundColor="rgba(0,0,0,1)"
+        onClick="onClick_toggleUi(abConnector)"/>
+    </Panel>
+  </Panel>
+
+  <!-- content -->
+  <VerticalLayout preferredHeight="350">
+    <Button id="ABC_uploadSettings_button"
+      class="windowButton"
+      onClick="onClick_uploadSettings"
+      preferredHeight="30"
+      width="125"
+      fontSize="24"
+      text="Upload Settings"/>
+    <Button id="ABC_downloadSettings_button"
+      class="windowButton"
+      onClick="onClick_downloadSettings"
+      preferredHeight="30"
+      width="125"
+      fontSize="24"
+      text="Download Settings"/>
+  </VerticalLayout>
+</VerticalLayout>

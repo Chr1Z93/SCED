@@ -2139,11 +2139,16 @@ function onClick_toggleUi(player, windowId)
     return
   end
 
-  -- hide the playAreaGallery / downloadWindow if visible
+  -- hide the abConnector / playAreaGallery / downloadWindow if visible
   if windowId == "downloadWindow" then
+    changeWindowVisibilityForColor(player.color, "abConnector", false)
     changeWindowVisibilityForColor(player.color, "playAreaGallery", false)
   elseif windowId == "playAreaGallery" then
+    changeWindowVisibilityForColor(player.color, "abConnector", false)
     changeWindowVisibilityForColor(player.color, "downloadWindow", false)
+  elseif windowId == "abConnector" then
+    changeWindowVisibilityForColor(player.color, "downloadWindow", false)
+    changeWindowVisibilityForColor(player.color, "playAreaGallery", false)
   elseif windowId == "blessCurseManager" then
     -- store the state of the Bless/Curse Manager UI to restore it onLoad()
     blurseVisibility[player.color] = changeWindowVisibilityForColor(player.color, "blessCurseManager")
