@@ -1,20 +1,15 @@
 <Defaults>
-  <Button class="bGrey"
+  <Button class="ABCbGrey"
     color="grey"/>
-  <Button class="bWhite"
+  <Button class="ABCbWhite"
     color="white"/>
 
-  <Button class="windowButton"
-    hoverClass="bGrey"
-    pressClass="bWhite"
-    selectClass="bWhite"
+  <Button class="ABCwindowButton"
+    hoverClass="ABCbGrey"
+    pressClass="ABCbWhite"
+    selectClass="ABCbWhite"
     color="#888888"
     font="font_teutonic-arkham"/>
-
-  <!-- other -->
-  <Text class="headerText"
-    fontSize="35"/>
-  <VerticalLayout childForceExpandHeight="false"/>
 </Defaults>
 
 <VerticalLayout id="abConnector"
@@ -23,7 +18,8 @@
   height="400"
   width="600"
   outlineSize="2 2"
-  outline="#303030">
+  outline="#303030"
+  childForceExpandHeight="false">
 
   <!-- window header -->
   <Panel preferredHeight="60"
@@ -52,16 +48,17 @@
   </Panel>
 
   <!-- content -->
-  <VerticalLayout preferredHeight="350">
+  <VerticalLayout preferredHeight="350"
+  childForceExpandHeight="false">
     <Button id="ABC_uploadSettings_button"
-      class="windowButton"
+      class="ABCwindowButton"
       onClick="onClick_uploadSettings"
       preferredHeight="30"
       width="125"
       fontSize="24"
       text="Upload Settings"/>
     <Button id="ABC_downloadSettings_button"
-      class="windowButton"
+      class="ABCwindowButton"
       onClick="onClick_downloadSettings"
       preferredHeight="30"
       width="125"
