@@ -2,19 +2,22 @@ require("playarea/PlayAreaImageData") -- this fills the variable "PLAYAREA_IMAGE
 local GlobalApi         = require("Global/GlobalApi")
 local MathLib           = require("util/MathLib")
 local PlayAreaApi       = require("playarea/PlayAreaApi")
-local typeIndex, selectionIndex, plainNameCache
+local typeIndex, selectionIndex, scenarioMap
 
--- this maps scenarios to the "main" name for the image pool
+-- this maps scenarios to the "main" scenario for the image pool
 -- e.g. for parallel scenarios this links to the real scenario
 local SHARED_IMAGE_POOL = {
-  ["All or Nothing"]     = "The House Always Wins",
-  ["Bad Blood"]          = "Threads of Fate",
-  ["By the Book"]        = "The Midnight Masks",
-  ["Enthralling Encore"] = "Curtain Call",
-  ["Laid to Rest"]       = "The Wages of Sin",
-  ["Read or Die"]        = "Extracurricular Activity",
-  ["Red Tide Rising"]    = "The Vanishing of Elina Harper",
-  ["Relics of the Past"] = "The Doom of Eztli"
+  ["83016"] = "83001", -- Guardians of the Abyss
+  ["90004"] = "02041", -- Extracurricular Activity
+  ["90011"] = "02062", -- The House Always Wins
+  ["90020"] = "04113", -- Threads of Fate
+  ["90032"] = "01120", -- The Midnight Masks
+  ["90041"] = "07056", -- The Vanishing of Elina Harper
+  ["90054"] = "05161", -- The Wages of Sin
+  ["90065"] = "04054", -- The Doom of Eztli
+  ["90094"] = "03043", -- Curtain Call
+  ["RCC01"] = "COC01", -- Consternation on the Constellation
+  ["RTW01"] = "ATW01", -- Against the Wendigo
 }
 
 function updateSave()
@@ -57,18 +60,13 @@ function getDataSubTableByIndex(dataTable, index)
 end
 
 function updatePlayAreaGallery()
-  -- get subtables
-  local dataForType = getDataSubTableByIndex(PLAYAREA_IMAGE_DATA, typeIndex)
+  local dataForType      = getDataSubTableByIndex(PLAYAREA_IMAGE_DATA, typeIndex)
   local dataForSelection = getDataSubTableByIndex(dataForType, selectionIndex)
-
-  -- get global xml to insert elements
-  local globalXml = Global.UI.getXmlTable() or {}
-
-  -- selectable items
-  local itemSelection = getXmlTableElementById(globalXml, "itemSelection")
+  local globalXml        = Global.UI.getXmlTable() or {}
+  local itemSelection    = getXmlTableElementById(globalXml, "itemSelection")
   itemSelection.children = {}
 
-  local i = 0
+  local i                = 0
   for itemName, _ in pairs(dataForType) do
     i = i + 1
     table.insert(itemSelection.children,
@@ -163,28 +161,26 @@ function getXmlTableElementById(ui, id)
   return nil
 end
 
-function maybeUpdatePlayAreaImage(scenarioName)
+function maybeUpdatePlayAreaImage(scenarioId)
   -- check if option is enabled
   local optionPanelState = GlobalApi.getOptionPanelState()
   if not optionPanelState["changePlayAreaImage"] then return end
 
   -- initialize cache if nil
-  if not plainNameCache then
-    plainNameCache = {}
+  if not scenarioMap then
+    scenarioMap = {}
     for i, dataForType in pairs(PLAYAREA_IMAGE_DATA) do
       for j, dataForCycle in pairs(dataForType) do
         for k, data in ipairs(dataForCycle) do
-          local plainName = getPlainName(data.Name)
+          local id = data.ID or "Undefined"
 
           -- override plainName for all images in the "Other Images" category (except the default image)
           if i == "Other Images" and data.Name ~= "Default Image" then
-            plainName = "Generic"
+            id = "Generic"
           end
 
-          if not plainNameCache[plainName] then
-            plainNameCache[plainName] = {}
-          end
-          table.insert(plainNameCache[plainName], data.URL)
+          scenarioMap[id] = scenarioMap[id] or {}
+          table.insert(scenarioMap[id], data.URL)
         end
       end
     end
@@ -192,37 +188,17 @@ function maybeUpdatePlayAreaImage(scenarioName)
 
   -- look for matching playarea image or use generic ones instead
   local listOfEligibleImages = {}
-  if plainNameCache[scenarioName] then
-    listOfEligibleImages = plainNameCache[scenarioName]
-  elseif SHARED_IMAGE_POOL[scenarioName] and plainNameCache[SHARED_IMAGE_POOL[scenarioName]] then
-    listOfEligibleImages = plainNameCache[SHARED_IMAGE_POOL[scenarioName]]
+  if scenarioMap[scenarioId] then
+    listOfEligibleImages = scenarioMap[scenarioId]
+  elseif SHARED_IMAGE_POOL[scenarioId] and scenarioMap[SHARED_IMAGE_POOL[scenarioId]] then
+    listOfEligibleImages = scenarioMap[SHARED_IMAGE_POOL[scenarioId]]
   else
-    listOfEligibleImages = plainNameCache["Generic"]
+    listOfEligibleImages = scenarioMap["Generic"]
   end
 
   -- get a random entry from the eligible list
   local newImageIndex = math.random(#listOfEligibleImages)
 
-  -- wait a short time to avoid double-firing of collision events in rapid succession
-  Wait.time(function() PlayAreaApi.updateSurface(listOfEligibleImages[newImageIndex]) end, 1)
-end
-
--- attempts to extract the plain scenario name from the playarea image name
-function getPlainName(str)
-  -- remove prefix type 1
-  str = str:gsub("%w+%-%w%s%-%s", "") -- matches "II-B - Thousand Shapes of Horror 1"
-
-  -- remove prefix type 2
-  str = str:gsub("%w+%-%w%s", "") -- matches "59-Z Congress of Keys 1"
-
-  -- remove prefix type 3
-  str = str:gsub("%w+%s%-%s", "") -- matches "III - The Secret Name 4"
-
-  -- remove prefix type 4
-  str = str:gsub("%?+%s%-%s", "") -- matches "??? - Fatal Mirage"
-
-  -- remove suffix (numbering)
-  str = str:gsub("%s%d+", "")
-
-  return str
+  -- apply the background change
+  PlayAreaApi.updateSurface(listOfEligibleImages[newImageIndex])
 end

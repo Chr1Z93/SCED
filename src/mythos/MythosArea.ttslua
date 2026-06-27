@@ -59,8 +59,8 @@ end
 
 function resetScenarioData()
   currentScenario = ""
-  useFrontData = true
-  tokenData = {}
+  useFrontData    = true
+  tokenData       = {}
   updateSave()
   PlayAreaApi.onScenarioChanged(false)
 end
@@ -233,7 +233,7 @@ function getDataFromReferenceCard(card, cardName, md)
   -- detect orientation of scenario card (for difficulty)
   Wait.frames(function()
     useFrontData = not card.is_face_down
-    tokenData = md["tokens"][(useFrontData and "front" or "back")]
+    tokenData    = md["tokens"][(useFrontData and "front" or "back")]
     fireTokenDataChangedEvent()
   end, 5)
 end
@@ -244,7 +244,7 @@ function onCollisionExit(collisionInfo)
 
   -- reset token metadata if scenario reference card is removed
   if object == scenarioCard then
-    tokenData = {}
+    tokenData    = {}
     useFrontData = nil
     scenarioCard = nil
     fireTokenDataChangedEvent()
@@ -271,7 +271,7 @@ function fireScenarioChangedEvent(md)
 
   -- maybe update the playarea image
   local playAreaImageSelector = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", "PlayAreaImageSelector")
-  playAreaImageSelector.call("maybeUpdatePlayAreaImage", currentScenario)
+  playAreaImageSelector.call("maybeUpdatePlayAreaImage", md.id or md.TtsZoopGuid)
 
   -- maybe change behavior of some player cards or other objects
   for _, obj in ipairs(getObjectsWithTag("ListenForScenario")) do

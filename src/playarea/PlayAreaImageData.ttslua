@@ -2,1038 +2,1284 @@ PLAYAREA_IMAGE_DATA = {
   ["Official Campaigns"] = {
     ["Night of the Zealot"] = {
       {
+        ID   = "01104",
         Name = "I - The Gathering 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725443007/D34B55D2637EF1DF22839D12F9CF74F92F8EB486/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725443007/D34B55D2637EF1DF22839D12F9CF74F92F8EB486/"
       },
       {
+        ID   = "01142",
         Name = "III - The Devourer Below 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725443203/FBE04C8B89F79D18C6D29C28DC3B292A5A3A3DEB/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725443203/FBE04C8B89F79D18C6D29C28DC3B292A5A3A3DEB/"
       },
       {
+        ID   = "01142",
         Name = "III - The Devourer Below 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725443345/FD10BC04B3F3AFD710C3C12EE14F85F9AFB265E6/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725443345/FD10BC04B3F3AFD710C3C12EE14F85F9AFB265E6/"
       }
     },
     ["The Dunwich Legacy"] = {
       {
+        ID   = "02041",
         Name = "I-A - Extracurricular Activity 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725401398/AC55F0754B7E4A39796A6F2236012AE03DA55E20/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725401398/AC55F0754B7E4A39796A6F2236012AE03DA55E20/"
       },
       {
+        ID   = "02041",
         Name = "I-A - Extracurricular Activity 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725401658/9F3ED6E256818C4528D55980B9D7E44B87170A4F/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725401658/9F3ED6E256818C4528D55980B9D7E44B87170A4F/"
       },
       {
+        ID   = "02041",
         Name = "I-A - Extracurricular Activity 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725401870/FE29404D9D93BE2735D41C115DDD9708A0931F3E/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725401870/FE29404D9D93BE2735D41C115DDD9708A0931F3E/"
       },
       {
+        ID   = "02062",
         Name = "I-B - The House Always Wins 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725402059/4C4A50D259ECFD4DFB94FABB9FA2AD3AABDCA0CA/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725402059/4C4A50D259ECFD4DFB94FABB9FA2AD3AABDCA0CA/"
       },
       {
+        ID   = "02062",
         Name = "I-B - The House Always Wins 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725402263/8B0C981B78E803B3BFD64AC874F315B6810E579B/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725402263/8B0C981B78E803B3BFD64AC874F315B6810E579B/"
       },
       {
+        ID   = "02062",
         Name = "I-B - The House Always Wins 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725402460/8599D17306C644D75D189591BC6D57C2F27F9E35/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725402460/8599D17306C644D75D189591BC6D57C2F27F9E35/"
       },
       {
+        ID   = "02062",
         Name = "I-B - The House Always Wins 4",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725402641/777865B25BCF86C2EFEAE232AFBC31561D12AE0F/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725402641/777865B25BCF86C2EFEAE232AFBC31561D12AE0F/"
       },
       {
+        ID   = "02118",
         Name = "II - The Miskatonic Museum 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725402804/A44E68AC08E6568A757429B29E71C703B76FA159/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725402804/A44E68AC08E6568A757429B29E71C703B76FA159/"
       },
       {
+        ID   = "02118",
         Name = "II - The Miskatonic Museum 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725403000/B28D46D5B7BCE9EA9BF27D3A0A932393D8258A76/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725403000/B28D46D5B7BCE9EA9BF27D3A0A932393D8258A76/"
       },
       {
+        ID   = "02159",
         Name = "III - The Essex County Express",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725403150/956BE4B5C25805E57C8FC5CF28A94BD7EF07CA54/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725403150/956BE4B5C25805E57C8FC5CF28A94BD7EF07CA54/"
       },
       {
+        ID   = "02195",
         Name = "IV - Blood on the Altar 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725403290/07DD1508BA880AD1212A820BC29471C48DC90C53/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725403290/07DD1508BA880AD1212A820BC29471C48DC90C53/"
       },
       {
+        ID   = "02195",
         Name = "IV - Blood on the Altar 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725403456/A74398E8CCD78657C2555832A3B340723E8C9117/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725403456/A74398E8CCD78657C2555832A3B340723E8C9117/"
       },
       {
+        ID   = "02195",
         Name = "IV - Blood on the Altar 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725403636/CD89D7D9CC020F41D5AD02D54E308877583EC45F/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725403636/CD89D7D9CC020F41D5AD02D54E308877583EC45F/"
       },
       {
+        ID   = "02195",
         Name = "IV - Blood on the Altar 4",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725403818/AEFAC50DAC82271BCACC53B8FF69B5B094FA1078/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725403818/AEFAC50DAC82271BCACC53B8FF69B5B094FA1078/"
       },
       {
+        ID   = "02236",
         Name = "V - Undimensioned and Unseen 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725403955/E7C566E536CF6E910DB654FC1DBF4838F2BAF899/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725403955/E7C566E536CF6E910DB654FC1DBF4838F2BAF899/"
       },
       {
+        ID   = "02236",
         Name = "V - Undimensioned and Unseen 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725404127/F92F123BBD3D857C579B9284988C3AFFBCD84B2B/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725404127/F92F123BBD3D857C579B9284988C3AFFBCD84B2B/"
       },
       {
+        ID   = "02236",
         Name = "V - Undimensioned and Unseen 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725404273/7F8CFE6785BD74BB8D5E34C204AFB8AA580CA3E3/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725404273/7F8CFE6785BD74BB8D5E34C204AFB8AA580CA3E3/"
       },
       {
+        ID   = "02236",
         Name = "V - Undimensioned and Unseen 4",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725404424/C2AE08371CF2DE2777791BBD4AEF446E50532382/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725404424/C2AE08371CF2DE2777791BBD4AEF446E50532382/"
       },
       {
+        ID   = "02274",
         Name = "VI - Where Doom Awaits 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725404578/A520CE0F6B0C8591A48ADEF34E68B46AFC2BC83B/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725404578/A520CE0F6B0C8591A48ADEF34E68B46AFC2BC83B/"
       },
       {
+        ID   = "02274",
         Name = "VI - Where Doom Awaits 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725404740/1FF9EF375BDBB73CA8F0A1562F215692AAEA7131/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725404740/1FF9EF375BDBB73CA8F0A1562F215692AAEA7131/"
       },
       {
+        ID   = "02274",
         Name = "VI - Where Doom Awaits 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725404914/5473D20CE0122F55EEADB16C4353D4EDD91E440E/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725404914/5473D20CE0122F55EEADB16C4353D4EDD91E440E/"
       },
       {
+        ID   = "02274",
         Name = "VI - Where Doom Awaits 4",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725405088/A0AA8CB864747152763D434D0737D81EB515E71B/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725405088/A0AA8CB864747152763D434D0737D81EB515E71B/"
       },
       {
+        ID   = "02274",
         Name = "VI - Where Doom Awaits 5",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725405247/FAF408DAAD4FC72142DFDFE5FCEA4B84293AA72C/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725405247/FAF408DAAD4FC72142DFDFE5FCEA4B84293AA72C/"
       },
       {
+        ID   = "02311",
         Name = "VII - Lost in Time and Space 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725405746/771BAE40F98BB16F8D011FA794E4AC0095131AF1/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725405746/771BAE40F98BB16F8D011FA794E4AC0095131AF1/"
       },
       {
+        ID   = "02311",
         Name = "VII - Lost in Time and Space 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725406148/D15D56EA34F27C651D7E7AC202DA4DEBE395E310/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725406148/D15D56EA34F27C651D7E7AC202DA4DEBE395E310/"
       }
     },
     ["The Path to Carcosa"] = {
       {
+        ID   = "03043",
         Name = "I - Curtain Call",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725426327/41F6192EDCFFD6AAE2EE44C2BB5708B19D7464A9/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725426327/41F6192EDCFFD6AAE2EE44C2BB5708B19D7464A9/"
       },
       {
+        ID   = "03061",
         Name = "II - The Last King 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725426499/114EAEA245AC51CA219364AF26341E7F7E649A7D/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725426499/114EAEA245AC51CA219364AF26341E7F7E649A7D/"
       },
       {
+        ID   = "03061",
         Name = "II - The Last King 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725426683/A2762E95DD79D7A7BC749925166BBFC18B62EF3B/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725426683/A2762E95DD79D7A7BC749925166BBFC18B62EF3B/"
       },
       {
+        ID   = "03061",
         Name = "II - The Last King 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725426818/A6A20773EA95CE3D9896B22E317A0E1ACCA911F0/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725426818/A6A20773EA95CE3D9896B22E317A0E1ACCA911F0/"
       },
       {
+        ID   = "03120",
         Name = "III - Echoes of the Past",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725427005/25F51DE4B1F33C16A0E68C929E5002F0C4520A37/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725427005/25F51DE4B1F33C16A0E68C929E5002F0C4520A37/"
       },
       {
+        ID   = "03159",
         Name = "IV - The Unspeakable Oath 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725427178/9575E4F6E53DDAD2D3E61684AB9757B04E1EF787/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725427178/9575E4F6E53DDAD2D3E61684AB9757B04E1EF787/"
       },
       {
+        ID   = "03159",
         Name = "IV - The Unspeakable Oath 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725427342/199A6C6411992ACFB8A417E86207FE6CE956EB97/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725427342/199A6C6411992ACFB8A417E86207FE6CE956EB97/"
       },
       {
+        ID   = "03159",
         Name = "IV - The Unspeakable Oath 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725427501/48525BCDFA281947FA9ED26507BC1F81C07056E8/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725427501/48525BCDFA281947FA9ED26507BC1F81C07056E8/"
       },
       {
+        ID   = "03200",
         Name = "V - A Phantom of Truth 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725427681/F72B02FF1A5E58CBCB0E53C8455310AF37064477/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725427681/F72B02FF1A5E58CBCB0E53C8455310AF37064477/"
       },
       {
+        ID   = "03200",
         Name = "V - A Phantom of Truth 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725427848/215A757FF28317EB3EF7CF1F9CAE6F1CFF735091/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725427848/215A757FF28317EB3EF7CF1F9CAE6F1CFF735091/"
       },
       {
+        ID   = "03240",
         Name = "VI - The Pallid Mask 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725428067/D46BAD80B112156A2D3DEFF247A74C74F27DDA12/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725428067/D46BAD80B112156A2D3DEFF247A74C74F27DDA12/"
       },
       {
+        ID   = "03240",
         Name = "VI - The Pallid Mask 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725428250/464681CF59770BFD493A0D672C7CB70BA8CD3499/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725428250/464681CF59770BFD493A0D672C7CB70BA8CD3499/"
       },
       {
+        ID   = "03274",
         Name = "VII - Black Stars Rise 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725428431/4766E1A4893E0EF16B576749B73CE449F10DA20C/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725428431/4766E1A4893E0EF16B576749B73CE449F10DA20C/"
       },
       {
+        ID   = "03274",
         Name = "VII - Black Stars Rise 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725428896/05ED3D08F29C8E6EC080F0615DE130F2A687A9AC/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725428896/05ED3D08F29C8E6EC080F0615DE130F2A687A9AC/"
       },
       {
+        ID   = "03316",
         Name = "VIII - Dim Carcosa 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725429052/BA81DBDE7A12B993CB8B7001CA93095AD0512449/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725429052/BA81DBDE7A12B993CB8B7001CA93095AD0512449/"
       },
       {
+        ID   = "03316",
         Name = "VIII - Dim Carcosa 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725429235/C5C939E0213575B5EDCA6723D209892071DDE4B5/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725429235/C5C939E0213575B5EDCA6723D209892071DDE4B5/"
       }
     },
     ["The Forgotten Age"] = {
       {
+        ID   = "04043",
         Name = "I - The Untamed Wilds 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725446729/7F5E48BC9A028AE5117231364F2D5B433A62239A/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725446729/7F5E48BC9A028AE5117231364F2D5B433A62239A/"
       },
       {
+        ID   = "04043",
         Name = "I - The Untamed Wilds 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725446946/55C374DC5BE3620CB0D5BCA379EA55CF471D09B3/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725446946/55C374DC5BE3620CB0D5BCA379EA55CF471D09B3/"
       },
       {
+        ID   = "04043",
         Name = "I - The Untamed Wilds 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725447172/6EAE2CFD3AC552CFB744C75E4E26A79264DE17D3/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725447172/6EAE2CFD3AC552CFB744C75E4E26A79264DE17D3/"
       },
       {
+        ID   = "04043",
         Name = "I - The Untamed Wilds 4",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725447409/FCF48C94D90F94FBFFD674B0650E288E7312C441/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725447409/FCF48C94D90F94FBFFD674B0650E288E7312C441/"
       },
       {
+        ID   = "04043",
         Name = "I - The Untamed Wilds 5",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725447579/F7C3FB9E31147430C1384684887FC66E616D0302/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725447579/F7C3FB9E31147430C1384684887FC66E616D0302/"
       },
       {
+        ID   = "04054",
         Name = "II - The Doom of Eztli 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725447752/44EF68E1BF3C2D9DCD5306DD90B4CCCFBE03891C/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725447752/44EF68E1BF3C2D9DCD5306DD90B4CCCFBE03891C/"
       },
       {
+        ID   = "04054",
         Name = "II - The Doom of Eztli 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725448027/F5F14EC590C33BC87D8F0CFF43D7E4DF80D61133/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725448027/F5F14EC590C33BC87D8F0CFF43D7E4DF80D61133/"
       },
       {
+        ID   = "04054",
         Name = "II - The Doom of Eztli 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725448215/BFD9D940DB8EC9AC8D818C48BBAE3338A8E48A3B/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725448215/BFD9D940DB8EC9AC8D818C48BBAE3338A8E48A3B/"
       },
       {
+        ID   = "04113",
         Name = "III - Threads of Fate",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725448393/67F3BE7DC1BEC807A17D3F8914328D408856E019/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725448393/67F3BE7DC1BEC807A17D3F8914328D408856E019/"
       },
       {
+        ID   = "04161",
         Name = "IV - The Boundary Beyond 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725448568/3C268415A47430CEEC3F9BFB216EF57E3DBF820A/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725448568/3C268415A47430CEEC3F9BFB216EF57E3DBF820A/"
       },
       {
+        ID   = "04161",
         Name = "IV - The Boundary Beyond 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725448701/3FA23DCA30505AD4C27D8914740AD3138C01122C/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725448701/3FA23DCA30505AD4C27D8914740AD3138C01122C/"
       },
       {
+        ID   = "04161",
         Name = "IV - The Boundary Beyond 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725448863/266C3320AC326C30F08FBC11A95567E1249E7FB7/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725448863/266C3320AC326C30F08FBC11A95567E1249E7FB7/"
       },
       {
+        ID   = "04205",
         Name = "V - Heart of the Elders 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725449019/A6CC459ACA004C33DD9605BE8382437F6BBE24F7/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725449019/A6CC459ACA004C33DD9605BE8382437F6BBE24F7/"
       },
       {
+        ID   = "04205",
         Name = "V - Heart of the Elders 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725449150/241FA88572B6B4F652D7FC6D1EDB23DF94E3199C/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725449150/241FA88572B6B4F652D7FC6D1EDB23DF94E3199C/"
       },
       {
+        ID   = "04205",
         Name = "V - Heart of the Elders 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725449310/DBD731498FAB399A4155F7B64F8710BF5FBB5C1F/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725449310/DBD731498FAB399A4155F7B64F8710BF5FBB5C1F/"
       },
       {
+        ID   = "04237",
         Name = "VI - The City of Archives 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725449473/527CB6470F508D4E1F1E4AFC8A0D3AB0A65E046E/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725449473/527CB6470F508D4E1F1E4AFC8A0D3AB0A65E046E/"
       },
       {
+        ID   = "04237",
         Name = "VI - The City of Archives 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725449630/A8E933F79A646990155CC18A2143B3BC16222750/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725449630/A8E933F79A646990155CC18A2143B3BC16222750/"
       },
       {
+        ID   = "04237",
         Name = "VI - The City of Archives 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725449814/30BB7E4F8D9F1571A420372E78ACAF2D7792811F/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725449814/30BB7E4F8D9F1571A420372E78ACAF2D7792811F/"
       },
       {
+        ID   = "04277",
         Name = "VII - The Depths of Yoth 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725449962/D69532827DFF2D654F8A606B7917D593F52D7624/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725449962/D69532827DFF2D654F8A606B7917D593F52D7624/"
       },
       {
+        ID   = "04277",
         Name = "VII - The Depths of Yoth 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725450085/479A8A1BDD7BE80B43AE4F2C14DFA811D7B28482/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725450085/479A8A1BDD7BE80B43AE4F2C14DFA811D7B28482/"
       },
       {
+        ID   = "04277",
         Name = "VII - The Depths of Yoth 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725450258/E617F5A78DFBE913652E20BF97D38B91087FACAE/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725450258/E617F5A78DFBE913652E20BF97D38B91087FACAE/"
       },
       {
+        ID   = "04314",
         Name = "VIII - Shattered Aeons 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725450415/5631152D4830C00DB8D8EB2163CE773542A62C79/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725450415/5631152D4830C00DB8D8EB2163CE773542A62C79/"
       },
       {
+        ID   = "04314",
         Name = "VIII - Shattered Aeons 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725450556/C3000D020B0C32B4DA3420AEE5E286893453FC49/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725450556/C3000D020B0C32B4DA3420AEE5E286893453FC49/"
       }
     },
     ["The Circle Undone"] = {
       {
+        ID   = "05043",
         Name = "0 - Disappearance at the Twilight Estate",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725457506/6E228F87CEDCD3A0CFA28B680C266B4C68C7682B/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725457506/6E228F87CEDCD3A0CFA28B680C266B4C68C7682B/"
       },
       {
+        ID   = "05050",
         Name = "I - The Witching Hour",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725457706/D0FDC0E9287C343745AE6135352194D654D98B64/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725457706/D0FDC0E9287C343745AE6135352194D654D98B64/"
       },
       {
+        ID   = "05065",
         Name = "II - At Death's Doorstep 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725457864/3106851EC93B1FC01311BD68F02145BA2FD720B0/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725457864/3106851EC93B1FC01311BD68F02145BA2FD720B0/"
       },
       {
+        ID   = "05065",
         Name = "II - At Death's Doorstep 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725458037/155EB572CF28F09A64A021CAC3A3219C31B2CD49/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725458037/155EB572CF28F09A64A021CAC3A3219C31B2CD49/"
       },
       {
+        ID   = "05065",
         Name = "II - At Death's Doorstep 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725458187/482CC6730F267061A055D6FD402603BC642A9635/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725458187/482CC6730F267061A055D6FD402603BC642A9635/"
       },
       {
+        ID   = "05120",
         Name = "III - The Secret Name 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725458373/769D67103FACFB94E77465E85DBB2A250284B59B/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725458373/769D67103FACFB94E77465E85DBB2A250284B59B/"
       },
       {
+        ID   = "05120",
         Name = "III - The Secret Name 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725458592/D70CE9B1AD7158AF206A25777A8BA6F284587A83/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725458592/D70CE9B1AD7158AF206A25777A8BA6F284587A83/"
       },
       {
+        ID   = "05120",
         Name = "III - The Secret Name 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725458848/2FC0D5AFFA97AB5E80244F1ED711036B2149B0EE/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725458848/2FC0D5AFFA97AB5E80244F1ED711036B2149B0EE/"
       },
       {
+        ID   = "05120",
         Name = "III - The Secret Name 4",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725459026/A1A5B18ECB38985A35781CBDFF53935541720AF4/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725459026/A1A5B18ECB38985A35781CBDFF53935541720AF4/"
       },
       {
+        ID   = "05161",
         Name = "IV - The Wages of Sin 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725459182/46870E1DBE623E93E675CB2D3C1E959B40CDCC83/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725459182/46870E1DBE623E93E675CB2D3C1E959B40CDCC83/"
       },
       {
+        ID   = "05161",
         Name = "IV - The Wages of Sin 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725459344/9552699A8CEC5E7BF22843990394BB977539CBE0/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725459344/9552699A8CEC5E7BF22843990394BB977539CBE0/"
       },
       {
+        ID   = "05161",
         Name = "IV - The Wages of Sin 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725459466/9B6B55A6F76668929B6D6B1DD5FDAE7CEE427A1C/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725459466/9B6B55A6F76668929B6D6B1DD5FDAE7CEE427A1C/"
       },
       {
+        ID   = "05161",
         Name = "IV - The Wages of Sin 4",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725459609/054A60BDCD266C1A53F29067CFC83D0561666FE4/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725459609/054A60BDCD266C1A53F29067CFC83D0561666FE4/"
       },
       {
-        Name = "IV - Wages of Sin 5",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725459714/11B3D734AC5229A0DEA5372CD50F5C7841F9D5A0/"
+        ID   = "05161",
+        Name = "IV - The Wages of Sin 5",
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725459714/11B3D734AC5229A0DEA5372CD50F5C7841F9D5A0/"
       },
       {
+        ID   = "05197",
         Name = "V - For the Greater Good 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725459829/9AA9563CCD72A8593BDE3C6D1299E96325ECE747/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725459829/9AA9563CCD72A8593BDE3C6D1299E96325ECE747/"
       },
       {
+        ID   = "05197",
         Name = "V - For the Greater Good 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725459933/13A103B7BC0ABB611F6A8E61D033C6AD95EED4D4/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725459933/13A103B7BC0ABB611F6A8E61D033C6AD95EED4D4/"
       },
       {
+        ID   = "05197",
         Name = "V - For the Greater Good 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725460088/C88DDC5CE898ACEF360B8AD72E05F15BF84DE171/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725460088/C88DDC5CE898ACEF360B8AD72E05F15BF84DE171/"
       },
       {
+        ID   = "05197",
         Name = "V - For the Greater Good 4",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725460182/C086EDA78636624FC9C4EA1DBCD8F1D39B7A6A89/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725460182/C086EDA78636624FC9C4EA1DBCD8F1D39B7A6A89/"
       },
       {
+        ID   = "05238",
         Name = "VI - Union and Disillusion",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725460382/8EFB842A623A2D1E6D0E915268A207A5D7DFC6D4/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725460382/8EFB842A623A2D1E6D0E915268A207A5D7DFC6D4/"
       },
       {
+        ID   = "05284",
         Name = "VII - In the Clutches of Chaos 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725460586/7E156BF93F211BC425CD37ED273FCC84FF1F4C4D/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725460586/7E156BF93F211BC425CD37ED273FCC84FF1F4C4D/"
       },
       {
+        ID   = "05284",
         Name = "VII - In the Clutches of Chaos 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725460740/72A39A0FACA806EF2E0A4E31AEDF6D8FCDF1A876/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725460740/72A39A0FACA806EF2E0A4E31AEDF6D8FCDF1A876/"
       },
       {
+        ID   = "05284",
         Name = "VII - In the Clutches of Chaos 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725460884/5716F6E2CB3F8D14FA5B7B806555896088696057/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725460884/5716F6E2CB3F8D14FA5B7B806555896088696057/"
       },
       {
+        ID   = "05325",
         Name = "VIII - Before the Black Throne 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725461042/DFF7A992A9440E58CE32D4B8A96A02A8F785AC90/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725461042/DFF7A992A9440E58CE32D4B8A96A02A8F785AC90/"
       },
       {
+        ID   = "05325",
         Name = "VIII - Before the Black Throne 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725461161/18902B2F74C9D70F5EA79A34521E3FDEDEFC893D/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725461161/18902B2F74C9D70F5EA79A34521E3FDEDEFC893D/"
       }
     },
     ["The Dream-Eaters"] = {
       {
+        ID   = "06039",
         Name = "I-A - Beyond the Gates of Sleep 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725465733/828EE1FF16928EA0426BC68AAED4B9AA6B6FBB49/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725465733/828EE1FF16928EA0426BC68AAED4B9AA6B6FBB49/"
       },
       {
+        ID   = "06039",
         Name = "I-A - Beyond the Gates of Sleep 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725465934/35A85E9056B7A212AC39E7043FDF546A425E62F2/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725465934/35A85E9056B7A212AC39E7043FDF546A425E62F2/"
       },
       {
+        ID   = "06039",
         Name = "I-A - Beyond the Gates of Sleep 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725466105/05D29313D2559B6683465A7034DE7B07DE675420/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725466105/05D29313D2559B6683465A7034DE7B07DE675420/"
       },
       {
+        ID   = "06063",
         Name = "I-B - Waking Nightmare",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725466267/16FAE20612ED0A6A65836DD1B014AC5A801A172F/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725466267/16FAE20612ED0A6A65836DD1B014AC5A801A172F/"
       },
       {
+        ID   = "06119",
         Name = "II-A - The Search for Kadath 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725466425/03CCD5F24999CC6CC905CB2FD021DB67D7769163/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725466425/03CCD5F24999CC6CC905CB2FD021DB67D7769163/"
       },
       {
+        ID   = "06119",
         Name = "II-A - The Search for Kadath 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725466615/085ACE95FEF03D2BE91BAD5E1864E1D0263DCCC0/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725466615/085ACE95FEF03D2BE91BAD5E1864E1D0263DCCC0/"
       },
       {
+        ID   = "06119",
         Name = "II-A - The Search for Kadath 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725466802/83861733568FCA9673B6F5EFE0C9D3337E3DFD27/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725466802/83861733568FCA9673B6F5EFE0C9D3337E3DFD27/"
       },
       {
+        ID   = "06119",
         Name = "II-A - The Search for Kadath 4",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725466941/D4FDE1FE722DC6B03AD38D797F2E00531908583D/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725466941/D4FDE1FE722DC6B03AD38D797F2E00531908583D/"
       },
       {
+        ID   = "06119",
         Name = "II-A - The Search for Kadath 5",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725467396/C9A476395B9326142BBDBD06D22A14C83EAD2161/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725467396/C9A476395B9326142BBDBD06D22A14C83EAD2161/"
       },
       {
+        ID   = "06168",
         Name = "II-B - A Thousand Shapes of Horror 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725467582/5EB69F3A3F20B312FE3FE3C64FEA96200EE51563/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725467582/5EB69F3A3F20B312FE3FE3C64FEA96200EE51563/"
       },
       {
+        ID   = "06168",
         Name = "II-B - A Thousand Shapes of Horror 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725467791/5FE437C821641EDD703D336205A37F8F0CACFD38/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725467791/5FE437C821641EDD703D336205A37F8F0CACFD38/"
       },
       {
+        ID   = "06168",
         Name = "II-B - A Thousand Shapes of Horror 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725467946/841CEC1D8B56C1CA52B5558E8E49CE04D95D2F4A/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725467946/841CEC1D8B56C1CA52B5558E8E49CE04D95D2F4A/"
       },
       {
+        ID   = "06206",
         Name = "III-A - Dark Side of the Moon 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725468100/2DD1038163AD5DAA759EA4BE49DB82A2718E931F/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725468100/2DD1038163AD5DAA759EA4BE49DB82A2718E931F/"
       },
       {
+        ID   = "06206",
         Name = "III-A - Dark Side of the Moon 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725468293/E8145D05833864EEC70AF9AC401039D8E8AFDE3E/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725468293/E8145D05833864EEC70AF9AC401039D8E8AFDE3E/"
       },
       {
+        ID   = "06247",
         Name = "III-B - Point of No Return 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725468506/1F2E3D425A4D97ADBCA59B4A9401C411F91F875F/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725468506/1F2E3D425A4D97ADBCA59B4A9401C411F91F875F/"
       },
       {
+        ID   = "06247",
         Name = "III-B - Point of No Return 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725468694/8631E68BA7CE69BECF1D476A03CBDC79112A60BF/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725468694/8631E68BA7CE69BECF1D476A03CBDC79112A60BF/"
       },
       {
+        ID   = "06286",
         Name = "IV-A - Where the Gods Dwell",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725468880/2C8A9459149D33E526FDC4B68A063475305C15F8/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725468880/2C8A9459149D33E526FDC4B68A063475305C15F8/"
       },
       {
+        ID   = "06333",
         Name = "IV-B - Weaver of the Cosmos 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725469060/9E6AF9E0D68EC0F44B82968CE99E433A25A0E0C4/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725469060/9E6AF9E0D68EC0F44B82968CE99E433A25A0E0C4/"
       },
       {
+        ID   = "06333",
         Name = "IV-B - Weaver of the Cosmos 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725469224/8C969B8ABAEE6CFFEF165C2E4BBA0E7E9B33AA1A/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725469224/8C969B8ABAEE6CFFEF165C2E4BBA0E7E9B33AA1A/"
       },
       {
+        ID   = "06333",
         Name = "IV-B - Weaver of the Cosmos 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725469417/A94C14A64836FB9B5FAFAC5B790C51441F8D475F/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725469417/A94C14A64836FB9B5FAFAC5B790C51441F8D475F/"
       }
     },
     ["The Innsmouth Conspiracy"] = {
       {
+        ID   = "07041",
         Name = "I - The Pit of Despair 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725473070/57FEAA8135F62DBAD52E2AAB562EF45EB9A0194A/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725473070/57FEAA8135F62DBAD52E2AAB562EF45EB9A0194A/"
       },
       {
+        ID   = "07041",
         Name = "I - The Pit of Despair 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725473257/FEC6F9FAA1CC656BFD5861F58E4751BC94AB0424/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725473257/FEC6F9FAA1CC656BFD5861F58E4751BC94AB0424/"
       },
       {
+        ID   = "07056",
         Name = "II - The Vanishing of Elina Harper 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725473424/B0E2BFA9C7F61A5B7A72CD11AD1AFF4A070AFFA1/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725473424/B0E2BFA9C7F61A5B7A72CD11AD1AFF4A070AFFA1/"
       },
       {
+        ID   = "07056",
         Name = "II - The Vanishing of Elina Harper 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725473570/D28C2DA099D656116A0D7BAA8B874E4ED6B6B50E/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725473570/D28C2DA099D656116A0D7BAA8B874E4ED6B6B50E/"
       },
       {
+        ID   = "07056",
         Name = "II - The Vanishing of Elina Harper 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725473731/EE9BED3522A1B7CD5E394A67AD7F692DB709A9B5/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725473731/EE9BED3522A1B7CD5E394A67AD7F692DB709A9B5/"
       },
       {
+        ID   = "07056",
         Name = "II - The Vanishing of Elina Harper 4",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725473874/0A85B2CE9A3FFB048C932E1B014B2986D5D42A1B/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725473874/0A85B2CE9A3FFB048C932E1B014B2986D5D42A1B/"
       },
       {
-        Name = "II - Vanishing of Elina Harper 5",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725474056/C82E467216DF747AA954C614D7D0B8F649163EDA/"
+        ID   = "07056",
+        Name = "II - The Vanishing of Elina Harper 5",
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725474056/C82E467216DF747AA954C614D7D0B8F649163EDA/"
       },
       {
+        ID   = "07123",
         Name = "III - In Too Deep 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725474234/C6A72CDEFCDF1F2A3C6036F349B5F368EFDACA2E/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725474234/C6A72CDEFCDF1F2A3C6036F349B5F368EFDACA2E/"
       },
       {
+        ID   = "07123",
         Name = "III - In Too Deep 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725474398/752D0CE313C58A5B1C3181503C841EB91D041492/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725474398/752D0CE313C58A5B1C3181503C841EB91D041492/"
       },
       {
+        ID   = "07123",
         Name = "III - In Too Deep 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725474562/308687DFB9B0F2286A9248698FD38C0BF66B89ED/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725474562/308687DFB9B0F2286A9248698FD38C0BF66B89ED/"
       },
       {
+        ID   = "07163",
         Name = "IV - Devil Reef 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725474717/DCEC44D2F7F22A950B3CF52C81C8F931710EFADC/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725474717/DCEC44D2F7F22A950B3CF52C81C8F931710EFADC/"
       },
       {
+        ID   = "07163",
         Name = "IV - Devil Reef 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725474883/04913E71194BF766DFF2DF8646251AC461A35FE2/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725474883/04913E71194BF766DFF2DF8646251AC461A35FE2/"
       },
       {
+        ID   = "07198",
         Name = "V - Horror in High Gear 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725475029/FAA34C92FA800E8DDF6449B1C48FCC7468D783BD/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725475029/FAA34C92FA800E8DDF6449B1C48FCC7468D783BD/"
       },
       {
+        ID   = "07198",
         Name = "V - Horror in High Gear 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725475133/BC689B58040F74E7DB44CFD8F3F2BF32FE4081E1/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725475133/BC689B58040F74E7DB44CFD8F3F2BF32FE4081E1/"
       },
       {
+        ID   = "07198",
         Name = "V - Horror in High Gear 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725475307/53ADF5E957F88F1DDCE46828547E5808C3CAEFD7/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725475307/53ADF5E957F88F1DDCE46828547E5808C3CAEFD7/"
       },
       {
+        ID   = "07198",
         Name = "V - Horror in High Gear 4",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725475402/C41EB1D2F8549669DD4323A339F5EC594996816C/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725475402/C41EB1D2F8549669DD4323A339F5EC594996816C/"
       },
       {
+        ID   = "07231",
         Name = "VI - A Light in the Fog 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725475509/C526C9A3AC34195ACF6161D4821D1424A8A288B4/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725475509/C526C9A3AC34195ACF6161D4821D1424A8A288B4/"
       },
       {
+        ID   = "07231",
         Name = "VI - A Light in the Fog 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725475660/2C67D57967F300BD1FE1AFC08C49EBCF4A88D11C/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725475660/2C67D57967F300BD1FE1AFC08C49EBCF4A88D11C/"
       },
       {
+        ID   = "07274",
         Name = "VII - The Lair of Dagon 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725476055/4BC221648012F7A7A37B2F65929705E973FF9CE3/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725476055/4BC221648012F7A7A37B2F65929705E973FF9CE3/"
       },
       {
+        ID   = "07274",
         Name = "VII - The Lair of Dagon 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725476271/3F9CF0FE8ACCE12E26ACA5D5777177A10B49D6DA/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725476271/3F9CF0FE8ACCE12E26ACA5D5777177A10B49D6DA/"
       },
       {
+        ID   = "07311",
         Name = "VIII - Into the Maelstrom 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725476474/AF8695342FBCE6F6BC7B353C86C6006F1629F43A/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725476474/AF8695342FBCE6F6BC7B353C86C6006F1629F43A/"
       },
       {
+        ID   = "07311",
         Name = "VIII - Into the Maelstrom 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725476643/CB175401ECDF04F97334CBF8AE7EC76A43A85735/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725476643/CB175401ECDF04F97334CBF8AE7EC76A43A85735/"
       }
     },
     ["Edge of the Earth"] = {
       {
+        ID   = "08501",
         Name = "I - Ice and Death 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725482152/322E07021DC78455859C860D8B1574F1BA2E0F68/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725482152/322E07021DC78455859C860D8B1574F1BA2E0F68/"
       },
       {
+        ID   = "08501",
         Name = "I - Ice and Death 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725482327/BD14DDE856A2062A939F860743FFF15F8B0BFF5A/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725482327/BD14DDE856A2062A939F860743FFF15F8B0BFF5A/"
       },
       {
+        ID   = "08501",
         Name = "I - Ice and Death 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725482520/0FB5AC83DF448994EC0A866ACF6AF57ADCC59C82/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725482520/0FB5AC83DF448994EC0A866ACF6AF57ADCC59C82/"
       },
       {
+        ID   = "08549",
         Name = "??? - Fatal Mirage",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725481929/A35EDF11BD6AF52784BA6611C363CBBB373622EE/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725481929/A35EDF11BD6AF52784BA6611C363CBBB373622EE/"
       },
       {
+        ID   = "08596",
         Name = "II - To the Forbidden Peaks 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725482688/B50455616DFC14FE0B9398DBE2A3A1AE25040516/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725482688/B50455616DFC14FE0B9398DBE2A3A1AE25040516/"
       },
       {
+        ID   = "08596",
         Name = "II - To the Forbidden Peaks 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725482839/17786225AA56E75E558491E7E710F555AF3E5799/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725482839/17786225AA56E75E558491E7E710F555AF3E5799/"
       },
       {
+        ID   = "08621",
         Name = "III - City of the Elder Things 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725483014/B74378E02A1A99F544CD98141EF62193A2A612FB/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725483014/B74378E02A1A99F544CD98141EF62193A2A612FB/"
       },
       {
+        ID   = "08621",
         Name = "III - City of the Elder Things 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725483208/CDFF7A2D404485DE2B4C4ED54B34E197515F0094/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725483208/CDFF7A2D404485DE2B4C4ED54B34E197515F0094/"
       },
       {
+        ID   = "08648",
         Name = "IV - The Heart of Madness 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725483349/A96BC4AA73C71FE86EF38110236BAEF710C00EE2/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725483349/A96BC4AA73C71FE86EF38110236BAEF710C00EE2/"
       },
       {
+        ID   = "08648",
         Name = "IV - The Heart of Madness 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725483528/5BF0DD740C5D43EFBFEF0436EB35FF9DA748FA5E/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725483528/5BF0DD740C5D43EFBFEF0436EB35FF9DA748FA5E/"
       }
     },
     ["The Scarlet Keys"] = {
       {
+        ID   = "09501",
         Name = "5-A Riddles and Rain",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2037357792057358580/E9E5FE4028C08B3D4883406821221B73C8B5B2C7/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2037357792057358580/E9E5FE4028C08B3D4883406821221B73C8B5B2C7/"
       },
       {
+        ID   = "09520",
         Name = "11-B Dead Heat",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2038485431566443853/CAD7771D90141EA6D5FFAFE1EC5E7AD9647C82DB/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2038485431566443853/CAD7771D90141EA6D5FFAFE1EC5E7AD9647C82DB/"
       },
       {
+        ID   = "09545",
         Name = "16-D Sanguine Shadows",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2037357792057358704/4A7261EB31511467CBC46E876476DD205F528A4B/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2037357792057358704/4A7261EB31511467CBC46E876476DD205F528A4B/"
       },
       {
+        ID   = "09566",
         Name = "21-F Dealings in the Dark",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2037357792057358816/7C9FE4C34CD0A7AE87EF054742D878F310C71AA7/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2037357792057358816/7C9FE4C34CD0A7AE87EF054742D878F310C71AA7/"
       },
       {
+        ID   = "09591",
         Name = "28-I Dancing Mad",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2037357792056955518/EAB857DD5629EC6A3078FB0A3A703B85B5F514B9/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2037357792056955518/EAB857DD5629EC6A3078FB0A3A703B85B5F514B9/"
       },
       {
+        ID   = "09609",
         Name = "23-K On Thin Ice",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2038485431566444026/EB5628E254AE25DA89A9C999EAAD995ECF67068E/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2038485431566444026/EB5628E254AE25DA89A9C999EAAD995ECF67068E/"
       },
       {
+        ID   = "09635",
         Name = "38-N Dogs of War",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2038485431566444199/194FD9A713907197471A55411AE300B62C5F5278/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2038485431566444199/194FD9A713907197471A55411AE300B62C5F5278/"
       },
       {
+        ID   = "09660",
         Name = "46-Q Shades of Suffering",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2038485431566444330/3ED2CCE95DE933546E1B5CBBF445D773E6D65465/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2038485431566444330/3ED2CCE95DE933546E1B5CBBF445D773E6D65465/"
       },
       {
+        ID   = "09681",
         Name = "56-Y Without a Trace",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2038485431566444450/FE4C335B0F72E83900A4EED0FD1A1D304D70D6B7/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2038485431566444450/FE4C335B0F72E83900A4EED0FD1A1D304D70D6B7/"
       },
       {
+        ID   = "09694",
         Name = "59-Z Congress of the Keys 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2038485431566444576/5BB32469ED412D59BB0A46E57D226500B1D0568B/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2038485431566444576/5BB32469ED412D59BB0A46E57D226500B1D0568B/"
       },
       {
+        ID   = "09694",
         Name = "59-Z Congress of the Keys 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2038485431566444690/B01A1FEAB57473D9B6DF11B92D62C214AA1C2C02/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2038485431566444690/B01A1FEAB57473D9B6DF11B92D62C214AA1C2C02/"
       }
     },
     ["The Feast of Hemlock Vale"] = {
       {
+        ID   = "10523",
         Name = "Hemlock House",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/17277569373510564683/648F2488A163D2D3EF10493E0B2D7EBA0755F1C1/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/17277569373510564683/648F2488A163D2D3EF10493E0B2D7EBA0755F1C1/"
       },
       {
+        ID   = "10626",
         Name = "The Longest Night",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/11050343984613285977/1CAAEF505A04EB374EEA83A87602ADA7645C1773/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/11050343984613285977/1CAAEF505A04EB374EEA83A87602ADA7645C1773/"
       },
       {
+        ID   = "10569",
         Name = "The Lost Sister",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/16566925792709163909/DE5E6E4C2FD403501952E88E6B92367BFD148C2B/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/16566925792709163909/DE5E6E4C2FD403501952E88E6B92367BFD148C2B/"
       },
       {
+        ID   = "10549",
         Name = "The Silent Heath",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/14352310519849303520/C5949ABF7DBE40F2408BC7F3766D02852A9F3EC9/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/14352310519849303520/C5949ABF7DBE40F2408BC7F3766D02852A9F3EC9/"
       },
       {
+        ID   = "10588",
         Name = "The Thing in the Depths",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/10285871412472282326/BB69FC0D6E781FC56972B5F90F9DCC52A8531ACD/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/10285871412472282326/BB69FC0D6E781FC56972B5F90F9DCC52A8531ACD/"
       },
       {
+        ID   = "10605",
         Name = "The Twisted Hollow",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/9606722034601136711/997E64EE6DBA6C332D5691D453541D65D23F4262/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/9606722034601136711/997E64EE6DBA6C332D5691D453541D65D23F4262/"
       },
       {
+        ID   = "10502",
         Name = "Written in Rock",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/11944156642747129133/B422D54459889BF8182E3BA3F1B25C8F21AF95E5/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/11944156642747129133/B422D54459889BF8182E3BA3F1B25C8F21AF95E5/"
       },
       {
+        ID   = "10651",
         Name = "Fate of the Vale",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/62581198342817770/64468AFF13A9D511AEACA20C84681A046FC259EC/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/62581198342817770/64468AFF13A9D511AEACA20C84681A046FC259EC/"
       }
     },
     ["The Drowned City"] = {
       {
+        ID   = "11501",
         Name = "One Last Job",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/14766843966171354564/0B44B49C3AD49401EB9E0A9ADCC1F55B04BBEB32/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/14766843966171354564/0B44B49C3AD49401EB9E0A9ADCC1F55B04BBEB32/"
       },
       {
+        ID   = "11517",
         Name = "The Western Wall",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/11301562770147643514/C151346ED0DE5E7B4C0939DEC5CB2CAD38F7D45B/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/11301562770147643514/C151346ED0DE5E7B4C0939DEC5CB2CAD38F7D45B/"
       },
       {
+        ID   = "11536",
         Name = "The Drowned Quarter",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/11038128363203049182/140B4BA312BD3AC7D7EE7D0C84F81BCD61723386/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/11038128363203049182/140B4BA312BD3AC7D7EE7D0C84F81BCD61723386/"
       },
       {
+        ID   = "11553",
         Name = "The Apiary",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/12112624995530631293/1D18B2012256DECB9D0F00A5D2D2BEA253B7B376/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/12112624995530631293/1D18B2012256DECB9D0F00A5D2D2BEA253B7B376/"
       },
       {
+        ID   = "11587",
         Name = "The Grand Vault",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/11837009364142443209/E3F7E68513F674E57A26D8003DE8D2A524F52918/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/11837009364142443209/E3F7E68513F674E57A26D8003DE8D2A524F52918/"
       },
       {
+        ID   = "11612",
         Name = "Court of the Ancients",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/13164036991372688393/D1A97C8E7DD4B0E090C55DB00869BB749B85274B/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/13164036991372688393/D1A97C8E7DD4B0E090C55DB00869BB749B85274B/"
       },
       {
+        ID   = "11639",
         Name = "Obsidian Canyons",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/62581198342817641/27488D73455DEEB9B9D3B349A842DBE9518E8613/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/62581198342817641/27488D73455DEEB9B9D3B349A842DBE9518E8613/"
       },
       {
+        ID   = "11673",
         Name = "Sepulchre of the Sleeper 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/62581198342817745/95FACB0C8BFF5CB58DA7A67220E8128E670B7570/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/62581198342817745/95FACB0C8BFF5CB58DA7A67220E8128E670B7570/"
       },
       {
+        ID   = "11673",
         Name = "Sepulchre of the Sleeper 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/62581198342817720/D55AA2560082DE929763DC960140443C1845B905/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/62581198342817720/D55AA2560082DE929763DC960140443C1845B905/"
       },
       {
+        ID   = "11682",
         Name = "The Doom of Arkham Pt I",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/18190332230987228065/6C74E0A87F758F4C209E1D621D74E597B0387326/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/18190332230987228065/6C74E0A87F758F4C209E1D621D74E597B0387326/"
       },
       {
+        ID   = "11688a",
         Name = "The Doom of Arkham Pt II",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/12958788120881716701/51092794110CE02AAF46BF38026B978181393B1A/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/12958788120881716701/51092794110CE02AAF46BF38026B978181393B1A/"
       }
     }
   },
   ["Official Scenarios"] = {
     ["The Blob That Ate Everything"] = {
       {
+        ID   = "85001",
         Name = "The Blob That Ate Everything 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725489144/53A920E2D1A9F41937B21B0A5B1A4E450ABFC460/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725489144/53A920E2D1A9F41937B21B0A5B1A4E450ABFC460/"
       },
       {
+        ID   = "85001",
         Name = "The Blob That Ate Everything 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725488396/9CC07F923BD1CBFC4BB06DD2CC6747D2C3541737/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725488396/9CC07F923BD1CBFC4BB06DD2CC6747D2C3541737/"
       },
       {
+        ID   = "85001",
         Name = "The Blob That Ate Everything 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/13612725590632946209/1E7692D78DA43A98BE8C2D491193B42B2532D551/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/13612725590632946209/1E7692D78DA43A98BE8C2D491193B42B2532D551/"
       }
     },
     ["Carnevale of Horrors"] = {
       {
+        ID   = "82001",
         Name = "Carnevale of Horrors 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725496678/91164AF7C2ED06A3E50225794DE9C5E92D1D3B04/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725496678/91164AF7C2ED06A3E50225794DE9C5E92D1D3B04/"
       },
     },
     ["Curse of the Rougarou"] = {
       {
+        ID   = "81001",
         Name = "Curse of the Rougarou 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725494513/DF8E92EA5C1131A0C5D8FA06BFF6FD239412E11C/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725494513/DF8E92EA5C1131A0C5D8FA06BFF6FD239412E11C/"
       },
       {
+        ID   = "81001",
         Name = "Curse of the Rougarou 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725494706/5D2EDE5D07DDA6E5781DB70D13F9A17EF26D36F2/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725494706/5D2EDE5D07DDA6E5781DB70D13F9A17EF26D36F2/"
       },
       {
+        ID   = "81001",
         Name = "Curse of the Rougarou 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725494855/44A751CB66CBE4D75E67A53FC392696F6A3BFD4C/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725494855/44A751CB66CBE4D75E67A53FC392696F6A3BFD4C/"
       },
       {
+        ID   = "81001",
         Name = "Curse of the Rougarou 4",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725495011/ADD3431B383236BCF057C1573CEF7E43F39FDE72/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725495011/ADD3431B383236BCF057C1573CEF7E43F39FDE72/"
       },
       {
+        ID   = "81001",
         Name = "Curse of the Rougarou 5",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725495146/79159992D5002AD3D7D23ED82D9BB76D437B94C3/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725495146/79159992D5002AD3D7D23ED82D9BB76D437B94C3/"
       }
     },
     ["Guardians of the Abyss"] = {
       {
+        ID   = "83001",
         Name = "Guardians of the Abyss 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725490870/9C03B2974D7776B8E2AFEEF025756D1885AF0AE3/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725490870/9C03B2974D7776B8E2AFEEF025756D1885AF0AE3/"
       },
       {
+        ID   = "83001",
         Name = "Guardians of the Abyss 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725491039/E81F05AB9C802F57F4D9F7229CE3D53231ACB70D/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725491039/E81F05AB9C802F57F4D9F7229CE3D53231ACB70D/"
       },
       {
+        ID   = "83001",
         Name = "Guardians of the Abyss 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725491202/384AA7DBA614B61C46D57EF5105A96F25F938B74/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725491202/384AA7DBA614B61C46D57EF5105A96F25F938B74/"
       },
       {
+        ID   = "83001",
         Name = "Guardians of the Abyss 4",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725491392/1C8FF752DF97F362BA8937BFEC65140AE3ADF8A6/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725491392/1C8FF752DF97F362BA8937BFEC65140AE3ADF8A6/"
       },
       {
+        ID   = "83001",
         Name = "Guardians of the Abyss 5",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725491512/06B1DCA10B44FF86567CEFCC135D619648CE5F19/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725491512/06B1DCA10B44FF86567CEFCC135D619648CE5F19/"
       },
       {
+        ID   = "83001",
         Name = "Guardians of the Abyss 6",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725491658/5446E231AEF72CF4F7B4892116671FF7175EFA0F/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725491658/5446E231AEF72CF4F7B4892116671FF7175EFA0F/"
       }
     },
     ["The Labyrinths of Lunacy"] = {
       {
+        ID   = "70001",
         Name = "The Labyrinths of Lunacy 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725489685/D2D342844212C8A21E030418935A227C2E3279DB/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725489685/D2D342844212C8A21E030418935A227C2E3279DB/"
       },
       {
+        ID   = "70001",
         Name = "The Labyrinths of Lunacy 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725489820/E3E18B0940C2604F62E564AD43F178FF9F13B3C9/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725489820/E3E18B0940C2604F62E564AD43F178FF9F13B3C9/"
       },
       {
+        ID   = "70001",
         Name = "The Labyrinths of Lunacy 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725489972/6A34CF53190EAAAF57C31FB97A3C2ACBD27FEE40/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725489972/6A34CF53190EAAAF57C31FB97A3C2ACBD27FEE40/"
       }
     },
     ["Murder at the Excelsior Hotel"] = {
       {
+        ID   = "84001",
         Name = "Murder at the Excelsior Hotel 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725488868/7F7FE8BB3C7E3645B4377F86366C6073CDB8F113/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725488868/7F7FE8BB3C7E3645B4377F86366C6073CDB8F113/"
       },
       {
+        ID   = "84001",
         Name = "Murder at the Excelsior Hotel 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725489144/53A920E2D1A9F41937B21B0A5B1A4E450ABFC460/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725489144/53A920E2D1A9F41937B21B0A5B1A4E450ABFC460/"
       }
     },
     ["War of the Outer Gods"] = {
       {
+        ID   = "86001",
         Name = "War of the Outer Gods",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725487627/43A19A6D97A6DA63A487EB247EE95884E2D9F5FD/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725487627/43A19A6D97A6DA63A487EB247EE95884E2D9F5FD/"
       }
     }
   },
   ["Fan-Made Campaigns"] = {
     ["Cyclopean Foundations"] = {
       {
+        ID   = "c082a3ce-e03e-432b-b7d9-47fa6c8af9dd",
         Name = "I - Lost Moorings 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725499518/02DA17FC9D6A1174E484977269F44AE6995C6F7C/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725499518/02DA17FC9D6A1174E484977269F44AE6995C6F7C/"
       },
       {
+        ID   = "c082a3ce-e03e-432b-b7d9-47fa6c8af9dd",
         Name = "I - Lost Moorings 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725499680/1556F230B59D42FCA47A5A87135330B03C231E92/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725499680/1556F230B59D42FCA47A5A87135330B03C231E92/"
       },
       {
+        ID   = "f9430f7e-f0a1-4b2b-b3cf-b63ae2bf4cd9",
         Name = "II - Going Twice",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725499855/1220C81273EFA6F36C2AEBA713E31DE1E2F92454/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725499855/1220C81273EFA6F36C2AEBA713E31DE1E2F92454/"
       },
       {
+        ID   = "2960cad8-e87b-4098-86fa-bd924ef652ab",
         Name = "III - Private Lives",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725500069/452E4427185A7F1AFB3F2CBB263DC55B6A144D49/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725500069/452E4427185A7F1AFB3F2CBB263DC55B6A144D49/"
       },
       {
+        ID   = "6f2410c6-d69b-4c80-b6f8-fa399f26c4fa",
         Name = "IV - Crumbling Masonry 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725500260/94FE8506AB13CA51F087ABF155799F73BCBAB1E9/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725500260/94FE8506AB13CA51F087ABF155799F73BCBAB1E9/"
       },
       {
+        ID   = "6f2410c6-d69b-4c80-b6f8-fa399f26c4fa",
         Name = "IV - Crumbling Masonry 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725500508/04B6C6D8845BF5411D28C79D185EAF6FFBB409F5/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725500508/04B6C6D8845BF5411D28C79D185EAF6FFBB409F5/"
       },
       {
+        ID   = "e132407b-65df-43b4-8bdf-1f2877c6f733",
         Name = "V - Across Dreadful Waters",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725500640/447069BBBF70474439D3CC4F970F6617C8B738F4/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725500640/447069BBBF70474439D3CC4F970F6617C8B738F4/"
       },
       {
+        ID   = "861db656-fbd3-4456-93e6-e9edd1e1ffb6",
         Name = "VI - Blood From Stones",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725500803/23C46C5F08E3F911F565D9EC38CFACFFAA5F5B11/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725500803/23C46C5F08E3F911F565D9EC38CFACFFAA5F5B11/"
       },
       {
+        ID   = "03bcc95c-33db-4ed2-9991-df35fb90d83a",
         Name = "VII - Pyroclastic Flow 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725500952/804B531E517B1AD2294E304AA6F72F8CC3E6FC4E/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725500952/804B531E517B1AD2294E304AA6F72F8CC3E6FC4E/"
       },
       {
+        ID   = "03bcc95c-33db-4ed2-9991-df35fb90d83a",
         Name = "VII - Pyroclastic Flow 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725501115/E771289EB848A695DF47C405300B1EC7CA925009/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725501115/E771289EB848A695DF47C405300B1EC7CA925009/"
       },
       {
+        ID   = "c3c3401a-3419-4586-9efd-9894ef6188ae",
         Name = "VIII - Tomb of Dead Dreams 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725501272/CAE6C4185540F3F8FFA2A8E37458A5B80DBD70FC/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725501272/CAE6C4185540F3F8FFA2A8E37458A5B80DBD70FC/"
       },
       {
+        ID   = "c3c3401a-3419-4586-9efd-9894ef6188ae",
         Name = "VIII - Tomb of Dead Dreams 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725501415/DA9C07488DA2753FF5621D1731A84D6D0B1CC1BD/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725501415/DA9C07488DA2753FF5621D1731A84D6D0B1CC1BD/"
       },
       {
+        ID   = "c3c3401a-3419-4586-9efd-9894ef6188ae",
         Name = "VIII - Tomb of Dead Dreams 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725501813/030E5DB9F8F6C5F092EFDF2C42AD631318B0923A/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725501813/030E5DB9F8F6C5F092EFDF2C42AD631318B0923A/"
       }
     },
     ["Dark Matter"] = {
       {
+        ID   = "DM001",
         Name = "I - The Tatterdemalion 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725504118/AC852F478D5BDA0C8A54A499B07A66E872560EC7/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725504118/AC852F478D5BDA0C8A54A499B07A66E872560EC7/"
       },
       {
+        ID   = "DM001",
         Name = "I - The Tatterdemalion 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725504319/5B24BB2080AC76D836708AABC1BC90FD884F043D/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725504319/5B24BB2080AC76D836708AABC1BC90FD884F043D/"
       },
       {
+        ID   = "DM001",
         Name = "I - The Tatterdemalion 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725504461/73E4632A2EAAFA918924E60A64B03838CA6DDD77/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725504461/73E4632A2EAAFA918924E60A64B03838CA6DDD77/"
       },
       {
+        ID   = "DM001",
         Name = "I - The Tatterdemalion 4",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725504602/6DB8F081CC907A0D6F364E5045BB7E8FADA91B5C/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725504602/6DB8F081CC907A0D6F364E5045BB7E8FADA91B5C/"
       },
       {
+        ID   = "DM042",
         Name = "II - Electric Nightmare 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725504770/C6FB5FDD153ACD07565259AE013FDC7FF567037D/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725504770/C6FB5FDD153ACD07565259AE013FDC7FF567037D/"
       },
       {
+        ID   = "DM042",
         Name = "II - Electric Nightmare 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725504974/80E29EA68B88B78CDADC475998E832C7245409F4/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725504974/80E29EA68B88B78CDADC475998E832C7245409F4/"
       },
       {
+        ID   = "DM089",
         Name = "IIIa - Lost Quantum",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725505211/07E1254B1C601496E47B7E60B736D1699AAD38C8/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725505211/07E1254B1C601496E47B7E60B736D1699AAD38C8/"
       },
       {
+        ID   = "DM113",
         Name = "IIIb - In the Shadow of Earth 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725505419/7E8B50470AD6AD27429B58A42271755289FC90EB/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725505419/7E8B50470AD6AD27429B58A42271755289FC90EB/"
       },
       {
+        ID   = "DM113",
         Name = "IIIb - In the Shadow of Earth 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725505603/DCD5B255FE66F8D8F47FB6C928D80583F3F950AC/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725505603/DCD5B255FE66F8D8F47FB6C928D80583F3F950AC/"
       },
       {
+        ID   = "DM153",
         Name = "IIIc - Strange Moons",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725506071/78597C2FBE2DE55BFC86AEC9F42FE1B20D26544C/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725506071/78597C2FBE2DE55BFC86AEC9F42FE1B20D26544C/"
       },
       {
+        ID   = "DM191",
         Name = "IV - The Machine in Yellow",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725426327/41F6192EDCFFD6AAE2EE44C2BB5708B19D7464A9/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725426327/41F6192EDCFFD6AAE2EE44C2BB5708B19D7464A9/"
       },
       {
+        ID   = "DM210",
         Name = "V - Fragment of Carcosa 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725506388/A299C8D58171A6D78CF55D911C2B81C63D88444F/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725506388/A299C8D58171A6D78CF55D911C2B81C63D88444F/"
       },
       {
+        ID   = "DM210",
         Name = "V - Fragment of Carcosa 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725506567/C36509CB6520803355E7AE1E9EC8CD35641B28C8/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725506567/C36509CB6520803355E7AE1E9EC8CD35641B28C8/"
       },
       {
+        ID   = "DM243",
         Name = "VI - Starfall 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725506714/327D0E565039B7FA9157FDA04A302DF178C64C44/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725506714/327D0E565039B7FA9157FDA04A302DF178C64C44/"
       },
       {
+        ID   = "DM243",
         Name = "VI - Starfall 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725506809/E637DAAD8BEB00E4305756D101E1E6B370CB1644/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725506809/E637DAAD8BEB00E4305756D101E1E6B370CB1644/"
       },
       {
+        ID   = "DM243",
         Name = "VI - Starfall 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725506978/A17CD45A7770BAC7196218ADD2FB6CEB0E7A0E6B/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725506978/A17CD45A7770BAC7196218ADD2FB6CEB0E7A0E6B/"
       }
     },
     ["The Ghosts of Onigawa"] = {
       {
+        ID   = "07b6f393-c743-4e0d-b99c-9a47f6a2619c",
         Name = "I - The Hidden Village",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/10379522815994348593/251EFBD81B3E11D15CBF84185C471DAC3D00C0CD/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/10379522815994348593/251EFBD81B3E11D15CBF84185C471DAC3D00C0CD/"
       },
       {
+        ID   = "0927038f-1b57-4760-a0ed-2ebc379f2fae",
         Name = "II - The House on the Hill",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/11062523741012840985/381E573B43B952BEEAC948EA176697BA10F3D25B/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/11062523741012840985/381E573B43B952BEEAC948EA176697BA10F3D25B/"
       },
       {
+        ID   = "afd0e26a-9248-4fe4-955a-2f9c3ad5abd1",
         Name = "III - The River Delta",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/11831677321678415859/57C3EAD543BD934DA503F149835E5CC2257C347B/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/11831677321678415859/57C3EAD543BD934DA503F149835E5CC2257C347B/"
       },
       {
+        ID   = "ab38301f-cb72-4deb-aa5b-861e805b1e0b",
         Name = "IV - The War Eternal",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/12152726935225158507/75CE69ED66262C71EBEF8B45A6847F48273F37FD/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/12152726935225158507/75CE69ED66262C71EBEF8B45A6847F48273F37FD/"
       },
       {
+        ID   = "5f032760-f1c9-42ed-9b15-06e0a69d98dc",
         Name = "V - Half Light",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/10933355671871914255/116675878C4C50C1895CFB05F207DD7F0A7E8C61/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/10933355671871914255/116675878C4C50C1895CFB05F207DD7F0A7E8C61/"
       },
       {
+        ID   = "f75156f3-b0bd-465e-afe3-36bfe42f1d55",
         Name = "VI - The End of August",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/16906894497511504825/80FCC3279B18E77A5D865C773E8398DBD508D1A4/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/16906894497511504825/80FCC3279B18E77A5D865C773E8398DBD508D1A4/"
       },
       {
+        ID   = "a6673e45-23ec-4a0c-b957-04677c373608",
         Name = "VII - The Molten Armory",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/18214051158636187133/B95E76C7F5CDE5BC2C7711A323E98D2587BB69AA/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/18214051158636187133/B95E76C7F5CDE5BC2C7711A323E98D2587BB69AA/"
       },
       {
+        ID   = "785eea86-52d1-4a97-8fef-7f33229799bb",
         Name = "VIII - The Black Harvest",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/10594199709530496003/8B3F3E08741682B8B5FBEA06895B685B9A3CD928/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/10594199709530496003/8B3F3E08741682B8B5FBEA06895B685B9A3CD928/"
       }
     },
     ["The Wind of the Pale Moonlight"] = {
       {
+        ID   = "PM040",
         Name = "I-A - The Village of Winshire",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/12028759164385119251/285938DAB85E6D0BB0EB263829EDB7799D508152/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/12028759164385119251/285938DAB85E6D0BB0EB263829EDB7799D508152/"
       },
       {
+        ID   = "PM055",
         Name = "I-B - For the Want of a Nail",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/12778806365775404188/F047BAD38DEDEEF6D1BA98CE6A50BC22E840C04B/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/12778806365775404188/F047BAD38DEDEEF6D1BA98CE6A50BC22E840C04B/"
       },
       {
+        ID   = "PM084",
         Name = "II-A - Old Trouble",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/16506514956897157278/7D8F93E57F7C2B7DF162D390558DF181A02A0A23/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/16506514956897157278/7D8F93E57F7C2B7DF162D390558DF181A02A0A23/"
       },
       {
+        ID   = "PM121",
         Name = "II-B - Strange Vapours",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/13756297280397544024/FC0C3C98668FBA2AF82C6292F28D3A14FCD9EF54/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/13756297280397544024/FC0C3C98668FBA2AF82C6292F28D3A14FCD9EF54/"
       },
       {
+        ID   = "PM155",
         Name = "III - The Manswell Farm",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/15235882574706458407/DECFE0515605675097AB71EDA1849EAFD8D9F069/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/15235882574706458407/DECFE0515605675097AB71EDA1849EAFD8D9F069/"
       },
       {
+        ID   = "PM204",
         Name = "IV-A - The Pale Moonlight",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/15082596851570575304/A3C462195F5425BB476F0EAC6BC420B635D99FB5/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/15082596851570575304/A3C462195F5425BB476F0EAC6BC420B635D99FB5/"
       },
       {
+        ID   = "PM245",
         Name = "IV-B - Chasing the Wind",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/13680335381357836702/4DB932B7EF9C80AD5E54E80902254BD4CC993887/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/13680335381357836702/4DB932B7EF9C80AD5E54E80902254BD4CC993887/"
       },
       {
+        ID   = "PM271",
         Name = "V - For Whom the Bell Tolls",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/9530962901375388023/7A433551922C3A71772E4EC9CF4E258A9ADDD3D5/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/9530962901375388023/7A433551922C3A71772E4EC9CF4E258A9ADDD3D5/"
       }
     }
   },
   ["Fan-Made Scenarios"] = {
     ["Side Scenarios (FM)"] = {
+        {
+        ID   = "ATW01",
+        Name = "Against the Wendigo",
+        URL  = "https://github.com/ArkhamDotCards/returntothewendigo/blob/main/product/enUS/wendigo-playmat.png?raw=true"
+      },
       {
+        ID   = "MCR01",
         Name = "Code Red at Bleeding Heart",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/14636669182570363208/3A5D3C0A21D6E937B27B1A6BF538719D7DA70881/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/14636669182570363208/3A5D3C0A21D6E937B27B1A6BF538719D7DA70881/"
       },
       {
-        Name = "Consternation on the Constellation",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725512402/37F34A14CEEA9D2F889F7B97B065C0193F268FE1/"
+        ID   = "COC01",
+        Name = "Consternation on the Constellation 1",
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725512402/37F34A14CEEA9D2F889F7B97B065C0193F268FE1/"
       },
       {
-        Name = "Return to Consternation on the Constellation",
-        URL = "https://github.com/ArkhamDotCards/returntoconsternationontheconstellation/blob/main/product/enUS/constellation-playmat.png?raw=true"
+        ID   = "COC01",
+        Name = "Consternation on the Constellation 2",
+        URL  = "https://github.com/ArkhamDotCards/returntoconsternationontheconstellation/blob/main/product/enUS/constellation-playmat.png?raw=true"
       },
       {
+        ID   = "0cb73e83-3173-46a8-a5fd-86d8dfcf938b",
         Name = "Monstrosity from the Ravenwoods",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/9385063449685331116/34A5CB2DCD776C8B58F984FE415AF0998E088F66/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/9385063449685331116/34A5CB2DCD776C8B58F984FE415AF0998E088F66/"
       },
       {
+        ID   = "0cb73e83-3173-46a8-a5fd-86d8dfcf938b",
         Name = "Shrieking in the Halls",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/18300249976064524785/F0F8FB10793E0EF0455E236542A9DEF106DA439A/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/18300249976064524785/F0F8FB10793E0EF0455E236542A9DEF106DA439A/"
       },
       {
-        Name = "Return to the Wendigo",
-        URL = "https://github.com/ArkhamDotCards/returntothewendigo/blob/main/product/enUS/wendigo-playmat.png?raw=true"
-      },
-      {
+        ID   = "49aac21d-7214-4b89-8c4f-c15fedcabe79",
         Name = "Symphony of Erich Zann",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725512613/B23EA91E9489E0DDE250DD33F9AF1A12EEE52E0C/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725512613/B23EA91E9489E0DDE250DD33F9AF1A12EEE52E0C/"
       }
     }
   },
@@ -1041,111 +1287,111 @@ PLAYAREA_IMAGE_DATA = {
     ["Arkham Locations"] = {
       {
         Name = "Downtown 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725516086/53F48F8AA9CFE4BF544BF03A616AC12A5344615C/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725516086/53F48F8AA9CFE4BF544BF03A616AC12A5344615C/"
       },
       {
         Name = "Downtown 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725516316/1A337F5D66D7B5F59C66F465710717340B1D56AB/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725516316/1A337F5D66D7B5F59C66F465710717340B1D56AB/"
       },
       {
         Name = "Eastside 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725516542/09B4BE1E5487C3B11C0178B0B6FFD51620BE6AA6/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725516542/09B4BE1E5487C3B11C0178B0B6FFD51620BE6AA6/"
       },
       {
         Name = "Eastside 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725516744/9B7F54E99D9B85884D5E363B97B25DA2DD3F03CC/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725516744/9B7F54E99D9B85884D5E363B97B25DA2DD3F03CC/"
       },
       {
         Name = "French Hill",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725516949/8BFEF09FDB6608173280F887C1BA3906427678CC/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725516949/8BFEF09FDB6608173280F887C1BA3906427678CC/"
       },
       {
         Name = "Generic 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725517086/93E00AA823FBA1C6531BBA143408E1E7D89BE3F0/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725517086/93E00AA823FBA1C6531BBA143408E1E7D89BE3F0/"
       },
       {
         Name = "Generic 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725517270/1450BCB6698058F833FAE770D31D0D064B82F5C2/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725517270/1450BCB6698058F833FAE770D31D0D064B82F5C2/"
       },
       {
         Name = "Generic 3",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725517434/5B529D9DEF3550E898744CE19AAD4CC0AB3F12DF/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725517434/5B529D9DEF3550E898744CE19AAD4CC0AB3F12DF/"
       },
       {
         Name = "Generic 4",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725517622/FE0C331881B776E66D3A2C60D70147A0CABFDAC6/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725517622/FE0C331881B776E66D3A2C60D70147A0CABFDAC6/"
       },
       {
         Name = "Generic 5",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725517833/A123F1A2D1B8BE960AAB371D9FD06F27C282CB9B/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725517833/A123F1A2D1B8BE960AAB371D9FD06F27C282CB9B/"
       },
       {
         Name = "Generic 6",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725518026/10D4F06C8A1AEC3ACAEC5C3B9DA142D3BA5818FE/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725518026/10D4F06C8A1AEC3ACAEC5C3B9DA142D3BA5818FE/"
       },
       {
         Name = "Generic 7",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725518144/72D4A60264C2DD201AAA5FFDCA95C6FF04EF8AC8/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725518144/72D4A60264C2DD201AAA5FFDCA95C6FF04EF8AC8/"
       },
       {
         Name = "Generic 8",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725518292/A1848A68389FBECA5BC847F90A921C18133B17D6/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725518292/A1848A68389FBECA5BC847F90A921C18133B17D6/"
       },
       {
         Name = "Merchant District",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725518454/BD6694DCCD12E31997202B2020B4A29FDC96FC7B/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725518454/BD6694DCCD12E31997202B2020B4A29FDC96FC7B/"
       },
       {
         Name = "Miskatonic University",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725518846/79D6BEB0D8C274E3D308A67CD3181418B02D3A7E/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725518846/79D6BEB0D8C274E3D308A67CD3181418B02D3A7E/"
       },
       {
         Name = "Northside",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725519012/E4B527768AFEFE0E4FB4518CA2AFDD69A98AB5D1/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725519012/E4B527768AFEFE0E4FB4518CA2AFDD69A98AB5D1/"
       },
       {
         Name = "Rivertown",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725519190/7A9A09861EECE2D98B5C1EB694E88C2073ABDFDF/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725519190/7A9A09861EECE2D98B5C1EB694E88C2073ABDFDF/"
       },
       {
         Name = "Southside",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725519353/FE43349A25231F48662309FEB331DB2C418A5E80/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725519353/FE43349A25231F48662309FEB331DB2C418A5E80/"
       },
       {
         Name = "Uptown",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725519551/3630457608AD2DB605EC4BCF4332C1D0983305C0/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725519551/3630457608AD2DB605EC4BCF4332C1D0983305C0/"
       }
     },
     ["Default Image"] = {
       {
         Name = "Default Image",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/998015670465071049/FFAE162920D67CF38045EFBD3B85AD0F916147B2/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/998015670465071049/FFAE162920D67CF38045EFBD3B85AD0F916147B2/"
       }
     },
     ["Unsorted"] = {
       {
         Name = "Abstract 1",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/62581198342817667/8CD7AFCD7159CBB2CD9073BD032EEFEDB778501A/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/62581198342817667/8CD7AFCD7159CBB2CD9073BD032EEFEDB778501A/"
       },
       {
         Name = "Abstract 2",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/62581198342817697/DC68C8E534517072E25F9E3E818779CD99BE6D0C/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/62581198342817697/DC68C8E534517072E25F9E3E818779CD99BE6D0C/"
       },
       {
         Name = "Desk (by pi.ontheline)",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/62581198340495003/80A6E3F7D53775717B909D62473B3C7CA06DBF85/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/62581198340495003/80A6E3F7D53775717B909D62473B3C7CA06DBF85/"
       },
       {
         Name = "Devil",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2115062479282248687/DD84A3CB3C4A475A5D093CB413A16A5CEA5FBF79/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2115062479282248687/DD84A3CB3C4A475A5D093CB413A16A5CEA5FBF79/"
       },
       {
         Name = "Kingsport",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725522594/1EA2C0AF5D4D346AD3FFDC38215BB20AAA72CE8D/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2279446315725522594/1EA2C0AF5D4D346AD3FFDC38215BB20AAA72CE8D/"
       },
       {
         Name = "Mystic Board",
-        URL = "https://steamusercontent-a.akamaihd.net/ugc/2115062479282248488/EC27B1215F558A39954C27477D8B4F916CA211E5/"
+        URL  = "https://steamusercontent-a.akamaihd.net/ugc/2115062479282248488/EC27B1215F558A39954C27477D8B4F916CA211E5/"
       }
     }
   }

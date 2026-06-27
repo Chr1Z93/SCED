@@ -1,0 +1,8 @@
+{
+  "id": "89021",
+  "type": "Asset",
+  "class": "Neutral",
+  "cost": 2,
+  "traits": "Item. Tool. Science.",
+  "cycle": "Standalone"
+}

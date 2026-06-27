@@ -1,0 +1,29 @@
+{
+  "CardID": 539708,
+  "CustomDeck": {
+    "5397": {
+      "BackIsHidden": true,
+      "BackURL": "https://steamusercontent-a.akamaihd.net/ugc/2342503777940352139/A2D42E7E5C43D045D72CE5CFC907E4F886C8C690/",
+      "FaceURL": "https://steamusercontent-a.akamaihd.net/ugc/2042998544436518970/D560D9BD1C8F9D13305E35142CD73C4086122A0F/",
+      "NumHeight": 2,
+      "NumWidth": 5,
+      "Type": 0
+    }
+  },
+  "Description": "Item. Tool. Science.",
+  "GMNotes_path": "AllPlayerCards.15bb07/AlienInstruments.ae3e67.gmnotes",
+  "GUID": "ae3e67",
+  "Name": "Card",
+  "Nickname": "Alien Instruments",
+  "Tags": [
+    "Asset",
+    "PlayerCard"
+  ],
+  "Transform": {
+    "rotY": 270,
+    "rotZ": 180,
+    "scaleX": 1,
+    "scaleY": 1,
+    "scaleZ": 1
+  }
+}

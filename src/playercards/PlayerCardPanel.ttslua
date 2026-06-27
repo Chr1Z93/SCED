@@ -1,12 +1,12 @@
-local AllCardsBagApi                  = require("playercards/AllCardsBagApi")
-local SpawnBag                        = require("playercards/SpawnBag")
-local TableLib                        = require("util/TableLib")
-local WebInterface                    = require("deckbuilder/WebInterface")
+local AllCardsBagApi         = require("playercards/AllCardsBagApi")
+local SpawnBag               = require("playercards/SpawnBag")
+local TableLib               = require("util/TableLib")
+local WebInterface           = require("deckbuilder/WebInterface")
 
-local lastWeaknessTrait               = "Madness"
+local lastWeaknessTrait      = "Madness"
 
 -- Intentionally global!
-toggleButtonState                     = {
+toggleButtonState            = {
   Chapter1     = true,
   Chapter2     = true,
   Other        = true,
@@ -16,54 +16,54 @@ toggleButtonState                     = {
   StarterDecks = false
 }
 
-local CHECKMARK_X                     = {
+local CHECKMARK_X            = {
   Chapter1     = 80,
   Chapter2     = 53,
   Other        = 26,
   CardsOnly    = -12,
   StarterDecks = -52
 }
-local CHECKMARK_Y                     = -32
-local CHECKMARK_Z                     = -12
+local CHECKMARK_Y            = -32
+local CHECKMARK_Z            = -12
 
-local TB_HEIGHT                       = 175
-local TB_WIDTH_SMALL                  = 520
-local TB_WIDTH_LARGE                  = 765
+local TB_HEIGHT              = 175
+local TB_WIDTH_SMALL         = 520
+local TB_WIDTH_LARGE         = 765
 
-local BUTTON_SCALE                    = Vector(0.25, 1, 0.25)
+local BUTTON_SCALE           = Vector(0.25, 1, 0.25)
 
 -- Size and position information for the three rows of class buttons
-local CIRCLE_BUTTON_SIZE              = 250
-local CLASS_BUTTONS_X_OFFSET          = 0.1325
-local INVESTIGATOR_ROW_START          = Vector(0.125, 0.1, -0.447)
-local LEVEL_ZERO_ROW_START            = Vector(0.125, 0.1, -0.007)
-local UPGRADED_ROW_START              = Vector(0.125, 0.1, 0.333)
+local CIRCLE_BUTTON_SIZE     = 250
+local CLASS_BUTTONS_X_OFFSET = 0.1325
+local INVESTIGATOR_ROW_START = Vector(0.125, 0.1, -0.447)
+local LEVEL_ZERO_ROW_START   = Vector(0.125, 0.1, -0.007)
+local UPGRADED_ROW_START     = Vector(0.125, 0.1, 0.333)
 
 -- Size and position information for the two blocks of other buttons
-local MISC_BUTTONS_X_OFFSET           = 0.155
-local WEAKNESS_ROW_START              = Vector(0.157, 0.1, 0.666)
-local OTHER_ROW_START                 = Vector(0.605, 0.1, 0.666)
+local MISC_BUTTONS_X_OFFSET  = 0.155
+local WEAKNESS_ROW_START     = Vector(0.157, 0.1, 0.666)
+local OTHER_ROW_START        = Vector(0.605, 0.1, 0.666)
 
 -- Button colors
-local TRANSLUCENT                     = { 0.2, 0.2, 0.2, 0.8 }
-local TRANSPARENT                     = { 0, 0, 0, 0 }
+local TRANSLUCENT            = { 0.2, 0.2, 0.2, 0.8 }
+local TRANSPARENT            = { 0, 0, 0, 0 }
 
 -- Re-used rotations
-local FACE_UP_ROTATION                = Vector(0, 270, 0)
-local FACE_DOWN_ROTATION              = Vector(0, 270, 180)
+local FACE_UP_ROTATION       = Vector(0, 270, 0)
+local FACE_DOWN_ROTATION     = Vector(0, 270, 180)
 
 -- ----------  IMPORTANT  ----------
 -- Coordinates defined below are in global dimensions relative to the panel - DO NOT USE THESE
 -- DIRECTLY. Call scalePositions() before use, and reference the variables below
 
 -- Layout width for a single card, in global coordinate space
-local CARD_WIDTH                      = 2.3
+local CARD_WIDTH             = 2.3
 
 -- Coordinates to begin laying out cards. These vary based on the cards that are being placed by
 -- considering the width of the cards, number of cards, and desired spread intervals.
 -- IMPORTANT! Because of the mix of global card sizes and relative-to-scale positions, the X and Y
 -- coordinates on these provide global disances while the Z is local.
-local START_POSITIONS                 = {
+local START_POSITIONS        = {
   classCards     = Vector(CARD_WIDTH * 9.5, 2, 1.4),
   investigator   = Vector(7 * 2.5, 2, 1.3),
   cycle          = Vector(CARD_WIDTH * 9.5, 2, 2.4),
@@ -72,23 +72,23 @@ local START_POSITIONS                 = {
 }
 
 -- Shifts to move rows of cards, and groups of rows, as different groupings are laid out
-local CARD_ROW_OFFSET                 = 3.7
-local CARD_GROUP_OFFSET               = 2
-local CARD_MAX_ROWS                   = 15
-local CARD_MAX_COLS                   = 20
+local CARD_ROW_OFFSET        = 3.7
+local CARD_GROUP_OFFSET      = 2
+local CARD_MAX_ROWS          = 15
+local CARD_MAX_COLS          = 20
 
 -- Position offsets for investigator decks in investigator mode, defines the spacing
-local INVESTIGATOR_POSITION_SHIFT_ROW = Vector(0, 0, 10)
-local INVESTIGATOR_POSITION_SHIFT_COL = Vector(-6, 0, 0)
-local INVESTIGATOR_MAX_COLS           = 7
+local INV_POS_SHIFT_ROW      = Vector(0, 0, 10)
+local INV_POS_SHIFT_COL      = Vector(-6, 0, 0)
+local INVESTIGATOR_MAX_COLS  = 7
 
 -- Positions relative to the minicard to place other stacks.
 -- Both signature card piles and starter decks use SIGNATURE_OFFSET
-local INVESTIGATOR_CARD_OFFSET        = Vector(0, 0, 2.55)
-local INVESTIGATOR_SIGNATURE_OFFSET   = Vector(0, 0, 5.75)
+local INV_CARD_OFFSET        = Vector(0, 0, 2.55)
+local INV_SIG_OFFSET         = Vector(0, 0, 5.75)
 
 -- List of card classes
-local CLASS_LIST                      = {
+local CLASS_LIST             = {
   "Guardian",
   "Seeker",
   "Rogue",
@@ -97,7 +97,7 @@ local CLASS_LIST                      = {
   "Neutral"
 }
 
-local helpVisibleToPlayers            = {}
+local helpVisibleToPlayers   = {}
 
 -- USE THESE! Positions and offset shifts accounting for the scale of the panel
 local startPositions
@@ -595,10 +595,10 @@ function scalePositions()
   end
   cardRowOffset                = CARD_ROW_OFFSET * scale
   cardGroupOffset              = CARD_GROUP_OFFSET * scale
-  investigatorPositionShiftRow = Vector(INVESTIGATOR_POSITION_SHIFT_ROW):scale(scale)
-  investigatorPositionShiftCol = Vector(INVESTIGATOR_POSITION_SHIFT_COL):scale(scale)
-  investigatorCardOffset       = Vector(INVESTIGATOR_CARD_OFFSET):scale(scale)
-  investigatorSignatureOffset  = Vector(INVESTIGATOR_SIGNATURE_OFFSET):scale(scale)
+  investigatorPositionShiftRow = Vector(INV_POS_SHIFT_ROW):scale(scale)
+  investigatorPositionShiftCol = Vector(INV_POS_SHIFT_COL):scale(scale)
+  investigatorCardOffset       = Vector(INV_CARD_OFFSET):scale(scale)
+  investigatorSignatureOffset  = Vector(INV_SIG_OFFSET):scale(scale)
 end
 
 -- Deletes all cards currently placed on the table

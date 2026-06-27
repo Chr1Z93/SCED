@@ -73,7 +73,7 @@ function onLoad(savedData)
     connectionModifications = loadedData.connectionModifications or {}
   end
 
-  Wait.time(function() collisionEnabled = true end, 0.1)
+  Wait.time(function() collisionEnabled = true end, 1)
 end
 
 ---------------------------------------------------------

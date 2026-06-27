@@ -1,0 +1,15 @@
+{
+  "id": "89020",
+  "type": "Asset",
+  "class": "Neutral",
+  "cost": 2,
+  "traits": "Spell.",
+  "uses": [
+    {
+      "count": 3,
+      "type": "Charges",
+      "token": "resource"
+    }
+  ],
+  "cycle": "Standalone"
+}

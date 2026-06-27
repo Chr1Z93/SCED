@@ -88,6 +88,18 @@ local DROPDOWN_DATA               = {
   }
 }
 
+-- viewing angles for specific double-sided cards
+local ALT_VIEW_ANGLE              = {
+  [false] = {                      -- Front
+    [false] = Vector(180, 0, 270), -- Normal
+    [true]  = Vector(180, 0, 0)    -- Sideways
+  },
+  [true] = {                       -- Back
+    [false] = Vector(180, 0, 180), -- Normal
+    [true]  = Vector(180, 0, 90)   -- Sideways
+  }
+}
+
 -- defines the area for the "regular" mythos area
 local MYTHOS_AREA_DATA            = {
   upperLeft  = { x = 5.09, z = 17.45 },
@@ -688,6 +700,8 @@ function onObjectRotate(obj, _, flip, _, _, oldFlip)
     for matColor, _ in pairs(GUIDReferenceApi.getObjectsByType("Playermat")) do
       Wait.frames(function() updateActionTrackerName(matColor) end, 75)
     end
+  elseif obj.hasTag("DynamicAltView") then
+    updateAltView(obj, flip >= 90 and flip <= 270)
   elseif TokenChecker.isChaosToken(obj) then
     if #chaosTokens == 0 then return end
 
@@ -723,6 +737,10 @@ function onObjectSpawn(obj)
     obj.highlightOn({ 0, 0.7843, 0.7843 })
   end
 
+  if obj.hasTag("DynamicAltView") then
+    updateAltView(obj)
+  end
+
   if obj.hasTag("Reloadable") then
     obj.addContextMenuItem("Redownload this", function(playerColor)
       local md = JSON.decode(obj.getGMNotes()) or {}
@@ -732,6 +750,12 @@ function onObjectSpawn(obj)
 
   if obj.hasTag("i18n_XML") then
     Wait.time(function() i18n.updateObjectUiLanguage(obj) end, 1)
+  end
+
+  if obj.hasTag("ShuffleMe") then
+    obj.shuffle()
+    obj.removeTag("ShuffleMe")
+    printToAll(obj.getName() .. " was shuffled.")
   end
 
   maybeAddDecalToChaosToken(obj)
@@ -745,6 +769,8 @@ function onObjectDrop(playerColor, obj)
   if obj.hasTag("Investigator") then
     updateActionTrackerRows()
     updateActionTrackerWidth()
+  elseif obj.hasTag("DynamicAltView") then
+    updateAltView(obj)
   elseif obj.hasTag("Minicard") then
     -- sync the mini card with an investigator below
     for _, card in ipairs(SearchLib.belowPosition(obj.getPosition(), "isCard")) do
@@ -819,6 +845,13 @@ function maybeUpdateActionTrackerTokens(obj, delayFrames)
   local owner = GUIDReferenceApi.getOwnerOfObject(obj)
   if owner == "Mythos" then return end
   updateActionTrackerTokens(owner, delayFrames)
+end
+
+function updateAltView(obj, useBack)
+  if useBack == nil then
+    useBack = obj.is_face_down
+  end
+  obj.alt_view_angle = ALT_VIEW_ANGLE[useBack][obj.hasTag("Sideways")]
 end
 
 ---------------------------------------------------------
