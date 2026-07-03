@@ -268,6 +268,11 @@ end
 -- Adds a card to any indexes it should be a part of, based on its metadata
 ---@param cardData table TTS object data for the card
 function addCardToIndex(cardData)
+  if cardData.GMNotes == nil or cardData.GMNotes == "" then
+    log("No metadata found for " .. cardData.Nickname)
+    return
+  end
+
   -- using the more efficient 'json.parse()' to speed this process up
   local status, cardMetadata = pcall(json_parse, cardData.GMNotes)
 

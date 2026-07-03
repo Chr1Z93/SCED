@@ -6,6 +6,7 @@
 local BlessCurseManagerApi      = require("chaosbag/BlessCurseManagerApi")
 local ChaosBagApi               = require("chaosbag/ChaosBagApi")
 local CoroutineLib              = require("util/CoroutineLib")
+local GlobalApi                 = require("Global/GlobalApi")
 local GUIDReferenceApi          = require("core/GUIDReferenceApi")
 local MythosAreaApi             = require("mythos/MythosAreaApi")
 local PlayAreaApi               = require("playarea/PlayAreaApi")
@@ -172,7 +173,10 @@ function updateCounters()
   if not getOptionValue() then return end
 
   PlayermatApi.updateCounter("All", "ResourceCounter", 5)
-  PlayermatApi.updateCounter("All", "ClickableClueCounter", 0)
+
+  if GlobalApi.getOptionPanelState()["useClueClickers"] then
+    PlayermatApi.updateCounter("All", "ClickableClueCounter", 0)
+  end
 
   for i, matColor in ipairs(matColorList) do
     PlayermatApi.updateCounter(matColor, "DamageCounter", valuesForDamageHorror.Damage[i])
@@ -180,7 +184,7 @@ function updateCounters()
 
     local skillTracker = GUIDReferenceApi.getObjectByOwnerAndType(matColor, "InvestigatorSkillTracker")
     if skillTracker then
-      skillTracker.call("updateStats", {1, 1, 1, 1})
+      skillTracker.call("updateStats", { 1, 1, 1, 1 })
     end
   end
 end

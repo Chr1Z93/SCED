@@ -29,6 +29,19 @@ do
     return str:gsub("\\u(%w%w%w%w)", function(match) return string.char(tonumber(match, 16)) end)
   end
 
+  -- Recursively replaces MoonSharp nulls with actual Lua nil
+  local function stripNulls(t)
+    if type(t) ~= "table" then return t end
+    for k, v in pairs(t) do
+      if json.isnull(v) then
+        t[k] = nil -- Assigning nil completely removes the key from the table
+      elseif type(v) == "table" then
+        stripNulls(v)
+      end
+    end
+    return t
+  end
+
   local function determineInvestigatorType(id)
     if not id or type(id) ~= "number" then return "normal" end
     if id > 90000 and id < 90100 then
@@ -246,8 +259,11 @@ do
         -- an older taboo list it's possible the card isn't a taboo any more
         local tabooCard = AllCardsBagApi.getCardById(cardId .. "-t")
         if tabooCard == nil then
-          local cardName = AllCardsBagApi.getCardById(cardId).data.Nickname
-          maybePrint("Taboo version for " .. cardName .. " is not available. Using standard version", playerColor)
+          local baseCard = AllCardsBagApi.getCardById(cardId)
+          if baseCard then
+            maybePrint("Taboo version for " .. baseCard.data.Nickname .. " not found - using standard version.",
+              playerColor)
+          end
         else
           slots[cardId .. "-t"] = slots[cardId]
           slots[cardId] = nil
@@ -313,15 +329,6 @@ do
       deckMeta = JSON.decode(deck.meta) or {}
     end
 
-    -- arkham.build utilizes the meta field to store cards that are not available on ArkhamDB
-    -- we are combining this hidden_slots field with the actual slots data
-    if deckMeta.hidden_slots then
-      for cardId, count in pairs(deckMeta.hidden_slots.slots or {}) do
-        slots[cardId] = (slots[cardId] or 0) + count
-      end
-      deck.investigator_code = deckMeta.hidden_slots.investigator_code or deck.investigator_code
-    end
-
     -- make sure the necessary custom content is loaded
     if deckMeta.fan_made_content then
       -- check if all cards are available
@@ -337,7 +344,7 @@ do
       end
 
       if not cardsAreAvailable then
-        local everythingIndexed = true
+        local everythingIndexed      = true
         local somethingIsDownloading = false
         local necessaryCustomContent = {}
 
@@ -369,8 +376,8 @@ do
     deck.investigator_code = deckMeta.transform_into or deck.investigator_code
 
     -- get class for investigator to handle specific weaknesses
-    local restrictions = { standalone = standalone }
-    local card = AllCardsBagApi.getCardById(deck.investigator_code)
+    local restrictions     = { standalone = standalone }
+    local card             = AllCardsBagApi.getCardById(deck.investigator_code)
     if card and card.metadata then
       restrictions.class = card.metadata.class
     end
@@ -437,48 +444,30 @@ do
     end
 
     WebRequestLib.get(deckUri, function(responseText)
-      if string.find(responseText, "<!DOCTYPE html>") or string.find(responseText, "No share was found for this deck") then
-        maybePrint("Private deck ID " .. deckId .. " is not shared.", playerColor)
-        return
+      -- ensure that unicode is resolved
+      local fixedString      = fixUtf16String(responseText)
+
+      -- using the more efficient 'json.parse()' to speed this process up
+      local status, deckData = pcall(json.parse, fixedString)
+      if status ~= true or deckData == nil then
+        -- if an error happens, fallback to the regular parser
+        log("Fast parser failed for deck id" .. deckId .. ", using old parser instead.")
+        deckData = JSON.decode(fixedString)
+      else
+        -- otherwise remove stupid moonsharp null values
+        stripNulls(deckData)
       end
 
-      local json = JSON.decode(fixUtf16String(responseText))
-
-      if not json then
+      if not deckData then
         maybePrint("Deck ID " .. deckId .. " not found.", playerColor)
         return
       end
 
-      onDeckResult(json, playerColor, loadNewest, standalone, callback)
+      onDeckResult(deckData, playerColor, loadNewest, standalone, callback)
     end, function(errorMessage, responseCode)
-      local responseText = errorMessage.message
-      if not responseText or string.find(responseText, "<!DOCTYPE html>") or string.find(responseText, "No share was found for this deck") then
-        maybePrint("Private deck ID " .. deckId .. " is not shared.", playerColor)
-      else
-        maybePrint("Error: " .. responseText .. "(" .. responseCode .. ")", playerColor)
-      end
+      local info = JSON.decode(errorMessage) or {}
+      maybePrint("Error (" .. responseCode .. "): " .. (info.message or "unknown issue"), playerColor)
     end)
-  end
-
-  -- Logs that a card could not be loaded in the mod by printing it to the console in the given
-  -- color of the player owning the deck. Attempts to look up the name on ArkhamDB for clarity,
-  -- but prints the card ID if the name cannot be retrieved.
-  ---@param cardId string ArkhamDB ID of the card that could not be found
-  ---@param playerColor string Color of the player's deck that had the problem
-  function WebInterface.logCardNotFound(cardId, playerColor)
-    WebRequestLib.get({ configuration.ArkhamDB_api_uri, configuration.cards, cardId },
-      function(responseText)
-        local adbCardInfo = JSON.decode(fixUtf16String(responseText))
-        local cardName = adbCardInfo.real_name
-        if (cardName ~= nil) then
-          if (adbCardInfo.xp ~= nil and adbCardInfo.xp > 0) then
-            cardName = cardName .. " (" .. adbCardInfo.xp .. ")"
-          end
-          maybePrint("Card not found: " .. cardName .. ", card ID " .. cardId, playerColor)
-        else
-          maybePrint("Card not found in ArkhamDB/Index, ID " .. cardId, playerColor)
-        end
-      end)
   end
 
   return WebInterface

@@ -1792,9 +1792,11 @@ function maybeUpdateActiveInvestigator(card, md)
   if cardData["SidewaysCard"] == true then
     -- 115% for easier readability
     card.setScale({ 1.15, 1, 1.15 })
+    card.setRotation(self.getRotation() - Vector(0, 90, 0))
   else
     -- Zoop-exported investigators are horizontal cards and TTS scales them differently
     card.setScale({ 0.8214, 1, 0.8214 })
+    card.setRotation(self.getRotation())
   end
 
   -- remove old action tokens (only the smaller ones if 'dontChangeActionTokens' is true)

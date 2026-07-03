@@ -220,7 +220,7 @@ end
 function getDefaultCardZone(cardMetadata, bondedList)
   if cardMetadata.id == "09080-m" then
     -- Have to check the Servitor before other minicards
-    return "SetAside5"
+    return "SetAside4"
   elseif cardMetadata.id == "09006" or cardMetadata.id == "06233" or cardMetadata.id == "06275"
       or cardMetadata.id == "71052" or cardMetadata.id == "11016" or bondedList[cardMetadata.id] then
     -- On The Mend, False Awakening, Jewel of Sarnath, Prophecy of the End, and bonded cards are set aside
@@ -363,7 +363,7 @@ function loadCards(slots, investigatorId, bondedList, deckMeta, playerColor, loa
 
   updateStartingResources(playerColor, resourceModifier)
   handleAllAttachments(cardsToSpawn, slotsCopy, bondedList, deckMeta, playerColor)
-  handleSpiritDeck(investigatorId, cardsToSpawn, deckMeta, playerColor)
+  handleExtraDeck(investigatorId, cardsToSpawn, deckMeta, playerColor)
   handleCustomizableUpgrades(cardsToSpawn, deckMeta)
   handlePeteSignatureAssets(investigatorId, cardsToSpawn)
 
@@ -394,8 +394,8 @@ function loadCards(slots, investigatorId, bondedList, deckMeta, playerColor, loa
 
   -- Spawn the list for each zone
   for zone, zoneCards in pairs(zoneDecks) do
-    local deckPos = Zones.getZonePosition(playerColor, zone):setAt("y", 3)
-    local deckRot = Zones.getDefaultCardRotation(playerColor, zone)
+    local deckPos  = Zones.getZonePosition(playerColor, zone):setAt("y", 3)
+    local deckRot  = Zones.getDefaultCardRotation(playerColor, zone)
     local callback = nil
 
     -- if this is a zone with attachments, spawn cards facedown and add additional delay
@@ -430,7 +430,7 @@ function loadCards(slots, investigatorId, bondedList, deckMeta, playerColor, loa
   for cardId, remainingCount in pairs(slots) do
     if remainingCount > 0 then
       hadError = true
-      WebInterface.logCardNotFound(cardId, playerColor)
+      printToAll("Card not found in index, ID: " .. cardId, playerColor)
     end
   end
 
@@ -681,14 +681,37 @@ function handleHunchDeck(cardsToSpawn, deckMeta, bondedList, playerColor)
   end
 end
 
--- Extract all Ally assets to SetAside5 to build the Spirit Deck for parallel Jim Culver
+-- General handling for extra decks (parallel Jim and fan-made investigators)
 ---@param investigatorId string ID for the deck's investigator card
 ---@param cardsToSpawn table Deck list being created
 ---@param deckMeta table Metadata for the deck (contains the customizations on customizable cards for example)
 ---@param playerColor string Color this deck is being loaded for
-function handleSpiritDeck(investigatorId, cardsToSpawn, deckMeta, playerColor)
-  if investigatorId ~= "02004-p" and investigatorId ~= "02004-pb" then return end
+function handleExtraDeck(investigatorId, cardsToSpawn, deckMeta, playerColor)
+  -- parallel Jim has his own function
+  if investigatorId == "02004-p" or investigatorId == "02004-pb" then
+    handleSpiritDeck(cardsToSpawn, deckMeta, playerColor)
+    return
+  end
 
+  if not deckMeta["extra_deck"] then return end
+
+  local extraCardList = {}
+  for cardId in string.gmatch(deckMeta["extra_deck"], "([^,]+)") do -- split by ","
+    local card = AllCardsBagApi.getCardById(cardId)
+    if card ~= nil then
+      table.insert(cardsToSpawn, { data = card.data, metadata = card.metadata, zone = "SetAside5" })
+      table.insert(extraCardList, cardId)
+    end
+  end
+
+  printToAll("Built extra deck", playerColor)
+end
+
+-- Extract all Ally assets to SetAside5 to build the Spirit Deck for parallel Jim Culver
+---@param cardsToSpawn table Deck list being created
+---@param deckMeta table Metadata for the deck (contains the customizations on customizable cards for example)
+---@param playerColor string Color this deck is being loaded for
+function handleSpiritDeck(cardsToSpawn, deckMeta, playerColor)
   local spiritList = {}
   if deckMeta["extra_deck"] then
     -- split by ","
