@@ -22,9 +22,9 @@ local BUTTON_POSITION_X         = {
   -- first row
   -0.9, -0.54, -0.18, 0.18, 0.54, 0.9,
   -- second row
+  -0.9, -0.54, -0.18, 0.18, 0.54, 0.9,
+  -- third row
   -0.9, -0.54, -0.18, 0.18, 0.54, 0.9
--- third row
-- 0.9, -0.54, -0.18, 0.18, 0.54, 0.9
 }
 
 local BUTTON_POSITION_Z         = { -0.298, 0.05, 0.399 }
@@ -68,7 +68,7 @@ function onLoad()
 
     if i < 7 then
       buttonParameters.position.z = BUTTON_POSITION_Z[1]
-    elseif i < 12 then
+    elseif i < 13 then
       buttonParameters.position.z = BUTTON_POSITION_Z[2]
     else
       buttonParameters.position.z = BUTTON_POSITION_Z[3]
@@ -84,29 +84,30 @@ function buttonClick(index, isRightClick)
 
   if isRightClick then
     ChaosBagApi.removeChaosToken(tokenId)
-  else
-    local tokens   = {}
-    local name     = BUTTON_TOOLTIP[index]
-    local chaosbag = ChaosBagApi.findChaosBag()
+    return
+  end
 
-    for _, v in ipairs(chaosbag.getObjects()) do
-      if v.name == name then table.insert(tokens, v.guid) end
-    end
+  local tokens   = {}
+  local name     = BUTTON_TOOLTIP[index]
+  local chaosbag = ChaosBagApi.findChaosBag()
 
-    -- spawn token (only 8 frost tokens / 12 blood tokens allowed)
-    if tokenId == "frost" and #tokens == 8 then
-      printToAll("The maximum number of Frost tokens (8) has already been reached.", "Yellow")
-      return
-    elseif tokenId == "blood" and #tokens == 12 then
-      printToAll("The maximum number of Blood tokens (12) has already been reached.", "Yellow")
-      return
-    end
+  for _, v in ipairs(chaosbag.getObjects()) do
+    if v.name == name then table.insert(tokens, v.guid) end
+  end
 
-    ChaosBagApi.spawnChaosToken(tokenId)
-    printToAll("Adding " .. name .. " token (in bag: " .. #tokens + 1 .. ")", "White")
-    if CORE_TOKEN_COUNT[name] and #tokens >= CORE_TOKEN_COUNT[name] then
-      local tokenString = CORE_TOKEN_COUNT[name] == 1 and "' token." or "' tokens."
-      printToAll("INFO: A physical collection is limited to " .. CORE_TOKEN_COUNT[name] .. " '" .. name .. tokenString, "Yellow")
-    end
+  -- spawn token (only 8 frost tokens / 12 blood tokens allowed)
+  if tokenId == "frost" and #tokens == 8 then
+    printToAll("The maximum number of Frost tokens (8) has already been reached.", "Yellow")
+    return
+  elseif tokenId == "blood" and #tokens == 12 then
+    printToAll("The maximum number of Blood tokens (12) has already been reached.", "Yellow")
+    return
+  end
+
+  ChaosBagApi.spawnChaosToken(tokenId)
+  printToAll("Adding " .. name .. " token (in bag: " .. #tokens + 1 .. ")", "White")
+  if CORE_TOKEN_COUNT[name] and #tokens >= CORE_TOKEN_COUNT[name] then
+    local tokenString = CORE_TOKEN_COUNT[name] == 1 and "' token." or "' tokens."
+    printToAll("INFO: A physical collection is limited to " .. CORE_TOKEN_COUNT[name] .. " '" .. name .. tokenString, "Yellow")
   end
 end
