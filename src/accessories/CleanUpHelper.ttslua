@@ -1,7 +1,8 @@
 -- Cleans up the table for the next scenario in a campaign:
 -- sets counters to default values (resources and doom) or trauma values (health and sanity, if not disabled) from campaign log
 -- puts everything on playermats and hands into respective trashcans
--- use the IGNORE_TAG to exclude objects from tidying (default: "CleanUpHelper_Ignore")
+-- use the IGNORE_TAG to exclude objects from tidying
+-- use the ENFORCE_TAG to enforce objects for tidying
 
 local BlessCurseManagerApi      = require("chaosbag/BlessCurseManagerApi")
 local ChaosBagApi               = require("chaosbag/ChaosBagApi")
@@ -17,6 +18,9 @@ local TokenSpawnTrackerApi      = require("tokens/TokenSpawnTrackerApi")
 
 -- objects with this tag will be ignored
 local IGNORE_TAG                = "CleanUpHelper_ignore"
+
+-- objects with this tag will be cleaned up regardless of being locked etc.
+local ENFORCE_TAG               = "CleanUpHelper_enforce"
 
 local matColorList              = {}
 local valuesForDamageHorror     = {}
@@ -344,9 +348,8 @@ function tidyPlayAreaCoroutine()
   else
     for _, obj in ipairs(playAreaZone.getObjects()) do
       -- ignore these elements
-      if obj.hasTag(IGNORE_TAG) == false
-          and obj.locked == false
-          and obj.interactable == true then
+      if (not obj.hasTag(IGNORE_TAG) and not obj.locked and obj.interactable)
+          or obj.hasTag(ENFORCE_TAG) then
         CoroutineLib.yieldFrames(1)
         trash.putObject(obj)
       end
@@ -448,15 +451,11 @@ function getTekeliliHelper()
 end
 
 function maybeTrashObject(obj, trash)
-  if obj.hasTag(IGNORE_TAG) then return end
-
-  if obj.hasTag("Temporary") then
-    trash.putObject(obj)
-    return
-  end
-
-  if (not obj.locked or obj.hasTag("Investigator")) and obj.interactable then
-    trash.putObject(obj)
+  if not obj.hasTag(IGNORE_TAG) or obj.hasTag(ENFORCE_TAG) then
+    if obj.hasTag("Temporary") or
+        ((not obj.locked or obj.hasTag("Investigator")) and obj.interactable) then
+      trash.putObject(obj)
+    end
   end
 end
 
