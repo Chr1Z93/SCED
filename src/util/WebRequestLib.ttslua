@@ -1,13 +1,9 @@
 do
   local WebRequestLib = {}
 
-  -- This function encapsulates the entire request logic, providing distinct
-  -- success and error callbacks that directly receive the processed data or error.
-  ---@param uri table|string The URL for the GET request.
-  ---@param onSuccess fun(content: string) Called when the request is successful.
-  ---@param onError fun(errorMessage: string, responseCode: number|nil) Called when an error occurs (either network or HTTP error).
-  function WebRequestLib.get(uri, onSuccess, onError)
-    -- Format URI if it's a table (e.g., {"api", "data"} -> "api/data")
+  -- Helper function to format URI if it's a table (e.g., {"api", "data"} -> "api/data")
+  ---@param uri table|string The URL for the request.
+  local function formatUri(uri)
     if type(uri) == "table" then
       local lastIdx  = #uri
       local lastItem = uri[lastIdx]
@@ -16,30 +12,56 @@ do
       if string.sub(lastItem, 1, 1) == "?" then
         -- Remove the last item temporarily, join the rest, then append it back without a slash
         table.remove(uri, lastIdx)
-        uri = table.concat(uri, "/") .. lastItem
+        return table.concat(uri, "/") .. lastItem
       else
-        uri = table.concat(uri, "/")
+        return table.concat(uri, "/")
       end
     end
 
-    WebRequest.get(uri, function(requestInstance)
-      if requestInstance.is_error then
-        -- Network level error
-        local errorMessage = requestInstance.error or "Unknown network error"
-        if onError then
-          onError(errorMessage)
-        end
-      elseif requestInstance.response_code and requestInstance.response_code >= 400 then
-        -- 4xx or 5xx status codes
-        if onError then
-          onError(requestInstance.text, requestInstance.response_code)
-        end
-      else
-        -- Successful request (2xx or 3xx status codes)
-        if onSuccess then
-          onSuccess(requestInstance.text)
-        end
+    return uri
+  end
+
+  -- Shared callback handler to process network errors, HTTP status codes, and success states
+  ---@param onSuccess fun(content: string) Called when the request is successful.
+  ---@param onError fun(errorMessage: string, responseCode: number|nil) Called when an error occurs.
+  local function handleResponse(requestInstance, onSuccess, onError)
+    if requestInstance.is_error then
+      -- Network level error
+      local errorMessage = requestInstance.error or "Unknown network error"
+      if onError then
+        onError(errorMessage)
       end
+    elseif requestInstance.response_code and requestInstance.response_code >= 400 then
+      -- 4xx or 5xx status codes
+      if onError then
+        onError(requestInstance.text, requestInstance.response_code)
+      end
+    else
+      -- Successful request (2xx or 3xx status codes)
+      if onSuccess then
+        onSuccess(requestInstance.text)
+      end
+    end
+  end
+
+  -- This function encapsulates the GET request logic.
+  ---@param uri table|string The URL for the request.
+  ---@param onSuccess fun(content: string) Called when the request is successful.
+  ---@param onError fun(errorMessage: string, responseCode: number|nil) Called when an error occurs.
+  function WebRequestLib.get(uri, onSuccess, onError)
+    WebRequest.get(formatUri(uri), function(requestInstance)
+      handleResponse(requestInstance, onSuccess, onError)
+    end)
+  end
+
+  -- This function encapsulates the POST request logic.
+  ---@param uri table|string The URL for the request.
+  ---@param form table|string The form data to post (Table keys and values must be strings if using a table).
+  ---@param onSuccess fun(content: string) Called when the request is successful.
+  ---@param onError fun(errorMessage: string, responseCode: number|nil) Called when an error occurs.
+  function WebRequestLib.post(uri, form, onSuccess, onError)
+    WebRequest.post(formatUri(uri), form, function(requestInstance)
+      handleResponse(requestInstance, onSuccess, onError)
     end)
   end
 
