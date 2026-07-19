@@ -11,14 +11,17 @@ local DESCRIPTION      = "Displays your hand size and maximum hand size. Right c
 
 -- list of hand modifying cards that are applied automatically
 local HAND_MODIFIERS   = {
-  ["02020"] = 2,  -- Laboratory Assistant
-  ["60212"] = 2,  -- Laboratory Assistant
-  ["12032"] = 2,  -- Laboratory Assistant
-  ["03041"] = -5, -- Drawing the Sign
-  ["06095"] = -3, -- Deeper Slumber
-  ["60202"] = 2,  -- Vault of Knowledge
-  ["60205"] = 1,  -- Arcane Enlightenment
-  ["71023"] = 2   -- Dr. Mya Badry
+  ["02020"] = 2,                                 -- Laboratory Assistant
+  ["60212"] = 2,                                 -- Laboratory Assistant
+  ["12032"] = 2,                                 -- Laboratory Assistant
+  ["03041"] = -5,                                -- Drawing the Sign
+  ["06095"] = -3,                                -- Deeper Slumber
+  ["60202"] = 2,                                 -- Vault of Knowledge
+  ["60205"] = 1,                                 -- Arcane Enlightenment
+  ["71023"] = 2,                                 -- Dr. Mya Badry
+  -- fan-made content
+  ["a92b00b0-5cff-4e46-b9c8-6221f3c87470"] = -2, -- Impossible Perspective (Cyclopean Foundations)
+
   -- Drawn to Darkness is handled differently to apply last
 }
 
