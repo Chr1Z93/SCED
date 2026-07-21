@@ -7,5 +7,6 @@
   "traits": "Ally. Guest. Miskatonic.",
   "intellectIcons": 2,
   "agilityIcons": 2,
+  "handModifier": 2,
   "cycle": "Standalone"
 }
