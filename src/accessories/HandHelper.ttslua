@@ -104,7 +104,7 @@ function getHandSizeModifierData()
 end
 
 function setBaseHandSize(player)
-  Player[player].showInputDialog("Set Base Max Hand Size", "5", function(text) modifiedBase = text end)
+  Player[player].showInputDialog("Set Base Max Hand Size", "5", function(text) modifiedBase = tonumber(text) end)
 end
 
 function addHandSizeModifier(player)
@@ -157,8 +157,8 @@ function updateValue()
   if Player[handColor].getHandCount() == 0 then return end
 
   -- count cards in hand
-  local hand = Player[handColor].getHandObjects()
-  local size = 0
+  local hand    = Player[handColor].getHandObjects()
+  local size    = 0
   local maxSize = modifiedBase or getInvestigatorHandSize()
 
   for _, obj in pairs(hand) do
