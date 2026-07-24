@@ -5,5 +5,6 @@
   "traits": "Pact. Madness.",
   "weakness": true,
   "basicWeaknessCount": 1,
+  "handModifier": -5,
   "cycle": "The Path to Carcosa"
 }

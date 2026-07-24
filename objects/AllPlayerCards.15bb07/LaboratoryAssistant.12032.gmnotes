@@ -7,5 +7,6 @@
   "level": 0,
   "traits": "Ally. Miskatonic. Science.",
   "willpowerIcons": 1,
+  "handModifier": 2,
   "cycle": "Core 2026"
 }
