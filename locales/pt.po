@@ -34,13 +34,13 @@ msgstr ""
 
 # Option: set default difficulty to Hard/Expert
 msgid "OP_defaultHardExpert"
-msgstr "Set difficulty to Hard/Expert"
+msgstr "Definir dificuldade para Difícil/Especialista"
 
 # Tooltip: set default difficulty to Hard/Expert
 msgid "OP_defaultHardExpert_tooltip"
 msgstr ""
-"Set the scenario reference card\n"
-"to Hard/Expert by default."
+"Defina a carta de referência do cenário\n"
+"para Difícil/Especialista por padrão."
 
 # Option: splash scenario name on setup
 msgid "OP_showTitleSplash"
@@ -138,13 +138,13 @@ msgstr ""
 
 # Option: highlight minicards
 msgid "OP_highlightMinicards"
-msgstr "Highlight mini cards"
+msgstr "Destacar mini-cartas"
 
 # Tooltip: highlight minicards
 msgid "OP_highlightMinicards_tooltip"
 msgstr ""
-"Highlights mini cards in the color\n"
-"of the controlling player."
+"Destaca mini-cartas na cor\n"
+"do jogador controlador."
 
 # Group: playermat settings
 msgid "OP_group_playermat"
@@ -162,12 +162,12 @@ msgstr ""
 
 # Option: enable counter logging
 msgid "OP_enableCounterLogging"
-msgstr "Enable counter logging"
+msgstr "Ativar registro de contador"
 
 # Tooltip: enable counter logging
 msgid "OP_enableCounterLogging_tooltip"
 msgstr ""
-"Print manual changes to damage / horror / resources / clues in the chat."
+"Imprime alterações manuais em dano/terror/recursos/pistas no bate-papo."
 
 # Option: show draw 1 button
 msgid "OP_showDrawButton"
@@ -201,13 +201,13 @@ msgstr ""
 
 # Option: use custom resource token Images
 msgid "OP_useCustomResourceImages"
-msgstr "Use custom resource images"
+msgstr "Usar imagens de recurso personalizadas"
 
 # Tooltip: use custom resource token Images
 msgid "OP_useCustomResourceImages_tooltip"
 msgstr ""
-"Use custom images for ammo, charges, secrets, etc. instead of generic "
-"resource tokens."
+"Use imagens personalizadas para munição, cargas, segredos, etc. em vez de "
+"fichas de recurso genéricas."
 
 # Option: use clickable resource counters
 msgid "OP_useResourceCounters"
@@ -299,17 +299,17 @@ msgstr "Girado (2J)"
 
 # Option: customize Table Setup
 msgid "OP_customTableSetup"
-msgstr "Customize table layout"
+msgstr "Personalizar layout de mesa"
 
 # Tooltip: customize Table Setup
 msgid "OP_customTableSetup_tooltip"
 msgstr ""
-"Use this button to create a custom table layout\n"
-"(using the currently selected one as basis)."
+"Use este botão para criar um layout de mesa personalizado\n"
+"(usando o atualmente selecionado como base)."
 
 # Button: customize Table Setup
 msgid "customTableSetupButton"
-msgstr "Customize"
+msgstr "Personalizar"
 
 # Group: accessories
 msgid "OP_group_accessories"
@@ -357,13 +357,13 @@ msgstr ""
 
 # Option: show playermat extension
 msgid "OP_showPlayermatExtension"
-msgstr "Playermat Extension"
+msgstr "Extensão do Tabuleiro do Jogador"
 
 # Tooltip: show playermat extension
 msgid "OP_showPlayermatExtension_tooltip"
 msgstr ""
-"Provides a tile to extend your playermat\n"
-"in case it is already full."
+"Fornece um bloco para estender seu tabuleiro do jogador\n"
+"no caso de já estar cheio."
 
 # Option: show search assistant
 msgid "OP_showSearchAssistant"
@@ -458,14 +458,14 @@ msgstr "Baixar"
 
 msgid "DW_arkhambuild_tooltip"
 msgstr ""
-"arkham.build - linked: This content can be\n"
-"automatically loaded when used in decks."
+"arkham.build - vinculado: este conteúdo pode ser\n"
+"carregado automaticamente quando usado em decks."
 
 msgid "DW_scenarios"
-msgstr "Scenarios"
+msgstr "Cenários"
 
 msgid "DW_by"
-msgstr "by"
+msgstr "por"
 
 # Play Area Gallery: Title
 msgid "PAG_title"
@@ -543,8 +543,8 @@ msgstr "Reivindicar assento \"Vermelho\""
 
 msgid "NO_claim+tooltip"
 msgstr ""
-"Clicking this seat in the Navigation Overlay\n"
-"will now only swap the playercolor for you."
+"Clicar neste lugar na Sobreposição de Navegação\n"
+"agora só trocará a cor do jogador para você."
 
 msgid "NO_load_defaults"
 msgstr "Carregar padrões"
@@ -581,10 +581,10 @@ msgstr "Controla se todas as linhas desenhadas devem ser removidas."
 
 # Cards
 msgid "CARD_BorrowedTime_remove_text"
-msgstr "Remove Clicks"
+msgstr "Remover Cliques"
 
 msgid "CARD_DarkHorse_text"
-msgstr "☐ Skip resource"
+msgstr "☐ Pular recurso"
 
 msgid "CARD_ElleRubash_doom_text"
 msgstr ""
@@ -610,7 +610,7 @@ msgid "CARD_TheRedClock_place_text"
 msgstr "Colocar"
 
 msgid "CARD_StartingReminder_text"
-msgstr "Search Starting Cards"
+msgstr "Procurar Cartas de Início"
 
 # Playermat: Option Panel
 msgid "PM_title_text"
@@ -656,16 +656,16 @@ msgid "PM_optionTitle_exhaustRotation_text"
 msgstr "Especificar Rotação de Exaustão"
 
 msgid "PM_optionTitle_useCustomResourceImages_text"
-msgstr "Use Custom Resource Images"
+msgstr "Usar Imagens de Recurso Personalizadas"
 
 msgid "PM_option_useCustomResourceImages_dropdown_1"
 msgstr "Global"
 
 msgid "PM_option_useCustomResourceImages_dropdown_2"
-msgstr "Enabled"
+msgstr "Ativado"
 
 msgid "PM_option_useCustomResourceImages_dropdown_3"
-msgstr "Disabled"
+msgstr "Desativado"
 
 msgid "PM_optionTitle_useResourceCounters_text"
 msgstr "Usar Contadores de Recurso"
@@ -684,163 +684,165 @@ msgstr "Desativado"
 
 # Playermat: Buttons
 msgid "PMB_discardMove_button"
-msgstr "Discard / ➜"
+msgstr "Descartar / ➜"
 
 msgid "PMB_discardMove_button+tooltiptext"
 msgstr "Right-click to move to threat area"
 
 msgid "PMB_discard_button"
-msgstr "Discard"
+msgstr "Descartar"
 
 msgid "PMB_discard1_button"
-msgstr "Discard 1"
+msgstr "Descartar 1"
 
 msgid "PMB_discard1_button+tooltiptext"
-msgstr "Discard one random card from hand (hidden cards are excluded)"
+msgstr ""
+"Descartar uma carta aleatória da sua mão (cartas ocultas são excluídas)"
 
 msgid "PMB_draw1_button"
-msgstr "Draw 1"
+msgstr "Comprar 1"
 
 msgid "PMB_upkeep_button"
-msgstr "Upkeep"
+msgstr "Manutenção"
 
 msgid "PMB_upkeep_button+tooltiptext"
-msgstr "Right-click to skip resource gain and card draw"
+msgstr ""
+"Clique com o botão direito para pular ganho de recursos e compra de cartas"
 
 # Mythos Area
 msgid "MA_reshuffleEncounterDeck_text"
-msgstr "Reshuffle ➡"
+msgstr "Embaralhar ➡"
 
 msgid "MA_advance_text"
-msgstr "Advance ↪"
+msgstr "Avançar ↪"
 
 msgid "MA_copyReference_text"
-msgstr "Copy to Playermats"
+msgstr "Copiar para Tabuleiros do Jogador"
 
 # Clue Spending Menu
 msgid "CS_title"
-msgstr "CLUE SPENDING"
+msgstr "GASTO DE PISTAS"
 
 msgid "CS_column_player"
-msgstr "PLAYER"
+msgstr "JOGADOR"
 
 msgid "CS_column_selected"
-msgstr "SELECTED"
+msgstr "SELECIONADO"
 
 msgid "CS_column_max"
-msgstr "MAX"
+msgstr "MÁX"
 
 msgid "CS_total"
 msgstr "TOTAL"
 
 msgid "CS_button_skip"
-msgstr "SKIP"
+msgstr "PULAR"
 
 msgid "CS_button_spend"
-msgstr "SPEND"
+msgstr "GASTAR"
 
 # Dialogs
 msgid "ClueRequirement"
-msgstr "Enter amount of clues to spend (i = per investigator):"
+msgstr "Digite a quantidade de pistas a gastar (i = por investigador):"
 
 # Tour
 msgid "TOUR_Roland_introduction"
 msgstr ""
-"Despite my best efforts, looks like you found us. You may live to regret that. As long as you're here though we might as well show you around.\n"
+"Apesar dos meus melhores esforços, parece que você nos encontrou. Você pode se arrepender disso. Mas já que está aqui, podemos pelo menos dar uma volta.\n"
 "\n"
-"Use the arrows to move forward or backward, and if the horrors get to be too much you can quit whenever you like. Ready to get started?"
+"Use as setas para avançar ou voltar, e se os horrores ficarem demais, você pode desistir quando quiser. Pronto para começar?"
 
 msgid "TOUR_Darrell_camera"
 msgstr ""
-"Cameras can be tricky things. Best you leave handling it to the professionals during the tour. Don't try to move the camera until the tour is complete.\n"
+"As câmeras podem ser coisas complicadas. É melhor deixar o manuseio para os profissionais durante o passeio. Não tente mover a câmera até que o passeio esteja completo.\n"
 "\n"
-"But let me tell you that there are some way to make navigation around the table easier:\n"
-"- hotkeys for specific camera positions\n"
-"(more on that later)\n"
-"- an overlay (AFTER THE TOUR: click the camera icon in the bottom right corner and explore)\n"
-"- saving your camera positions with CTRL+[0-9]\n"
-"(and loading with SHIFT+[0-9])"
+"Mas deixa eu te dizer que há maneiras de tornar a navegação ao redor da mesa mais fácil:\n"
+"- atalhos de teclado para posições de câmera específicas\n"
+"(mais sobre isso depois)\n"
+"- uma sobreposição (APÓS O PASSEIO: clique no ícone da câmera no canto inferior direito e explore)\n"
+"- salvando suas posições de câmera com CTRL+[0-9]\n"
+"(e carregando com SHIFT+[0-9])"
 
 msgid "TOUR_Daisy_rules"
 msgstr ""
-"If you're new to the game, the library here has everything you'll need. A little research can go a long way, and this place is a great start to look for help understanding the intricacies of rules.\n"
+"Se você é novo no jogo, a biblioteca aqui tem tudo que você precisa. Um pouco de pesquisa pode fazer muito, e este é um ótimo ponto de partida para procurar ajuda na compreensão das complexidades das regras.\n"
 "\n"
-"I put a few documents right there that might prove enlightening."
+"Coloquei alguns documentos por lá que podem ser esclarecedores."
 
 msgid "TOUR_Mandy_deckimporter"
 msgstr ""
-"To survive what's coming you'll need a deck. If it's safely hidden away on ArkhamDB or arkham.build, you can load it here, and even find the newest version after an upgrade without changing the ID.\n"
+"Para sobreviver ao que virá, você precisará de um baralho. Se estiver seguro no ArkhamDB ou arkham.build, você pode carregá-lo aqui e até encontrar a versão mais recente após uma atualização sem alterar o ID.\n"
 "\n"
-"No need to publish all your decks, use 'Private' and you can see it. Just make sure to select 'Make your decks public' in your ArkhamDB settings."
+"Não há necessidade de publicar todos os seus decks, use 'Privado' e você pode vê-lo. Apenas certifique-se de selecionar 'Tornar seus decks públicos' nas configurações do ArkhamDB."
 
 msgid "TOUR_Daniela_playercards"
 msgstr ""
-"I prefer the hands-on approach to building things, if you do too you can build a deck yourself.\n"
+"Prefiro a abordagem prática para construir coisas, se você também fizer, pode construir um baralho você mesmo.\n"
 "\n"
-"All the cards you could ever need are here, laid out like a disassembled engine. Place the cards on the table, copy them for your deck, and you'll be ready for anything."
+"Todas as cartas de que você poderia precisar estão aqui, dispostas como um motor desmontado. Coloque as cartas na mesa, copie-as para seu baralho e estará pronto para qualquer coisa."
 
 msgid "TOUR_Finn_campaigns"
 msgstr ""
-"Ready to face the unknown? We've smuggled shocking revelations and devious enemies from all over the world. Download the campaign you want to play, then 'Place' it on the table to see the scenarios.\n"
+"Pronto para enfrentar o desconhecido? Contrabandemos revelações chocantes e inimigos insidiosos do mundo todo. Baixe a campanha que deseja jogar e coloque-a na mesa para ver os cenários.\n"
 "\n"
-"Just remember - if it turns out to be too much for you, I was never here."
+"Apenas lembre-se - se ficar muito para você, eu nunca estive aqui."
 
 msgid "TOUR_Diana_bottombar"
 msgstr ""
-"These symbols on the bottom right are a repository of arcane knowledge, containing all the official content to download plus some deviously creative works from fans. One should beware those who seem too fond of the darkness, but you cannot deny the quality of their efforts.\n"
+"Esses símbolos no canto inferior direito são um repositório de conhecimento arcano, contendo todo o conteúdo oficial para download e algumas obras criativas malvadas dos fãs. Deve-se desconfiança daqueles que parecem gostar demais da escuridão, mas você não pode negar a qualidade de seus esforços.\n"
 "\n"
-"Don't see anything here? Only promoted players can access these."
+"Não vê nada aqui? Apenas jogadores promovidos podem acessar isso."
 
 msgid "TOUR_Winifred_optionpanel"
 msgstr ""
-"No good aviator would fly a plane she didn't know and hadn't tweaked a bit herself. The gear icon contains settings to customize your play experience, from alternate ways to track your clues to a variety of helpers to streamline the game.\n"
+"Nenhum bom aviador voaria um avião que não conhecesse e não tivesse ajustado um pouco. O ícone de engrenagem contém configurações para personalizar sua experiência de jogo, desde formas alternativas de rastrear suas pistas até uma variedade de ajudantes para otimizar o jogo.\n"
 "\n"
-"Everything here is optional, but who doesn't want to go as fast as they can? Just remember that all settings affect all players, so strap in and trust your pilot!"
+"Tudo aqui é opcional, mas quem não quer ir o mais rápido possível? Apenas lembre-se de que todas as configurações afetam todos os jogadores, então apertem bem e confiem em seu piloto!"
 
 msgid "TOUR_Amina_mythosarea"
 msgstr ""
-"This is the Mythos area. Encounter cards, acts, and agenda will all be placed here while the large map below is where you will be exploring - be sure to set the number of investigators!\n"
+"Esta é a área Mythos. Cartas de encontro, atos e agenda serão colocados aqui enquanto o grande mapa abaixo é onde você explorará - certifique-se de definir o número de investigadores!\n"
 "\n"
-"You can count doom on the agenda by clicking the large counter, and the smaller will automatically count doom tokens on the table. The chaos bag is in that book over on the right, and you can add or remove tokens from it whenever you need."
+"Você pode contar perdição na agenda clicando no grande contador, e o menor contará automaticamente tokens de perdição na mesa. A bolsa de caos está naquele livro ali à direita, e você pode adicionar ou remover tokens sempre que precisar."
 
 msgid "TOUR_Gloria_encounterdeck"
 msgstr ""
-"The evils that lurk in this world are out there, creeping ever closer. When they find you, this will easily draw a card from the encounter deck.\n"
+"Os males que se escondem neste mundo estão lá fora, se aproximando cada vez mais. Quando o encontrarem, isto facilmente desenhará uma carta do baralho de encontro.\n"
 "\n"
-"The deck will even reshuffle itself when needed, for the enemies we face are unending."
+"O baralho até se embaralhará novamente quando necessário, pois os inimigos que enfrentamos são infinitos."
 
 msgid "TOUR_Jacqueline_chaostokens"
 msgstr ""
-"When the ire of fate finds you and the chaos looms, this large button will draw a chaos token. Click it again to return the token to the bag.\n"
+"Quando a ira do destino o encontra e o caos paira, este grande botão desenha um token de caos. Clique novamente para devolver o token à bolsa.\n"
 "\n"
-"Whether a vision of the future or a curse from the opponents we face, if you need additional tokens a right-click will draw more. In case you need to draw multiple at once, type the number while hovering it..."
+"Seja uma visão do futuro ou uma maldição dos adversários que enfrentamos, se precisar de tokens adicionais, um clique direito desenhará mais. Caso precise desenhar vários de uma vez, digite o número enquanto o sobrevoa..."
 
 msgid "TOUR_Kohaku_blurse"
 msgstr ""
-"Folklorists, immersed in the rich narratives of blessings and curses, explore the essence of human beliefs. You can use this tool to control the amount of bless and curse tokens in the chaos bag (left-click to add / right-click to remove).\n"
+"Folcloristas, imersos nas ricas narrativas de bênçãos e maldições, exploram a essência das crenças humanas. Você pode usar esta ferramenta para controlar a quantidade de tokens de bênção e maldição na bolsa de caos (clique esquerdo para adicionar / clique direito para remover).\n"
 "\n"
-"It will also display the amount in the bag (& sealed on cards) for you. Remember to remove bless / curse tokens with this after resolving them."
+"Também exibirá a quantidade na bolsa (& selada em cartões) para você. Lembre-se de remover tokens de bênção/maldição com isso após resolvê-los."
 
 msgid "TOUR_Preston_tokens"
 msgstr ""
-"I can afford to buy what I need, but for those less well-off we've provided an endless pool of tokens to track your game. Simply drag one out of the pools here.\n"
+"Posso me dar ao luxo de comprar o que preciso, mas para quem tem menos recursos, fornecemos um pool infinito de tokens para rastrear seu jogo. Basta arrastar um dos pools aqui.\n"
 "\n"
-"Resources are my favorite of course, but damage and horror are as inevitable as taxes. I leave those to my bookkeeper though. Those tokens can work like counters, use the number keys to change the value. Damage and horror tokens may also be clicked in the middle."
+"Recursos são meu favorito, é claro, mas dano e horror são tão inevitáveis quanto impostos. Deixo isso para meu contador. Esses tokens podem funcionar como contadores, use as teclas de número para alterar o valor. Os tokens de dano e horror também podem ser clicados no meio."
 
 msgid "TOUR_LaChicaRoja_hotkeys"
 msgstr ""
-"Looking for keys? These might not be scarlet-colored, but you’ll want 'em all the same.\n"
+"Procurando chaves? Essas podem não ser de cor escarlate, mas você vai querer todas elas da mesma forma.\n"
 "\n"
-"In this line of work, quick hands and quicker thinking keep you alive. Hotkeys - shortcuts to the things that matter - are your best friends out here.\n"
+"Nesta linha de trabalho, mãos rápidas e pensamento mais rápido o mantêm vivo. Atalhos de teclado - atalhos para as coisas que importam - são seus melhores amigos aqui.\n"
 "\n"
-"You’ll find 'em in the menu under Options → Game Keys. Bind 'em how you like. Make sure your fingers know the way - because when the darkness comes, you won't have time to fumble."
+"Você os encontrará no menu em Opções → Teclas de Jogo. Vincule-as como quiser. Certifique-se de que seus dedos conhecem o caminho - porque quando a escuridão chegar, você não terá tempo para mexer."
 
 msgid "TOUR_Norman_end"
 msgstr ""
-"That's the end of the tour, but there's much more to discover if you look in the right places. Some cards have helpers on the right-click menu, and every new version adds new content and functions.\n"
+"Esse é o fim do passeio, mas há muito mais para descobrir se você olhar nos lugares certos. Algumas cartas possuem ajudantes no menu de clique direito, e cada nova versão adiciona conteúdo e funções novas.\n"
 "\n"
-"Don't be afraid to explore, and best of luck out there! We'll all need it..."
+"Não tenha medo de explorar, e boa sorte por aí! Todos nós vamos precisar disso..."
 
 # Play Area
 msgid "PA_readyCards"
-msgstr "Ready Cards in Play Area ↺"
+msgstr "Cartas Prontas na Área de Jogo ↺"
