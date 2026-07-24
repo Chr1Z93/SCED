@@ -22,12 +22,9 @@
   ],
   "Tooltip": false,
   "Transform": {
-    "posX": 0,
     "posY": -9,
     "posZ": 80.1,
-    "rotX": 0,
     "rotY": 180,
-    "rotZ": 0,
     "scaleX": 4,
     "scaleY": 1,
     "scaleZ": 1

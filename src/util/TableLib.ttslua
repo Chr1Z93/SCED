@@ -153,6 +153,8 @@ do
       local j = math.random(startIndex, i)
       t[i], t[j] = t[j], t[i]
     end
+
+    return t
   end
 
   return TableLib

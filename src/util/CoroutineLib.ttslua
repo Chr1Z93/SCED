@@ -5,7 +5,7 @@ do
   function CoroutineLib.resumeWithErrorHandling(co, ...)
     if type(co) ~= "thread" then error("Invalid coroutine passed") end
     if coroutine.status(co) == "dead" then return end
-    local results = {coroutine.resume(co, ...)}
+    local results = { coroutine.resume(co, ...) }
     local ok = table.remove(results, 1)
     if not ok then
       log(results)

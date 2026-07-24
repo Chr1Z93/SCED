@@ -1,0 +1,325 @@
+-- Deck Dashboard v2 by Rollingsnake
+
+local BOARD_TEXTURES             = {
+  Neutral = {
+    m30 = "https://steamusercontent-a.akamaihd.net/ugc/14888629053602587420/49FA5133EFAA6EF435A37964CCBDB61EC8BD261B/",
+    m50 = "https://steamusercontent-a.akamaihd.net/ugc/18126433656922172292/421AD9B2D546B65B16B9A478E9092EBCFF4B1F7F/"
+  },
+  Guardian = {
+    m30 = "https://steamusercontent-a.akamaihd.net/ugc/11707044501807037898/FCF9EA380868C72BBD0450443FFAF23077857BF3/",
+    m50 = "https://steamusercontent-a.akamaihd.net/ugc/17934063452843689358/D17C5175EFB44186236BB04A51E24382FD7490F9/"
+  },
+  Seeker = {
+    m30 = "https://steamusercontent-a.akamaihd.net/ugc/11116413200688103348/F26CFD0B885EB0CCB79A10F4F270F3E4D31C2200/",
+    m50 = "https://steamusercontent-a.akamaihd.net/ugc/10896908200429825824/9BE489CBE544A4773E9CA00D2C47679A3BE5408B/"
+  },
+  Rogue = {
+    m30 = "https://steamusercontent-a.akamaihd.net/ugc/10495095420347116245/3C832B10AF8FB4CE2183EF556C732BEF09E9BD93/",
+    m50 = "https://steamusercontent-a.akamaihd.net/ugc/13804159854184648735/B9D3B2483035A182F8B82B2B571F754B917004CE/"
+  },
+  Mystic = {
+    m30 = "https://steamusercontent-a.akamaihd.net/ugc/13526715166195104380/75B8EAF2EE6AE7A6680B980CAF7895CCED713826/",
+    m50 = "https://steamusercontent-a.akamaihd.net/ugc/15737055622824286270/631F81B6904EBC2F94F1BA331A5C9C95767AFE67/"
+  },
+  Survivor = {
+    m30 = "https://steamusercontent-a.akamaihd.net/ugc/14140580771248157661/F45CEA13365C2652F0DA0E0C4B1FA1D9D2E8703E/",
+    m50 = "https://steamusercontent-a.akamaihd.net/ugc/16847524876785583566/CC1617298450A1749EDB2DC6C15B504CEFD75DEE/"
+  }
+}
+
+-- Settings
+
+local DEFAULT_DECK_MODE          = "m30"
+local DEFAULT_INVESTIGATOR_CLASS = "Neutral"
+local SNAP_HEIGHT                = 0.12
+local BOARD_CAPTURE_MARGIN_X     = 0.60
+local BOARD_CAPTURE_MARGIN_Z     = 0.60
+
+local BOARD_LAYOUTS              = {
+  m30 = {
+    boardObjectScale  = 10.25,
+    coordinateScaleX  = 1.000,
+    coordinateScaleZ  = 1.000,
+    coordinateOffsetX = -0.263,
+    coordinateOffsetZ = 0.195,
+    topSlotZ          = -0.934,
+    topSlots          = {
+      { x = 1.219, rotationY = 90 },
+      { x = 0.860, rotationY = 90 },
+      { x = 0.605, rotationY = 0 }
+    },
+    sideSlotZ         = -0.911,
+    sideSlotXs        = { 0.326, 0.101, -0.126, -0.352, -0.577, -0.803 },
+    cardGridColumnXs  = { 1.289, 1.060, 0.834, 0.605, 0.377, 0.111, -0.117, -0.346, -0.574, -0.803 },
+    cardGridRowZs     = { -0.497, -0.164, 0.158, 0.479 }
+  },
+  m50 = {
+    boardObjectScale  = 13.61,
+    coordinateScaleX  = 0.755,
+    coordinateScaleZ  = 0.755,
+    coordinateOffsetX = -0.190,
+    coordinateOffsetZ = 0.200,
+    topSlotZ          = -1.305,
+    topSlots          = {
+      { x = 1.226, rotationY = 90 },
+      { x = 0.864, rotationY = 90 },
+      { x = 0.609, rotationY = 0 }
+    },
+    sideSlotZ         = -1.282,
+    sideSlotXs        = { 0.331, 0.108, -0.117, -0.343, -0.568, -0.794 },
+    cardGridColumnXs  = { 1.294, 1.066, 0.839, 0.608, 0.384, 0.117, -0.110, -0.337, -0.566, -0.792 },
+    cardGridRowZs     = { -0.866, -0.542, -0.214, 0.111, 0.436, 0.759 }
+  }
+}
+
+local PROTECTED_OBJECT_TYPES     = {
+  Card         = true,
+  Deck         = true,
+  Tile         = true,
+  Custom_Tile  = true,
+  Custom_Token = true,
+  Figurine     = true,
+  Bag          = true
+}
+
+local currentDeckMode            = DEFAULT_DECK_MODE
+local currentInvestigatorClass   = DEFAULT_INVESTIGATOR_CLASS
+local collisionEnabled           = false
+
+-- Loading and saving
+
+function onLoad(savedData)
+  collisionEnabled = false
+
+  if savedData and savedData ~= "" then
+    local savedState         = JSON.decode(savedData)
+    currentDeckMode          = savedState.deckMode or DEFAULT_DECK_MODE
+    currentInvestigatorClass = savedState.investigatorClass or DEFAULT_INVESTIGATOR_CLASS
+  end
+
+  createDeckSizeButton()
+  applySnapPoints(self)
+  Wait.frames(function() applyBoardScale(self) end, 2)
+  Wait.time(function() collisionEnabled = true end, 0.5)
+end
+
+function saveBoardState()
+  self.script_state = JSON.encode({
+    deckMode = currentDeckMode,
+    investigatorClass = currentInvestigatorClass
+  })
+end
+
+-- Deck size button
+
+function createDeckSizeButton()
+  self.clearButtons()
+  self.createButton({
+    click_function = "switchDeckSize",
+    function_owner = self,
+    position       = { 0, 0.18, -1.06 },
+    rotation       = { 0, 0, 0 },
+    scale          = { 0.2, 1, 0.2 },
+    width          = 350,
+    height         = 250,
+    font_size      = 200,
+    label          = getDeckSizeLabel(),
+    tooltip        = "Switch between 30-card and 50-card dashboard",
+    color          = { 0.15, 0.12, 0.08, 0.55 },
+    font_color     = { 1, 0.92, 0.75, 1 }
+  })
+end
+
+function getDeckSizeLabel()
+  return currentDeckMode == "m30" and "30" or "50"
+end
+
+function switchDeckSize()
+  currentDeckMode = currentDeckMode == "m30" and "m50" or "m30"
+  saveBoardState()
+  self.editButton({ index = 0, label = getDeckSizeLabel() })
+  reloadBoardTexture()
+end
+
+-- Investigator detection
+
+function onCollisionEnter(collisionInfo)
+  if not collisionEnabled then return end
+
+  local collidedCard = collisionInfo.collision_object
+  if collidedCard.type ~= "Card" then return end
+
+  local cardLocalPosition = self.positionToLocal(collidedCard.getPosition())
+  if not isInsideInvestigatorSlot(cardLocalPosition) then return end
+
+  local decodedSuccessfully, cardMetadata = pcall(JSON.decode, collidedCard.getGMNotes())
+  if not decodedSuccessfully or not cardMetadata then return end
+  if cardMetadata.type ~= "Investigator" then return end
+  if not BOARD_TEXTURES[cardMetadata.class] then return end
+  if cardMetadata.class == currentInvestigatorClass then return end
+
+  collisionEnabled = false
+  currentInvestigatorClass = cardMetadata.class
+  saveBoardState()
+  reloadBoardTexture()
+end
+
+function isInsideInvestigatorSlot(cardLocalPosition)
+  local activeLayout = getActiveLayout()
+  local investigatorSlot = activeLayout.topSlots[1]
+  local slotX, slotZ = convertLayoutPoint(activeLayout, investigatorSlot.x, activeLayout.topSlotZ)
+
+  return math.abs(cardLocalPosition.x - slotX) <= 0.55
+      and math.abs(cardLocalPosition.z - slotZ) <= 0.35
+end
+
+-- Board texture and scale
+
+function reloadBoardTexture()
+  local targetTexture = BOARD_TEXTURES[currentInvestigatorClass][currentDeckMode]
+  local customObjectConfig = self.getCustomObject()
+
+  if customObjectConfig.image == targetTexture then
+    applyBoardScale(self)
+    applySnapPoints(self)
+    collisionEnabled = true
+    return
+  end
+
+  collisionEnabled = false
+
+  local capturedObjects = captureObjectsOnBoard()
+  customObjectConfig.image = targetTexture
+  self.setCustomObject(customObjectConfig)
+
+  local reloadedBoard = self.reload()
+
+  Wait.condition(
+    function()
+      Wait.frames(function()
+        applyBoardScale(reloadedBoard)
+        applySnapPoints(reloadedBoard)
+        restoreCapturedObjects(capturedObjects)
+      end, 2)
+    end,
+    function()
+      return not reloadedBoard.loading_custom
+    end
+  )
+end
+
+function applyBoardScale(boardObject)
+  local boardScale = getActiveLayout().boardObjectScale
+  local currentScaleY = boardObject.getScale().y
+  boardObject.setScale({ boardScale, currentScaleY, boardScale })
+end
+
+-- Object protection
+
+function captureObjectsOnBoard()
+  local capturedObjects = {}
+  local boardSnapBounds = calculateSnapBounds()
+  local boardGuid = self.getGUID()
+
+  for _, worldObject in ipairs(getAllObjects()) do
+    local shouldCapture = worldObject.getGUID() ~= boardGuid
+        and PROTECTED_OBJECT_TYPES[worldObject.type]
+        and not worldObject.getLock()
+
+    if shouldCapture then
+      local localPosition = self.positionToLocal(worldObject.getPosition())
+      local insideCaptureArea =
+          localPosition.x >= boardSnapBounds.minX - BOARD_CAPTURE_MARGIN_X
+          and localPosition.x <= boardSnapBounds.maxX + BOARD_CAPTURE_MARGIN_X
+          and localPosition.z >= boardSnapBounds.minZ - BOARD_CAPTURE_MARGIN_Z
+          and localPosition.z <= boardSnapBounds.maxZ + BOARD_CAPTURE_MARGIN_Z
+
+      if insideCaptureArea then
+        table.insert(capturedObjects, {
+          object   = worldObject,
+          position = worldObject.getPosition(),
+          rotation = worldObject.getRotation()
+        })
+        worldObject.resting = true
+      end
+    end
+  end
+
+  return capturedObjects
+end
+
+function restoreCapturedObjects(capturedObjects)
+  for _, capturedObject in ipairs(capturedObjects) do
+    if capturedObject.object then
+      capturedObject.object.setPosition(capturedObject.position)
+      capturedObject.object.setRotation(capturedObject.rotation)
+      capturedObject.object.resting = true
+    end
+  end
+end
+
+-- Snap points
+
+function convertLayoutPoint(activeLayout, sourceX, sourceZ)
+  local localX = sourceX * activeLayout.coordinateScaleX + activeLayout.coordinateOffsetX
+  local localZ = sourceZ * activeLayout.coordinateScaleZ + activeLayout.coordinateOffsetZ
+  return localX, localZ
+end
+
+function buildSnapPoints()
+  local activeLayout = getActiveLayout()
+  local snapPoints = {}
+
+  local function addSnapPoint(sourceX, sourceZ, rotationY)
+    local localX, localZ = convertLayoutPoint(activeLayout, sourceX, sourceZ)
+    table.insert(snapPoints, {
+      position      = { localX, SNAP_HEIGHT, localZ },
+      rotation      = { 0, rotationY, 0 },
+      rotation_snap = false
+    })
+  end
+
+  for _, topSlot in ipairs(activeLayout.topSlots) do
+    addSnapPoint(topSlot.x, activeLayout.topSlotZ, topSlot.rotationY)
+  end
+
+  for _, sideSlotX in ipairs(activeLayout.sideSlotXs) do
+    addSnapPoint(sideSlotX, activeLayout.sideSlotZ, 0)
+  end
+
+  for _, rowZ in ipairs(activeLayout.cardGridRowZs) do
+    for _, columnX in ipairs(activeLayout.cardGridColumnXs) do
+      addSnapPoint(columnX, rowZ, 0)
+    end
+  end
+
+  return snapPoints
+end
+
+function applySnapPoints(boardObject)
+  boardObject.setSnapPoints(buildSnapPoints())
+end
+
+function calculateSnapBounds()
+  local minimumX, maximumX = math.huge, -math.huge
+  local minimumZ, maximumZ = math.huge, -math.huge
+
+  for _, snapPoint in ipairs(buildSnapPoints()) do
+    local position = snapPoint.position
+    minimumX = math.min(minimumX, position[1])
+    maximumX = math.max(maximumX, position[1])
+    minimumZ = math.min(minimumZ, position[3])
+    maximumZ = math.max(maximumZ, position[3])
+  end
+
+  return {
+    minX = minimumX,
+    maxX = maximumX,
+    minZ = minimumZ,
+    maxZ = maximumZ
+  }
+end
+
+function getActiveLayout()
+  return BOARD_LAYOUTS[currentDeckMode]
+end

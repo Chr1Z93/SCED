@@ -1,0 +1,32 @@
+{
+  "ColorDiffuse": {
+    "b": 1,
+    "g": 1,
+    "r": 1
+  },
+  "CustomImage": {
+    "CustomTile": {
+      "Stackable": false,
+      "Stretch": true,
+      "Thickness": 0.2,
+      "Type": 3
+    },
+    "ImageScalar": 1,
+    "ImageSecondaryURL": "",
+    "ImageURL": "https://steamusercontent-a.akamaihd.net/ugc/14888629053602587420/49FA5133EFAA6EF435A37964CCBDB61EC8BD261B/",
+    "WidthScale": 0
+  },
+  "Description": "Helps keep your deck and table clean and organized.\n\r\nTips: For a smoother deckbuilding experience, use it with \"picture in picture\".\n\nby Rollingsnake",
+  "GUID": "ffbd7e",
+  "Hands": false,
+  "HideWhenFaceDown": false,
+  "LuaScript": "require(\"accessories/DeckDashBoard\")",
+  "Name": "Custom_Tile",
+  "Nickname": "Deck DashBoard v2",
+  "Transform": {
+    "rotY": 270,
+    "scaleX": 10.25,
+    "scaleY": 1,
+    "scaleZ": 10.25
+  }
+}
