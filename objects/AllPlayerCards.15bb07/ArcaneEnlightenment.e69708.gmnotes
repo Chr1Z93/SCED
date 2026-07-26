@@ -7,5 +7,6 @@
   "level": 0,
   "traits": "Ritual.",
   "willpowerIcons": 2,
+  "handModifier": 1,
   "cycle": "Investigator Packs"
 }

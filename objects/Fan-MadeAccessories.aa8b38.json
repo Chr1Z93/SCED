@@ -14,6 +14,7 @@
     "GenericDifficultySelector.8112ff",
     "SecretObjectivesUltimatums.b2077d",
     "UnderworldMarketHelper.3650ea",
+    "DeckDashBoardv2.ffbd7e",
     "DoomCounterBag.a82b88",
     "ChaosTokenCounterBag.ea9ea1"
   ],
@@ -46,9 +47,7 @@
     "posX": -61.64,
     "posY": 1.527,
     "posZ": -78.28,
-    "rotX": 0,
     "rotY": 270,
-    "rotZ": 0,
     "scaleX": 0.9,
     "scaleY": 0.85,
     "scaleZ": 0.9

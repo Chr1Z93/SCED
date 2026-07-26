@@ -2,3 +2,6 @@
 *.ttslua linguist-language=Lua
 *.gmnotes linguist-language=json
 *.luascriptstate linguist-language=json
+
+# attempt to normalize line endings
+* text=auto

@@ -1,19 +1,19 @@
 {
-  "CardID": 6037100,
+  "CardID": 6056800,
   "CustomDeck": {
-    "60371": {
+    "60568": {
       "BackIsHidden": true,
       "BackURL": "https://steamusercontent-a.akamaihd.net/ugc/2342503777940352139/A2D42E7E5C43D045D72CE5CFC907E4F886C8C690/",
-      "FaceURL": "https://steamusercontent-a.akamaihd.net/ugc/10039120606353675616/07E99C9C56AE17B4FD093315B9D343C286AEEF0E/",
+      "FaceURL": "https://steamusercontent-a.akamaihd.net/ugc/15387176513837670124/651EE87DBE2198E0FD8B913D809A79DF537B0ED6/",
       "NumHeight": 1,
       "NumWidth": 1,
       "Type": 0
     }
   },
-  "GMNotes_path": "AllPlayerCards.15bb07/WatchThis.60371.gmnotes",
-  "GUID": "60371",
+  "GMNotes_path": "AllPlayerCards.15bb07/Do-or-Die.60568.gmnotes",
+  "GUID": "60568",
   "Name": "Card",
-  "Nickname": "\"Watch This!\"",
+  "Nickname": "Do-or-Die",
   "Tags": [
     "PlayerCard"
   ],

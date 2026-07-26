@@ -9,19 +9,6 @@ local metadataCache    = {}
 -- description before modifications
 local DESCRIPTION      = "Displays your hand size and maximum hand size. Right click for options."
 
--- list of hand modifying cards that are applied automatically
-local HAND_MODIFIERS   = {
-  ["02020"] = 2,  -- Laboratory Assistant
-  ["60212"] = 2,  -- Laboratory Assistant
-  ["12032"] = 2,  -- Laboratory Assistant
-  ["03041"] = -5, -- Drawing the Sign
-  ["06095"] = -3, -- Deeper Slumber
-  ["60202"] = 2,  -- Vault of Knowledge
-  ["60205"] = 1,  -- Arcane Enlightenment
-  ["71023"] = 2   -- Dr. Mya Badry
-  -- Drawn to Darkness is handled differently to apply last
-}
-
 local lastAppliedCards = {}
 
 function onLoad()
@@ -90,13 +77,12 @@ function getHandSizeModifierData()
         obj ~= deckAreaObjects.discard then
       -- handle specific cards
       local md = getMetadata(obj)
-      local cardMod = HAND_MODIFIERS[md.id]
 
-      if cardMod then
+      if md.handModifier then
         if not isObjectInHand(obj) then
           local cardName = obj.getName()
           appliedCards[cardName] = (appliedCards[cardName] or 0) + 1
-          modSize = modSize + cardMod
+          modSize = modSize + md.handModifier
         end
       end
 
@@ -118,7 +104,7 @@ function getHandSizeModifierData()
 end
 
 function setBaseHandSize(player)
-  Player[player].showInputDialog("Set Base Max Hand Size", "5", function(text) modifiedBase = text end)
+  Player[player].showInputDialog("Set Base Max Hand Size", "5", function(text) modifiedBase = tonumber(text) end)
 end
 
 function addHandSizeModifier(player)
@@ -171,8 +157,8 @@ function updateValue()
   if Player[handColor].getHandCount() == 0 then return end
 
   -- count cards in hand
-  local hand = Player[handColor].getHandObjects()
-  local size = 0
+  local hand    = Player[handColor].getHandObjects()
+  local size    = 0
   local maxSize = modifiedBase or getInvestigatorHandSize()
 
   for _, obj in pairs(hand) do

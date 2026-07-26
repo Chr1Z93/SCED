@@ -10,5 +10,6 @@
   "level": 0,
   "traits": "Ally. Miskatonic. Science.",
   "intellectIcons": 1,
+  "handModifier": 2,
   "cycle": "The Dunwich Legacy"
 }

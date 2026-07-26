@@ -66,8 +66,8 @@ do
     local darkColor  = ColorLib.multiply(baseColor, darkMult)
     local lightColor = ColorLib.multiply(baseColor, lightMult)
     return ColorLib.colorToHex(baseColor) ..
-    "|" .. ColorLib.colorToHex(darkColor) ..
-    "|" .. ColorLib.colorToHex(lightColor)
+        "|" .. ColorLib.colorToHex(darkColor) ..
+        "|" .. ColorLib.colorToHex(lightColor)
   end
 
   return ColorLib

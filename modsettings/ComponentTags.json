@@ -1,12 +1,12 @@
 {
   "labels": [
     {
-      "displayed": "import_configuration_provider",
-      "normalized": "import_configuration_provider"
+      "displayed": "i18n_XML",
+      "normalized": "i18n_xml"
     },
     {
-      "displayed": "AllCardsHotfix",
-      "normalized": "allcardshotfix"
+      "displayed": "chaosBag",
+      "normalized": "chaosbag"
     },
     {
       "displayed": "LinkedPhaseTracker",
@@ -21,52 +21,12 @@
       "normalized": "displacement_excluded"
     },
     {
-      "displayed": "PlayerCard",
-      "normalized": "playercard"
-    },
-    {
-      "displayed": "CleanUpHelper_ignore",
-      "normalized": "cleanuphelper_ignore"
-    },
-    {
-      "displayed": "Asset",
-      "normalized": "asset"
-    },
-    {
-      "displayed": "ScenarioCard",
-      "normalized": "scenariocard"
-    },
-    {
-      "displayed": "Location",
-      "normalized": "location"
-    },
-    {
-      "displayed": "tempToken",
-      "normalized": "temptoken"
-    },
-    {
-      "displayed": "Minicard",
-      "normalized": "minicard"
-    },
-    {
       "displayed": "DoomCounter_ignore",
       "normalized": "doomcounter_ignore"
     },
     {
       "displayed": "NotInteractable",
       "normalized": "notinteractable"
-    },
-    {
-      "displayed": "Investigator",
-      "normalized": "investigator"
-    },
-    {
-      "displayed": "chaosBag",
-      "normalized": "chaosbag"
-    },
-    {
-      "displayed": "CampaignBox",
-      "normalized": "campaignbox"
     },
     {
       "displayed": "CameraZoom_ignore",
@@ -77,6 +37,42 @@
       "normalized": "universaltoken"
     },
     {
+      "displayed": "CleanUpHelper_ignore",
+      "normalized": "cleanuphelper_ignore"
+    },
+    {
+      "displayed": "CleanUpHelper_enforce",
+      "normalized": "cleanuphelper_enforce"
+    },
+    {
+      "displayed": "Asset",
+      "normalized": "asset"
+    },
+    {
+      "displayed": "PlayerCard",
+      "normalized": "playercard"
+    },
+    {
+      "displayed": "ScenarioCard",
+      "normalized": "scenariocard"
+    },
+    {
+      "displayed": "Location",
+      "normalized": "location"
+    },
+    {
+      "displayed": "Minicard",
+      "normalized": "minicard"
+    },
+    {
+      "displayed": "Investigator",
+      "normalized": "investigator"
+    },
+    {
+      "displayed": "CampaignBox",
+      "normalized": "campaignbox"
+    },
+    {
       "displayed": "CampaignLog",
       "normalized": "campaignlog"
     },
@@ -85,16 +81,8 @@
       "normalized": "campaignguide"
     },
     {
-      "displayed": "i18n_XML",
-      "normalized": "i18n_xml"
-    },
-    {
       "displayed": "TarotDeckBag",
       "normalized": "tarotdeckbag"
-    },
-    {
-      "displayed": "PlayermatExtension",
-      "normalized": "playermatextension"
     }
   ]
 }

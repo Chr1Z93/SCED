@@ -1,13 +1,13 @@
 {
   "ColorDiffuse": {
-    "r": 0.907665849,
-    "g": 0.617329955,
-    "b": 0.197659791
+    "b": 0.19766,
+    "g": 0.61733,
+    "r": 0.90767
   },
   "ContainedObjects_order": [
     "Guardian.abd142"
   ],
-  "ContainedObjects_path": "Investigatortokens.0203af",
+  "ContainedObjects_path": "InvestigatorTokens.0203af",
   "CustomMesh": {
     "DiffuseURL": "https://steamusercontent-a.akamaihd.net/ugc/18088389454677424100/DBFA0D966ADD2E92E49F0452CF1595A2C066CDA5/",
     "MaterialIndex": 3,

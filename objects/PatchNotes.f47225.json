@@ -13,7 +13,6 @@
         "posZ": 0.66,
         "rotX": 90,
         "rotY": 180,
-        "rotZ": 0,
         "scaleX": 0.6,
         "scaleY": 0.6,
         "scaleZ": 1
@@ -32,7 +31,6 @@
         "posZ": -0.567,
         "rotX": 90,
         "rotY": 205,
-        "rotZ": 0,
         "scaleX": 0.3,
         "scaleY": 0.3,
         "scaleZ": 1
@@ -46,12 +44,10 @@
       },
       "OwnerSteamID": 0,
       "Transform": {
-        "posX": 0,
         "posY": 0.105,
         "posZ": -0.81,
         "rotX": 90,
         "rotY": 180,
-        "rotZ": 0,
         "scaleX": 2.4,
         "scaleY": 0.009,
         "scaleZ": 1
@@ -86,9 +82,7 @@
     "posX": 3,
     "posY": 1.481,
     "posZ": -85,
-    "rotX": 0,
     "rotY": 270,
-    "rotZ": 0,
     "scaleX": 8,
     "scaleY": 1,
     "scaleZ": 8
