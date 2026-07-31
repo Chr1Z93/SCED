@@ -412,28 +412,22 @@ function processCard(cardData)
     return true
   end
 
-  local hasPlayerCardTag   = false
-  local hasScenarioCardTag = false
-
+  local newBack
   for _, tag in ipairs(cardData["Tags"]) do
-    if tag == "PlayerCard" then
-      hasPlayerCardTag = true
-    elseif tag == "ScenarioCard" then
-      hasScenarioCardTag = true
+    local back = CARD_BACK_URL[tag]
+    if back then
+      if newBack then
+        log("Multiple back tags for '" .. cardData["Nickname"] .. "'.")
+        return false
+      end
+
+      newBack = back
     end
   end
 
-  -- has both or neither tag, can't work out back
-  if hasPlayerCardTag == hasScenarioCardTag then
-    log("Missing or double tag for '" .. cardData["Nickname"] .. "'.")
+  if not newBack then
+    log("Missing back tag for '" .. cardData["Nickname"] .. "'.")
     return false
-  end
-
-  local newBack
-  if hasPlayerCardTag then
-    newBack = CARD_BACK_URL.PlayerCard
-  elseif hasScenarioCardTag then
-    newBack = CARD_BACK_URL.ScenarioCard
   end
 
   customDeckData["BackURL"] = newBack
