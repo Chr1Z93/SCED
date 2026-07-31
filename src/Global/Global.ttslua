@@ -5479,23 +5479,30 @@ function maybeReadyCard(params)
     yRotDiff = yRotDiff + 360
   end
 
+  -- determine target rotation
+  local targetRotY = ownerRotation.y
+
+  -- might need to add an offset for specific double-sided cards
+  if card.hasTag("DynamicAltView") and card.is_face_down == card.hasTag("Sideways") then
+    targetRotY = targetRotY - 90
+  end
+
   -- rotate cards to the next multiple of 90° towards 0°
-  local cardRotY = ownerRotation.y
   if yRotDiff > 90 and yRotDiff <= 180 then
-    cardRotY = ownerRotation.y + 90
+    targetRotY = ownerRotation.y + 90
   elseif yRotDiff > 180 and yRotDiff < 270 then
-    cardRotY = ownerRotation.y + 270
+    targetRotY = ownerRotation.y + 270
   end
 
   -- optionally use a smooth rotation
   if smooth then
-    card.setRotationSmooth(cardRotation:setAt("y", cardRotY))
+    card.setRotationSmooth(cardRotation:setAt("y", targetRotY))
   else
-    card.setRotation(cardRotation:setAt("y", cardRotY))
+    card.setRotation(cardRotation:setAt("y", targetRotY))
   end
 
   -- returns whether the card is now fully readied (and wasn't ready before)
-  return (cardRotY == ownerRotation.y) and (roundedRotY ~= ownerRotation.y)
+  return (targetRotY == ownerRotation.y) and (roundedRotY ~= ownerRotation.y)
 end
 
 -- checks if a card is exhausted, according to the rotation settings of its playermat
