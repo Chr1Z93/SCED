@@ -361,7 +361,6 @@ function loadCards(slots, investigatorId, bondedList, deckMeta, playerColor, loa
     })
   end
 
-  updateStartingResources(playerColor, resourceModifier)
   handleAllAttachments(cardsToSpawn, slotsCopy, bondedList, deckMeta, playerColor)
   handleExtraDeck(investigatorId, cardsToSpawn, deckMeta, playerColor)
   handleCustomizableUpgrades(cardsToSpawn, deckMeta)
@@ -371,7 +370,11 @@ function loadCards(slots, investigatorId, bondedList, deckMeta, playerColor, loa
   local zoneDecks = buildZoneLists(cardsToSpawn)
 
   -- Check for existing cards in zones and maybe skip them
-  removeBusyZones(playerColor, zoneDecks)
+  local skippedDeck = removeBusyZones(playerColor, zoneDecks)
+
+  if not skippedDeck then
+    updateStartingResources(playerColor, resourceModifier)
+  end
 
   -- Spawn attachment helpers if option is enabled
   if GlobalApi.getOptionPanelState()["showAttachmentHelper"] then
@@ -522,6 +525,7 @@ end
 -- removes zones from list if they are occupied
 ---@param playerColor string Color this deck is being loaded for
 ---@param zoneDecks table Table with zoneName as index: {zoneName=card list}
+---@return boolean true If the deck was skipped due to existing cards
 function removeBusyZones(playerColor, zoneDecks)
   -- check for existing investigator
   for _, matColor in ipairs(matsWithInvestigator) do
@@ -572,6 +576,7 @@ function removeBusyZones(playerColor, zoneDecks)
     zoneDecks["UnderSetAside6"] = nil
     zoneDecks["Deck"] = nil
     printToAll("Skipped deck import", playerColor)
+    return true
   end
 end
 
