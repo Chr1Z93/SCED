@@ -16,12 +16,8 @@ jobs:
     steps:
       - uses: actions/checkout@v6.0.2
 
-      - name: Download TTSModManager
-        run: wget https://github.com/argonui/TTSModManager/releases/download/v1.3/TTSModManager-Linux
-        shell: bash
-
       - name: Make TTSModManager executable
-        run: chmod +x TTSModManager-Linux
+        run: chmod +x .vscode/bin/TTSModManager
         shell: bash
 
       - name: Set dynamic filename
@@ -37,7 +33,7 @@ jobs:
           fi
 
       - name: Run TTSModManager
-        run: ./TTSModManager-Linux -moddir="./" -modfile="./${{ env.filename }}"
+        run: ./.vscode/bin/TTSModManager -moddir="./" -modfile="./${{ env.filename }}"
         shell: bash
 
       - name: Upload built mod
