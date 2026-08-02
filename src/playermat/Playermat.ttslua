@@ -1321,7 +1321,7 @@ function onClick_discardButton(player, clickType, elementId)
 end
 
 function onClick_hideOrShowOptions(player)
-  GlobalApi.changeWindowVisibility(player.color, "optionPanelMain", _, self)
+  GlobalApi.changeWindowVisibility(player.color, "optionPanelMain", nil, self)
   Wait.frames(function() updateSave() end, 3)
 end
 

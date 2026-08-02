@@ -924,14 +924,11 @@ function removeTokenFromPlay(params)
     return
   end
 
-  local functionName
-  local tokenLabel
+  local functionName = "returnAndSeal"
+  local tokenLabel   = "Seal"
   if removeTokenData.type == "redraw" then
     functionName = "returnAndRedraw"
-    tokenLabel = "Redraw"
-  else
-    functionName = "returnAndSeal"
-    tokenLabel = "Seal"
+    tokenLabel   = "Redraw"
   end
 
   -- nil handling
@@ -966,7 +963,7 @@ function removeTokenFromPlay(params)
   elseif #matchingTokensInPlay == #matchingCanceledTokens then
     broadcastToAll("All matching tokens are already cancelled / ignored and thus not available for this effect.", "Red")
   elseif #matchingTokensInPlay == 1 then
-    _G[functionName](_, matchingTokensInPlay[1].getGUID())
+    _G[functionName](nil, matchingTokensInPlay[1].getGUID())
   else
     createTokenLabel(matchingTokensInPlay, functionName, tokenLabel)
   end
