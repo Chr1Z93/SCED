@@ -62,7 +62,7 @@ function resetSealedTokens()
 end
 
 function releaseAllTokensWrapper(params)
-  releaseAllTokens(params.playerColor, _, _, params.filterName, params.silent)
+  releaseAllTokens(params.playerColor, nil, nil, params.filterName, params.silent)
 end
 
 function releaseAllTokens(playerColor, _, _, filterName, silent)
@@ -189,7 +189,7 @@ function onClick_sidebutton(player, clickType, buttonId)
   else
     -- bless token was sealed
     local mat = GUIDReferenceApi.getObjectByOwnerAndType(buttonId, "Playermat")
-    local drawnToken = ChaosBagApi.drawChaosToken(mat, true, _, buttonData[buttonId])
+    local drawnToken = ChaosBagApi.drawChaosToken(mat, true, nil, buttonData[buttonId])
     if drawnToken then
       buttonData[buttonId] = false
       local handColor = PlayermatApi.getPlayerColor(buttonId)

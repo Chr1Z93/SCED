@@ -804,13 +804,16 @@ function updateSurface(newURL)
   local customInfo = self.getCustomObject()
 
   if newURL ~= "" and newURL ~= nil and newURL ~= DEFAULT_URL then
-    customInfo.image = newURL
     broadcastToAll("New Playarea Image Applied", "Green")
   else
-    customInfo.image = DEFAULT_URL
+    newURL = DEFAULT_URL
     broadcastToAll("Default Playarea Image Applied", "Green")
   end
 
+  -- skip the reload if this is already the existing URL
+  if newURL == customInfo.image then return end
+
+  customInfo.image = newURL
   self.setCustomObject(customInfo)
   updateSave()
   self.reload()

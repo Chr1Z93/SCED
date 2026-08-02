@@ -1,29 +1,31 @@
--- Deck Dashboard v2 by Rollingsnake
+-- Deck Dashboard v3.2 by Rollingsnake
+
+-- Textures
 
 local BOARD_TEXTURES             = {
   Neutral = {
-    m30 = "https://steamusercontent-a.akamaihd.net/ugc/14888629053602587420/49FA5133EFAA6EF435A37964CCBDB61EC8BD261B/",
-    m50 = "https://steamusercontent-a.akamaihd.net/ugc/18126433656922172292/421AD9B2D546B65B16B9A478E9092EBCFF4B1F7F/"
+    m30 = "https://steamusercontent-a.akamaihd.net/ugc/10930611583163488099/DDC0C113548EA70571E0B8E02D59285032F8E172/",
+    m50 = "https://steamusercontent-a.akamaihd.net/ugc/16901506604488824176/1699FF191E5DED16CF8A1FC51C10172E80FE36FB/"
   },
   Guardian = {
-    m30 = "https://steamusercontent-a.akamaihd.net/ugc/11707044501807037898/FCF9EA380868C72BBD0450443FFAF23077857BF3/",
-    m50 = "https://steamusercontent-a.akamaihd.net/ugc/17934063452843689358/D17C5175EFB44186236BB04A51E24382FD7490F9/"
+    m30 = "https://steamusercontent-a.akamaihd.net/ugc/17169850574332468404/1992495BDA8E9E5E9BE361295B2C547F2B74A258/",
+    m50 = "https://steamusercontent-a.akamaihd.net/ugc/18065063376790178230/18BAACB9EFF46A0122D8219C83D39D8FA4ED14B1/"
   },
   Seeker = {
-    m30 = "https://steamusercontent-a.akamaihd.net/ugc/11116413200688103348/F26CFD0B885EB0CCB79A10F4F270F3E4D31C2200/",
-    m50 = "https://steamusercontent-a.akamaihd.net/ugc/10896908200429825824/9BE489CBE544A4773E9CA00D2C47679A3BE5408B/"
+    m30 = "https://steamusercontent-a.akamaihd.net/ugc/15692538794608391833/2BE4CE2D21BD7E46C36767D4040B0FEB0541DF8E/",
+    m50 = "https://steamusercontent-a.akamaihd.net/ugc/14432596416838611777/A29B4B1F340921DE370B53E1EAC70EE079109447/"
   },
   Rogue = {
-    m30 = "https://steamusercontent-a.akamaihd.net/ugc/10495095420347116245/3C832B10AF8FB4CE2183EF556C732BEF09E9BD93/",
-    m50 = "https://steamusercontent-a.akamaihd.net/ugc/13804159854184648735/B9D3B2483035A182F8B82B2B571F754B917004CE/"
+    m30 = "https://steamusercontent-a.akamaihd.net/ugc/13270955278469799915/144F0C275D664AF22B10A6F513767822D67802BD/",
+    m50 = "https://steamusercontent-a.akamaihd.net/ugc/13746772510542595283/320CA034B6E29B6FF356AFF4E879D6C7377A87F2/"
   },
   Mystic = {
-    m30 = "https://steamusercontent-a.akamaihd.net/ugc/13526715166195104380/75B8EAF2EE6AE7A6680B980CAF7895CCED713826/",
-    m50 = "https://steamusercontent-a.akamaihd.net/ugc/15737055622824286270/631F81B6904EBC2F94F1BA331A5C9C95767AFE67/"
+    m30 = "https://steamusercontent-a.akamaihd.net/ugc/17537972251263736988/4650C82CDED23B587237BDA1CD6FD28CC402E9E6/",
+    m50 = "https://steamusercontent-a.akamaihd.net/ugc/10745929622497685737/D2148B8E1117CAAC54B724DA7AA6B9238AC63213/"
   },
   Survivor = {
-    m30 = "https://steamusercontent-a.akamaihd.net/ugc/14140580771248157661/F45CEA13365C2652F0DA0E0C4B1FA1D9D2E8703E/",
-    m50 = "https://steamusercontent-a.akamaihd.net/ugc/16847524876785583566/CC1617298450A1749EDB2DC6C15B504CEFD75DEE/"
+    m30 = "https://steamusercontent-a.akamaihd.net/ugc/17388099104076991449/C68672BDFFA35903AB182A6BF2BD1B046AFEDE58/",
+    m50 = "https://steamusercontent-a.akamaihd.net/ugc/13280846733583172302/E340441F22F2D5D7921BACB88F313EA3B361044D/"
   }
 }
 
@@ -35,56 +37,94 @@ local SNAP_HEIGHT                = 0.12
 local BOARD_CAPTURE_MARGIN_X     = 0.60
 local BOARD_CAPTURE_MARGIN_Z     = 0.60
 
+-- XP counter
+local XP_REFRESH_DELAY           = 0.80
+local XP_BUTTON_INDEX            = 0
+local XP_MODIFIER_BUTTON_INDEX   = 1
+local DECK_SIZE_BUTTON_INDEX     = 2
+
+-- Deck export
+local EXPORT_BUTTON_INDEX        = 3
+local EXPORT_STACK_OFFSET_X      = -0.3
+local EXPORT_STACK_HEIGHT        = 0.85
+local EXPORT_CARD_DELAY_FRAMES   = 2
+
+-- Object detection uses actual snap-slot positions rather than one large
+-- rectangular board area. This keeps the exported stack outside XP counting.
+local MAIN_SLOT_CAPTURE_X        = 0.105
+local MAIN_SLOT_CAPTURE_Z        = 0.155
+local AUX_SLOT_CAPTURE_X         = 0.115
+local AUX_SLOT_CAPTURE_Z         = 0.180
+
 local BOARD_LAYOUTS              = {
   m30 = {
-    boardObjectScale  = 10.25,
+    boardObjectScale  = 9.52,
     coordinateScaleX  = 1.000,
     coordinateScaleZ  = 1.000,
     coordinateOffsetX = -0.263,
     coordinateOffsetZ = 0.195,
-    topSlotZ          = -0.934,
-    topSlots          = {
-      { x = 1.219, rotationY = 90 },
-      { x = 0.860, rotationY = 90 },
-      { x = 0.605, rotationY = 0 }
+    buttonScale       = 0.200,
+    buttonPositions   = {
+      xp       = { -1.14, 0.18, -1.07 },
+      modifier = { -0.92, 0.18, -1.07 },
+      deckSize = { 0.00, 0.18, -1.07 },
+      export   = { 1.14, 0.18, -1.07 }
     },
-    sideSlotZ         = -0.911,
-    sideSlotXs        = { 0.326, 0.101, -0.126, -0.352, -0.577, -0.803 },
-    cardGridColumnXs  = { 1.289, 1.060, 0.834, 0.605, 0.377, 0.111, -0.117, -0.346, -0.574, -0.803 },
-    cardGridRowZs     = { -0.497, -0.164, 0.158, 0.479 }
+    topSlotZ          = -0.966,
+    topSlots          = {
+      { x = 1.327, rotationY = 90 },
+      { x = 0.927, rotationY = 90 },
+      { x = 0.642, rotationY = 0 }
+    },
+    sideSlotZ         = -0.939,
+    sideSlotXs        = { 0.388, 0.137, -0.114, -0.366, -0.617, -0.870 },
+    cardGridColumnXs  = { 1.398, 1.145, 0.893, 0.640, 0.388, 0.137, -0.114, -0.366, -0.617, -0.870 },
+    cardGridRowZs     = { -0.477, -0.131, 0.215, 0.562 }
   },
   m50 = {
-    boardObjectScale  = 13.61,
+    boardObjectScale  = 12.94,
     coordinateScaleX  = 0.755,
     coordinateScaleZ  = 0.755,
     coordinateOffsetX = -0.190,
     coordinateOffsetZ = 0.200,
-    topSlotZ          = -1.305,
-    topSlots          = {
-      { x = 1.226, rotationY = 90 },
-      { x = 0.864, rotationY = 90 },
-      { x = 0.609, rotationY = 0 }
+
+    buttonScale       = 0.151,
+    buttonPositions   = {
+      xp       = { -0.845, 0.18, -1.05 },
+      modifier = { -0.680, 0.18, -1.05 },
+      deckSize = { 0.025, 0.18, -1.05 },
+      export   = { 0.831, 0.18, -1.05 }
     },
-    sideSlotZ         = -1.282,
-    sideSlotXs        = { 0.331, 0.108, -0.117, -0.343, -0.568, -0.794 },
-    cardGridColumnXs  = { 1.294, 1.066, 0.839, 0.608, 0.384, 0.117, -0.110, -0.337, -0.566, -0.792 },
-    cardGridRowZs     = { -0.866, -0.542, -0.214, 0.111, 0.436, 0.759 }
+    topSlotZ          = -1.357,
+    topSlots          = {
+      { x = 1.286, rotationY = 90 },
+      { x = 0.895, rotationY = 90 },
+      { x = 0.618, rotationY = 0 }
+    },
+    sideSlotZ         = -1.330,
+    sideSlotXs        = { 0.371, 0.126, -0.120, -0.365, -0.611, -0.856 },
+    cardGridColumnXs  = { 1.353, 1.107, 0.862, 0.617, 0.371, 0.126, -0.120, -0.365, -0.611, -0.856 },
+    cardGridRowZs     = { -0.879, -0.539, -0.204, 0.133, 0.470, 0.806 }
   }
 }
 
 local PROTECTED_OBJECT_TYPES     = {
-  Card         = true,
-  Deck         = true,
-  Tile         = true,
-  Custom_Tile  = true,
+  Card = true,
+  Deck = true,
+  Tile = true,
+  Custom_Tile = true,
   Custom_Token = true,
-  Figurine     = true,
-  Bag          = true
+  Figurine = true,
+  Bag = true
 }
 
 local currentDeckMode            = DEFAULT_DECK_MODE
 local currentInvestigatorClass   = DEFAULT_INVESTIGATOR_CLASS
 local collisionEnabled           = false
+local currentExperience          = 0
+local experienceModifier         = 0
+local xpRefreshVersion           = 0
+local exportInProgress           = false
 
 -- Loading and saving
 
@@ -92,39 +132,99 @@ function onLoad(savedData)
   collisionEnabled = false
 
   if savedData and savedData ~= "" then
-    local savedState         = JSON.decode(savedData)
-    currentDeckMode          = savedState.deckMode or DEFAULT_DECK_MODE
+    local savedState = JSON.decode(savedData)
+    currentDeckMode = savedState.deckMode or DEFAULT_DECK_MODE
     currentInvestigatorClass = savedState.investigatorClass or DEFAULT_INVESTIGATOR_CLASS
+    experienceModifier = tonumber(savedState.experienceModifier) or 0
   end
 
-  createDeckSizeButton()
+  createDashboardButtons()
   applySnapPoints(self)
   Wait.frames(function() applyBoardScale(self) end, 2)
-  Wait.time(function() collisionEnabled = true end, 0.5)
+  Wait.time(function()
+    collisionEnabled = true
+    refreshExperience()
+  end, 0.5)
 end
 
 function saveBoardState()
   self.script_state = JSON.encode({
     deckMode = currentDeckMode,
-    investigatorClass = currentInvestigatorClass
+    investigatorClass = currentInvestigatorClass,
+    experienceModifier = experienceModifier
   })
 end
 
--- Deck size button
+-- Deck button
 
-function createDeckSizeButton()
+function createDashboardButtons()
   self.clearButtons()
+
+  local activeLayout = getActiveLayout()
+  local buttonPositions = activeLayout.buttonPositions
+  local buttonScale = activeLayout.buttonScale
+
+  -- Button index 0: total XP / manual refresh
+  self.createButton({
+    click_function = "refreshExperience",
+    function_owner = self,
+    position       = buttonPositions.xp,
+    rotation       = { 0, 0, 0 },
+    scale          = { buttonScale, 1, buttonScale },
+    width          = 650,
+    height         = 220,
+    font_size      = 120,
+    label          = getExperienceLabel(),
+    tooltip        = "Total XP including manual modifier. Click to refresh XP from cards on this board.",
+    color          = { 0.15, 0.12, 0.08, 0.55 },
+    font_color     = { 1, 0.92, 0.75, 1 }
+  })
+
+  -- Button index 1: manual XP modifier
+  self.createButton({
+    click_function = "modifyExperience",
+    function_owner = self,
+    position       = buttonPositions.modifier,
+    rotation       = { 0, 0, 0 },
+    scale          = { buttonScale, 1, buttonScale },
+    width          = 380,
+    height         = 220,
+    font_size      = 120,
+    label          = getExperienceModifierLabel(),
+    tooltip        = "Click to modify total XP\nLeft/Right Click to +1/-1 XP",
+    color          = { 0.15, 0.12, 0.08, 0.55 },
+    font_color     = { 1, 0.92, 0.75, 1 }
+  })
+
+  -- Button index 2: deck size
   self.createButton({
     click_function = "switchDeckSize",
     function_owner = self,
-    position       = { 0, 0.18, -1.06 },
+    position       = buttonPositions.deckSize,
     rotation       = { 0, 0, 0 },
-    scale          = { 0.2, 1, 0.2 },
+    scale          = { buttonScale, 1, buttonScale },
     width          = 350,
-    height         = 250,
-    font_size      = 200,
+    height         = 220,
+    font_size      = 120,
     label          = getDeckSizeLabel(),
     tooltip        = "Switch between 30-card and 50-card dashboard",
+    color          = { 0.15, 0.12, 0.08, 0.55 },
+    font_color     = { 1, 0.92, 0.75, 1 }
+  })
+
+  -- Button index 3: export the main card grid as one stack
+  self.createButton({
+    click_function = "exportDeck",
+    function_owner = self,
+    position       = buttonPositions.export,
+    rotation       = { 0, 0, 0 },
+    scale          = { buttonScale, 1, buttonScale },
+    width          = 750,
+    height         = 220,
+    font_size      = 110,
+    label          = "EXPORT",
+    tooltip        =
+    "Copy all cards in the main deck area into one deck right beside the dashboard. Top permanent slots are excluded.",
     color          = { 0.15, 0.12, 0.08, 0.55 },
     font_color     = { 1, 0.92, 0.75, 1 }
   })
@@ -137,7 +237,7 @@ end
 function switchDeckSize()
   currentDeckMode = currentDeckMode == "m30" and "m50" or "m30"
   saveBoardState()
-  self.editButton({ index = 0, label = getDeckSizeLabel() })
+  self.editButton({ index = DECK_SIZE_BUTTON_INDEX, label = getDeckSizeLabel() })
   reloadBoardTexture()
 end
 
@@ -146,13 +246,20 @@ end
 function onCollisionEnter(collisionInfo)
   if not collisionEnabled then return end
 
-  local collidedCard = collisionInfo.collision_object
-  if collidedCard.type ~= "Card" then return end
+  local collidedObject = collisionInfo.collision_object
+  if not collidedObject then return end
 
-  local cardLocalPosition = self.positionToLocal(collidedCard.getPosition())
+  if collidedObject.type == "Card" or collidedObject.type == "Deck" then
+    scheduleExperienceRefresh()
+  end
+
+  -- Investigator detection only applies to individual cards.
+  if collidedObject.type ~= "Card" then return end
+
+  local cardLocalPosition = self.positionToLocal(collidedObject.getPosition())
   if not isInsideInvestigatorSlot(cardLocalPosition) then return end
 
-  local decodedSuccessfully, cardMetadata = pcall(JSON.decode, collidedCard.getGMNotes())
+  local decodedSuccessfully, cardMetadata = pcall(JSON.decode, collidedObject.getGMNotes())
   if not decodedSuccessfully or not cardMetadata then return end
   if cardMetadata.type ~= "Investigator" then return end
   if not BOARD_TEXTURES[cardMetadata.class] then return end
@@ -164,6 +271,17 @@ function onCollisionEnter(collisionInfo)
   reloadBoardTexture()
 end
 
+function onCollisionExit(collisionInfo)
+  if not collisionEnabled then return end
+
+  local collidedObject = collisionInfo.collision_object
+  if not collidedObject then return end
+
+  if collidedObject.type == "Card" or collidedObject.type == "Deck" then
+    scheduleExperienceRefresh()
+  end
+end
+
 function isInsideInvestigatorSlot(cardLocalPosition)
   local activeLayout = getActiveLayout()
   local investigatorSlot = activeLayout.topSlots[1]
@@ -171,6 +289,422 @@ function isInsideInvestigatorSlot(cardLocalPosition)
 
   return math.abs(cardLocalPosition.x - slotX) <= 0.55
       and math.abs(cardLocalPosition.z - slotZ) <= 0.35
+end
+
+-- Experience counter
+
+function getExperienceLabel()
+  return "XP: " .. tostring(currentExperience + experienceModifier)
+end
+
+function getExperienceModifierLabel()
+  if experienceModifier >= 0 then
+    return "+" .. tostring(experienceModifier)
+  end
+
+  return tostring(experienceModifier)
+end
+
+function updateExperienceButtons()
+  self.editButton({
+    index = XP_BUTTON_INDEX,
+    label = getExperienceLabel()
+  })
+
+  self.editButton({
+    index = XP_MODIFIER_BUTTON_INDEX,
+    label = getExperienceModifierLabel()
+  })
+end
+
+function modifyExperience(_, _, altClick)
+  if altClick then
+    experienceModifier = experienceModifier - 1
+  else
+    experienceModifier = experienceModifier + 1
+  end
+
+  updateExperienceButtons()
+  saveBoardState()
+end
+
+function scheduleExperienceRefresh()
+  xpRefreshVersion = xpRefreshVersion + 1
+  local scheduledVersion = xpRefreshVersion
+
+  Wait.time(function()
+    if scheduledVersion ~= xpRefreshVersion then return end
+    refreshExperience()
+  end, XP_REFRESH_DELAY)
+end
+
+function refreshExperience()
+  local newExperience = calculateExperienceOnBoard()
+
+  if newExperience ~= currentExperience then
+    currentExperience = newExperience
+    self.editButton({
+      index = XP_BUTTON_INDEX,
+      label = getExperienceLabel()
+    })
+  end
+
+  return currentExperience + experienceModifier
+end
+
+function calculateExperienceOnBoard()
+  local totalExperience = 0
+
+  for _, worldObject in ipairs(collectExperienceObjects()) do
+    if worldObject.type == "Card" then
+      totalExperience = totalExperience
+          + getCardExperience(worldObject.getGMNotes())
+    elseif worldObject.type == "Deck" then
+      for _, containedCard in ipairs(worldObject.getObjects()) do
+        totalExperience = totalExperience
+            + getCardExperience(containedCard.gm_notes)
+      end
+    end
+  end
+
+  return totalExperience
+end
+
+function collectExperienceObjects()
+  local collectedObjects = {}
+  local boardGuid = self.getGUID()
+  local boardBounds = calculateSnapBounds()
+  local boundsMarginX = math.max(MAIN_SLOT_CAPTURE_X, AUX_SLOT_CAPTURE_X, AUX_SLOT_CAPTURE_Z)
+  local boundsMarginZ = math.max(MAIN_SLOT_CAPTURE_Z, AUX_SLOT_CAPTURE_X, AUX_SLOT_CAPTURE_Z)
+
+  for _, worldObject in ipairs(getAllObjects()) do
+    if worldObject.getGUID() ~= boardGuid
+        and (worldObject.type == "Card"
+          or worldObject.type == "Deck") then
+      local localPosition =
+          self.positionToLocal(worldObject.getPosition())
+
+      -- Fast rectangular rejection before checking every individual slot.
+      local insideBoardBounds =
+          localPosition.x >= boardBounds.minX - boundsMarginX
+          and localPosition.x <= boardBounds.maxX + boundsMarginX
+          and localPosition.z >= boardBounds.minZ - boundsMarginZ
+          and localPosition.z <= boardBounds.maxZ + boundsMarginZ
+
+      -- XP includes cards in the main grid, top slots and side slots,
+      -- but excludes nearby objects such as the exported deck.
+      if insideBoardBounds
+          and isPositionInsideAnyBoardSlot(localPosition) then
+        table.insert(collectedObjects, worldObject)
+      end
+    end
+  end
+
+  return collectedObjects
+end
+
+function getCardExperience(gmNotes)
+  local metadata = decodeCardMetadata(gmNotes)
+  if not metadata then return 0 end
+
+  local cardLevel = tonumber(metadata.level)
+  if not cardLevel or cardLevel < 0 then return 0 end
+
+  return cardLevel
+end
+
+function decodeCardMetadata(gmNotes)
+  if not gmNotes or gmNotes == "" then return nil end
+
+  local decodedSuccessfully, metadata =
+      pcall(JSON.decode, gmNotes)
+
+  if not decodedSuccessfully
+      or type(metadata) ~= "table" then
+    return nil
+  end
+
+  return metadata
+end
+
+function isPositionInsideAnyBoardSlot(localPosition)
+  local activeLayout = getActiveLayout()
+
+  -- Main deck grid.
+  for _, sourceZ in ipairs(activeLayout.cardGridRowZs) do
+    for _, sourceX in ipairs(activeLayout.cardGridColumnXs) do
+      local slotX, slotZ =
+          convertLayoutPoint(activeLayout, sourceX, sourceZ)
+
+      if isPositionNearSlot(
+            localPosition,
+            slotX,
+            slotZ,
+            MAIN_SLOT_CAPTURE_X,
+            MAIN_SLOT_CAPTURE_Z
+          ) then
+        return true
+      end
+    end
+  end
+
+  -- Investigator/signature/permanent slots.
+  for _, topSlot in ipairs(activeLayout.topSlots) do
+    local slotX, slotZ =
+        convertLayoutPoint(
+          activeLayout,
+          topSlot.x,
+          activeLayout.topSlotZ
+        )
+
+    local toleranceX = AUX_SLOT_CAPTURE_X
+    local toleranceZ = AUX_SLOT_CAPTURE_Z
+
+    -- Rotated cards have their long and short sides exchanged.
+    if topSlot.rotationY == 90
+        or topSlot.rotationY == 270 then
+      toleranceX = AUX_SLOT_CAPTURE_Z
+      toleranceZ = AUX_SLOT_CAPTURE_X
+    end
+
+    if isPositionNearSlot(
+          localPosition,
+          slotX,
+          slotZ,
+          toleranceX,
+          toleranceZ
+        ) then
+      return true
+    end
+  end
+
+  -- Side permanent slots.
+  for _, sourceX in ipairs(activeLayout.sideSlotXs) do
+    local slotX, slotZ =
+        convertLayoutPoint(
+          activeLayout,
+          sourceX,
+          activeLayout.sideSlotZ
+        )
+
+    if isPositionNearSlot(
+          localPosition,
+          slotX,
+          slotZ,
+          AUX_SLOT_CAPTURE_X,
+          AUX_SLOT_CAPTURE_Z
+        ) then
+      return true
+    end
+  end
+
+  return false
+end
+
+function isPositionNearSlot(
+    localPosition,
+    slotX,
+    slotZ,
+    toleranceX,
+    toleranceZ
+)
+  return math.abs(localPosition.x - slotX) <= toleranceX
+      and math.abs(localPosition.z - slotZ) <= toleranceZ
+end
+
+-- Deck export
+
+function exportDeck(_, playerColor, altClick)
+  if exportInProgress then
+    if playerColor then
+      printToColor("Deck export is already in progress.", playerColor, { 1, 0.75, 0.25 })
+    end
+    return
+  end
+
+  local sourceObjects = collectMainGridObjects()
+  if #sourceObjects == 0 then
+    if playerColor then
+      printToColor("No cards found in the main deck grid.", playerColor, { 1, 0.75, 0.25 })
+    else
+      print("No cards found in the main deck grid.")
+    end
+    return
+  end
+
+  exportInProgress = true
+  collisionEnabled = false
+
+  local stackPosition = getExportStackWorldPosition()
+  local stackRotation = self.getRotation()
+
+  -- Exported cards are placed face down.
+  stackRotation.x = 0
+  stackRotation.z = 180
+
+  local createdObjects = {}
+
+  for index, sourceObject in ipairs(sourceObjects) do
+    Wait.frames(function()
+      if sourceObject then
+        local clone = sourceObject.clone({
+          position = {
+            stackPosition.x,
+            stackPosition.y + (index - 1) * 0.12,
+            stackPosition.z
+          },
+          rotation = stackRotation,
+          smooth   = false
+        })
+
+        if clone then
+          clone.setLock(false)
+          clone.resting = false
+          table.insert(createdObjects, clone)
+        end
+      end
+    end, (index - 1) * EXPORT_CARD_DELAY_FRAMES)
+  end
+
+  Wait.frames(function()
+    exportInProgress = false
+    collisionEnabled = true
+    scheduleExperienceRefresh()
+
+    if playerColor then
+      printToColor(
+        "Copied " .. tostring(#sourceObjects) .. " card object(s) into one exported stack.",
+        playerColor,
+        { 0.65, 1, 0.65 }
+      )
+    end
+  end, #sourceObjects * EXPORT_CARD_DELAY_FRAMES + 30)
+end
+
+function collectMainGridObjects()
+  local collectedObjects = {}
+  local boardGuid = self.getGUID()
+
+  for _, worldObject in ipairs(getAllObjects()) do
+    if worldObject.getGUID() ~= boardGuid
+        and (worldObject.type == "Card"
+          or worldObject.type == "Deck")
+        and not worldObject.getLock() then
+      local localPosition =
+          self.positionToLocal(worldObject.getPosition())
+
+      -- Export only cards actually occupying main-grid snap slots.
+      -- Top and side permanent slots are intentionally excluded.
+      if isPositionInsideMainGridSlot(localPosition) then
+        table.insert(collectedObjects, {
+          object = worldObject,
+          x = localPosition.x,
+          z = localPosition.z
+        })
+      end
+    end
+  end
+
+  -- Predictable order: top-to-bottom, then left-to-right.
+  table.sort(collectedObjects, function(a, b)
+    if math.abs(a.z - b.z) > 0.03 then
+      return a.z < b.z
+    end
+
+    return a.x > b.x
+  end)
+
+  local result = {}
+
+  for _, item in ipairs(collectedObjects) do
+    table.insert(result, item.object)
+  end
+
+  return result
+end
+
+function isPositionInsideMainGridSlot(localPosition)
+  local activeLayout = getActiveLayout()
+
+  for _, sourceZ in ipairs(activeLayout.cardGridRowZs) do
+    for _, sourceX in ipairs(activeLayout.cardGridColumnXs) do
+      local slotX, slotZ =
+          convertLayoutPoint(activeLayout, sourceX, sourceZ)
+
+      if isPositionNearSlot(
+            localPosition,
+            slotX,
+            slotZ,
+            MAIN_SLOT_CAPTURE_X,
+            MAIN_SLOT_CAPTURE_Z
+          ) then
+        return true
+      end
+    end
+  end
+
+  return false
+end
+
+function calculateMainGridBounds()
+  local activeLayout = getActiveLayout()
+  local minimumX, maximumX = math.huge, -math.huge
+  local minimumZ, maximumZ = math.huge, -math.huge
+
+  local convertedColumns = {}
+  local convertedRows = {}
+
+  for _, sourceX in ipairs(activeLayout.cardGridColumnXs) do
+    local localX = convertLayoutPoint(activeLayout, sourceX, 0)
+    table.insert(convertedColumns, localX)
+    minimumX = math.min(minimumX, localX)
+    maximumX = math.max(maximumX, localX)
+  end
+
+  for _, sourceZ in ipairs(activeLayout.cardGridRowZs) do
+    local _, localZ = convertLayoutPoint(activeLayout, 0, sourceZ)
+    table.insert(convertedRows, localZ)
+    minimumZ = math.min(minimumZ, localZ)
+    maximumZ = math.max(maximumZ, localZ)
+  end
+
+  local columnTolerance = calculateHalfSpacing(convertedColumns, 0.13)
+  local rowTolerance = calculateHalfSpacing(convertedRows, 0.18)
+
+  return {
+    minX = minimumX - columnTolerance,
+    maxX = maximumX + columnTolerance,
+    minZ = minimumZ - rowTolerance,
+    maxZ = maximumZ + rowTolerance
+  }
+end
+
+function calculateHalfSpacing(values, fallback)
+  if #values < 2 then return fallback end
+
+  table.sort(values)
+  local minimumSpacing = math.huge
+
+  for index = 2, #values do
+    minimumSpacing = math.min(minimumSpacing, values[index] - values[index - 1])
+  end
+
+  if minimumSpacing == math.huge or minimumSpacing <= 0 then
+    return fallback
+  end
+
+  return minimumSpacing * 0.48
+end
+
+function getExportStackWorldPosition()
+  local mainGridBounds = calculateMainGridBounds()
+  local localTarget = {
+    x = mainGridBounds.minX + EXPORT_STACK_OFFSET_X,
+    y = EXPORT_STACK_HEIGHT,
+    z = (mainGridBounds.minZ + mainGridBounds.maxZ) / 2
+  }
+
+  return self.positionToWorld(localTarget)
 end
 
 -- Board texture and scale
@@ -182,7 +716,9 @@ function reloadBoardTexture()
   if customObjectConfig.image == targetTexture then
     applyBoardScale(self)
     applySnapPoints(self)
+    createDashboardButtons()
     collisionEnabled = true
+    scheduleExperienceRefresh()
     return
   end
 
@@ -200,6 +736,8 @@ function reloadBoardTexture()
         applyBoardScale(reloadedBoard)
         applySnapPoints(reloadedBoard)
         restoreCapturedObjects(capturedObjects)
+        collisionEnabled = true
+        scheduleExperienceRefresh()
       end, 2)
     end,
     function()

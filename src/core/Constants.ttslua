@@ -3,7 +3,15 @@ CARD_BACK_URL            = {
   ScenarioCard =
   "https://steamusercontent-a.akamaihd.net/ugc/2342503777940351785/F64D8EFB75A9E15446D24343DA0A6EEF5B3E43DB/",
   PlayerCard =
-  "https://steamusercontent-a.akamaihd.net/ugc/2342503777940352139/A2D42E7E5C43D045D72CE5CFC907E4F886C8C690/"
+  "https://steamusercontent-a.akamaihd.net/ugc/2342503777940352139/A2D42E7E5C43D045D72CE5CFC907E4F886C8C690/",
+  Artifact =
+  "https://steamusercontent-a.akamaihd.net/ugc/62595146532712476/4F1C745A4BD1E7F5EA6DA68E2D81F59AC2817D22/",
+  UpgradeSheet =
+  "https://steamusercontent-a.akamaihd.net/ugc/1814412497119682452/BD224FCE1980DBA38E5A687FABFD146AA1A30D0E/",
+  EnemyDeck =
+  "https://steamusercontent-a.akamaihd.net/ugc/2453969771999768294/54768C2E562D30E34B79EB7A94FCDC792E49FC28/",
+  CthulhuDeck =
+  "https://steamusercontent-a.akamaihd.net/ugc/62595146532775345/8D860CB7316FDC55C2506F6E5A3A56810AB440E9/"
 }
 
 -- chaos token data
@@ -36,7 +44,7 @@ SOURCE_REPO              = "https://github.com/Chr1Z93/SCED-downloads/releases/l
 --SOURCE_REPO            = "https://github.com/Chr1Z93/SCED-downloads/releases/download/v1.0.1/"
 
 -- these sites are GitHub proxies to make content accessible in regions that don't have GitHub access
-FALLBACK_MIRRORS = {
+FALLBACK_MIRRORS         = {
   "https://gh.llkk.cc/",
   "https://gh-proxy.com/"
 }
@@ -82,24 +90,24 @@ OPTION_PRESETS           = {
     useResourceCounters  = "enabled"
   },
   Cocoa2512 = {
-    changePlayAreaImage  = true,
-    highlightMinicards   = true,
-    showAttachmentHelper = true,
-    showHandHelper       = true,
-    showSearchAssistant  = true,
-    skipTour             = true,
-    tokenArrangerOdds    = "Full",
+    changePlayAreaImage    = true,
+    highlightMinicards     = true,
+    showAttachmentHelper   = true,
+    showHandHelper         = true,
+    showSearchAssistant    = true,
+    skipTour               = true,
+    tokenArrangerOdds      = "Full",
     showPlayermatExtension = true,
   },
   elderlyman = {
-    showHandHelper       = true,
-    showSearchAssistant  = true,
-    showTokenSplash      = true,
-    skipTour             = true,
-    tokenArrangerOdds    = "Cumulative",
-    useClueClickers      = true,
-    useResourceCounters  = "enabled",
-    tableSetup           = "Rotated (2P)",
+    showHandHelper      = true,
+    showSearchAssistant = true,
+    showTokenSplash     = true,
+    skipTour            = true,
+    tokenArrangerOdds   = "Cumulative",
+    useClueClickers     = true,
+    useResourceCounters = "enabled",
+    tableSetup          = "Rotated (2P)",
   }
 }
 

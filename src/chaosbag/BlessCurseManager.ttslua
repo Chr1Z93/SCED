@@ -10,8 +10,6 @@ buttonParamaters.width          = 700
 buttonParamaters.height         = 700
 
 local updating
-local waitIds                   = {}
-local currentCount              = {}
 
 ---------------------------------------------------------
 -- creating buttons and menus + initializing tables
@@ -194,10 +192,18 @@ function doRemove(color)
     end
   end
 
-  broadcastToColor("Removed " .. count.Bless .. " Bless and " ..
-    count.Curse .. " Curse tokens from the chaos bag.", color, "White")
-  broadcastToColor("Removed " .. removeTakenTokens("Bless") .. " Bless and " ..
-    removeTakenTokens("Curse") .. " Curse tokens from play.", color, "White")
+  if count.Bless > 0 or count.Curse > 0 then
+    broadcastToColor(
+    "Removed " .. count.Bless .. " Bless and " .. count.Curse .. " Curse tokens from the chaos bag.", color, "White")
+  end
+
+  local removedTakenBless = removeTakenTokens("Bless")
+  local removedTakenCurse = removeTakenTokens("Curse")
+
+  if removedTakenBless > 0 or removedTakenCurse > 0 then
+    broadcastToColor(
+    "Removed " .. removedTakenBless .. " Bless and " .. removedTakenCurse .. " Curse tokens from play.", color, "White")
+  end
 
   resetTables()
   updateButtonLabels()

@@ -1,0 +1,377 @@
+{
+  "AttachedSnapPoints": [
+    {
+      "Position": {
+        "x": 1.064,
+        "y": 0.12,
+        "z": -0.771
+      }
+    },
+    {
+      "Position": {
+        "x": 0.664,
+        "y": 0.12,
+        "z": -0.771
+      }
+    },
+    {
+      "Position": {
+        "x": 0.379,
+        "y": 0.12,
+        "z": -0.771
+      }
+    },
+    {
+      "Position": {
+        "x": 0.125,
+        "y": 0.12,
+        "z": -0.744
+      }
+    },
+    {
+      "Position": {
+        "x": -0.126,
+        "y": 0.12,
+        "z": -0.744
+      }
+    },
+    {
+      "Position": {
+        "x": -0.377,
+        "y": 0.12,
+        "z": -0.744
+      }
+    },
+    {
+      "Position": {
+        "x": -0.629,
+        "y": 0.12,
+        "z": -0.744
+      }
+    },
+    {
+      "Position": {
+        "x": -0.88,
+        "y": 0.12,
+        "z": -0.744
+      }
+    },
+    {
+      "Position": {
+        "x": -1.133,
+        "y": 0.12,
+        "z": -0.744
+      }
+    },
+    {
+      "Position": {
+        "x": 1.135,
+        "y": 0.12,
+        "z": -0.282
+      }
+    },
+    {
+      "Position": {
+        "x": 0.882,
+        "y": 0.12,
+        "z": -0.282
+      }
+    },
+    {
+      "Position": {
+        "x": 0.63,
+        "y": 0.12,
+        "z": -0.282
+      }
+    },
+    {
+      "Position": {
+        "x": 0.377,
+        "y": 0.12,
+        "z": -0.282
+      }
+    },
+    {
+      "Position": {
+        "x": 0.125,
+        "y": 0.12,
+        "z": -0.282
+      }
+    },
+    {
+      "Position": {
+        "x": -0.126,
+        "y": 0.12,
+        "z": -0.282
+      }
+    },
+    {
+      "Position": {
+        "x": -0.377,
+        "y": 0.12,
+        "z": -0.282
+      }
+    },
+    {
+      "Position": {
+        "x": -0.629,
+        "y": 0.12,
+        "z": -0.282
+      }
+    },
+    {
+      "Position": {
+        "x": -0.88,
+        "y": 0.12,
+        "z": -0.282
+      }
+    },
+    {
+      "Position": {
+        "x": -1.133,
+        "y": 0.12,
+        "z": -0.282
+      }
+    },
+    {
+      "Position": {
+        "x": 1.135,
+        "y": 0.12,
+        "z": 0.064
+      }
+    },
+    {
+      "Position": {
+        "x": 0.882,
+        "y": 0.12,
+        "z": 0.064
+      }
+    },
+    {
+      "Position": {
+        "x": 0.63,
+        "y": 0.12,
+        "z": 0.064
+      }
+    },
+    {
+      "Position": {
+        "x": 0.377,
+        "y": 0.12,
+        "z": 0.064
+      }
+    },
+    {
+      "Position": {
+        "x": 0.125,
+        "y": 0.12,
+        "z": 0.064
+      }
+    },
+    {
+      "Position": {
+        "x": -0.126,
+        "y": 0.12,
+        "z": 0.064
+      }
+    },
+    {
+      "Position": {
+        "x": -0.377,
+        "y": 0.12,
+        "z": 0.064
+      }
+    },
+    {
+      "Position": {
+        "x": -0.629,
+        "y": 0.12,
+        "z": 0.064
+      }
+    },
+    {
+      "Position": {
+        "x": -0.88,
+        "y": 0.12,
+        "z": 0.064
+      }
+    },
+    {
+      "Position": {
+        "x": -1.133,
+        "y": 0.12,
+        "z": 0.064
+      }
+    },
+    {
+      "Position": {
+        "x": 1.135,
+        "y": 0.12,
+        "z": 0.41
+      }
+    },
+    {
+      "Position": {
+        "x": 0.882,
+        "y": 0.12,
+        "z": 0.41
+      }
+    },
+    {
+      "Position": {
+        "x": 0.63,
+        "y": 0.12,
+        "z": 0.41
+      }
+    },
+    {
+      "Position": {
+        "x": 0.377,
+        "y": 0.12,
+        "z": 0.41
+      }
+    },
+    {
+      "Position": {
+        "x": 0.125,
+        "y": 0.12,
+        "z": 0.41
+      }
+    },
+    {
+      "Position": {
+        "x": -0.126,
+        "y": 0.12,
+        "z": 0.41
+      }
+    },
+    {
+      "Position": {
+        "x": -0.377,
+        "y": 0.12,
+        "z": 0.41
+      }
+    },
+    {
+      "Position": {
+        "x": -0.629,
+        "y": 0.12,
+        "z": 0.41
+      }
+    },
+    {
+      "Position": {
+        "x": -0.88,
+        "y": 0.12,
+        "z": 0.41
+      }
+    },
+    {
+      "Position": {
+        "x": -1.133,
+        "y": 0.12,
+        "z": 0.41
+      }
+    },
+    {
+      "Position": {
+        "x": 1.135,
+        "y": 0.12,
+        "z": 0.757
+      }
+    },
+    {
+      "Position": {
+        "x": 0.882,
+        "y": 0.12,
+        "z": 0.757
+      }
+    },
+    {
+      "Position": {
+        "x": 0.63,
+        "y": 0.12,
+        "z": 0.757
+      }
+    },
+    {
+      "Position": {
+        "x": 0.377,
+        "y": 0.12,
+        "z": 0.757
+      }
+    },
+    {
+      "Position": {
+        "x": 0.125,
+        "y": 0.12,
+        "z": 0.757
+      }
+    },
+    {
+      "Position": {
+        "x": -0.126,
+        "y": 0.12,
+        "z": 0.757
+      }
+    },
+    {
+      "Position": {
+        "x": -0.377,
+        "y": 0.12,
+        "z": 0.757
+      }
+    },
+    {
+      "Position": {
+        "x": -0.629,
+        "y": 0.12,
+        "z": 0.757
+      }
+    },
+    {
+      "Position": {
+        "x": -0.88,
+        "y": 0.12,
+        "z": 0.757
+      }
+    },
+    {
+      "Position": {
+        "x": -1.133,
+        "y": 0.12,
+        "z": 0.757
+      }
+    }
+  ],
+  "ColorDiffuse": {
+    "b": 1.0,
+    "g": 1.0,
+    "r": 1.0
+  },
+  "CustomImage": {
+    "CustomTile": {
+      "Stackable": false,
+      "Stretch": true,
+      "Thickness": 0.2,
+      "Type": 3
+    },
+    "ImageScalar": 1.0,
+    "ImageSecondaryURL": "",
+    "ImageURL": "https://steamusercontent-a.akamaihd.net/ugc/10930611583163488099/DDC0C113548EA70571E0B8E02D59285032F8E172/",
+    "WidthScale": 0.0
+  },
+  "Description": "Helps keep your deck and table clean and organized.\n\r\nTips: For a smoother deckbuilding experience, use it with \"picture in picture\".\n\nby Rollingsnake",
+  "GUID": "1cc02a",
+  "Hands": false,
+  "HideWhenFaceDown": false,
+  "LuaScript": "require(\"accessories/DeckDashBoard\")",
+  "Name": "Custom_Tile",
+  "Nickname": "Deck DashBoard v3",
+  "Transform": {
+    "rotY": 270,
+    "scaleX": 9.52,
+    "scaleY": 1.0,
+    "scaleZ": 9.52
+  }
+}

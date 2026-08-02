@@ -19,7 +19,7 @@ function onLoad(savedData)
 end
 
 function reload()
-  GlobalApi.maybeReadyCard(self, _, true)
+  GlobalApi.maybeReadyCard(self, nil, true)
 
   local cardMetadata   = JSON.decode(self.getGMNotes()) or {}
   local useInfo        = cardMetadata.uses

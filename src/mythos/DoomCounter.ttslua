@@ -59,13 +59,13 @@ end
 
 -- sets the current count to the provided number
 function updateVal(number)
-  val = number or 0
-  self.editButton({ index = 0, label = tostring(val) })
   if number then
     broadcastDoom(val)
-  else
+  elseif val ~= 0 then
     broadcastToAll("0 doom on the agenda")
   end
+  val = number or 0
+  self.editButton({ index = 0, label = tostring(val) })
 end
 
 function onNumberTyped(_, number)
@@ -87,7 +87,8 @@ function broadcastDoom(val)
   end
 
   -- sum the doom thresholds and modifiers
-  local doomThreshold = (md.doomThreshold or 0) + mod + (md.doomThresholdPerInvestigator or 0) * invCount + soloDoomThreshold
+  local doomThreshold = (md.doomThreshold or 0) + mod + (md.doomThresholdPerInvestigator or 0) * invCount +
+      soloDoomThreshold
 
   local doomInPlayCounter = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", "DoomInPlayCounter")
   if doomInPlayCounter and md.subtractDoomInPlay then
