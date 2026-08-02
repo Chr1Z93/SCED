@@ -1,5 +1,4 @@
--- Deck Dashboard v3 - Side Deck by Rollingsnake
--- Myriad and Exceptional are not handled because SCED does not store them.
+-- Deck Dashboard v3.2 - Side Deck by Rollingsnake
 
 -- Texture
 
@@ -35,20 +34,22 @@ local CARD_GRID_ROW_ZS              = {
 }
 
 -- Buttons sit in the narrow title strip above the card slots.
-local XP_BUTTON_POSITION_BASE       = { -1.11, 0.18, -0.475 }
-local EXPORT_BUTTON_POSITION_BASE   = { 1.09, 0.18, -0.475 }
-local BUTTON_SCALE_BASE             = 0.175
+local XP_BUTTON_POSITION_BASE       = { -1.07, 0.18, -0.48 }
+local MODIFIER_BUTTON_POSITION_BASE = { -0.87, 0.18, -0.48 }
+local EXPORT_BUTTON_POSITION_BASE   = { 1.09, 0.18, -0.48 }
+local BUTTON_SCALE_BASE             = 0.190
 
 -- How far beyond the outer snap points an object may be and still count.
 local GRID_MARGIN_X_BASE            = 0.115
 local GRID_MARGIN_Z_BASE            = 0.165
 
 -- XP counter
-local XP_REFRESH_DELAY              = 0.35
+local XP_REFRESH_DELAY              = 0.80
 local XP_BUTTON_INDEX               = 0
+local XP_MODIFIER_BUTTON_INDEX      = 1
 
 -- Deck export
-local EXPORT_BUTTON_INDEX           = 1
+local EXPORT_BUTTON_INDEX           = 2
 local EXPORT_STACK_OFFSET_X_BASE    = -0.3
 local EXPORT_STACK_HEIGHT           = 0.85
 local EXPORT_CARD_DELAY_FRAMES      = 2
@@ -58,14 +59,22 @@ local SLOT_CAPTURE_HALF_WIDTH_BASE  = 0.105
 local SLOT_CAPTURE_HALF_HEIGHT_BASE = 0.155
 
 local collisionEnabled              = false
-local xpRefreshScheduled            = false
+local xpRefreshVersion              = 0
 local exportInProgress              = false
 local currentExperience             = 0
+local experienceModifier            = 0
 
 -- Loading
 
-function onLoad()
+function onLoad(savedData)
   collisionEnabled = false
+
+  if savedData and savedData ~= "" then
+    local decodedSuccessfully, savedState = pcall(JSON.decode, savedData)
+    if decodedSuccessfully and type(savedState) == "table" then
+      experienceModifier = tonumber(savedState.experienceModifier) or 0
+    end
+  end
 
   applyBoardTextureIfNeeded()
   createDashboardButtons()
@@ -75,6 +84,12 @@ function onLoad()
     collisionEnabled = true
     refreshExperience()
   end, 0.5)
+end
+
+function saveBoardState()
+  self.script_state = JSON.encode({
+    experienceModifier = experienceModifier
+  })
 end
 
 function applyBoardTextureIfNeeded()
@@ -94,33 +109,51 @@ function createDashboardButtons()
   self.clearButtons()
 
   local xpButtonPosition = scaledPosition(XP_BUTTON_POSITION_BASE)
+  local modifierButtonPosition = scaledPosition(MODIFIER_BUTTON_POSITION_BASE)
   local exportButtonPosition = scaledPosition(EXPORT_BUTTON_POSITION_BASE)
   local buttonScale = BUTTON_SCALE_BASE * GLOBAL_LAYOUT_SCALE
 
+  -- Button index 0: total XP / manual refresh
   self.createButton({
     click_function = "refreshExperience",
     function_owner = self,
     position       = xpButtonPosition,
     rotation       = { 0, 0, 0 },
     scale          = { buttonScale, 1, buttonScale },
-    width          = 650,
-    height         = 220,
-    font_size      = 145,
+    width          = 635,
+    height         = 210,
+    font_size      = 120,
     label          = getExperienceLabel(),
-    tooltip        =
-    "Total XP on this side-deck board. Myriad and Exceptional cannot be calculated automatically; please adjust the total manually",
+    tooltip        = "Total XP including manual modifier. Click to refresh XP from cards on this board.",
+    color          = { 0.15, 0.12, 0.08, 0.55 },
+    font_color     = { 1, 0.92, 0.75, 1 }
+  })
+
+  -- Button index 1: manual XP modifier
+  self.createButton({
+    click_function = "modifyExperience",
+    function_owner = self,
+    position       = modifierButtonPosition,
+    rotation       = { 0, 0, 0 },
+    scale          = { buttonScale, 1, buttonScale },
+    width          = 360,
+    height         = 210,
+    font_size      = 120,
+    label          = getExperienceModifierLabel(),
+    tooltip        = "Click to modify total XP\nLeft/Right Click to +1/-1 XP",
     color          = { 0.15, 0.12, 0.08, 0.48 },
     font_color     = { 1, 0.92, 0.75, 1 }
   })
 
+  -- Button index 2: export
   self.createButton({
     click_function = "exportDeck",
     function_owner = self,
     position       = exportButtonPosition,
     rotation       = { 0, 0, 0 },
     scale          = { buttonScale, 1, buttonScale },
-    width          = 820,
-    height         = 220,
+    width          = 750,
+    height         = 210,
     font_size      = 110,
     label          = "EXPORT",
     tooltip        = "Copy all cards in the 20 slots into one exported stack.",
@@ -200,31 +233,62 @@ function onCollisionExit(collisionInfo)
 end
 
 function scheduleExperienceRefresh()
-  if xpRefreshScheduled then return end
-  xpRefreshScheduled = true
+  xpRefreshVersion = xpRefreshVersion + 1
+  local scheduledVersion = xpRefreshVersion
 
   Wait.time(function()
-    xpRefreshScheduled = false
+    if scheduledVersion ~= xpRefreshVersion then return end
     refreshExperience()
   end, XP_REFRESH_DELAY)
 end
 
 function getExperienceLabel()
-  return "XP: " .. tostring(currentExperience)
+  return "XP: " .. tostring(currentExperience + experienceModifier)
+end
+
+function getExperienceModifierLabel()
+  if experienceModifier >= 0 then
+    return "+" .. tostring(experienceModifier)
+  end
+
+  return tostring(experienceModifier)
+end
+
+function updateExperienceButtons()
+  self.editButton({
+    index = XP_BUTTON_INDEX,
+    label = getExperienceLabel()
+  })
+
+  self.editButton({
+    index = XP_MODIFIER_BUTTON_INDEX,
+    label = getExperienceModifierLabel()
+  })
+end
+
+function modifyExperience(_, _, altClick)
+  if altClick then
+    experienceModifier = experienceModifier - 1
+  else
+    experienceModifier = experienceModifier + 1
+  end
+
+  updateExperienceButtons()
+  saveBoardState()
 end
 
 function refreshExperience()
-  currentExperience = calculateExperienceOnBoard()
+  local newExperience = calculateExperienceOnBoard()
 
-  local buttons = self.getButtons()
-  if buttons and buttons[XP_BUTTON_INDEX + 1] then
+  if newExperience ~= currentExperience then
+    currentExperience = newExperience
     self.editButton({
       index = XP_BUTTON_INDEX,
       label = getExperienceLabel()
     })
   end
 
-  return currentExperience
+  return currentExperience + experienceModifier
 end
 
 function calculateExperienceOnBoard()
@@ -232,10 +296,12 @@ function calculateExperienceOnBoard()
 
   for _, object in ipairs(collectMainGridObjects(false)) do
     if object.type == "Card" then
-      totalExperience = totalExperience + getCardExperience(object.getGMNotes())
+      totalExperience = totalExperience
+          + getCardExperience(object.getGMNotes())
     elseif object.type == "Deck" then
       for _, containedCard in ipairs(object.getObjects()) do
-        totalExperience = totalExperience + getCardExperience(containedCard.gm_notes)
+        totalExperience = totalExperience
+            + getCardExperience(containedCard.gm_notes)
       end
     end
   end
@@ -360,18 +426,29 @@ end
 function collectMainGridObjects(excludeLockedObjects)
   local collected = {}
   local boardGuid = self.getGUID()
+  local gridBounds = calculateMainGridBounds()
 
   for _, object in ipairs(getAllObjects()) do
-    local supportedType = object.type == "Card" or object.type == "Deck"
+    local supportedType =
+        object.type == "Card" or object.type == "Deck"
 
-    local lockAllowed = not excludeLockedObjects or not object.getLock()
+    local lockAllowed =
+        not excludeLockedObjects or not object.getLock()
 
     if object.getGUID() ~= boardGuid
         and supportedType
         and lockAllowed then
-      local localPosition = self.positionToLocal(object.getPosition())
+      local localPosition =
+          self.positionToLocal(object.getPosition())
 
-      if isPositionInsideCardSlot(localPosition) then
+      local insideGridBounds =
+          localPosition.x >= gridBounds.minX
+          and localPosition.x <= gridBounds.maxX
+          and localPosition.z >= gridBounds.minZ
+          and localPosition.z <= gridBounds.maxZ
+
+      if insideGridBounds
+          and isPositionInsideCardSlot(localPosition) then
         table.insert(collected, {
           object = object,
           x      = localPosition.x,
