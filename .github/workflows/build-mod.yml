@@ -33,7 +33,12 @@ jobs:
           fi
 
       - name: Run TTSModManager
-        run: ./.vscode/bin/TTSModManager -moddir="./" -modfile="./${{ env.filename }}"
+        run: |
+          ./.vscode/bin/TTSModManager -moddir="./" -modfile="./${{ env.filename }}"
+          if [ ! -f "./${{ env.filename }}" ]; then
+            echo "Build failed: output file was not created."
+            exit 1
+          fi
         shell: bash
 
       - name: Upload built mod
