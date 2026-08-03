@@ -447,6 +447,23 @@ function removeAUse(playerColor, hoveredObject)
   GlobalApi.discardObjects(targetObject, discardForMatColor)
 end
 
+-- opens TTS' native search dialog for the hovered contained
+function searchContainer(playerColor, hoveredObject)
+  local vColor = getVirtualColor(playerColor)
+
+  if hoveredObject == nil or not hoveredObject.Container then
+    broadcastToColor("Hover a searchable container and try again.", playerColor, "Yellow")
+    return
+  end
+
+  local targetPlayer = Player[vColor]
+  if not targetPlayer.seated then
+    targetPlayer = Player[playerColor]
+  end
+
+  hoveredObject.Container.search(targetPlayer)
+end
+
 -- sets the virtual player color for the next playerColor-based hotkey-press
 function setVirtualColorForNextHotkey(playerColor)
   local searchPos = Player[playerColor].getPointerPosition()
@@ -728,6 +745,7 @@ HOTKEYS = {
     label = "Reshuffle encounter deck",
     callback = MythosAreaApi.reshuffleEncounterDeck
   },
+  { label = "Search Container" },
   { label = "Set virtual color for next Hotkey" },
   { label = "Switch seat clockwise" },
   { label = "Switch seat counter-clockwise" },
