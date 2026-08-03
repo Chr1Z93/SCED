@@ -65,7 +65,7 @@ function triggerXMLTokenLabelCreation(player)
   local playerColor = player.color
   if #sealedTokens == 0 then
     local oculaGUID = self.getGUID()
-    ChaosBagApi.removeTokenFromPlay("seal", VALID_TOKENS, _, _, _, oculaGUID, playerColor)
+    ChaosBagApi.removeTokenFromPlay("seal", VALID_TOKENS, nil, nil, nil, oculaGUID, playerColor)
   else
     resolveSealed(playerColor)
     self.UI.setAttribute("Helper", "text", "Seal Token")
