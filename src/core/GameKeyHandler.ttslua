@@ -456,12 +456,11 @@ function searchContainer(playerColor, hoveredObject)
     return
   end
 
-  local targetPlayer = Player[vColor]
-  if not targetPlayer.seated then
-    targetPlayer = Player[playerColor]
+  if Player[vColor].seated then
+    hoveredObject.Container.search(vColor)
+  else
+    hoveredObject.Container.search(playerColor)
   end
-
-  hoveredObject.Container.search(targetPlayer)
 end
 
 -- sets the virtual player color for the next playerColor-based hotkey-press
