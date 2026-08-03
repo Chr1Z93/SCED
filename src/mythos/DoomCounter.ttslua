@@ -60,7 +60,7 @@ end
 -- sets the current count to the provided number
 function updateVal(number)
   if number then
-    broadcastDoom(val)
+    broadcastDoom(number)
   elseif val ~= 0 then
     broadcastToAll("0 doom on the agenda")
   end
