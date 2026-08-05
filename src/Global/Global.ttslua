@@ -2777,8 +2777,8 @@ function createPhaseTrackerUI()
       color                                = "black",
       visibility                           = visibilityString,
       active                               = visibilityString ~= "",
-      height                               = "70",
-      width                                = "70",
+      height                               = "95",
+      width                                = "95",
       offsetXY                             = "-2 473",
       allowDragging                        = true,
       returnToOriginalPositionWhenReleased = false,
@@ -2793,15 +2793,15 @@ function createPhaseTrackerUI()
         attributes = {
           id = "phaseTrackerUIButton",
           onClick = "onClick_phaseTrackerChangeState",
-          height = "70",
-          width = "70",
+          height = "95",
+          width = "95",
         },
         children = {
           tag = "Image",
           attributes = {
             id = "phaseTrackerUIImage",
-            height = "70",
-            width = "70",
+            height = "95",
+            width = "95",
             image = phaseTrackerObject.call("getCurrentPhaseUIImage")
           },
         }
