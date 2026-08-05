@@ -126,3 +126,7 @@ function changeState(_, _, isRightClick)
   -- update UI phase tracker image
   UI.setAttribute("phaseTrackerUIImage", "image", PHASE_UI_IMAGES_NAMES[phaseId])
 end
+
+function getCurrentPhaseUIImage() 
+  return PHASE_UI_IMAGES_NAMES[phaseId]
+end

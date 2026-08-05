@@ -2769,6 +2769,7 @@ end
 
 function createPhaseTrackerUI()
   local visibilityString = getVisibilityStringFromTable(phaseTrackerVisibility)
+  local phaseTrackerObject = getObjectFromGUID("d0c8fa")
   local phaseTrackerXml = {
     tag = "Panel",
     attributes = {
@@ -2801,7 +2802,7 @@ function createPhaseTrackerUI()
             id = "phaseTrackerUIImage",
             height = "70",
             width = "70",
-            image = "phaseMythos"
+            image = phaseTrackerObject.call("getCurrentPhaseUIImage")
           },
         }
       }
