@@ -15,6 +15,13 @@ local PHASE_IMAGES = {
   "https://steamusercontent-a.akamaihd.net/ugc/982233321870237261/C287CAED2423970F33E72D6C7415CBEC6794C533/"
 }
 
+local PHASE_UI_IMAGES_NAMES = {
+  "phaseMythos",
+  "phaseInvestigation",
+  "phaseEnemy",
+  "phaseUpkeep"
+}
+
 function onSave()
   return getSaveData()
 end
@@ -115,4 +122,7 @@ function changeState(_, _, isRightClick)
     tracker.destruct()
     spawnObjectData({ data = data })
   end
+
+  -- update UI phase tracker image
+  UI.setAttribute("phaseTrackerUIImage", "image", PHASE_UI_IMAGES_NAMES[phaseId])
 end
