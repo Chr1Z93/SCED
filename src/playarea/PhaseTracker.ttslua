@@ -127,6 +127,10 @@ function changeState(_, _, isRightClick)
   UI.setAttribute("phaseTrackerUIImage", "image", PHASE_UI_IMAGES_NAMES[phaseId])
 end
 
+function previousState() 
+  changeState(_, _, true)
+end
+
 function getCurrentPhaseUIImage() 
   return PHASE_UI_IMAGES_NAMES[phaseId]
 end

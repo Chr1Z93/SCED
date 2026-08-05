@@ -2812,8 +2812,12 @@ function createPhaseTrackerUI()
   return phaseTrackerXml
 end
 
-function onClick_phaseTrackerChangeState()
-  getObjectFromGUID("d0c8fa").call("changeState", {})
+function onClick_phaseTrackerChangeState(_, clickType, _)
+  if clickType == "-1" then
+    getObjectFromGUID("d0c8fa").call("changeState", {})
+  elseif clickType == "-2" then
+    getObjectFromGUID("d0c8fa").call("previousState", {})
+  end
 end
 
 function isMiniReady(matColor)
