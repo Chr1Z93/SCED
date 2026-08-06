@@ -74,8 +74,14 @@ end
 
 -- adds 1 doom to the agenda
 function addDoomToAgenda()
-  local doomCounter = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", "DoomCounter")
-  doomCounter.call("addVal", 1)
+  local DoomCounter = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", "DoomCounter")
+  DoomCounter.call("addVal", 1)
+end
+
+-- advances the phase tracker to the next phase
+function advancePhaseTracker()
+  local PhaseTracker = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", "PhaseTracker")
+  PhaseTracker.call("changeState")
 end
 
 -- move the hovered object to the nearest empty slot on the playermat
@@ -704,10 +710,6 @@ function getFirstSeatedPlayer()
   end
 end
 
-function goToNextRoundPhase()
-  getObjectFromGUID("d0c8fa").call("changeState", {})
-end
-
 -- MARK: Hotkey creation
 -- this section is at the end of the file to make sure the callback functions exist at this point
 
@@ -720,6 +722,7 @@ end
 HOTKEYS = {
   { label = "Add doom to agenda" },
   { label = "Add Bless/Curse context menu" },
+  { label = "Advance Phase Tracker" },
   { label = "Discard object" },
   { label = "Discard random card from hand" },
   { label = "Discard top card" },
@@ -761,8 +764,7 @@ HOTKEYS = {
     callback = triggerUpkeep
   },
   { label = "View Mythos Area" },
-  { label = "View Playermat" },
-  { label = "Go to next Round Phase" }
+  { label = "View Playermat" }
 }
 
 -- Adds hotkeys based on the data in HOTKEYS

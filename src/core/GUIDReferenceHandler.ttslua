@@ -84,6 +84,7 @@ local GuidReferences = {
     MythosArea               = "9f334f",
     NavigationOverlayHandler = "797ede",
     ObjectSourceBag          = "830bd0",
+    PhaseTracker             = "d0c8fa",
     PlaceholderBoxDummy      = "a93466",
     PlayArea                 = "721ba2",
     PlayAreaImageSelector    = "b7b45b",

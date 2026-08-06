@@ -2207,6 +2207,7 @@ function onClick_toggleUi(player, windowId)
     phaseTrackerVisibility[player.color] = visibility
 
     changeWindowVisibilityForColor(player.color, "optionPanel", false)
+    return
   end
 
   changeWindowVisibilityForColor(player.color, windowId)
@@ -2768,9 +2769,9 @@ function countActionTrackerColumns()
 end
 
 function createPhaseTrackerUI()
+  local PhaseTracker     = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", "PhaseTracker")
   local visibilityString = getVisibilityStringFromTable(phaseTrackerVisibility)
-  local phaseTrackerObject = getObjectFromGUID("d0c8fa")
-  local phaseTrackerXml = {
+  local phaseTrackerXml  = {
     tag = "Panel",
     attributes = {
       id                                   = "phaseTracker",
@@ -2791,19 +2792,19 @@ function createPhaseTrackerUI()
       {
         tag = "Button",
         attributes = {
-          id = "phaseTrackerUIButton",
+          id      = "phaseTrackerUIButton",
           onClick = "onClick_phaseTrackerChangeState",
-          height = "95",
-          width = "95",
+          height  = 95,
+          width   = 95,
         },
         children = {
           tag = "Image",
           attributes = {
-            id = "phaseTrackerUIImage",
-            height = "95",
-            width = "95",
-            image = phaseTrackerObject.call("getCurrentPhaseUIImage")
-          },
+            id     = "phaseTrackerUIImage",
+            height = 95,
+            width  = 95,
+            image  = PhaseTracker.call("getCurrentPhaseUIImage")
+          }
         }
       }
     }
@@ -2813,10 +2814,12 @@ function createPhaseTrackerUI()
 end
 
 function onClick_phaseTrackerChangeState(_, clickType, _)
+  local PhaseTracker = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", "PhaseTracker")
+
   if clickType == "-1" then
-    getObjectFromGUID("d0c8fa").call("changeState", {})
+    PhaseTracker.call("changeState")
   elseif clickType == "-2" then
-    getObjectFromGUID("d0c8fa").call("previousState", {})
+    PhaseTracker.call("previousState")
   end
 end
 

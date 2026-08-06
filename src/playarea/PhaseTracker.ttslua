@@ -1,14 +1,14 @@
-local GlobalApi    = require("Global/GlobalApi")
-local PlayermatApi = require("playermat/PlayermatApi")
+local GlobalApi             = require("Global/GlobalApi")
+local PlayermatApi          = require("playermat/PlayermatApi")
 
-local PHASE_NAMES  = {
+local PHASE_NAMES           = {
   "[CC3333]I. Mythos Phase[-]",
   "[88C999]II. Investigation Phase[-]",
   "[4477A1]III. Enemy Phase[-]",
   "[E6D34C]IV. Upkeep Phase[-]"
 }
 
-local PHASE_IMAGES = {
+local PHASE_IMAGES          = {
   "https://steamusercontent-a.akamaihd.net/ugc/933819604050849085/9E22AFD7B0157140FC177DBCCBCB1D61D6A0329F/",
   "https://steamusercontent-a.akamaihd.net/ugc/933819604050885611/845B5AA915F30492B5F34864698B9C3627FA5763/",
   "https://steamusercontent-a.akamaihd.net/ugc/982233321870235122/492996D07ABF6DDA4B605A3013C4892839DCF1F3/",
@@ -127,10 +127,10 @@ function changeState(_, _, isRightClick)
   UI.setAttribute("phaseTrackerUIImage", "image", PHASE_UI_IMAGES_NAMES[phaseId])
 end
 
-function previousState() 
-  changeState(_, _, true)
+function previousState()
+  changeState(nil, nil, true)
 end
 
-function getCurrentPhaseUIImage() 
+function getCurrentPhaseUIImage()
   return PHASE_UI_IMAGES_NAMES[phaseId]
 end
