@@ -2637,11 +2637,11 @@ function createActionTrackerUI()
               tag = "HorizontalLayout",
               attributes = { spacing = 4 },
               children = {
-                { tag = "Panel", attributes = { id = "playerAction1" .. matColor, color = cellColors[1] } },
-                { tag = "Panel", attributes = { id = "playerAction2" .. matColor, color = cellColors[2] } },
-                { tag = "Panel", attributes = { id = "playerAction3" .. matColor, color = cellColors[3] } },
-                { tag = "Panel", attributes = { id = "playerAction4" .. matColor, color = cellColors[4] } },
-                { tag = "Panel", attributes = { id = "playerAction5" .. matColor, color = cellColors[5] } }
+                { tag = "Panel", attributes = { id = "panelPlayerAction1" .. matColor }, children = { { tag = "Button", attributes = { id = "playerAction1" .. matColor, width = "24", height = "24", onClick = "clickActionTrackerCell", color = cellColors[1] } } } },
+                { tag = "Panel", attributes = { id = "panelPlayerAction2" .. matColor }, children = { { tag = "Button", attributes = { id = "playerAction2" .. matColor, width = "24", height = "24", onClick = "clickActionTrackerCell", color = cellColors[2] } } } },
+                { tag = "Panel", attributes = { id = "panelPlayerAction3" .. matColor }, children = { { tag = "Button", attributes = { id = "playerAction3" .. matColor, width = "24", height = "24", onClick = "clickActionTrackerCell", color = cellColors[3] } } } },
+                { tag = "Panel", attributes = { id = "panelPlayerAction4" .. matColor }, children = { { tag = "Button", attributes = { id = "playerAction4" .. matColor, width = "24", height = "24", onClick = "clickActionTrackerCell", color = cellColors[4] } } } },
+                { tag = "Panel", attributes = { id = "panelPlayerAction5" .. matColor }, children = { { tag = "Button", attributes = { id = "playerAction5" .. matColor, width = "24", height = "24", onClick = "clickActionTrackerCell", color = cellColors[5] } } } }
               }
             }
           }
@@ -2654,6 +2654,19 @@ function createActionTrackerUI()
 
   Wait.frames(updateActionTrackerWidth, 3)
   return actionTrackerXml
+end
+
+function clickActionTrackerCell(_, clickType, buttonId)
+  local index, matColor = buttonId:match("^playerAction(%d)(.+)$")
+  index = tonumber(index)
+
+  -- left click consumes action, right click restores action
+  if clickType == "-1" then
+    setActionTokenState(matColor, index, true)
+    
+  elseif clickType == "-2" then
+    setActionTokenState(matColor, index, false)
+  end
 end
 
 -- updates the layout of the action tracker
@@ -2732,6 +2745,7 @@ function updateActionTrackerWidth()
   -- show / hide actions
   for i = 1, 5 do
     for _, matColor in ipairs(MAT_COLORS) do
+      UI.setAttribute("panelPlayerAction" .. i .. matColor, "active", i <= columnCount)
       UI.setAttribute("playerAction" .. i .. matColor, "active", i <= columnCount)
     end
   end
@@ -2752,6 +2766,34 @@ function countActionTrackerColumns()
     end
   end
   return 1
+end
+
+function setActionTokenState(matColor, i, setfaceDown)
+  local playermat = GUIDReferenceApi.getObjectByOwnerAndType(matColor, "Playermat")
+  if not playermat then
+    return
+  end
+
+  local localPos       = Vector(-1.2, 0.1, -0.28)
+  local pos            = PlayermatApi.transformLocalPosition(localPos, matColor):setAt("y", 3)
+  local rot            = PlayermatApi.returnRotation(matColor)
+  local size           = Vector(5, 6, 0.1)
+  local searchResult   = SearchLib.inArea(pos, rot, size, "isUniversalToken")
+
+  local tokenPositions = {}
+  for _, obj in ipairs(searchResult) do
+    tokenPositions[obj] = playermat.positionToLocal(obj.getPosition())
+  end
+
+  table.sort(searchResult, function(a, b) return tokenPositions[a].x > tokenPositions[b].x end)
+
+  for index, obj in ipairs(searchResult) do
+    if index == i and obj.resting and ((obj.is_face_down and not setfaceDown) or (not obj.is_face_down and setfaceDown)) then
+      obj.flip()
+      -- prematurely update ui button element color for better feedback
+      UI.setAttribute("playerAction" .. i .. matColor, "color", setfaceDown and "grey" or "#C89B3C")
+    end
+  end
 end
 
 function isMiniReady(matColor)
