@@ -704,6 +704,10 @@ function getFirstSeatedPlayer()
   end
 end
 
+function goToNextRoundPhase()
+  getObjectFromGUID("d0c8fa").call("changeState", {})
+end
+
 -- MARK: Hotkey creation
 -- this section is at the end of the file to make sure the callback functions exist at this point
 
@@ -757,7 +761,8 @@ HOTKEYS = {
     callback = triggerUpkeep
   },
   { label = "View Mythos Area" },
-  { label = "View Playermat" }
+  { label = "View Playermat" },
+  { label = "Go to next Round Phase" }
 }
 
 -- Adds hotkeys based on the data in HOTKEYS
