@@ -1,6 +1,7 @@
 {
   "acknowledgedUpgradeVersions": [],
   "actionTrackerVisibility": [],
+  "phaseTrackerVisibility": [],
   "blurseVisibility": [],
   "chaosTokensGUID": [],
   "defaultHardExpert": false,

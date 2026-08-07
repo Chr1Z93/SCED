@@ -125,6 +125,7 @@ local GUID_INDEX_MAP              = {
 
 -- track player-specific visibilities
 local actionTrackerVisibility     = {}
+local phaseTrackerVisibility      = {}
 local blurseVisibility            = {}
 local handVisibility              = {}
 
@@ -180,6 +181,7 @@ function onSave()
   return JSON.encode({
     acknowledgedUpgradeVersions = acknowledgedUpgradeVersions,
     actionTrackerVisibility     = actionTrackerVisibility,
+    phaseTrackerVisibility      = phaseTrackerVisibility,
     blurseVisibility            = blurseVisibility,
     chaosTokensLastMatGUID      = chaosTokensLastMatGUID,
     chaosTokensGUID             = chaosTokensGUID,
@@ -194,6 +196,7 @@ function onLoad(savedData)
     local loadedData            = JSON.decode(savedData)
     acknowledgedUpgradeVersions = loadedData.acknowledgedUpgradeVersions
     actionTrackerVisibility     = loadedData.actionTrackerVisibility
+    phaseTrackerVisibility      = loadedData.phaseTrackerVisibility
     blurseVisibility            = loadedData.blurseVisibility
     chaosTokensLastMatGUID      = loadedData.chaosTokensLastMatGUID
     handVisibility              = loadedData.handVisibility
@@ -2107,6 +2110,7 @@ function onClick_toggleOptionPanel(player, clickType)
     if newState == true then
       changeWindowVisibilityForColor(player.color, "blessCurseManager", false)
       changeWindowVisibilityForColor(player.color, "actionTracker", false)
+      changeWindowVisibilityForColor(player.color, "phaseTracker", false)
       changeWindowVisibilityForColor(player.color, "navPanelFull", false)
       changeWindowVisibilityForColor(player.color, "navPanelPlay", false)
 
@@ -2120,6 +2124,9 @@ function onClick_toggleOptionPanel(player, clickType)
       end
       if actionTrackerVisibility[player.color] then
         changeWindowVisibilityForColor(player.color, "actionTracker", actionTrackerVisibility[player.color])
+      end
+      if phaseTrackerVisibility[player.color] then
+        changeWindowVisibilityForColor(player.color, "phaseTracker", phaseTrackerVisibility[player.color])
       end
       NavigationOverlayApi.updateVisibility()
     end
@@ -2191,6 +2198,13 @@ function onClick_toggleUi(player, windowId)
         printToColor("No player mats in use - place an investigator.", player.color)
       end
     end
+
+    changeWindowVisibilityForColor(player.color, "optionPanel", false)
+    return
+  elseif windowId == "phaseTracker" then
+    -- store the state of the Phase Tracker UI to restore it onLoad()
+    local visibility = changeWindowVisibilityForColor(player.color, "phaseTracker")
+    phaseTrackerVisibility[player.color] = visibility
 
     changeWindowVisibilityForColor(player.color, "optionPanel", false)
     return
@@ -2595,7 +2609,7 @@ function createActionTrackerUI()
       active                               = visibilityString ~= "",
       height                               = 30 * #usedMatColors,
       width                                = "300",
-      offsetXY                             = "-2 396",
+      offsetXY                             = "-2 436",
       columnWidths                         = "0 150",
       padding                              = "4 4 4 4",
       cellSpacing                          = "5",
@@ -2611,9 +2625,9 @@ function createActionTrackerUI()
 
   -- Loop through playermats and create rows in the Action Tracker
   for _, matColor in ipairs(MAT_COLORS) do
-    local cellColors = getActionTrackerCellColors(matColor)
+    local cellColors  = getActionTrackerCellColors(matColor)
     local playerColor = PlayermatApi.getPlayerColor(matColor) or matColor
-    local playerRow = {
+    local playerRow   = {
       tag = "Row",
       attributes = { id = "playerRow" .. matColor, active = isUsed[matColor] or false },
       children = {
@@ -2637,11 +2651,11 @@ function createActionTrackerUI()
               tag = "HorizontalLayout",
               attributes = { spacing = 4 },
               children = {
-                { tag = "Panel", attributes = { id = "playerAction1" .. matColor, color = cellColors[1] } },
-                { tag = "Panel", attributes = { id = "playerAction2" .. matColor, color = cellColors[2] } },
-                { tag = "Panel", attributes = { id = "playerAction3" .. matColor, color = cellColors[3] } },
-                { tag = "Panel", attributes = { id = "playerAction4" .. matColor, color = cellColors[4] } },
-                { tag = "Panel", attributes = { id = "playerAction5" .. matColor, color = cellColors[5] } }
+                getActionTrackerUiPanel(cellColors, matColor, 1),
+                getActionTrackerUiPanel(cellColors, matColor, 2),
+                getActionTrackerUiPanel(cellColors, matColor, 3),
+                getActionTrackerUiPanel(cellColors, matColor, 4),
+                getActionTrackerUiPanel(cellColors, matColor, 5)
               }
             }
           }
@@ -2654,6 +2668,29 @@ function createActionTrackerUI()
 
   Wait.frames(updateActionTrackerWidth, 3)
   return actionTrackerXml
+end
+
+function getActionTrackerUiPanel(cellColors, matColor, i)
+  return {
+    tag        = "Panel",
+    attributes = {
+      id      = "playerAction" .. i .. matColor,
+      onClick = "clickActionTrackerCell",
+      color   = cellColors[i]
+    }
+  }
+end
+
+function clickActionTrackerCell(_, clickType, buttonId)
+  local index, matColor = buttonId:match("^playerAction(%d)(.+)$")
+  index = tonumber(index)
+
+  -- left click consumes action, right click restores action
+  if clickType == "-1" then
+    setActionTokenState(matColor, index, true)
+  elseif clickType == "-2" then
+    setActionTokenState(matColor, index, false)
+  end
 end
 
 -- updates the layout of the action tracker
@@ -2754,6 +2791,87 @@ function countActionTrackerColumns()
   return 1
 end
 
+function setActionTokenState(matColor, i, setfaceDown)
+  local playermat = GUIDReferenceApi.getObjectByOwnerAndType(matColor, "Playermat")
+  if not playermat then return end
+
+  local localPos       = Vector(-1.2, 0.1, -0.28)
+  local pos            = PlayermatApi.transformLocalPosition(localPos, matColor):setAt("y", 3)
+  local rot            = PlayermatApi.returnRotation(matColor)
+  local size           = Vector(5, 6, 0.1)
+  local searchResult   = SearchLib.inArea(pos, rot, size, "isUniversalToken")
+
+  local tokenPositions = {}
+  for _, obj in ipairs(searchResult) do
+    tokenPositions[obj] = playermat.positionToLocal(obj.getPosition())
+  end
+
+  table.sort(searchResult, function(a, b) return tokenPositions[a].x > tokenPositions[b].x end)
+
+  for index, obj in ipairs(searchResult) do
+    if index == i and obj.resting and obj.is_face_down ~= setfaceDown then
+      obj.flip()
+      -- prematurely update ui button element color for better feedback
+      UI.setAttribute("playerAction" .. i .. matColor, "color", setfaceDown and "grey" or "#C89B3C")
+    end
+  end
+end
+
+function createPhaseTrackerUI()
+  local PhaseTracker     = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", "PhaseTracker")
+  local visibilityString = getVisibilityStringFromTable(phaseTrackerVisibility)
+  local phaseTrackerXml  = {
+    tag = "Panel",
+    attributes = {
+      id                                   = "phaseTracker",
+      color                                = "black",
+      visibility                           = visibilityString,
+      active                               = visibilityString ~= "",
+      height                               = "95",
+      width                                = "95",
+      offsetXY                             = "-2 473",
+      allowDragging                        = true,
+      returnToOriginalPositionWhenReleased = false,
+      rectAlignment                        = "LowerRight",
+      raycastTarget                        = true,
+      outlineSize                          = "2 2",
+      outline                              = "#303030"
+    },
+    children = {
+      {
+        tag = "Button",
+        attributes = {
+          id      = "phaseTrackerUIButton",
+          onClick = "onClick_phaseTrackerChangeState",
+          height  = 95,
+          width   = 95,
+        },
+        children = {
+          tag = "Image",
+          attributes = {
+            id     = "phaseTrackerUIImage",
+            height = 95,
+            width  = 95,
+            image  = PhaseTracker.call("getCurrentPhaseUIImage")
+          }
+        }
+      }
+    }
+  }
+
+  return phaseTrackerXml
+end
+
+function onClick_phaseTrackerChangeState(_, clickType, _)
+  local PhaseTracker = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", "PhaseTracker")
+
+  if clickType == "-1" then
+    PhaseTracker.call("changeState")
+  elseif clickType == "-2" then
+    PhaseTracker.call("previousState")
+  end
+end
+
 function isMiniReady(matColor)
   local investigatorData = PlayermatApi.getActiveInvestigatorData(matColor)
   if not investigatorData then return false end
@@ -2835,6 +2953,7 @@ function createGlobalXml()
 
   -- add additional XML to it
   table.insert(globalXml, createActionTrackerUI())
+  table.insert(globalXml, createPhaseTrackerUI())
   table.insert(globalXml, createChaosTokenSplashUI())
   table.insert(globalXml, createClueSpendingUI())
 

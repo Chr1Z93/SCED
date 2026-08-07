@@ -6,7 +6,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-27 10:00+0000\n"
 "PO-Revision-Date: 2026-01-29 20:23-0500\n"
-"Last-Translator: Gemini\n"
+"Last-Translator: kigrup\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -148,7 +148,7 @@ msgstr ""
 
 # Group: playermat settings
 msgid "OP_group_playermat"
-msgstr "AJUSTES GLOBALES DEL TABLERO DE JUGADOR"
+msgstr "AJUSTES GLOBALES DE TAPETE DE JUGADOR"
 
 # Option: enable snap tags
 msgid "OP_useSnapTags"
@@ -167,7 +167,7 @@ msgstr "Habilitar contadores"
 # Tooltip: enable counter logging
 msgid "OP_enableCounterLogging_tooltip"
 msgstr ""
-"Envía al en el chat los cambios manuales realizados en el daño, el horror, "
+"Registra en el chat los cambios manuales realizados en el daño, el horror, "
 "los recursos y las pistas."
 
 # Option: show draw 1 button
@@ -202,12 +202,12 @@ msgstr ""
 
 # Option: use custom resource token Images
 msgid "OP_useCustomResourceImages"
-msgstr "Usá las imágenes de recurso custom."
+msgstr "Usa las imágenes de recurso personalizadas."
 
 # Tooltip: use custom resource token Images
 msgid "OP_useCustomResourceImages_tooltip"
 msgstr ""
-"Usa imágenes custom para munición, cargas, secretos y demás en vez del token"
+"Usa imágenes personalizadas para munición, cargas, secretos y demás en vez del token"
 " de recurso genérico."
 
 # Option: use clickable resource counters
@@ -234,17 +234,17 @@ msgstr "Desactivado"
 
 # Option: remove a playermat
 msgid "OP_removePlayermat"
-msgstr "Quitar / Reaparecer un tablero"
+msgstr "Quitar / Poner un tapete"
 
 # Tooltip: remove a playermat
 msgid "OP_removePlayermat_tooltip"
 msgstr ""
-"Quita un tablero de jugador no utilizado para tener más espacio.\n"
+"Quita un tapete de jugador no utilizado para tener más espacio.\n"
 "Los colores mostrados son los predeterminados."
 
 # Dropdown Option: Remove Playermat 1
 msgid "OP_removePlayermat_option_select"
-msgstr "Hacé clic para seleccionar"
+msgstr "Haz clic para seleccionar"
 
 # Dropdown Option: Remove Playermat 2
 msgid "OP_removePlayermat_option_white"
@@ -264,11 +264,11 @@ msgstr "4: Rojo"
 
 # Option: choose a table setup
 msgid "OP_tableSetup"
-msgstr "Elegí una disposición de mesa"
+msgstr "Elige una disposición de mesa"
 
 # Tooltip: choose a table setup
 msgid "OP_tableSetup_tooltip"
-msgstr "Elegí una disposición de mesa predeterminada."
+msgstr "Elige una disposición de mesa predeterminada."
 
 # Dropdown Option: Table Setup
 msgid "OP_tableSetup_option_classic4"
@@ -300,17 +300,17 @@ msgstr "Rotado (2J)"
 
 # Option: customize Table Setup
 msgid "OP_customTableSetup"
-msgstr "Personalizá la distribución de la mesa."
+msgstr "Personaliza la distribución de la mesa."
 
 # Tooltip: customize Table Setup
 msgid "OP_customTableSetup_tooltip"
 msgstr ""
-"Usá este botón para crear una disposición de la mesa custom\n"
+"Usa este botón para crear una disposición de mesa personalizada\n"
 "(usa la que esté actualmente seleccionada como base)."
 
 # Button: customize Table Setup
 msgid "customTableSetupButton"
-msgstr "Customizar"
+msgstr "Personalizar"
 
 # Group: accessories
 msgid "OP_group_accessories"
@@ -353,17 +353,17 @@ msgstr "Ayuda para la mano"
 # Tooltip: show hand helper
 msgid "OP_showHandHelper_tooltip"
 msgstr ""
-"¡No cuentes más cuantas cartas tenés en mano! Esta herramienta lo hace \n"
-"por vos, e incluso calcula el tamaño máximo de tu mano."
+"¡No cuentes más cuantas cartas tienes en mano! Esta herramienta lo hace \n"
+"por tí, e incluso calcula el tamaño máximo de tu mano."
 
 # Option: show playermat extension
 msgid "OP_showPlayermatExtension"
-msgstr "Extensión de area de juego."
+msgstr "Extensión de tapete de jugador."
 
 # Tooltip: show playermat extension
 msgid "OP_showPlayermatExtension_tooltip"
 msgstr ""
-"Te proveé un tablero adicional\n"
+"Te provee un pequeño tapete adicional\n"
 "en caso de que el tuyo ya esté lleno."
 
 # Option: show search assistant
@@ -373,7 +373,7 @@ msgstr "Asistente de búsqueda"
 # Tooltip: show search assistant
 msgid "OP_showSearchAssistant_tooltip"
 msgstr ""
-"¡Buscá rápidamente las 3, 6, 9 o X primeras\n"
+"¡Busca rápidamente las 3, 6, 9 o X primeras\n"
 "cartas de tu mazo!"
 
 # Option: Token Arranger settings
@@ -437,15 +437,15 @@ msgid "DW_tab5"
 msgstr "Cartas de Jugador de Fans"
 
 msgid "DW_tab6"
-msgstr "Language Packs"
+msgstr "Paquetes de Idioma"
 
 # Download Window: Buttons
 msgid "DW_downloadAll"
-msgstr "Descarga Todo"
+msgstr "Descargar Todo"
 
 msgid "DW_downloadAll+tooltip"
 msgstr ""
-"Estimación aproximada: 400 MB de información JSON\n"
+"Aproximadamente 400 MB de información JSON\n"
 "y alrededor de 40 GB de objetos"
 
 msgid "DW_close_tooltip"
@@ -473,7 +473,7 @@ msgid "PAG_title"
 msgstr "Galería de Imágenes para Área de Juego"
 
 msgid "PAG_customUrl_button"
-msgstr "Usar URL customizado"
+msgstr "Usar URL personalizado"
 
 msgid "PAG_close_tooltip"
 msgstr "Cerrar"
@@ -495,14 +495,17 @@ msgid "PAG_imageTab5"
 msgstr "Otras Imágenes"
 
 # Bottom Bar: Tooltips
+msgid "BB_phaseActionTracker_tooltip"
+msgstr "Monitor de Fase Actual"
+
 msgid "BB_toggleActionTracker_tooltip"
-msgstr "Rastreador de Acciones"
+msgstr "Contador de Acciones"
 
 msgid "BB_toggleBlessCurseManager_tooltip"
 msgstr "Gestor de Bendiciones/Maldiciones"
 
 msgid "BB_toggleNavigationOverlay_tooltip"
-msgstr "Capa de Navegación"
+msgstr "Interfaz de Navegación"
 
 msgid "BB_toggleDownloadWindow_tooltip"
 msgstr "Contenido Descargable"
@@ -512,7 +515,7 @@ msgstr "Opciones"
 
 # Navigation Overlay Settings
 msgid "NO_title"
-msgstr "Capa de Navegación"
+msgstr "Interfaz de Navegación"
 
 msgid "NO_viewing_angle"
 msgstr "Ángulo de la cámara en grados:"
@@ -520,7 +523,7 @@ msgstr "Ángulo de la cámara en grados:"
 msgid "NO_sliderPitch+tooltip"
 msgstr ""
 "Esto controla el ángulo de la cámara\n"
-"(como asentir con la cabeza)."
+"(inclinación hacia abajo)."
 
 msgid "NO_viewing_distance"
 msgstr "Distancia de la Cámara (relativa):"
@@ -544,11 +547,11 @@ msgstr "Reclama el asiento \"Rojo\""
 
 msgid "NO_claim+tooltip"
 msgstr ""
-"Clicking this seat in the Navigation Overlay\n"
-"will now only swap the playercolor for you."
+"Hará que clicar este asiento en la\n"
+"Interfaz de Navegación solo te cambie el color."
 
 msgid "NO_load_defaults"
-msgstr "Carga configuración por defecto"
+msgstr "Restablecer configuración predeterminada"
 
 msgid "NO_close"
 msgstr "Cerrar"
@@ -562,35 +565,35 @@ msgstr "Importar trauma"
 
 msgid "CUH_importTrauma_description"
 msgstr ""
-"Permite importar traumas desde la guía de campaña (¡El contenido Hecho Por Fans puede traer errores!).\n"
-"El órden de los jugadores es el siguiente:\n"
+"Permite importar trauma desde el registro de campaña (¡El contenido hecho por fans puede traer errores!).\n"
+"El orden de los jugadores en el registro ha de ser:\n"
 "Blanco, Naranja, Verde, Rojo."
 
 msgid "CUH_tidyPlayermats"
-msgstr "Acomodar tableros"
+msgstr "Limpiar tapetes"
 
 msgid "CUH_tidyPlayermats_description"
 msgstr ""
-"Controla si los tableros deberían acomodarse (Remover todas las cartas y "
+"Controla si los tapetes deberían limpiarse (Eliminar todas las cartas y "
 "fichas en ellos)."
 
 msgid "CUH_removeDrawnLines"
-msgstr "Remover líneas dibujadas"
+msgstr "Eliminar líneas dibujadas"
 
 msgid "CUH_removeDrawnLines_description"
-msgstr "Controla si se deberían remover las líneas dibujadas."
+msgstr "Controla si se deberían eliminar las líneas dibujadas."
 
 # Cards
 msgid "CARD_BorrowedTime_remove_text"
-msgstr "Retira los clics"
+msgstr "Retirar clics"
 
 msgid "CARD_DarkHorse_text"
-msgstr "☐ Skip resource"
+msgstr "☐ Rechazar recurso"
 
 msgid "CARD_ElleRubash_doom_text"
 msgstr ""
-"Aparecer Contador\n"
-"De Perdición Ignorada"
+"Crear Ficha de\n"
+"Perdición Ignorada"
 
 msgid "CARD_FamilyInheritance_DiscardAll_text"
 msgstr "Descartar Todo"
@@ -622,23 +625,23 @@ msgstr "AJUSTES PERSONALES"
 
 msgid "PM_optionTitle_slotEditing_text"
 msgstr ""
-"Activar el Modo\n"
-"de Modificador de Espacios"
+"Activar Modo Edición\n"
+"de Espacios de Equipamento"
 
 msgid "PM_optionTitle_handColorSelect_text"
 msgstr "Seleccionar tu Color de Mano"
 
 msgid "PM_optionTitle_textureSelect_text"
-msgstr "Seleccionar la Textura de tu Tablero"
+msgstr "Seleccionar Textura de Tapete"
 
 msgid "PM_optionTitle_visibilitySelect_text"
 msgstr "Mostrarme/Ocultarme esta mano"
 
 msgid "PM_optionTitle_visibilityAll_text"
-msgstr "Mostrarle/Ocultarle esta mano a todos"
+msgstr "Mostrar/Ocultar esta mano a todos"
 
 msgid "PM_optionTitle_showTokenSplash_text"
-msgstr "Mostrar Token Aumentado en pantalla"
+msgstr "Mostrar Ficha de Caos en grande"
 
 msgid "PM_option_showTokenSplash_dropdown_1"
 msgstr "Global"
@@ -656,10 +659,10 @@ msgid "PM_option_showTokenSplash_dropdown_5"
 msgstr "Deshabilitado"
 
 msgid "PM_optionTitle_exhaustRotation_text"
-msgstr "Especificar la Rotación de Agote"
+msgstr "Especificar la Rotación de Agotamiento"
 
 msgid "PM_optionTitle_useCustomResourceImages_text"
-msgstr "Use Custom Resource Images"
+msgstr "Usar Imágenes de Recurso Personalizadas"
 
 msgid "PM_option_useCustomResourceImages_dropdown_1"
 msgstr "Global"
@@ -699,7 +702,7 @@ msgid "PMB_discard1_button"
 msgstr "Descartá 1"
 
 msgid "PMB_discard1_button+tooltiptext"
-msgstr "Descarta una carta al azar de tu mano (que no sea \"Hidden/Oculta\")"
+msgstr "Descarta una carta al azar de tu mano (que no esté oculta)"
 
 msgid "PMB_draw1_button"
 msgstr "Roba 1"
@@ -712,13 +715,13 @@ msgstr "Click derecho para robar carta sin ganar recurso."
 
 # Mythos Area
 msgid "MA_reshuffleEncounterDeck_text"
-msgstr "Mezcla tu mazo ➡"
+msgstr "Barajar ➡"
 
 msgid "MA_advance_text"
 msgstr "Avanzar ↪"
 
 msgid "MA_copyReference_text"
-msgstr "Copiar a los tableros de juego"
+msgstr "Copiar a los tapetes de jugador"
 
 # Clue Spending Menu
 msgid "CS_title"
@@ -737,7 +740,7 @@ msgid "CS_total"
 msgstr "TOTAL"
 
 msgid "CS_button_skip"
-msgstr "SALTEAR"
+msgstr "OMITIR"
 
 msgid "CS_button_spend"
 msgstr "GASTAR"
@@ -749,30 +752,30 @@ msgstr "Indica el número de pistas a gastar (i = por investigador):"
 # Tour
 msgid "TOUR_Roland_introduction"
 msgstr ""
-"A pesar de mi esfuerzo, parece que nos encontraste. Probablemente te arrepientas de eso. Ya que estás acá al menos podríamos mostrarte el lugar.\n"
+"A pesar de mi esfuerzo, parece que nos encontraste. Probablemente te arrepientas de eso. Ya que estás aquí al menos podríamos mostrarte el lugar.\n"
 "\n"
 "Usa las flechas para moverte hacia delante o detrás, y si los horrores se vuelven demasiado, siempre puedes salir cuando gustes. Listos?"
 
 msgid "TOUR_Darrell_camera"
 msgstr ""
-"Las cámaras pueden ser algo complejo. Mejor dejá que los profesionales nos encarguemos de eso en el tour. Intentá de no moverla hasta que terminemos.\n"
+"Las cámaras pueden ser algo complejo. Mejor deja que los profesionales nos encarguemos de eso en el tour. Intenta no moverla hasta que terminemos.\n"
 "\n"
 "Pero dejame decirte que hay ciertas maneras de hacer dicha navegación más fácil:\n"
-"- Atajos para posición de cámara\n"
+"- atajos para posiciones específicas de la cámara\n"
 "(en detalle más delante)\n"
-"- una capa (LUEGO DEL TOUR: hacé click en el ícono de la cámara en la esquina inferior derecha y explorá!)\n"
+"- una interfaz (DESPUÉS DEL TOUR: haz click en el icono de la cámara en la esquina inferior derecha y explora!)\n"
 "- guardar posiciones de cámara personales con CTRL+[0-9]\n"
 "(y cargarlas con SHIFT+[0-9])"
 
 msgid "TOUR_Daisy_rules"
 msgstr ""
-"Y si sos nuevo al juego, la librería de acá tiene todo lo que vas a necesitar. Un pequeño vistazo ahí puede llegar muy lejos, además, este lugar es perfecto para empezar a entender las complejidades de las reglas.\n"
+"Y si eres nuevo en el juego, esta biblioteca tiene todo lo que necesitas. Una pequeña ojeada te puede enseñar mucho, además este lugar es perfecto para empezar a entender las complejidades de las reglas.\n"
 "\n"
 "Dejé un par de documentos ahí que estoy seguro serán esclarecedores."
 
 msgid "TOUR_Mandy_deckimporter"
 msgstr ""
-"Para sobrevivir la que se viene vas a necesitar un mazo. Si está escondido en sitios como ArkhamDB o arkham.build lo podes cargar acá, e incluso encontrar la versión más nueva sin necesidad de cambiar los IDs todo el tiempo.\n"
+"Para sobrevivir la que se viene vas a necesitar un mazo. Si está escondido en sitios como ArkhamDB o arkham.build lo puedes cargar aquí, e incluso encontrar la versión más nueva sin necesidad de cambiar los IDs todo el tiempo.\n"
 "\n"
 "Tampoco hace falta publicar tus mazos, usando \"Privado\" lo vas a ver. Solo asegúrate de seleccionar \"Hacer mis mazos públicos\" en tus configuraciones de ArkhamDB."
 
@@ -790,60 +793,60 @@ msgstr ""
 
 msgid "TOUR_Diana_bottombar"
 msgstr ""
-"Los símbolos abajo a la derecha son un repositorio de conocimiento arcano. Contienen todo el contendido oficial así como creaciones creativas de fans. Yo tendría cuidado leyendo sobre aquellos que parecen demasiado amigados con la oscuridad, más no se puede negar la calidad de su esfuerzo.\n"
+"Estos símbolos abajo a la derecha son un repositorio de conocimiento arcano. Contienen todo el contenido oficial así como creaciones creativas de fans. Uno debe tener cuidado con aquellos que parecen demasiado amigados con la oscuridad, mas no se puede negar la calidad de su esfuerzo.\n"
 "\n"
-"Oh, no ves nada ahí? Solo jugadores promovidos pueden."
+"Oh, no ves nada ahí? Solo los jugadores con permiso pueden."
 
 msgid "TOUR_Winifred_optionpanel"
 msgstr ""
-"Ninguna aviadora que se valore volaría un avión al que no le tocó alguna que otra cosita. El ícono del engranaje contiene configuraciones para customizar tu experiencia de juego, desde formas alternativas de contar tus pistas hasta una variedad de ayudas para acelerar el juego.\n"
+"Ningún aviador que se valore volaría un avión al que no le tocó alguna que otra cosita. El icono del engranaje contiene configuraciones para personalizar tu experiencia de juego, desde formas alternativas de contar tus pistas hasta una variedad de ayudas para acelerar el juego.\n"
 "\n"
-"Todo ahí dentro es opcional, pero ¿por qué no probás a ver cuán rapido podés ir? Solo recordá que las configuraciones afectan a todos los jugadores, ¡así que cinturón ajustado y a confiar en su pilota!"
+"Todo ahí dentro es opcional, pero ¿quién no querría volar a todo gas? Recuerda que las configuraciones afectan a todos los jugadores, ¡así que cinturón ajustado y a confiar en su piloto!"
 
 msgid "TOUR_Amina_mythosarea"
 msgstr ""
-"Esta es el área de los Mythos. Cartas de encuentro, actos, y agendas van a ser posicionadas acá mientras que el mapa que exploraras estará debajo. ¡No te olvides configurar el número de investigadores antes de jugar!\n"
+"Este es el área de los Mitos. Cartas de encuentro, actos, y agendas van a ser posicionadas aquí mientras que el mapa que exploraras estará debajo. ¡No olvides configurar el número de investigadores antes de jugar!\n"
 "\n"
-"Podés contar la perdición de la agenda tocando el contador más grande justo debajo, mientras que el más pequeño contará automáticamente toda la perdición que esté en mesa. La bolsa del caos es ese libro a nuestra derecha, podes añadir o remover tokens de él siempre que lo necesites."
+"Puedes contar la perdición de la agenda pulsando el contador más grande justo debajo, mientras que el más pequeño contará automáticamente toda la perdición que esté en mesa. La bolsa del caos es ese libro a nuestra derecha, puedes añadir o eliminar fichas de él siempre que lo necesites."
 
 msgid "TOUR_Gloria_encounterdeck"
 msgstr ""
-"Los males del mundo están ahí fuera, acercándose a cada segundo. Cuando te encuentren, este es el botón que te ayudará a robar una carta del mazo de encuentros.\n"
+"Los males del mundo están ahí fuera, acechando a cada segundo. Cuando te encuentren, este es el botón que te ayudará a robar una carta del mazo de encuentros.\n"
 "\n"
-"El mazo se mezclará automáticamente si lo necesita, ya que los enemigos a los que nos enfrentamos nunca acaban."
+"El mazo se mezclará automáticamente si lo necesita. Los peligros a los que nos enfrentamos son interminables..."
 
 msgid "TOUR_Jacqueline_chaostokens"
 msgstr ""
-"Cuando la ira del destino te encuentre y el caos se cierna sobre vos, este botón grande robará una ficha del caos. Tocalo de nuevo para devolverlo a la bolsa.\n"
+"Cuando la ira del destino te encuentre y el caos se cierna sobre tí, este botón grande robará una ficha de Caos. Púlsalo de nuevo para devolverla a la bolsa.\n"
 "\n"
-"Ya sea por una visión del futuro o una maldición de algún oponente, si en algún momento necesitas revelar más de una ficha hazle click derecho una vez más. Y si necesitas revelar varios a la vez, puedes incluso escribir el número mientras mantienes tu puntero sobre el botón..."
+"Ya sea por una visión del futuro o una maldición de algún oponente, si en algún momento necesitas revelar más de una ficha haz click derecho una vez más. Y si necesitas revelar varios a la vez, puedes incluso escribir el número mientras mantienes tu ratón sobre el botón..."
 
 msgid "TOUR_Kohaku_blurse"
 msgstr ""
-"Folcloristas, inmersos en la jugosa narrativa de bendición o maldición, explorarán la esencia de la fé humana. Podes usar esta herramienta para controlar la cantidad de bendiciones y maldiciones en la bolsa del caos. (click izquiero para añadir / derecho para remover).\n"
+"Los folcloristas, inmersos en la jugosa narrativa de la bendición o maldición, exploran la esencia de la fé humana. Puedes usar esta herramienta para controlar la cantidad de fichas de bendición y maldición en la bolsa de caos. (click izquiero para añadir / derecho para eliminar).\n"
 "\n"
-"La misma también mostrará en tiempo real la cantidad de los mismos en la bolsa (y/o sellados en cartas) por vos. Recordá remover estas fichas luego de resolverlas."
+"La misma también mostrará en tiempo real la cantidad de fichas en la bolsa (y/o sellados en cartas). Recuerda eliminarlas después de resolverlas."
 
 msgid "TOUR_Preston_tokens"
 msgstr ""
-"Yo puedo pagar lo que quiera, pero para aquellos no tan previstos proveemos una pila infinita de fichas para que uses en tu juego. Simplemente arrastra una fuera de las bolsas aquí.\n"
+"Yo puedo comprarme lo que me apetezca, pero para aquellos carentes de abundancia proveemos una pila infinita de fichas para que uses en tu juego. Simplemente arrastra una fuera de las bolsas aquí.\n"
 "\n"
-"Los recursos son mis favoritos, ¡obviamente! Pero el daño y el horror son tan inevitables como los impuestos. Usualmente les dejo esos a mi contador. Estas fichas pueden ser usadas como contadores, podés escribir un numero mientras mantienes tu cursor en la ficha para cambiar su estado, o puedes también hacerles click en el medio."
+"Los recursos son mis favoritos, ¡obviamente! Pero el daño y el horror son tan inevitables como Hacienda. Por suerte siempre se encarga mi gestor de ellos. Estas fichas pueden ser usadas como contadores, puedes escribir un numero mientras mantienes tu cursor en la ficha para cambiar su estado, o puedes también hacerles click en el medio."
 
 msgid "TOUR_LaChicaRoja_hotkeys"
 msgstr ""
-"Así que buscás llaves? Puede que éstas no sean escarlata, pero las querrás igualmente.\n"
+"Buscas llaves? Puede que éstas no sean escarlata, pero las querrás igualmente.\n"
 "\n"
-"En esta linea de laburo, manos rápidas y mente más rápida te mantendrán con vida. Atajos (así como en la vida misma) son tus mejores amigos aquí fuera.\n"
+"En esta vida, manos rápidas y mucha maña te mantendrán con vida. Los atajos (así como en la vida misma) son tus mejores amigos aquí fuera.\n"
 "\n"
-"Los vas a encontrar en Options → Game Keys. Miralos, cambialos, pero sobre todo: ¡recordalos! Una vez se apaguen las luces no vas a tener tiempo para ir probando por ahí."
+"Los vas a encontrar en Opciones → Controles. Miralos, cambialos, pero sobre todo: ¡recuerdalos! Una vez se apaguen las luces no vas a tener tiempo para ir probando por ahí."
 
 msgid "TOUR_Norman_end"
 msgstr ""
-"Y así es como termina nuestro tour, pero aún así queda mucho por descubrir si mirás en los lugares correctos. Algunas cartas tienen ayudas si le das al click derecho y mirás su menú. Cada nueva versión del mod trae consigo además más contenido y funciones a usar.\n"
+"Y así es como termina nuestro tour, pero aún queda mucho por descubrir si miras en los lugares correctos. Algunas cartas tienen ayudas si le das al click derecho y miras su menú. Cada nueva versión del mod trae consigo también más contenido y funciones nuevas.\n"
 "\n"
 "No tengas miedo a explorar, ¡y buena suerte ahí fuera! Todos la necesitaremos..."
 
 # Play Area
 msgid "PA_readyCards"
-msgstr "Recupera las cartas en tu área de juego ↺"
+msgstr "Prepara las cartas del área de juego ↺"

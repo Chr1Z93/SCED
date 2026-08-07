@@ -486,6 +486,9 @@ msgid "PAG_imageTab5"
 msgstr "다른 이미지"
 
 # Bottom Bar: Tooltips
+msgid "BB_phaseActionTracker_tooltip"
+msgstr "Phase Tracker"
+
 msgid "BB_toggleActionTracker_tooltip"
 msgstr "행동 추적기"
 
