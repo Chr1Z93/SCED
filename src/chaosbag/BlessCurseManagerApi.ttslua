@@ -55,7 +55,7 @@ do
   ---@param hoveredObject tts__Object Hovered object
   ---@param noCurse? boolean True if just Bless sealing should be added (Parallel Mateo)
   function BlessCurseManagerApi.addBlurseSealingMenu(playerColor, hoveredObject, noCurse)
-    getManager().call("addMenuOptions", { playerColor = playerColor, hoveredObject = hoveredObject, noCurse = noCurse })
+    getManager().call("addBlurseSealingMenu", { playerColor = playerColor, hoveredObject = hoveredObject, noCurse = noCurse })
   end
 
   -- adds bless / curse to the chaos bag
