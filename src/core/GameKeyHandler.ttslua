@@ -686,14 +686,8 @@ end
 function putCardOnBottomOfMyDeck(playerColor, hoveredObject)
   local vColor = getVirtualColor(playerColor)
 
-  -- use different color for messages if player is not seated (because this hotkey is called for a different mat)
-  local messageColor = playerColor
-  if not Player[playerColor] or not Player[playerColor].seated then
-    messageColor = getFirstSeatedPlayer()
-  end
-
   if not hoveredObject or hoveredObject.type ~= "Card" then
-    broadcastToColor("Hover a single card and try again.", messageColor, "Orange")
+    broadcastToColor("Hover a single card and try again.", playerColor, "Orange")
     return
   end
 
@@ -702,7 +696,7 @@ function putCardOnBottomOfMyDeck(playerColor, hoveredObject)
   local rot = PlayermatApi.returnRotation(matColor):setAt("z", 180)
 
   DeckLib.placeOrMergeIntoDeck(hoveredObject, pos, rot, true, false)
-  broadcastToColor("Placed card on bottom of ".. GlobalApi.getColoredName(vColor) .."'s deck.", messageColor, "White")
+  broadcastToColor("Placed card on bottom of ".. GlobalApi.getColoredName(vColor) .."'s deck.", playerColor, "White")
 end
 
 function viewMythosArea(playerColor)
