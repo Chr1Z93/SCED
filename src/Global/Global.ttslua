@@ -2432,6 +2432,13 @@ function updatePreviewWindow()
   end
 
   -- update mask according to size (hardcoded values to align image in mask)
+  --[[ notes for future-self:
+    scale     = desired_visible_width / opaque_mask_width
+    UI width  = source_mask_width * scale
+    UI height = source_mask_height * scale
+    offset X  ≈ (source_center_x - opaque_center_x) * scale
+    offset Y  ≈ (opaque_center_y - source_center_y) * scale
+  --]]
   local maskData = {}
   if item.boxsize == "big" then
     maskData = {
@@ -2457,9 +2464,9 @@ function updatePreviewWindow()
   elseif item.boxsize == "rect" then
     maskData = {
       image    = "box-cover-mask-rect",
-      width    = "756",
-      height   = "630",
-      offsetXY = "-190 -70"
+      width    = "800",
+      height   = "600",
+      offsetXY = "137.5 12.5"
     }
   end
 
