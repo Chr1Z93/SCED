@@ -2454,6 +2454,13 @@ function updatePreviewWindow()
       height   = "630",
       offsetXY = "-190 -70"
     }
+  elseif item.boxsize == "rect" then
+    maskData = {
+      image    = "box-cover-mask-rect",
+      width    = "756",
+      height   = "630",
+      offsetXY = "-190 -70"
+    }
   end
 
   -- loading empty image as placeholder until real image is loaded

@@ -39,7 +39,7 @@ ID_URL_MAP               = {
 }
 
 -- online functionality related variables
-MOD_VERSION              = "4.8.0"
+MOD_VERSION              = "4.9.0"
 SOURCE_REPO              = "https://github.com/Chr1Z93/SCED-downloads/releases/latest/download/"
 --SOURCE_REPO            = "https://github.com/Chr1Z93/SCED-downloads/releases/download/v1.0.1/"
 

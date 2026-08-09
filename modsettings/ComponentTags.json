@@ -83,6 +83,34 @@
     {
       "displayed": "TarotDeckBag",
       "normalized": "tarotdeckbag"
+    },
+    {
+      "displayed": "AllCardsHotfix",
+      "normalized": "allcardshotfix"
+    },
+    {
+      "displayed": "import_configuration_provider",
+      "normalized": "import_configuration_provider"
+    },
+    {
+      "displayed": "PlayermatExtension",
+      "normalized": "playermatextension"
+    },
+    {
+      "displayed": "White",
+      "normalized": "white"
+    },
+    {
+      "displayed": "Orange",
+      "normalized": "orange"
+    },
+    {
+      "displayed": "Green",
+      "normalized": "green"
+    },
+    {
+      "displayed": "Red",
+      "normalized": "red"
     }
   ]
 }
