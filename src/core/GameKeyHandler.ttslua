@@ -1,4 +1,5 @@
 local BlessCurseManagerApi = require("chaosbag/BlessCurseManagerApi")
+local DeckLib              = require("util/DeckLib")
 local GlobalApi            = require("Global/GlobalApi")
 local GUIDReferenceApi     = require("core/GUIDReferenceApi")
 local MathLib              = require("util/MathLib")
@@ -667,19 +668,41 @@ function addBlessCurseContextMenu(playerColor, hoveredObject)
   BlessCurseManagerApi.addBlurseSealingMenu(playerColor, hoveredObject)
 end
 
-function getBottomCardFromDeck(playerColor, hoverObject)
-  if not hoverObject or hoverObject.type ~= "Deck" then
+function getBottomCardFromDeck(playerColor, hoveredObject)
+  if not hoveredObject or hoveredObject.type ~= "Deck" then
     broadcastToColor("Hover a deck and try again.", playerColor, "Orange")
     return
   end
 
-  local deckPos = hoverObject.getPosition()
-  local deckRot = hoverObject.getRotation()
+  local deckPos = hoveredObject.getPosition()
+  local deckRot = hoveredObject.getRotation()
 
   -- place the card 3.5 units offset from the deck
   local cardPos = deckPos + Vector(0, 1, -3.5):rotateOver("y", deckRot.y)
-  hoverObject.takeObject({ position = cardPos, top = false, smooth = false })
+  hoveredObject.takeObject({ position = cardPos, top = false, smooth = false })
   broadcastToColor("Placed card from the bottom of the deck north of it.", playerColor, "White")
+end
+
+function putCardOnBottomOfMyDeck(playerColor, hoveredObject)
+  local vColor = getVirtualColor(playerColor)
+
+  -- use different color for messages if player is not seated (because this hotkey is called for a different mat)
+  local messageColor = playerColor
+  if not Player[playerColor] or not Player[playerColor].seated then
+    messageColor = getFirstSeatedPlayer()
+  end
+
+  if not hoveredObject or hoveredObject.type ~= "Card" then
+    broadcastToColor("Hover a single card and try again.", messageColor, "Orange")
+    return
+  end
+
+  local matColor = PlayermatApi.getMatColor(vColor)
+  local pos = PlayermatApi.getDrawPosition(matColor)
+  local rot = PlayermatApi.returnRotation(matColor):setAt("z", 180)
+
+  DeckLib.placeOrMergeIntoDeck(hoveredObject, pos, rot, true, false)
+  broadcastToColor("Placed card on bottom of ".. GlobalApi.getColoredName(vColor) .."'s deck.", messageColor, "White")
 end
 
 function viewMythosArea(playerColor)
@@ -746,6 +769,7 @@ HOTKEYS = {
   { label = "Get bottom card from deck" },
   { label = "Move card to Victory Display" },
   { label = "Place card into threat area" },
+  { label = "Put card on bottom of my deck" },
   { label = "Remove a use" },
   {
     label = "Reshuffle encounter deck",
