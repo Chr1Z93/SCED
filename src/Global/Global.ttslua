@@ -4830,10 +4830,10 @@ function TokenManager.spawnMultipleTokens(params)
   local cardWorldPosition = card.getPosition()
 
   local offsets = {}
-  if tokenType == "clue" then
+  if (card.hasTag("Location") or tokenCount > 4) and tokenType == "clue" then
     offsets = TokenManager.buildClueOffsets(card, tokenCount)
   else
-    if tokenCount > 12 then
+    if tokenType == "resource" and tokenCount > 12 then
       printToAll("Attempting to spawn " .. tokenCount .. " tokens. Spawning clickable counter instead.")
       TokenManager.spawnResourceCounterToken(params)
       return
