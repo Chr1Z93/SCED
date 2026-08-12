@@ -4,7 +4,7 @@ local CardSpawner        = require("playercards/CardSpawner")
 local CoroutineLib       = require("util/CoroutineLib")
 
 local cardIdIndex        = {}
-local objectIdIndex      = {}
+local itemIdIndex        = {}
 local indexingDone       = false
 
 local REPLACEMENT_FIELDS = {
@@ -33,9 +33,9 @@ function rebuildIndex()
 end
 
 function startIndexBuild()
-  indexingDone  = false
-  cardIdIndex   = {}
-  objectIdIndex = {}
+  indexingDone = false
+  cardIdIndex  = {}
+  itemIdIndex  = {}
   CoroutineLib.start(buildIndex)
 end
 
@@ -132,7 +132,7 @@ function addObjectToIndex(objectData)
     local md = parseObjectMetadata(objectData) or {}
     local id = md.id or md.TtsZoopGuid
     if id then
-      objectIdIndex[id] = { data = objectData, metadata = md }
+      itemIdIndex[id] = { data = objectData, metadata = md }
     end
   end
 end
@@ -162,9 +162,9 @@ function getCardById(params)
   return cardIdIndex[params.id]
 end
 
-function getObjectById(params)
+function getItemById(params)
   if not isIndexReady() then return {} end
-  return objectIdIndex[params.id]
+  return itemIdIndex[params.id]
 end
 
 function onObjectEnterContainer(container)
@@ -188,7 +188,7 @@ end
 -- attempt to replace cards / decks
 function onObjectSpawn(obj)
   -- early exit if indices are empty
-  if next(cardIdIndex) == nil and next(objectIdIndex) == nil then return end
+  if next(cardIdIndex) == nil and next(itemIdIndex) == nil then return end
 
   -- don't replace already replaced objects
   if obj.hasTag("Replaced") then return end
@@ -213,9 +213,10 @@ function handleSpawnedBag(bag)
       local objData = bag.getData()
       if updateBagData(objData) then
         bag.destruct()
+        objData.Tags = objData.Tags or {}
+        table.insert(objData.Tags, "Replaced")
         spawnObjectData({ data = objData })
       end
-      bag.addTag("Replaced")
     end
   end, 1)
 end
@@ -223,10 +224,11 @@ end
 function handleSpawnedDeck(deck)
   Wait.time(function()
     if deck ~= nil then
-      deck.addTag("Replaced")
       local objData = deck.getData()
       if updateDeckData(objData) then
         deck.destruct()
+        objData.Tags = objData.Tags or {}
+        table.insert(objData.Tags, "Replaced")
         spawnObjectData({ data = objData })
       end
     end
@@ -246,9 +248,10 @@ function handleSpawnedCard(card)
   Wait.time(function()
     if card ~= nil then
       local objData = card.getData()
-      if updateOriginalItemData(objData, cardData.data) then
+      local wasUpdated, rotationDelta = updateOriginalItemData(objData, cardData.data)
+      if wasUpdated then
         local pos = card.getPosition()
-        local rot = card.getRotation()
+        local rot = card.getRotation() + Vector(0, rotationDelta, 0)
         local cardList = { { data = objData, metadata = md } }
         card.destruct()
         CardSpawner.spawnCards(cardList, pos, rot, false)
@@ -264,13 +267,13 @@ function handleSpawnedObject(object)
   if not id then return end
 
   -- check if it's in the index
-  local objectData = getObjectById({ id = id })
-  if objectData == nil then return end
+  local itemData = getItemById({ id = id })
+  if itemData == nil then return end
 
   Wait.time(function()
     if object ~= nil then
       local objData = object.getData()
-      if updateOriginalItemData(objData, objectData.data) then
+      if updateOriginalItemData(objData, itemData.data) then
         local pos = object.getPosition()
         local rot = object.getRotation()
         object.destruct()
@@ -292,15 +295,19 @@ function updateBagData(bagData)
   local bagId = bagMd.id or bagMd.TtsZoopGuid
 
   -- replace fields if bag is in the index
-  local objectIndexData = getObjectById({ id = bagId })
-  if objectIndexData ~= nil then
-    if updateOriginalItemData(bagData, objectIndexData.data) then
-      changedSomething = true
-    end
+  local indexData = getItemById({ id = bagId })
+  if indexData ~= nil and updateOriginalItemData(bagData, indexData.data) then
+    changedSomething = true
   end
+
+  local bagScriptState     = JSON.decode(bagData.LuaScriptState) or {}
+  local isMemoryBag        = bagScriptState.ml ~= nil
+  local scriptStateChanged = false
 
   for _, objData in ipairs(bagData.ContainedObjects or {}) do
     if objData.Name == "Bag" or objData.Name == "Custom_Model_Bag" then
+      objData.Tags = objData.Tags or {}
+      table.insert(objData.Tags, "Replaced")
       if updateBagData(objData) then
         changedSomething = true
       end
@@ -310,52 +317,87 @@ function updateBagData(bagData)
       if id then
         local cardData = getCardById({ id = id })
         if cardData then
-          if updateOriginalItemData(objData, cardData.data) then
+          local wasUpdated, rotationDelta = updateOriginalItemData(objData, cardData.data)
+          if wasUpdated then
             changedSomething = true
+            local guid = objData.GUID
+            if rotationDelta ~= 0 and isMemoryBag and guid and guid ~= "" and bagScriptState.ml[guid] then
+              bagScriptState.ml[guid].rot   = bagScriptState.ml[guid].rot or {}
+              bagScriptState.ml[guid].rot.y = (bagScriptState.ml[guid].rot.y or 0) + rotationDelta
+              scriptStateChanged            = true
+            end
           end
         end
       end
     elseif objData.Name == "Deck" then
       objData.Tags = objData.Tags or {}
       table.insert(objData.Tags, "Replaced")
-      if updateDeckData(objData) then
+      local wasUpdated, rotationDelta = updateDeckData(objData)
+      if wasUpdated then
         changedSomething = true
+        local guid = objData.GUID
+        if rotationDelta ~= 0 and isMemoryBag and guid and guid ~= "" and bagScriptState.ml[guid] then
+          bagScriptState.ml[guid].rot   = bagScriptState.ml[guid].rot or {}
+          bagScriptState.ml[guid].rot.y = (bagScriptState.ml[guid].rot.y or 0) + rotationDelta
+          scriptStateChanged            = true
+        end
       end
     else
       local md = JSON.decode(objData.GMNotes) or {}
       local id = md.id or md.TtsZoopGuid
       if id then
-        local objectData = getObjectById({ id = id })
-        if objectData then
-          if updateOriginalItemData(objData, objectData.data) then
-            changedSomething = true
-          end
+        local itemData = getItemById({ id = id })
+        if itemData and updateOriginalItemData(objData, itemData.data) then
+          changedSomething = true
         end
       end
     end
   end
+
+  if scriptStateChanged then
+    bagData.LuaScriptState = JSON.encode(bagScriptState)
+  end
+
   return changedSomething
 end
 
 function updateDeckData(deckData)
-  local changedSomething = false
-  local cardIdConversion = {}
-  local newDeckData      = {}
-  for _, objData in ipairs(deckData.ContainedObjects) do
+  local changedSomething  = false
+  local cardIdConversion  = {}
+  local newDeckData       = {}
+  local rotatedCards      = 0
+
+  local deckRotationDelta = 0
+  for i, objData in ipairs(deckData.ContainedObjects) do
     local md = JSON.decode(objData["GMNotes"]) or {}
     local id = md.id or md.TtsZoopGuid
     if id then
       local cardData = getCardById({ id = id })
       if cardData then
         local originalId = objData["CardID"]
-        local state = updateOriginalItemData(objData, cardData.data)
-        if state then
+        local wasUpdated, rotationDelta = updateOriginalItemData(objData, cardData.data)
+
+        -- maybe update deck based on first card
+        if i == 1 then
+          deckRotationDelta         = rotationDelta
+          deckData.Transform.rotY   = deckData.Transform.rotY + deckRotationDelta
+          deckData.Transform.scaleX = objData.Transform.scaleX
+          deckData.Transform.scaleZ = objData.Transform.scaleZ
+          deckData.SidewaysCard     = objData.SidewaysCard
+        end
+
+        if wasUpdated then
           changedSomething                   = true
 
           -- store changed card IDs / new deck data
           cardIdConversion[originalId]       = cardData.data["CardID"]
           local customDeckId, customDeckData = next(cardData.data["CustomDeck"])
           newDeckData[customDeckId]          = customDeckData
+
+          -- handle rotation
+          if rotationDelta ~= 0 then
+            rotatedCards = rotatedCards + 1
+          end
         end
       end
     end
@@ -373,21 +415,41 @@ function updateDeckData(deckData)
       deckData["CustomDeck"][k] = v
     end
 
-    return true
+    return true, deckRotationDelta
   end
 
-  return false
+  return false, deckRotationDelta
 end
 
 function updateOriginalItemData(originalData, replaceData)
+  local rotationDelta = 0
+
   for _, tag in ipairs(originalData["Tags"] or {}) do
-    if tag == "Replaced" then return false end
+    if tag == "Replaced" then
+      return false, rotationDelta
+    end
+  end
+
+  -- special handling for sideways cards
+  local originalSideways = originalData.SidewaysCard or false
+  local newSideways      = replaceData.SidewaysCard or false
+
+  if originalSideways ~= newSideways then
+    -- adjust the transform by 90°
+    rotationDelta                 = newSideways and -90 or 90
+
+    -- replace necessary properties
+    originalData.Transform.rotY   = (originalData.Transform.rotY or 0) + rotationDelta
+    originalData.Transform.scaleX = replaceData.Transform.scaleX
+    originalData.Transform.scaleZ = replaceData.Transform.scaleZ
+    originalData.SidewaysCard     = newSideways
   end
 
   -- handle data fields
   for _, dataKey in ipairs(REPLACEMENT_FIELDS) do
-    if replaceData[dataKey] and replaceData[dataKey] ~= "" then
-      originalData[dataKey] = replaceData[dataKey]
+    local newValue = replaceData[dataKey]
+    if newValue ~= nil and newValue ~= "" then
+      originalData[dataKey] = newValue
     end
   end
 
@@ -398,9 +460,9 @@ function updateOriginalItemData(originalData, replaceData)
   table.insert(originalData["Tags"], "Replaced")
 
   if originalData["Name"] == "Card" or originalData["Name"] == "CardCustom" then
-    return processCard(originalData)
+    return processCard(originalData), rotationDelta
   end
-  return true
+  return true, rotationDelta
 end
 
 function processCard(cardData)
