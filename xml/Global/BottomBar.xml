@@ -14,6 +14,17 @@
     rectAlignment="LowerRight"/>
 </Defaults>
 
+<!-- Phase Tracker -->
+<VerticalLayout class="navbar"
+  offsetXY="-1 280"
+  height="800">
+  <Button id="BB_togglePhaseTracker_tooltip"
+    class="navbar"
+    icon="phaseTrackerToggle"
+    tooltip="Phase Tracker"
+    onClick="onClick_toggleUi(phaseTracker)" />
+</VerticalLayout>
+
 <!-- Action Tracker -->
 <VerticalLayout class="navbar"
   offsetXY="-1 280"

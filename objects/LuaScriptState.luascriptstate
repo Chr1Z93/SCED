@@ -3,7 +3,6 @@
   "actionTrackerVisibility": [],
   "blurseVisibility": [],
   "chaosTokensGUID": [],
-  "defaultHardExpert": false,
   "handVisibility": [],
   "optionPanel": {
     "changePlayAreaImage": false,
@@ -35,5 +34,6 @@
     "useCustomResourceImages": true,
     "useResourceCounters": "disabled",
     "useSnapTags": true
-  }
+  },
+  "phaseTrackerVisibility": []
 }

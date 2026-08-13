@@ -15,6 +15,31 @@
     "URL": "https://steamusercontent-a.akamaihd.net/ugc/62586453246237701/EF44EA8D90810464674475AF1E543CCD710C302B/"
   },
   {
+    "Name": "phaseTrackerToggle",
+    "Type": 0,
+    "URL": "https://steamusercontent-a.akamaihd.net/ugc/16023644084390652618/E095AE8B3590E121D6F697A763C9CBC511C859FD/"
+  },
+  {
+    "Name": "phaseMythos",
+    "Type": 0,
+    "URL": "https://steamusercontent-a.akamaihd.net/ugc/13770709256103118670/B1A66F5856A2DC7BDD01234AB1A2B314AB5ACBFC/"
+  },
+  {
+    "Name": "phaseInvestigation",
+    "Type": 0,
+    "URL": "https://steamusercontent-a.akamaihd.net/ugc/12429441262092858404/0A5E1ADB3AA8C4A40CE354FF3E8B235B9A03D6D7/"
+  },
+  {
+    "Name": "phaseEnemy",
+    "Type": 0,
+    "URL": "https://steamusercontent-a.akamaihd.net/ugc/12957109230763878666/D1F6C3DD2C11CCDDA9DC83D50BDCD65768D79341/"
+  },
+  {
+    "Name": "phaseUpkeep",
+    "Type": 0,
+    "URL": "https://steamusercontent-a.akamaihd.net/ugc/11759615381928511673/9A0ED5F0B9BE92A07E988865F5CD2A9DB1E3221B/"
+  },
+  {
     "Name": "OverlayLarge",
     "Type": 0,
     "URL": "https://steamusercontent-a.akamaihd.net/ugc/2038486957000838167/1EF958D11A228817099C310F97817F61F84DDD91/"
@@ -278,6 +303,11 @@
     "Name": "box-cover-mask-wide",
     "Type": 0,
     "URL": "https://steamusercontent-a.akamaihd.net/ugc/2115061298538827369/A20C2ECB8ECDC1B0AD8B2B38F68CA1C1F5E07D37/"
+  },
+  {
+    "Name": "box-cover-mask-rect",
+    "Type": 0,
+    "URL": "https://steamusercontent-a.akamaihd.net/ugc/12143701472687867419/FFF3CA2AECEB3860901E3621FA4B53210E8062CE/"
   },
   {
     "Name": "token-skull",

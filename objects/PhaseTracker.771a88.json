@@ -16,16 +16,25 @@
     "ImageURL": "https://steamusercontent-a.akamaihd.net/ugc/933819604050849085/9E22AFD7B0157140FC177DBCCBCB1D61D6A0329F/",
     "WidthScale": 0
   },
-  "GUID": "557104",
+  "Description": "Use contextmenu option to enable broadcasting phase changes.\nLeft-click: Next phase\nRight-click: Previous phase",
+  "GUID": "771a88",
   "Hands": false,
   "HideWhenFaceDown": false,
   "Locked": true,
+  "LuaScript": "require(\"playarea/PhaseTracker\")",
+  "LuaScriptState": "{\"broadcastChange\":false,\"moreDetails\":false,\"phaseId\":1}",
   "Name": "Custom_Tile",
-  "Nickname": "Phase Tracker Cache",
+  "Nickname": "Phase Tracker",
+  "Tags": [
+    "CameraZoom_ignore",
+    "CleanUpHelper_ignore",
+    "displacement_excluded",
+    "LinkedPhaseTracker"
+  ],
   "Transform": {
     "posX": 78,
     "posY": 1.145,
-    "posZ": -41.886,
+    "posZ": -37.522,
     "rotY": 90,
     "scaleX": 0.5,
     "scaleY": 1,

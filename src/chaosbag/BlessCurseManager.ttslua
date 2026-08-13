@@ -402,7 +402,7 @@ end
 -- Wendy's Menu (context menu for cards on hotkey press)
 ---------------------------------------------------------
 
-function addMenuOptions(parameters)
+function addBlurseSealingMenu(parameters)
   local playerColor   = parameters.playerColor
   local hoveredObject = parameters.hoveredObject
   local noCurse       = parameters.noCurse or false

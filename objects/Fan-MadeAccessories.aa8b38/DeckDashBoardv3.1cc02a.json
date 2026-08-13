@@ -345,9 +345,9 @@
     }
   ],
   "ColorDiffuse": {
-    "b": 1.0,
-    "g": 1.0,
-    "r": 1.0
+    "b": 1,
+    "g": 1,
+    "r": 1
   },
   "CustomImage": {
     "CustomTile": {
@@ -356,10 +356,10 @@
       "Thickness": 0.2,
       "Type": 3
     },
-    "ImageScalar": 1.0,
+    "ImageScalar": 1,
     "ImageSecondaryURL": "",
     "ImageURL": "https://steamusercontent-a.akamaihd.net/ugc/10930611583163488099/DDC0C113548EA70571E0B8E02D59285032F8E172/",
-    "WidthScale": 0.0
+    "WidthScale": 0
   },
   "Description": "Helps keep your deck and table clean and organized.\n\r\nTips: For a smoother deckbuilding experience, use it with \"picture in picture\".\n\nby Rollingsnake",
   "GUID": "1cc02a",
@@ -371,7 +371,7 @@
   "Transform": {
     "rotY": 270,
     "scaleX": 9.52,
-    "scaleY": 1.0,
+    "scaleY": 1,
     "scaleZ": 9.52
   }
 }

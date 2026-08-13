@@ -3,8 +3,11 @@
   "tasks": [
     {
       "label": "Arkham SCE: Build",
-      "type": "shell",
+      "type": "process",
       "command": "python",
+      "osx": {
+        "command": "python3"
+      },
       "args": [
         "${workspaceFolder}/.vscode/build.py",
         "--action",
@@ -23,8 +26,11 @@
     },
     {
       "label": "Arkham SCE: Decompose",
-      "type": "shell",
+      "type": "process",
       "command": "python",
+      "osx": {
+        "command": "python3"
+      },
       "args": [
         "${workspaceFolder}/.vscode/build.py",
         "--action",
@@ -39,8 +45,11 @@
     },
     {
       "label": "Arkham SCE: Debug Line",
-      "type": "shell",
+      "type": "process",
       "command": "python",
+      "osx": {
+        "command": "python3"
+      },
       "args": [
         "${workspaceFolder}/.vscode/debug.py",
         "${input:guid}",

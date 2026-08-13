@@ -817,7 +817,13 @@ function moveListOfCardsFromDeck(cardsToSpawn, moveList, targetZone)
   -- Create a frequency map
   local moveCounts = {}
   for _, id in ipairs(moveList) do
-    moveCounts[id] = (moveCounts[id] or 0) + 1
+    -- use the actual ID from the index instead of the ID from the list
+    -- since it might be replaced by a reprint
+    local card = AllCardsBagApi.getCardById(id)
+    if card and card.metadata and card.metadata.id then
+      local baseId = getBaseId(card.metadata.id)
+      moveCounts[baseId] = (moveCounts[baseId] or 0) + 1
+    end
   end
 
   -- Process Cards

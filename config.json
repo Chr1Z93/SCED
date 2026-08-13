@@ -126,6 +126,7 @@
     "InvestigatorSkillTracker.e74881",
     "InvestigatorTokens.0203af",
     "Search-A-Card.24051a",
+    "PhaseTracker.771a88",
     "PhaseTracker.d0c8fa",
     "PhaseTrackerCache.557104",
     "PhaseTrackerCache.49922d",
@@ -227,10 +228,11 @@
     "CoreNightoftheZealot.64a613",
     "TheDrownedCity.938aab",
     "FilmFatale.45e513",
-    "Core2026BrethrenofAsh.elokoss"
+    "Core2026BrethrenofAsh.elokoss",
+    "ChildrenofBlood.63b531"
   ],
   "PlayArea": 1,
-  "SaveName": "Arkham SCE - 4.8.0",
+  "SaveName": "Arkham SCE - 4.9.0",
   "Sky": "Sky_Museum",
   "SkyURL": "https://steamusercontent-a.akamaihd.net/ugc/12370276462640249866/7F87FD43B19AB396C8466C7E028C10FA7695F8C1/",
   "SnapPoints_path": "SnapPoints.json",

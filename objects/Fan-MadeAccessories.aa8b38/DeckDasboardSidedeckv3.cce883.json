@@ -2,149 +2,149 @@
   "AttachedSnapPoints": [
     {
       "Position": {
-        "x": 2.57103,
+        "x": 2.571,
         "y": 0.12,
-        "z": -0.32436
+        "z": -0.324
       }
     },
     {
       "Position": {
-        "x": 1.99863,
+        "x": 1.999,
         "y": 0.12,
-        "z": -0.32436
+        "z": -0.324
       }
     },
     {
       "Position": {
-        "x": 1.42623,
+        "x": 1.426,
         "y": 0.12,
-        "z": -0.32436
+        "z": -0.324
       }
     },
     {
       "Position": {
-        "x": 0.85383,
+        "x": 0.854,
         "y": 0.12,
-        "z": -0.32436
+        "z": -0.324
       }
     },
     {
       "Position": {
-        "x": 0.283815,
+        "x": 0.284,
         "y": 0.12,
-        "z": -0.32436
+        "z": -0.324
       }
     },
     {
       "Position": {
-        "x": -0.288585,
+        "x": -0.289,
         "y": 0.12,
-        "z": -0.32436
+        "z": -0.324
       }
     },
     {
       "Position": {
-        "x": -0.860985,
+        "x": -0.861,
         "y": 0.12,
-        "z": -0.32436
+        "z": -0.324
       }
     },
     {
       "Position": {
-        "x": -1.433385,
+        "x": -1.433,
         "y": 0.12,
-        "z": -0.32436
+        "z": -0.324
       }
     },
     {
       "Position": {
-        "x": -2.005785,
+        "x": -2.006,
         "y": 0.12,
-        "z": -0.32436
+        "z": -0.324
       }
     },
     {
       "Position": {
-        "x": -2.5758,
+        "x": -2.576,
         "y": 0.12,
-        "z": -0.32436
+        "z": -0.324
       }
     },
     {
       "Position": {
-        "x": 2.57103,
+        "x": 2.571,
         "y": 0.12,
-        "z": 0.45315
+        "z": 0.453
       }
     },
     {
       "Position": {
-        "x": 1.99863,
+        "x": 1.999,
         "y": 0.12,
-        "z": 0.45315
+        "z": 0.453
       }
     },
     {
       "Position": {
-        "x": 1.42623,
+        "x": 1.426,
         "y": 0.12,
-        "z": 0.45315
+        "z": 0.453
       }
     },
     {
       "Position": {
-        "x": 0.85383,
+        "x": 0.854,
         "y": 0.12,
-        "z": 0.45315
+        "z": 0.453
       }
     },
     {
       "Position": {
-        "x": 0.283815,
+        "x": 0.284,
         "y": 0.12,
-        "z": 0.45315
+        "z": 0.453
       }
     },
     {
       "Position": {
-        "x": -0.288585,
+        "x": -0.289,
         "y": 0.12,
-        "z": 0.45315
+        "z": 0.453
       }
     },
     {
       "Position": {
-        "x": -0.860985,
+        "x": -0.861,
         "y": 0.12,
-        "z": 0.45315
+        "z": 0.453
       }
     },
     {
       "Position": {
-        "x": -1.433385,
+        "x": -1.433,
         "y": 0.12,
-        "z": 0.45315
+        "z": 0.453
       }
     },
     {
       "Position": {
-        "x": -2.005785,
+        "x": -2.006,
         "y": 0.12,
-        "z": 0.45315
+        "z": 0.453
       }
     },
     {
       "Position": {
-        "x": -2.5758,
+        "x": -2.576,
         "y": 0.12,
-        "z": 0.45315
+        "z": 0.453
       }
     }
   ],
   "ColorDiffuse": {
-    "b": 1.0,
-    "g": 1.0,
-    "r": 1.0
+    "b": 1,
+    "g": 1,
+    "r": 1
   },
   "CustomImage": {
     "CustomTile": {
@@ -153,10 +153,10 @@
       "Thickness": 0.2,
       "Type": 3
     },
-    "ImageScalar": 1.0,
+    "ImageScalar": 1,
     "ImageSecondaryURL": "",
     "ImageURL": "https://steamusercontent-a.akamaihd.net/ugc/16644945447718302299/5E95DA5821A62D91CE2931BA0539D772ABB64B99/",
-    "WidthScale": 0.0
+    "WidthScale": 0
   },
   "Description": "A side deck for Deck Dashboard v3\nDesigned for extra deck (eg: parallel Jim Culver) / Candidate upgrade card / Bonded card\n\nTip: Myriad/Exceptional/Custom Card XP cant be auto-count",
   "GUID": "cce883",
@@ -168,7 +168,7 @@
   "Transform": {
     "rotY": 270,
     "scaleX": 4.2,
-    "scaleY": 1.0,
+    "scaleY": 1,
     "scaleZ": 4.2
   }
 }

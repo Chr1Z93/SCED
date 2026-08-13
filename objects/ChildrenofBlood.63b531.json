@@ -1,0 +1,41 @@
+{
+  "ColorDiffuse": {
+    "a": 0.27843,
+    "b": 1,
+    "g": 1,
+    "r": 1
+  },
+  "CustomMesh": {
+    "CustomShader": {
+      "FresnelStrength": 0,
+      "SpecularColor": {
+        "b": 1,
+        "g": 1,
+        "r": 1
+      },
+      "SpecularIntensity": 0,
+      "SpecularSharpness": 2
+    },
+    "DiffuseURL": "https://steamusercontent-a.akamaihd.net/ugc/14446955852878773163/B0B2E69824FEB85151D6767D31C6567DEA5D291A/",
+    "MaterialIndex": 3,
+    "MeshURL": "https://steamusercontent-a.akamaihd.net/ugc/62583916778515333/9F0BE0C211BE3BD1725B4B855F5D3C9C0D020394/",
+    "TypeIndex": 0
+  },
+  "Description": "by Fantasy Flight Games",
+  "GMNotes": "{\"filename\":\"children_of_blood\"}",
+  "GUID": "63b531",
+  "Hands": false,
+  "HideWhenFaceDown": false,
+  "LuaScript": "require(\"core/DownloadBox\")",
+  "Name": "Custom_Model",
+  "Nickname": "Children of Blood",
+  "Transform": {
+    "posX": 60,
+    "posY": 1.481,
+    "posZ": -90,
+    "rotY": 270,
+    "scaleX": 2.86,
+    "scaleY": 0.68,
+    "scaleZ": 2.86
+  }
+}
