@@ -95,10 +95,15 @@ do
     return result
   end
 
-  -- Returns a random list element
-  function TableLib.pickRandom(t)
+  -- Returns a random list element (and optionally removes it)
+  function TableLib.pickRandom(t, remove)
     if TableLib.isEmpty(t) then return nil end
-    return t[math.random(#t)]
+    local index = math.random(#t)
+    if remove then
+      return table.remove(t, index)
+    else
+      return t[index]
+    end
   end
 
   -- Returns a copy of a list without duplicates
