@@ -7,7 +7,7 @@
   "uses": [
     {
       "count": 3,
-      "type": "Charges",
+      "type": "Charge",
       "token": "resource"
     }
   ],
