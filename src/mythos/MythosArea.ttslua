@@ -24,6 +24,7 @@ local SCENARIO_REFERENCE_AREA     = {
   upperLeft  = { x = -1.45, z = 0.15 },
   lowerRight = { x = -1.75, z = 0.59 }
 }
+local STORY_CARD_POS              = Vector(-2.2, 0.1, 0.37)
 
 local isReshuffling               = false
 local collisionEnabled            = false
@@ -488,6 +489,10 @@ function inArea(point, bounds)
     and point.z < bounds.lowerRight.z)
 end
 
+function getRotation()
+  return self.getRotation()
+end
+
 function getAgendaPosition()
   return self.positionToWorld(AGENDA_POS)
 end
@@ -504,10 +509,10 @@ function getEncounterDiscardPosition()
   return self.positionToWorld(ENCOUNTER_DISCARD_POS)
 end
 
-function getEncounterDiscardRotation()
-  return self.getRotation()
-end
-
 function getScenarioReferenceCardPosition()
   return self.positionToWorld(SCENARIO_REFERENCE_CARD_POS)
+end
+
+function getStoryCardPosition()
+  return self.positionToWorld(STORY_CARD_POS)
 end

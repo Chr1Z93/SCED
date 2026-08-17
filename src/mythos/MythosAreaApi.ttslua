@@ -33,6 +33,11 @@ do
     return nil
   end
 
+  ---@return tts__Vector: rotation of the Mythos Area
+  function MythosAreaApi.getRotation()
+    return getMythosArea().call("getRotation"):copy()
+  end
+
   ---@return tts__Vector: position for the eagenda deck
   function MythosAreaApi.getAgendaPosition()
     return getMythosArea().call("getAgendaPosition"):copy()
@@ -53,14 +58,14 @@ do
     return getMythosArea().call("getEncounterDiscardPosition"):copy()
   end
 
-  ---@return tts__Vector: rotation for the encounter discard
-  function MythosAreaApi.getEncounterDiscardRotation()
-    return getMythosArea().call("getEncounterDiscardRotation"):copy()
-  end
-
   ---@return tts__Vector: position for the scenario reference card
   function MythosAreaApi.getScenarioReferenceCardPosition()
     return getMythosArea().call("getScenarioReferenceCardPosition"):copy()
+  end
+
+  ---@return tts__Vector: position for a story card next to the reference card
+  function MythosAreaApi.getStoryCardPosition()
+    return getMythosArea().call("getStoryCardPosition"):copy()
   end
 
   -- draw an encounter card for the requesting mat to the first empty spot from the right
