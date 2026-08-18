@@ -23,13 +23,14 @@ do
   end
 
   -- Copies a table (or returns the original if not a table)
-  function TableLib.copy(t)
+  function TableLib.copy(t, skipMeta)
     if type(t) ~= "table" then return t end
     local copy = {}
-    for tKey, tValue in next, t, nil do
-      copy[TableLib.copy(tKey)] = TableLib.copy(tValue)
+    for k, v in next, t, nil do
+      copy[TableLib.copy(k, skipMeta)] = TableLib.copy(v, skipMeta)
     end
-    setmetatable(copy, TableLib.copy(getmetatable(t)))
+    if skipMeta then return copy end
+    setmetatable(copy, TableLib.copy(getmetatable(t), skipMeta))
     return copy
   end
 

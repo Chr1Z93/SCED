@@ -56,12 +56,12 @@ do
       Name = "Deck",
       ContainedObjects = cardList,
       Transform = {
-        posX = position.x,
-        posY = position.y,
-        posZ = position.z,
-        rotX = rotation.x,
-        rotY = rotation.y,
-        rotZ = rotation.z,
+        posX   = position.x,
+        posY   = position.y,
+        posZ   = position.z,
+        rotX   = rotation.x,
+        rotY   = rotation.y,
+        rotZ   = rotation.z,
         scaleX = scale.x,
         scaleY = scale.y,
         scaleZ = scale.z
@@ -77,6 +77,10 @@ do
 
       -- add each card's CardID
       table.insert(newDeckData.DeckIDs, cardData["CardID"])
+    end
+
+    if cardList[1].SidewaysCard then
+      newDeckData.SidewaysCard = true
     end
 
     return newDeckData
