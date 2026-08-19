@@ -87,5 +87,19 @@ do
     end
   end
 
+  -- shows the options dialog, waits for the result and returns it
+  function CoroutineLib.showOptionsDialogAndWait(playerOrColor, title, options, default)
+    local player = (type(playerOrColor) == "string") and Player[playerOrColor] or playerOrColor
+    local result
+    player.showOptionsDialog(
+      title,
+      options,
+      default,
+      function(value) result = value end
+    )
+    CoroutineLib.yieldCondition(function() return result ~= nil end)
+    return result
+  end
+
   return CoroutineLib
 end

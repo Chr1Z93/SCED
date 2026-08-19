@@ -23,14 +23,18 @@ do
 
   ---@return tts__Object: object reference to the set-aside chest
   function MythosAreaApi.getSetAsideChest()
-    -- hardcoded coordinates of the snap point
-    local searchPosition = getMythosArea().positionToWorld(Vector(2.191, 0.1, -0.462))
-    for _, obj in ipairs(SearchLib.atPosition(searchPosition, "isInteractable")) do
+    local searchPos = MythosAreaApi.getSetAsideChestPosition()
+    for _, obj in ipairs(SearchLib.atPosition(searchPos, "isInteractable")) do
       if obj.type == "Bag" then
         return obj
       end
     end
     return nil
+  end
+
+  ---@return tts__Vector: rotation of the Mythos Area
+  function MythosAreaApi.getRotation()
+    return getMythosArea().call("getRotation"):copy()
   end
 
   ---@return tts__Vector: position for the eagenda deck
@@ -53,14 +57,24 @@ do
     return getMythosArea().call("getEncounterDiscardPosition"):copy()
   end
 
-  ---@return tts__Vector: rotation for the encounter discard
-  function MythosAreaApi.getEncounterDiscardRotation()
-    return getMythosArea().call("getEncounterDiscardRotation"):copy()
-  end
-
   ---@return tts__Vector: position for the scenario reference card
   function MythosAreaApi.getScenarioReferenceCardPosition()
     return getMythosArea().call("getScenarioReferenceCardPosition"):copy()
+  end
+
+  ---@return tts__Vector: position for the set aside chest
+  function MythosAreaApi.getSetAsideChestPosition()
+    return getMythosArea().call("getSetAsideChestPosition"):copy()
+  end
+
+  ---@return tts__Vector: rotation for the set aside chest
+  function MythosAreaApi.getSetAsideChestRotation()
+    return getMythosArea().call("getSetAsideChestRotation"):copy()
+  end
+
+  ---@return tts__Vector: position for a story card next to the reference card
+  function MythosAreaApi.getStoryCardPosition()
+    return getMythosArea().call("getStoryCardPosition"):copy()
   end
 
   -- draw an encounter card for the requesting mat to the first empty spot from the right
@@ -79,6 +93,12 @@ do
   -- flip the top card of the encounter deck
   function MythosAreaApi.flipTopCardFromDeck(additionalDelay)
     getMythosArea().call("flipTopCardFromDeck", additionalDelay)
+  end
+
+  -- spawns the set aside chest
+  ---@param containedObjects? table ContainedObjects for the chest
+  function MythosAreaApi.spawnSetAsideChest(containedObjects)
+    getMythosArea().call("spawnSetAsideChest", containedObjects)
   end
 
   return MythosAreaApi

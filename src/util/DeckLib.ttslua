@@ -25,13 +25,30 @@ do
     return objOrGuid
   end
 
+  function DeckLib.spawnCard(cardData, position, rotation, scale)
+    rotation           = rotation or Vector(0, 270, 0)
+    scale              = scale or Vector(1, 1, 1)
+    cardData.Transform = {
+      posX   = position.x,
+      posY   = position.y,
+      posZ   = position.z,
+      rotX   = rotation.x,
+      rotY   = rotation.y,
+      rotZ   = rotation.z,
+      scaleX = scale.x,
+      scaleY = scale.y,
+      scaleZ = scale.z
+    }
+    return spawnObjectData({ data = cardData })
+  end
+
   -- generates deck data from a list of card data
   ---@param cardList table List of cards for the deck (in order)
   ---@param position? table Position for the deck (defaults to the middle of the play area)
   ---@param rotation? table Rotation for the deck (defaults to facedown)
   ---@param scale? table Scale for the deck (defaults to 1)
   ---@return table: Data to spawn a new deck
-  function DeckLib.generateDeckDataFromCardList(cardList, position, rotation, scale)
+  function DeckLib.generateDeckData(cardList, position, rotation, scale)
     position          = position or Vector(-30.24, 1.6, 0)
     rotation          = rotation or Vector(0, 270, 180)
     scale             = scale or Vector(1, 1, 1)
@@ -39,12 +56,12 @@ do
       Name = "Deck",
       ContainedObjects = cardList,
       Transform = {
-        posX = position.x,
-        posY = position.y,
-        posZ = position.z,
-        rotX = rotation.x,
-        rotY = rotation.y,
-        rotZ = rotation.z,
+        posX   = position.x,
+        posY   = position.y,
+        posZ   = position.z,
+        rotX   = rotation.x,
+        rotY   = rotation.y,
+        rotZ   = rotation.z,
         scaleX = scale.x,
         scaleY = scale.y,
         scaleZ = scale.z
@@ -60,6 +77,10 @@ do
 
       -- add each card's CardID
       table.insert(newDeckData.DeckIDs, cardData["CardID"])
+    end
+
+    if cardList[1].SidewaysCard then
+      newDeckData.SidewaysCard = true
     end
 
     return newDeckData
@@ -264,7 +285,7 @@ do
       TableLib.shuffle(resultingCardList, startIndex, endIndex)
 
       -- Step 5: Spawn the new deck
-      local newDeckData     = DeckLib.generateDeckDataFromCardList(resultingCardList)
+      local newDeckData     = DeckLib.generateDeckData(resultingCardList)
       newDeckData.Transform = deckData.Transform
       newDeckData.Nickname  = deckData.Nickname
       spawnObjectData({ data = newDeckData })
