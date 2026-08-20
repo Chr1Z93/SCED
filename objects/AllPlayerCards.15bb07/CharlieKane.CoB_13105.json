@@ -1,0 +1,30 @@
+{
+  "CardID": 277500,
+  "CustomDeck": {
+    "2775": {
+      "BackIsHidden": true,
+      "BackURL": "https://steamusercontent-a.akamaihd.net/ugc/2342503777940352139/A2D42E7E5C43D045D72CE5CFC907E4F886C8C690/",
+      "FaceURL": "https://steamusercontent-a.akamaihd.net/ugc/14102786153643458481/A349496400E3965B127A22D41EC570A77F69A8E7/",
+      "NumHeight": 1,
+      "NumWidth": 1,
+      "Type": 0,
+      "UniqueBack": true
+    }
+  },
+  "Description": "Knows a Guy",
+  "GMNotes_path": "AllPlayerCards.15bb07/CharlieKane.CoB_13105.gmnotes",
+  "GUID": "CoB_13105",
+  "HideWhenFaceDown": true,
+  "Name": "Card",
+  "Nickname": "Charlie Kane",
+  "Tags": [
+    "Asset",
+    "PlayerCard"
+  ],
+  "Transform": {
+    "rotY": 270,
+    "scaleX": 1,
+    "scaleY": 1,
+    "scaleZ": 1
+  }
+}
