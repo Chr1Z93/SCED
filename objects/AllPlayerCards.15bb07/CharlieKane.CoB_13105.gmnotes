@@ -1,0 +1,11 @@
+{
+  "id": "13105",
+  "type": "Asset",
+  "slot": "Ally",
+  "class": "Neutral",
+  "cost": 3,
+  "traits": "Ally. Patron.",
+  "agilityIcons": 2,
+  "encounterSet": "Friends in Low Places",
+  "cycle": "Children of Blood"
+}
