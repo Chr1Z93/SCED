@@ -24,6 +24,8 @@ local SCENARIO_REFERENCE_AREA     = {
   upperLeft  = { x = -1.45, z = 0.15 },
   lowerRight = { x = -1.75, z = 0.59 }
 }
+local SET_ASIDE_CHEST_POSITION    = Vector(2.191, 0.1, -0.462)
+local STORY_CARD_POS              = Vector(-2.2, 0.1, 0.37)
 
 local isReshuffling               = false
 local collisionEnabled            = false
@@ -473,6 +475,42 @@ function flipTopCardFromDeck(additionalDelay)
   end, 0.1 + (additionalDelay or 0))
 end
 
+function spawnSetAsideChest(containedObjects)
+  local position = getSetAsideChestPosition()
+  local rotation = getSetAsideChestRotation()
+  return spawnObjectData({
+    data = {
+      ColorDiffuse     = { b = 0, g = 0, r = 0 },
+      ContainedObjects = containedObjects or {},
+      CustomMesh       = {
+        DiffuseURL =
+        "https://steamusercontent-a.akamaihd.net/ugc/764975951334960553/C518D80E31E27DB23EEAC8CF9253E59798865790/",
+        MaterialIndex = 1,
+        MeshURL =
+        "https://steamusercontent-a.akamaihd.net/ugc/2038485431565955058/F72FECE5488594A28292C06997A2E28A8B8961C5/",
+        NormalURL =
+        "https://steamusercontent-a.akamaihd.net/ugc/764975951334960069/E70E4A58A1B7827F1E5E2AF9FF44DF0BD5DA33F7/",
+        TypeIndex = 6
+      },
+      Hands            = false,
+      HideWhenFaceDown = false,
+      Name             = "Custom_Model_Bag",
+      Nickname         = "Set-aside",
+      Transform        = {
+        posX   = position.x,
+        posY   = position.y,
+        posZ   = position.z,
+        rotX   = rotation.x,
+        rotY   = rotation.y,
+        rotZ   = rotation.z,
+        scaleX = 2,
+        scaleY = 2,
+        scaleZ = 2
+      }
+    }
+  })
+end
+
 ---------------------------------------------------------
 -- helper functions
 ---------------------------------------------------------
@@ -486,6 +524,10 @@ function inArea(point, bounds)
     and point.x > bounds.lowerRight.x
     and point.z > bounds.upperLeft.z
     and point.z < bounds.lowerRight.z)
+end
+
+function getRotation()
+  return self.getRotation()
 end
 
 function getAgendaPosition()
@@ -504,10 +546,18 @@ function getEncounterDiscardPosition()
   return self.positionToWorld(ENCOUNTER_DISCARD_POS)
 end
 
-function getEncounterDiscardRotation()
-  return self.getRotation()
-end
-
 function getScenarioReferenceCardPosition()
   return self.positionToWorld(SCENARIO_REFERENCE_CARD_POS)
+end
+
+function getSetAsideChestPosition()
+  return self.positionToWorld(SET_ASIDE_CHEST_POSITION):setAt("y", 1.565)
+end
+
+function getSetAsideChestRotation()
+  return self.getRotation() - Vector(0, 45, 0)
+end
+
+function getStoryCardPosition()
+  return self.positionToWorld(STORY_CARD_POS)
 end

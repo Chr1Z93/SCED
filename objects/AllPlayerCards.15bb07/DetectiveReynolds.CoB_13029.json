@@ -1,0 +1,30 @@
+{
+  "CardID": 277900,
+  "CustomDeck": {
+    "2779": {
+      "BackIsHidden": true,
+      "BackURL": "https://steamusercontent-a.akamaihd.net/ugc/2342503777940352139/A2D42E7E5C43D045D72CE5CFC907E4F886C8C690/",
+      "FaceURL": "https://steamusercontent-a.akamaihd.net/ugc/13846216428869951553/92FA748C628F08B33CD51A8E4B518A490AC5FB8A/",
+      "NumHeight": 1,
+      "NumWidth": 1,
+      "Type": 0,
+      "UniqueBack": true
+    }
+  },
+  "Description": "In Over His Head",
+  "GMNotes_path": "AllPlayerCards.15bb07/DetectiveReynolds.CoB_13029.gmnotes",
+  "GUID": "CoB_13029",
+  "HideWhenFaceDown": true,
+  "Name": "Card",
+  "Nickname": "Detective Reynolds",
+  "Tags": [
+    "Asset",
+    "PlayerCard"
+  ],
+  "Transform": {
+    "rotY": 270,
+    "scaleX": 1,
+    "scaleY": 1,
+    "scaleZ": 1
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "13067",
+  "type": "Asset",
+  "class": "Neutral",
+  "cost": 1,
+  "traits": "Item. Evidence. Illicit.",
+  "wildIcons": 2,
+  "encounterSet": "New Horizons",
+  "cycle": "Children of Blood"
+}

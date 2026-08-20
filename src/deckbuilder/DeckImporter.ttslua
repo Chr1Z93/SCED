@@ -419,11 +419,22 @@ function loadCards(slots, investigatorId, bondedList, deckMeta, playerColor, loa
       elseif (playerColor == "Green") then
         deckPos.x = deckPos.x + (#zoneCards - 1) * spreadDistance
       end
-      callback = function(deck) deck.spread(spreadDistance) end
+      callback = function(deck)
+        if deck then
+          deck.hide_when_face_down = true
+          deck.spread(spreadDistance)
+        end
+      end
     elseif zone == "Deck" then
       callback = function(deck) deckSpawned(deck, playerColor) end
     elseif zone == "Investigator" or zone == "Minicard" then
       callback = function(card) loadAltArt(card, loadAltInvestigator) end
+    elseif zone.startsWith("SetAside") then -- catch any other set aside zones, e.g. bonded cards
+      callback = function(deck)
+        if deck then
+          deck.hide_when_face_down = true
+        end
+      end
     end
     CardSpawner.spawnCards(zoneCards, deckPos, deckRot, true, callback)
   end
@@ -458,8 +469,13 @@ end
 ---@param deck tts__Object Callback-provided spawned deck object
 ---@param playerColor string Color of the player to draw the cards to
 function deckSpawned(deck, playerColor)
-  local player = Player[PlayermatApi.getPlayerColor(playerColor)]
-  local handPos = player.getHandTransform(1).position -- Only one hand zone per player
+  -- ensure the deck is properly set to hide cards when facedown
+  if deck then
+    deck.hide_when_face_down = true
+  end
+
+  local player    = Player[PlayermatApi.getPlayerColor(playerColor)]
+  local handPos   = player.getHandTransform(1).position -- Only one hand zone per player
   local deckCards = deck.getData().ContainedObjects
 
   -- Process in reverse order so taking cards out doesn't upset the indexing

@@ -3,8 +3,8 @@
   "type": "Asset",
   "class": "Neutral",
   "traits": "Condition. Blight.",
-  "level": 0,
   "permanent": true,
   "startsInPlay": true,
+  "encounterSet": "Blood Money",
   "cycle": "Children of Blood"
 }
