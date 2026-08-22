@@ -18,27 +18,20 @@ do
     ["Auto-fail"] = true,
     ["Bless"] = true,
     ["Curse"] = true,
-    ["Frost"] = true
+    ["Frost"] = true,
+    ["Blood"] = true
   }
 
   local TokenChecker = {}
 
   -- returns true if the passed object is a chaos token (by name)
-  TokenChecker.isChaosToken = function(obj)
-    if obj.type == "Tile" and CHAOS_TOKEN_NAMES[obj.getName()] then
-      return true
-    else
-      return false
-    end
+  function TokenChecker.isChaosToken(obj)
+    return obj.type == "Tile" and CHAOS_TOKEN_NAMES[obj.getName()]
   end
 
   -- returns true if the passed name is a chaos token name
-  TokenChecker.isChaosTokenName = function(objName)
-    if CHAOS_TOKEN_NAMES[objName] then
-      return true
-    else
-      return false
-    end
+  function TokenChecker.isChaosTokenName(objName)
+    return CHAOS_TOKEN_NAMES[objName]
   end
 
   return TokenChecker
