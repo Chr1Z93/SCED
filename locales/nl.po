@@ -495,7 +495,7 @@ msgid "PAG_imageTab5"
 msgstr "Andere beelden"
 
 # Bottom Bar: Tooltips
-msgid "BB_phaseActionTracker_tooltip"
+msgid "BB_togglePhaseTracker_tooltip"
 msgstr "Phase Tracker"
 
 msgid "BB_toggleActionTracker_tooltip"

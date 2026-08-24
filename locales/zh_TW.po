@@ -483,8 +483,8 @@ msgid "PAG_imageTab5"
 msgstr "其它圖片"
 
 # Bottom Bar: Tooltips
-msgid "BB_phaseActionTracker_tooltip"
-msgstr "Phase Tracker"
+msgid "BB_togglePhaseTracker_tooltip"
+msgstr "階段追蹤器"
 
 msgid "BB_toggleActionTracker_tooltip"
 msgstr "行動追蹤器"
