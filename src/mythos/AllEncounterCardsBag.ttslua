@@ -306,11 +306,11 @@ function updateBagData(bagData)
 
   for _, objData in ipairs(bagData.ContainedObjects or {}) do
     if objData.Name == "Bag" or objData.Name == "Custom_Model_Bag" then
-      objData.Tags = objData.Tags or {}
-      table.insert(objData.Tags, "Replaced")
       if updateBagData(objData) then
         changedSomething = true
       end
+      objData.Tags = objData.Tags or {}
+      table.insert(objData.Tags, "Replaced")
     elseif objData.Name == "Card" then
       local md = JSON.decode(objData.GMNotes) or {}
       local id = md.id or md.TtsZoopGuid
