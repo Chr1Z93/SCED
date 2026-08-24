@@ -20,6 +20,7 @@ local tokenColor           = {
   ["Curse"]       = "#633A84E6",
   ["Frost"]       = "#4A487BE6",
   ["Elder Sign"]  = "#50A8CEE6",
+  ["Blood"]       = "#C42026E6",
   [""]            = "#77674DE6"
 }
 
