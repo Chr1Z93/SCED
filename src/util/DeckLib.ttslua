@@ -49,9 +49,15 @@ do
   ---@param scale? table Scale for the deck (defaults to 1)
   ---@return table: Data to spawn a new deck
   function DeckLib.generateDeckData(cardList, position, rotation, scale)
-    position          = position or Vector(-30.24, 1.6, 0)
-    rotation          = rotation or Vector(0, 270, 180)
-    scale             = scale or Vector(1, 1, 1)
+    position = position or Vector(-30.24, 1.6, 0)
+    rotation = rotation or Vector(0, 270, 180)
+    if not scale then
+      scale = Vector(
+        cardList[1].Transform.scaleX,
+        cardList[1].Transform.scaleY,
+        cardList[1].Transform.scaleZ
+      )
+    end
     local newDeckData = {
       Name = "Deck",
       ContainedObjects = cardList,
