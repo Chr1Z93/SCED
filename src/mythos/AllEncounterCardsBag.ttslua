@@ -301,7 +301,7 @@ function updateBagData(bagData)
   end
 
   local bagScriptState     = JSON.decode(bagData.LuaScriptState) or {}
-  local isMemoryBag        = bagScriptState.ml ~= nil
+  local isMemoryBag        = type(bagScriptState) == "table" and bagScriptState.ml ~= nil
   local scriptStateChanged = false
 
   for _, objData in ipairs(bagData.ContainedObjects or {}) do
