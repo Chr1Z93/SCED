@@ -750,6 +750,9 @@ msgstr "WYDAJ"
 msgid "ClueRequirement"
 msgstr "Wprowadz liczbę wskazówek do wydania (i = na badacza):"
 
+msgid "SetupAlreadyRunning"
+msgstr "Setup already running. Do you want to restart it?"
+
 # Tour
 msgid "TOUR_Roland_introduction"
 msgstr ""

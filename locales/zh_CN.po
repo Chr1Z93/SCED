@@ -732,6 +732,9 @@ msgstr "花费"
 msgid "ClueRequirement"
 msgstr "输入要花费的线索数量（i = 每位调查员）："
 
+msgid "SetupAlreadyRunning"
+msgstr "Setup already running. Do you want to restart it?"
+
 # Tour
 msgid "TOUR_Roland_introduction"
 msgstr ""

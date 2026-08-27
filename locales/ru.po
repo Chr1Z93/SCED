@@ -748,6 +748,9 @@ msgstr "ПОТРАТИТЬ"
 msgid "ClueRequirement"
 msgstr "Введите кол-во улик, которые хотите потратить (i = за сыщика):"
 
+msgid "SetupAlreadyRunning"
+msgstr "Setup already running. Do you want to restart it?"
+
 # Tour
 msgid "TOUR_Roland_introduction"
 msgstr ""

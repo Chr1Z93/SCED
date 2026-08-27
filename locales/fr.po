@@ -751,6 +751,9 @@ msgstr "DÉPENSER"
 msgid "ClueRequirement"
 msgstr "Entrer la quantité d'indices à dépenser (i = par investigateur):"
 
+msgid "SetupAlreadyRunning"
+msgstr "Setup already running. Do you want to restart it?"
+
 # Tour
 msgid "TOUR_Roland_introduction"
 msgstr ""

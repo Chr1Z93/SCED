@@ -732,6 +732,9 @@ msgstr "花費"
 msgid "ClueRequirement"
 msgstr "輸入要花費的線索數量（i = 每位調查員）："
 
+msgid "SetupAlreadyRunning"
+msgstr "Setup already running. Do you want to restart it?"
+
 # Tour
 msgid "TOUR_Roland_introduction"
 msgstr ""
