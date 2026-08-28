@@ -666,8 +666,17 @@ end
 
 -- inform the player card panel about the presence of other cards (no cycle -> fan-made)
 function updatePlayerCardPanel()
-  local panel = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", "PlayerCardPanel")
-  if panel then panel.call("createXML") end
+  -- loop to allow copying the panel
+  -- (extensive in-mod deckbuilding is necessary in restricted regions)
+  for _, panel in ipairs(getObjectsWithTag("PlayerCardPanel")) do
+    panel.call("createXML")
+  end
+end
+
+function onObjectSpawn(obj)
+  if obj.hasTag("PlayerCardPanel") and indexingDone then
+    obj.call("createXML")
+  end
 end
 
 ---@return boolean: If true, the bag is currently not indexing and ready to be accessed

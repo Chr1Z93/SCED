@@ -24,6 +24,9 @@
   "LuaScriptState_path": "PlayerCards.2d30ee.luascriptstate",
   "Name": "Custom_Tile",
   "Nickname": "Player Cards",
+  "Tags": [
+    "PlayerCardPanel"
+  ],
   "Tooltip": false,
   "Transform": {
     "posX": 60,
