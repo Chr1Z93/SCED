@@ -29,6 +29,20 @@ function onLoad(savedData)
   end
 
   self.addContextMenuItem("Reset to 1s", function() updateStats({ 1, 1, 1, 1 }) end)
+  self.addContextMenuItem("+1 to all", function()
+    for i = 1, 4 do
+      stats[i] = MathLib.clamp(stats[i] + 1, 0, 99)
+      updateButtonLabel(i)
+    end
+    updateSave()
+  end)
+  self.addContextMenuItem("-1 to all", function()
+    for i = 1, 4 do
+      stats[i] = MathLib.clamp(stats[i] - 1, 0, 99)
+      updateButtonLabel(i)
+    end
+    updateSave()
+  end)
 end
 
 function buttonClick(isRightClick, index)
