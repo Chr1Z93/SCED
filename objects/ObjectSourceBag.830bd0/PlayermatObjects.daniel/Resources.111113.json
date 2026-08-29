@@ -30,8 +30,8 @@
   "Tooltip": false,
   "Transform": {
     "rotY": 280,
-    "scaleX": 0.3,
+    "scaleX": 0.38,
     "scaleY": 1,
-    "scaleZ": 0.3
+    "scaleZ": 0.38
   }
 }
