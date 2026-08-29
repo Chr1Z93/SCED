@@ -4127,6 +4127,22 @@ function moveObjectWithObjectsOnTop(mainObject, position, rotationY, positionOff
   end
 end
 
+function sliderCounterChange(_, value)
+  local count2 = value / 100
+  local typeList = {"HorrorCounter", "DamageCounter", "ResourceCounter", "ClickableClueCounter"}
+  for i = 1, #typeList do
+    local listOfObjects = GUIDReferenceApi.getObjectsByType(typeList[i])
+    for _, obj in pairs(listOfObjects) do
+      obj.setScale({ count2, 1 , count2 })
+    end
+  end
+  local count3 = count2 + 0.13
+
+  for _, obj in pairs(GUIDReferenceApi.getObjectsByType("ClueCounter")) do
+    obj.setScale({ count3, 0.33 , count3 })
+  end
+end
+
 -- sets the option panel to the correct state (corresponding to 'optionPanel')
 function updateOptionPanelState()
   for id, optionValue in pairs(optionPanel) do

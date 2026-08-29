@@ -421,6 +421,29 @@
             </Cell>
           </Row>
 
+          <!-- Option: make tokens on playermats larger -->
+          <Row id="OP_enlargePlayermatTokens_tooltip"
+            class="option-text"
+            tooltip="Adjusts the size of the health, sanity, clue,&#xA;and resource counters on playermats.">
+            <Cell class="option-text">
+              <Panel class="singleColumn-wrapper">
+                <Text id="OP_enlargePlayermatTokens"
+                  class="option-header">Make counters larger</Text>
+              </Panel>
+            </Cell>
+            <Cell class="option-doubleColumn">
+              <Panel class="doubleColumn-wrapper">
+                <Slider ignoreLayout="true"
+                  id="enlargePlayermatTokens"
+                  onValueChanged="sliderCounterChange"
+                  wholeNumbers="true"
+                  minValue="30"
+                  maxValue="42"
+                  value="30"/>
+              </Panel>
+            </Cell>
+          </Row>
+
           <!-- Option: use clickable clue-counters -->
           <Row id="OP_useClueClickers_tooltip"
             class="option-text"
