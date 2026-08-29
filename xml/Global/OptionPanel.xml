@@ -425,7 +425,7 @@
           <Row id="OP_enlargePlayermatTokens_tooltip"
             class="option-text"
             tooltip="Adjusts the size of the health, sanity, clue,&#xA;and resource counters on playermats.">
-            <Cell class="option-text">
+            <Cell class="option-singleColumn">
               <Panel class="singleColumn-wrapper">
                 <Text id="OP_enlargePlayermatTokens"
                   class="option-header">Make counters larger</Text>
