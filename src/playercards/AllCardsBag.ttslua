@@ -342,11 +342,16 @@ function addCardToIndex(cardData)
     end
 
     -- maybe copy data to mechanically identical reprints
+    -- we need to copy the original metadata for filtering
     if REPRINT_GROUPS[id] then
       for _, reprintId in ipairs(REPRINT_GROUPS[id]) do
         local reprintData = cardIdIndex[reprintId]
         if reprintData and not reprintData.localized then
-          cardIdIndex[reprintId] = indexData
+          cardIdIndex[reprintId] = {
+            data      = indexData.data,
+            metadata  = reprintData.metadata,
+            localized = true
+          }
         end
       end
     end
@@ -1078,12 +1083,12 @@ function buildAvailableWeaknesses(restrictions)
   -- basicWeaknessList is sorted, so later duplicates with the same name overwrite earlier versions
   local uniqueNameMap = {} -- Temporary map: [Name] = { ID, count }
   for _, weaknessId in ipairs(basicWeaknessList) do
-    local card              = cardIdIndex[weaknessId] or {}
-    local md                = card.metadata or {}
-    local name              = card.data.Nickname
-    local totalCount        = md.basicWeaknessCount or 1
-    local inPlayCount       = inPlay[weaknessId] or 0
-    local availableCount    = math.max(0, totalCount - inPlayCount)
+    local card           = cardIdIndex[weaknessId] or {}
+    local md             = card.metadata or {}
+    local name           = card.data.Nickname
+    local totalCount     = md.basicWeaknessCount or 1
+    local inPlayCount    = inPlay[weaknessId] or 0
+    local availableCount = math.max(0, totalCount - inPlayCount)
 
     if availableCount > 0 then
       local eligible = true
