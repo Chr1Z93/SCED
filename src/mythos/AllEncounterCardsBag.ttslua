@@ -17,7 +17,8 @@ local REPLACEMENT_FIELDS = {
   "CustomImage",
   "LuaScript",
   "LuaScriptState",
-  "CustomMesh"
+  "CustomMesh",
+  "States"
 }
 
 function onLoad()
