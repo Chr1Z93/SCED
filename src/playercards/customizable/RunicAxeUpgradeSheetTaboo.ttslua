@@ -1,61 +1,21 @@
 -- Customizable Cards: Runic Axe (Taboo)
 
 -- Color information for buttons
-boxSize = 38
+boxSize        = 38
 
 -- static values
-xInitial = -0.935
-xOffset  = 0.0705
+xInitial       = -0.935
+xOffset        = 0.0705
 
 customizations = {
-  [1] = {
-    checkboxes = {
-      posZ = -0.92,
-      count = 1,
-    }
-  },
-  [2] = {
-    checkboxes = {
-      posZ = -0.715,
-      count = 1,
-    }
-  },
-  [3] = {
-    checkboxes = {
-      posZ = -0.415,
-      count = 1,
-    }
-  },
-  [4] = {
-    checkboxes = {
-      posZ = -0.018,
-      count = 2,
-    }
-  },
-  [5] = {
-    checkboxes = {
-      posZ = 0.265,
-      count = 1,
-    },
-  },
-  [6] = {
-    checkboxes = {
-      posZ = 0.66,
-      count = 3,
-    }
-  },
-  [7] = {
-    checkboxes = {
-      posZ = 0.86,
-      count = 3,
-    },
-  },
-  [8] = {
-    checkboxes = {
-      posZ = 1.065,
-      count = 4,
-    },
-  },
+  [1] = { checkboxes = { posZ = -0.92, count = 1 } },
+  [2] = { checkboxes = { posZ = -0.715, count = 1 } },
+  [3] = { checkboxes = { posZ = -0.415, count = 1 } },
+  [4] = { checkboxes = { posZ = -0.018, count = 2 } },
+  [5] = { checkboxes = { posZ = 0.265, count = 1 } },
+  [6] = { checkboxes = { posZ = 0.66, count = 3 } },
+  [7] = { checkboxes = { posZ = 0.86, count = 3 } },
+  [8] = { checkboxes = { posZ = 1.065, count = 4 } }
 }
 
 require("playercards/customizable/UpgradeSheetLibrary")

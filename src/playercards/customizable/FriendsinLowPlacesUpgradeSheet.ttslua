@@ -1,65 +1,24 @@
 -- Customizable Cards: Friends in Low Places
 
 -- Color information for buttons and input boxes
-boxSize       = 36
-inputFontsize = 50
+boxSize        = 36
+inputFontsize  = 50
 
 -- static values
-xInitial = -0.935
-xOffset  = 0.0685
+xInitial       = -0.935
+xOffset        = 0.0685
 
 customizations = {
-  [1] = {
-    textField = {
-      position = { 0.275, 0.25, -0.91 },
-      width = 640
-    }
-  },
-  [2] = {
-    checkboxes = {
-      posZ = -0.725,
-      count = 1,
-    }
-  },
+  [1] = { textField = { position = { 0.275, 0.25, -0.91 }, width = 640 } },
+  [2] = { checkboxes = { posZ = -0.725, count = 1 } },
   [3] = {
-    checkboxes = {
-      posZ = -0.44,
-      count = 2,
-    },
-    textField = {
-      position = { 0.6295, 0.25, -0.44 },
-      width = 290
-    }
+    checkboxes = { posZ = -0.44, count = 2 },
+    textField  = { position = { 0.6295, 0.25, -0.44 }, width = 290 }
   },
-  [4] = {
-    checkboxes = {
-      posZ = -0.05,
-      count = 2,
-    }
-  },
-  [5] = {
-    checkboxes = {
-      posZ = 0.25,
-      count = 2,
-    }
-  },
-  [6] = {
-    checkboxes = {
-      posZ = 0.545,
-      count = 2,
-    },
-  },
-  [7] = {
-    checkboxes = {
-      posZ = 0.75,
-      count = 3,
-    }
-  },
-  [8] = {
-    checkboxes = {
-      posZ = 0.95,
-      count = 3,
-    }
-  },
+  [4] = { checkboxes = { posZ = -0.05, count = 2 } },
+  [5] = { checkboxes = { posZ = 0.25, count = 2 } },
+  [6] = { checkboxes = { posZ = 0.545, count = 2 } },
+  [7] = { checkboxes = { posZ = 0.75, count = 3 } },
+  [8] = { checkboxes = { posZ = 0.95, count = 3 } }
 }
 require("playercards/customizable/UpgradeSheetLibrary")

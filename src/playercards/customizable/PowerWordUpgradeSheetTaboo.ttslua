@@ -1,61 +1,21 @@
 -- Customizable Cards: Power Word (Taboo)
 
 -- Color information for buttons
-boxSize = 38
+boxSize        = 38
 
 -- static values
-xInitial = -0.933
-xOffset  = 0.069
+xInitial       = -0.933
+xOffset        = 0.069
 
 customizations = {
-  [1] = {
-    checkboxes = {
-      posZ = -0.905,
-      count = 1,
-    }
-  },
-  [2] = {
-    checkboxes = {
-      posZ = -0.6,
-      count = 1,
-    }
-  },
-  [3] = {
-    checkboxes = {
-      posZ = -0.42,
-      count = 1,
-    }
-  },
-  [4] = {
-    checkboxes = {
-      posZ = -0.12,
-      count = 1,
-    }
-  },
-  [5] = {
-    checkboxes = {
-      posZ = 0.18,
-      count = 2,
-    },
-  },
-  [6] = {
-    checkboxes = {
-      posZ = 0.38,
-      count = 3,
-    }
-  },
-  [7] = {
-    checkboxes = {
-      posZ = 0.675,
-      count = 3,
-    },
-  },
-  [8] = {
-    checkboxes = {
-      posZ = 0.875,
-      count = 3,
-    },
-  },
+  [1] = { checkboxes = { posZ = -0.905, count = 1 } },
+  [2] = { checkboxes = { posZ = -0.6, count = 1 } },
+  [3] = { checkboxes = { posZ = -0.42, count = 1 } },
+  [4] = { checkboxes = { posZ = -0.12, count = 1 } },
+  [5] = { checkboxes = { posZ = 0.18, count = 2 } },
+  [6] = { checkboxes = { posZ = 0.38, count = 3 } },
+  [7] = { checkboxes = { posZ = 0.675, count = 3 } },
+  [8] = { checkboxes = { posZ = 0.875, count = 3 } }
 }
 
 require("playercards/customizable/UpgradeSheetLibrary")

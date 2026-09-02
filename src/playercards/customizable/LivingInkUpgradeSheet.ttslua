@@ -1,64 +1,29 @@
 -- Customizable Cards: Living Ink
 
 -- Size information for buttons
-boxSize = 40
+boxSize              = 40
 
 -- static values
-xInitial = -0.935
-xOffset  = 0.075
+xInitial             = -0.935
+xOffset              = 0.075
 
 -- Locations of the skill selectors
 SKILL_ICON_POSITIONS = {
   willpower = { x = 0.085, z = -0.88 },
   intellect = { x = -0.183, z = -0.88 },
-  combat    = { x = -0.473, z = -0.88 },
-  agility   = { x = -0.74, z = -0.88 },
+  combat = { x = -0.473, z = -0.88 },
+  agility = { x = -0.74, z = -0.88 },
 }
 
-customizations = {
-  [1] = { }, -- Empty placeholder for skill selection row, handled by custom skill display
-  [2] = {
-    checkboxes = {
-      posZ = -0.69,
-      count = 1,
-    }
-  },
-  [3] = {
-    checkboxes = {
-      posZ = -0.355,
-      count = 1,
-    }
-  },
-  [4] = {
-    checkboxes = {
-      posZ = 0.0855,
-      count = 2,
-    }
-  },
-  [5] = {
-    checkboxes = {
-      posZ = 0.425,
-      count = 2,
-    }
-  },
-  [6] = {
-    checkboxes = {
-      posZ = 0.555,
-      count = 3,
-    },
-  },
-  [7] = {
-    checkboxes = {
-      posZ = 0.685,
-      count = 3,
-    }
-  },
-  [8] = {
-    checkboxes = {
-      posZ = 1.02,
-      count = 3,
-    },
-  },
+customizations       = {
+  [1] = {}, -- Empty placeholder for skill selection row, handled by custom skill display
+  [2] = { checkboxes = { posZ = -0.69, count = 1 } },
+  [3] = { checkboxes = { posZ = -0.355, count = 1 } },
+  [4] = { checkboxes = { posZ = 0.0855, count = 2 } },
+  [5] = { checkboxes = { posZ = 0.425, count = 2 } },
+  [6] = { checkboxes = { posZ = 0.555, count = 3 } },
+  [7] = { checkboxes = { posZ = 0.685, count = 3 } },
+  [8] = { checkboxes = { posZ = 1.02, count = 3 } }
 }
 
 require("playercards/customizable/UpgradeSheetLibrary")

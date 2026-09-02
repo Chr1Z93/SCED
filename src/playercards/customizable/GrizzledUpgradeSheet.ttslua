@@ -1,57 +1,25 @@
 -- Customizable Cards: Grizzled
 
 -- Color information for buttons and input boxes
-boxSize       = 40
-inputFontsize = 50
+boxSize        = 40
+inputFontsize  = 50
 
 -- static values
-xInitial = -0.933
-xOffset  = 0.075
+xInitial       = -0.933
+xOffset        = 0.075
 
 customizations = {
-  [1] = {
-    textField = {
-      position = { 0.3, 0.25, -0.91 },
-      width = 600
-    }
-  },
+  [1] = { textField = { position = { 0.3, 0.25, -0.91 }, width = 600 } },
   [2] = {
-    checkboxes = {
-      posZ = -0.71,
-      count = 1,
-    },
-    textField = {
-      position =  { 0.005, 0.25, -0.58 },
-      width = 875
-    }
+    checkboxes = { posZ = -0.71, count = 1 },
+    textField  = { position = { 0.005, 0.25, -0.58 }, width = 875 }
   },
   [3] = {
-    checkboxes = {
-      posZ = -0.458,
-      count = 2,
-    },
-    textField = {
-      position = { 0.005, 0.25, -0.32 },
-      width = 875
-    }
+    checkboxes = { posZ = -0.458, count = 2 },
+    textField  = { position = { 0.005, 0.25, -0.32 }, width = 875 }
   },
-  [4] = {
-    checkboxes = {
-      posZ = -0.205,
-      count = 3,
-    }
-  },
-  [5] = {
-    checkboxes = {
-      posZ = 0.362,
-      count = 4,
-    },
-  },
-  [6] = {
-    checkboxes = {
-      posZ = 0.82,
-      count = 5,
-    },
-  },
+  [4] = { checkboxes = { posZ = -0.205, count = 3 } },
+  [5] = { checkboxes = { posZ = 0.362, count = 4 } },
+  [6] = { checkboxes = { posZ = 0.82, count = 5 } }
 }
 require("playercards/customizable/UpgradeSheetLibrary")

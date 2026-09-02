@@ -1,49 +1,19 @@
 -- Customizable Cards: Custom Modifications
 
 -- Color information for buttons
-boxSize = 38
+boxSize        = 38
 
 -- static values
-xInitial = -0.935
-xOffset  = 0.0735
+xInitial       = -0.935
+xOffset        = 0.0735
 
 customizations = {
-  [1] = {
-    checkboxes = {
-      posZ = -0.895,
-      count = 1,
-    }
-  },
-  [2] = {
-    checkboxes = {
-      posZ = -0.455,
-      count = 2,
-    }
-  },
-  [3] = {
-    checkboxes = {
-      posZ = -0.215,
-      count = 2,
-    }
-  },
-  [4] = {
-    checkboxes = {
-      posZ = 0.115,
-      count = 3,
-    }
-  },
-  [5] = {
-    checkboxes = {
-      posZ = 0.453,
-      count = 3,
-    },
-  },
-  [6] = {
-    checkboxes = {
-      posZ = 0.794,
-      count = 4,
-    }
-  },
+  [1] = { checkboxes = { posZ = -0.895, count = 1 } },
+  [2] = { checkboxes = { posZ = -0.455, count = 2 } },
+  [3] = { checkboxes = { posZ = -0.215, count = 2 } },
+  [4] = { checkboxes = { posZ = 0.115, count = 3 } },
+  [5] = { checkboxes = { posZ = 0.453, count = 3 } },
+  [6] = { checkboxes = { posZ = 0.794, count = 4 } }
 }
 
 require("playercards/customizable/UpgradeSheetLibrary")
