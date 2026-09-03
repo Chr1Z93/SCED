@@ -23,6 +23,7 @@ local TokenArrangerApi            = require("tokens/TokenArrangerApi")
 local TokenChecker                = require("tokens/TokenChecker")
 local TokenSpawnTrackerApi        = require("tokens/TokenSpawnTrackerApi")
 local VictoryDisplayApi           = require("mythos/VictoryDisplayApi")
+local WebRequestLib               = require("util/WebRequestLib")
 local XmlLib                      = require("util/XmlLib")
 local Zones                       = require("playermat/Zones")
 
@@ -46,7 +47,7 @@ local bagSearchers                = {}
 local lastZoneEnterObject         = nil
 
 -- online functionality related variables
-local failCount, library, requestObj, modMeta, searchFilter, authorFilter
+local failCount, library, requestObj, modMeta, searchFilter, authorFilter, googleAppsScriptUrl
 local downloadPending             = {}
 local acknowledgedUpgradeVersions = {}
 local authorList                  = {}
@@ -187,7 +188,8 @@ function onSave()
     chaosTokensGUID             = chaosTokensGUID,
     handVisibility              = handVisibility,
     optionPanel                 = optionPanel,
-    customTableSetupData        = TABLE_SETUP_DATA["Custom"]
+    customTableSetupData        = TABLE_SETUP_DATA["Custom"],
+    googleAppsScriptUrl         = googleAppsScriptUrl
   })
 end
 
@@ -1664,6 +1666,70 @@ function resetChaosTokenStatTracker(player)
       tokenDrawingStats = { ["Overall"] = {} }
     end
   )
+end
+
+function exportChaosTokenStats(player)
+  player.showInputDialog(
+    "Enter your Google Apps Script URL:",
+    googleAppsScriptUrl,
+    function(url)
+      if not url or url == "" then return end
+
+      if not string.startsWith(url, "https://script.google.com/") then
+        printToColor("Invalid Google Apps Script URL.", player.color, "Red")
+        return
+      end
+
+      googleAppsScriptUrl = url
+      sendChaosTokenStats(player, url)
+    end
+  )
+end
+
+function sendChaosTokenStats(player, url)
+  local targetMatColor = PlayermatApi.getMatColor(player.color)
+  local filteredStats = {}
+
+  -- filter for matching matColor or unseated mats
+  for matColor, stats in pairs(tokenDrawingStats) do
+    if matColor ~= "Overall" then
+      local relatedPlayerColor = PlayermatApi.getPlayerColor(matColor)
+      if matColor == targetMatColor or not Player[relatedPlayerColor].seated then
+        local invName = PlayermatApi.getInvestigatorName(matColor)
+        filteredStats[invName] = stats
+      end
+    end
+  end
+
+  local payload = {
+    apiVersion      = 1,
+    modVersion      = MOD_VERSION,
+    timestamp       = os.time(),
+    host            = getHostName(),
+    currentScenario = MythosAreaApi.returnTokenData().currentScenario,
+    stats           = filteredStats
+  }
+
+  WebRequestLib.post(
+    url,
+    JSON.encode(payload),
+    function()
+      printToColor("Chaos Token statistics exported successfully.", player.color, "Green")
+    end,
+    function(error)
+      printToColor("Failed to export Chaos Token statistics.", player.color, "Red")
+      printToColor(error, player.color, "Red")
+    end
+  )
+end
+
+function getHostName()
+  for _, player in ipairs(Player.getPlayers()) do
+    if player.host then
+      return player.steam_name
+    end
+  end
+  return "Unknown"
 end
 
 ---------------------------------------------------------
