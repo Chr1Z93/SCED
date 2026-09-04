@@ -1595,9 +1595,9 @@ function handleStatTrackerClick(player, clickType, _)
         -- print stats in order of the "ID_URL_MAP"
         for _, subtable in pairs(ID_URL_MAP) do
           local tokenName = subtable.name
-          local value = personalStats[tokenName]
-          if value and value ~= 0 then
-            printToAll(tokenName .. ': ' .. tostring(value))
+          local tokenCount = personalStats[tokenName]
+          if tokenCount and tokenCount ~= 0 then
+            printToAll(tokenName .. ': ' .. tostring(tokenCount))
           end
         end
 
