@@ -16,7 +16,7 @@
     "ImageURL": "https://steamusercontent-a.akamaihd.net/ugc/14280472534262036296/D1D6263AF1FBA9EAD5AEB07499504108CC06E944/",
     "WidthScale": 0
   },
-  "Description": "Click to display the stats for drawn chaos tokens in the chat.\n\nLeft-click: Full list for all playermats\nMiddle-Click: Display your own stats\nRight-click: Reset the stats",
+  "Description": "Click to display the stats for drawn chaos tokens in the chat.\n\nLeft-click: Full list for all playermats\n\nMiddle-click: Display your own stats\n\nRight-click: Reset the stats\n\nChoose 'Export Stats' from the context menu to export the stats to a webservice like a google sheet.\n\nPlease refer to the notebook (top menu bar) for more details.",
   "GUID": "766620",
   "Hands": false,
   "HideWhenFaceDown": false,

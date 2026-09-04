@@ -252,7 +252,7 @@ function onLoad(savedData)
       function(playerColor)
         handleStatTrackerClick(Player[playerColor], "-3")
       end)
-    statTracker.addContextMenuItem("Export my stats",
+    statTracker.addContextMenuItem("Export stats",
       function(playerColor)
         exportChaosTokenStats(Player[playerColor])
       end)
@@ -1663,11 +1663,10 @@ function outputRandomMessage(playerColor, list, msgColor)
   printToAll(list[math.random(#list)]:gsub("<Name>", playerName):gsub("<Day>", os.date("%A")), msgColor)
 end
 
--- resets the count for each token to 0
 function resetChaosTokenStatTracker(player)
   player.showConfirmDialog("Are you sure you want to reset the Chaos Token stats?",
     function()
-      printToAll("Chaos Token stat tracker has been reset.")
+      printToAll("Chaos Token stats have been reset.")
       lastDrawnTokens = { ["Overall"] = {} }
       tokenDrawingStats = { ["Overall"] = {} }
     end
@@ -1693,31 +1692,27 @@ function exportChaosTokenStats(player)
 end
 
 function sendChaosTokenStats(player, url)
-  local targetMatColor = PlayermatApi.getMatColor(player.color)
   local filteredStats = {}
 
   -- filter for matching matColor or unseated mats
   for matColor, stats in pairs(tokenDrawingStats) do
     if matColor ~= "Overall" then
       local relatedPlayerColor = PlayermatApi.getPlayerColor(matColor)
-      if matColor == targetMatColor or not Player[relatedPlayerColor].seated then
-        local key = PlayermatApi.getInvestigatorName(matColor)
-        if key == "" then key = matColor end
-        if filteredStats[key] then
-          local i = 2
-          while filteredStats[key .. "_" .. i] do
-            i = i + 1
-          end
-          key = key .. "_" .. i
-        end
-        filteredStats[key] = stats
-      end
+      table.insert(filteredStats, {
+        investigator = PlayermatApi.getInvestigatorName(matColor),
+        player       = Player[relatedPlayerColor].seated
+            and Player[relatedPlayerColor].steam_name
+            or "",
+        exportedBy   = player.steam_name,
+        matColor     = matColor,
+        data         = stats
+      })
     end
   end
 
   local payload = {
     apiVersion      = 1,
-    modVersion      = "v" .. MOD_VERSION,
+    modVersion      = "'" .. MOD_VERSION,
     timestamp       = os.time(),
     host            = getHostName(),
     currentScenario = MythosAreaApi.returnTokenData().currentScenario,
