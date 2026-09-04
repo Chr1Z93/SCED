@@ -249,7 +249,13 @@ function onLoad(savedData)
       }
     })
     statTracker.addContextMenuItem("Print my stats",
-      function(playerColor) handleStatTrackerClick(Player[playerColor], "-3") end)
+      function(playerColor)
+        handleStatTrackerClick(Player[playerColor], "-3")
+      end)
+    statTracker.addContextMenuItem("Export my stats",
+      function(playerColor)
+        exportChaosTokenStats(Player[playerColor])
+      end)
   end
 
   -- load specific option panel state for debugging / developing
@@ -1670,7 +1676,7 @@ end
 
 function exportChaosTokenStats(player)
   player.showInputDialog(
-    "Enter your Google Apps Script URL:",
+    "Enter Google Apps Script URL:",
     googleAppsScriptUrl,
     function(url)
       if not url or url == "" then return end
@@ -1695,30 +1701,50 @@ function sendChaosTokenStats(player, url)
     if matColor ~= "Overall" then
       local relatedPlayerColor = PlayermatApi.getPlayerColor(matColor)
       if matColor == targetMatColor or not Player[relatedPlayerColor].seated then
-        local invName = PlayermatApi.getInvestigatorName(matColor)
-        filteredStats[invName] = stats
+        local key = PlayermatApi.getInvestigatorName(matColor)
+        if key == "" then key = matColor end
+        if filteredStats[key] then
+          local i = 2
+          while filteredStats[key .. "_" .. i] do
+            i = i + 1
+          end
+          key = key .. "_" .. i
+        end
+        filteredStats[key] = stats
       end
     end
   end
 
   local payload = {
     apiVersion      = 1,
-    modVersion      = MOD_VERSION,
+    modVersion      = "v" .. MOD_VERSION,
     timestamp       = os.time(),
     host            = getHostName(),
     currentScenario = MythosAreaApi.returnTokenData().currentScenario,
     stats           = filteredStats
   }
 
-  WebRequestLib.post(
+  printToColor("Webrequest initiated.", player.color, "White")
+
+  WebRequestLib.postJson(
     url,
     JSON.encode(payload),
-    function()
-      printToColor("Chaos Token statistics exported successfully.", player.color, "Green")
+    function(response)
+      if response then
+        local decoded = JSON.decode(response)
+        if decoded.success then
+          printToColor("Export successful.", player.color, "Green")
+        else
+          printToColor("Export failed.", player.color, "Red")
+          printToColor("Details: " .. response, player.color, "Red")
+        end
+      else
+        printToColor("No response received.", player.color, "Yellow")
+      end
     end,
-    function(error)
+    function(error, responseCode)
       printToColor("Failed to export Chaos Token statistics.", player.color, "Red")
-      printToColor(error, player.color, "Red")
+      printToColor("HTTP " .. tostring(responseCode) .. ": " .. tostring(error), player.color, "Red")
     end
   )
 end
