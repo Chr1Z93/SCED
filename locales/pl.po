@@ -495,7 +495,7 @@ msgid "PAG_imageTab5"
 msgstr "Inne"
 
 # Bottom Bar: Tooltips
-msgid "BB_phaseActionTracker_tooltip"
+msgid "BB_togglePhaseTracker_tooltip"
 msgstr "Phase Tracker"
 
 msgid "BB_toggleActionTracker_tooltip"
@@ -749,6 +749,9 @@ msgstr "WYDAJ"
 # Dialogs
 msgid "ClueRequirement"
 msgstr "Wprowadz liczbę wskazówek do wydania (i = na badacza):"
+
+msgid "SetupAlreadyRunning"
+msgstr "Setup already running. Do you want to restart it?"
 
 # Tour
 msgid "TOUR_Roland_introduction"

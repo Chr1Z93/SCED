@@ -495,7 +495,7 @@ msgid "PAG_imageTab5"
 msgstr "Andere beelden"
 
 # Bottom Bar: Tooltips
-msgid "BB_phaseActionTracker_tooltip"
+msgid "BB_togglePhaseTracker_tooltip"
 msgstr "Phase Tracker"
 
 msgid "BB_toggleActionTracker_tooltip"
@@ -750,6 +750,9 @@ msgstr "UITGEVEN"
 msgid "ClueRequirement"
 msgstr ""
 "Voer het aantal aanwijzingen in dat u wilt uitgeven (i = per onderzoeker):"
+
+msgid "SetupAlreadyRunning"
+msgstr "Setup already running. Do you want to restart it?"
 
 # Tour
 msgid "TOUR_Roland_introduction"

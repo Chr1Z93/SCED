@@ -1,48 +1,18 @@
 -- Customizable Cards: Damning Testimony
 
 -- Color information for buttons
-boxSize = 40
+boxSize        = 40
 
 -- static values
-xInitial = -0.935
-xOffset  = 0.075
+xInitial       = -0.935
+xOffset        = 0.075
 
 customizations = {
-  [1] = {
-    checkboxes = {
-      posZ = -0.925,
-      count = 1,
-    }
-  },
-  [2] = {
-    checkboxes = {
-      posZ = -0.475,
-      count = 2,
-    }
-  },
-  [3] = {
-    checkboxes = {
-      posZ = -0.25,
-      count = 2,
-    }
-  },
-  [4] = {
-    checkboxes = {
-      posZ = -0.01,
-      count = 3,
-    }
-  },
-  [5] = {
-    checkboxes = {
-      posZ = 0.428,
-      count = 3,
-    },
-  },
-  [6] = {
-    checkboxes = {
-      posZ = 0.772,
-      count = 4,
-    }
-  },
+  [1] = { checkboxes = { posZ = -0.925, count = 1 } },
+  [2] = { checkboxes = { posZ = -0.475, count = 2 } },
+  [3] = { checkboxes = { posZ = -0.25, count = 2 } },
+  [4] = { checkboxes = { posZ = -0.01, count = 3 } },
+  [5] = { checkboxes = { posZ = 0.428, count = 3 } },
+  [6] = { checkboxes = { posZ = 0.772, count = 4 } }
 }
 require("playercards/customizable/UpgradeSheetLibrary")

@@ -85,7 +85,7 @@
       },
       "tooltip": "None",
       "value": [
-        "Arkham Horror LCG SCE 4.9.0 - 08/??/2026"
+        "Arkham Horror LCG SCE 4.9.1 - 08/28/2026"
       ]
     },
     {
@@ -124,7 +124,7 @@
       },
       "tooltip": "None",
       "value": [
-        "New Things\r\n- added a gamekey for container searching\r\n- added a global UI for the phase tracker\r\n- added rollingsnake's deck dashboard\r\n- added generalized handling for cards with differently rotated backs\r\n- added generalized handling for containers that should get shuffled once\r\n\r\nUpdates\r\n- improved loading time\r\n- Action Tracker: UI is now clickable to flip action tokens\r\n- Chaos Bag Manager: added blood token\r\n- Clean Up Helper: updated feedback messages\r\n- Deck Importer: improved error messages, published deck handling and performance\r\n- Grimoire: updated to v1.1\n- Playermats: automatically rotate placed investigator cards\r\n- Play Area Images: updated the system to use IDs to work with language packs\r\n\r\nBug Fixes\r\n- skip resource adjustment if deck import is skipped\r\n- fixed an issue with 'readying' cards with dynamic alt view\r\n- fixed multiple bugs regarding language packs\r\n- fixed a dead link (Skeptic)\r\n- fixed metadata of Literary Analysis\n\nThis mod is a fan-made adaptation of Arkham Horror LCG.\nIt is not endorsed by Fantasy Flight Games or Asmodee Digital.\nPlease support the game by purchasing the official product."
+        "Hotfix Release Notes\n- added support for copying the player card panel\n- adjusted XML position of PhaseTracker\n- ensure the Playermat tooltips render on top of tokens\n- fixed an issue with random basic weakness quantities\n- fixed an issue with language packs and container replacing\n- fixed an issue with missing data for Blood tokens\n- fixed an issue with mismatching IDs for CoB story assets / weaknesses\n\nMajor Release Notes\n- added more gamekeys\n- added a global UI for the phase tracker\n- added rollingsnake's deck dashboard\n- improved loading time\n- Action Tracker: UI is now clickable to flip action tokens\n- Chaos Bag Manager: added blood token\n- Clean Up Helper: updated feedback messages\n- Deck Importer: improved error messages,\npublished deck handling and performance\n- Grimoire: updated to v1.1\n- Playermats: automatically rotate placed investigator cards\n- Play Area Images: updated the system to use IDs\nto work with language packs\n\nThis mod is a fan-made adaptation of Arkham Horror LCG.\nIt is not endorsed by Fantasy Flight Games or Asmodee Digital.\nPlease support the game by purchasing the official product."
       ]
     }
   ],

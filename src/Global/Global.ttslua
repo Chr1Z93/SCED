@@ -884,6 +884,7 @@ function returnChaosTokens()
     if token ~= nil then
       token.memo = nil
       token.destroyAttachments()
+      token.setRotation(chaosBag.getRotation())
       chaosBag.putObject(token)
     end
   end
@@ -2847,9 +2848,9 @@ function createPhaseTrackerUI()
       color                                = "black",
       visibility                           = visibilityString,
       active                               = visibilityString ~= "",
-      height                               = "95",
-      width                                = "95",
-      offsetXY                             = "-2 473",
+      height                               = 95,
+      width                                = 95,
+      offsetXY                             = "-2 562",
       allowDragging                        = true,
       returnToOriginalPositionWhenReleased = false,
       rectAlignment                        = "LowerRight",
@@ -2864,7 +2865,7 @@ function createPhaseTrackerUI()
           id      = "phaseTrackerUIButton",
           onClick = "onClick_phaseTrackerChangeState",
           height  = 95,
-          width   = 95,
+          width   = 95
         },
         children = {
           tag = "Image",

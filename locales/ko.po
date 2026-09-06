@@ -486,7 +486,7 @@ msgid "PAG_imageTab5"
 msgstr "다른 이미지"
 
 # Bottom Bar: Tooltips
-msgid "BB_phaseActionTracker_tooltip"
+msgid "BB_togglePhaseTracker_tooltip"
 msgstr "Phase Tracker"
 
 msgid "BB_toggleActionTracker_tooltip"
@@ -734,6 +734,9 @@ msgstr "소모"
 # Dialogs
 msgid "ClueRequirement"
 msgstr "소모할 단서 갯수를 입력해 주세요 (i = 조사자당):"
+
+msgid "SetupAlreadyRunning"
+msgstr "Setup already running. Do you want to restart it?"
 
 # Tour
 msgid "TOUR_Roland_introduction"

@@ -1,55 +1,20 @@
 -- Customizable Cards: Hyperphysical Shotcaster
 
 -- Color information for buttons
-boxSize = 38
+boxSize        = 38
 
 -- static values
-xInitial = -0.935
-xOffset  = 0.069
+xInitial       = -0.935
+xOffset        = 0.069
 
 customizations = {
-  [1] = {
-    checkboxes = {
-      posZ = -0.9,
-      count = 2,
-    }
-  },
-  [2] = {
-    checkboxes = {
-      posZ = -0.615,
-      count = 2,
-    }
-  },
-  [3] = {
-    checkboxes = {
-      posZ = -0.237,
-      count = 2,
-    }
-  },
-  [4] = {
-    checkboxes = {
-      posZ = 0.232,
-      count = 2,
-    }
-  },
-  [5] = {
-    checkboxes = {
-      posZ = 0.61,
-      count = 2,
-    },
-  },
-  [6] = {
-    checkboxes = {
-      posZ = 0.988,
-      count = 4,
-    }
-  },
-  [7] = {
-    checkboxes = {
-      posZ = 1.185,
-      count = 4,
-    },
-  },
+  [1] = { checkboxes = { posZ = -0.9, count = 2 } },
+  [2] = { checkboxes = { posZ = -0.615, count = 2 } },
+  [3] = { checkboxes = { posZ = -0.237, count = 2 } },
+  [4] = { checkboxes = { posZ = 0.232, count = 2 } },
+  [5] = { checkboxes = { posZ = 0.61, count = 2 } },
+  [6] = { checkboxes = { posZ = 0.988, count = 4 } },
+  [7] = { checkboxes = { posZ = 1.185, count = 4 } }
 }
 
 require("playercards/customizable/UpgradeSheetLibrary")

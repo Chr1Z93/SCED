@@ -17,7 +17,8 @@ local REPLACEMENT_FIELDS = {
   "CustomImage",
   "LuaScript",
   "LuaScriptState",
-  "CustomMesh"
+  "CustomMesh",
+  "States"
 }
 
 function onLoad()
@@ -301,16 +302,16 @@ function updateBagData(bagData)
   end
 
   local bagScriptState     = JSON.decode(bagData.LuaScriptState) or {}
-  local isMemoryBag        = bagScriptState.ml ~= nil
+  local isMemoryBag        = type(bagScriptState) == "table" and bagScriptState.ml ~= nil
   local scriptStateChanged = false
 
   for _, objData in ipairs(bagData.ContainedObjects or {}) do
     if objData.Name == "Bag" or objData.Name == "Custom_Model_Bag" then
-      objData.Tags = objData.Tags or {}
-      table.insert(objData.Tags, "Replaced")
       if updateBagData(objData) then
         changedSomething = true
       end
+      objData.Tags = objData.Tags or {}
+      table.insert(objData.Tags, "Replaced")
     elseif objData.Name == "Card" then
       local md = JSON.decode(objData.GMNotes) or {}
       local id = md.id or md.TtsZoopGuid

@@ -503,8 +503,8 @@ msgid "PAG_imageTab5"
 msgstr "Andere Bilder"
 
 # Bottom Bar: Tooltips
-msgid "BB_phaseActionTracker_tooltip"
-msgstr "Phase Tracker"
+msgid "BB_togglePhaseTracker_tooltip"
+msgstr "Phasenüberblick"
 
 msgid "BB_toggleActionTracker_tooltip"
 msgstr "Aktionsüberblick"
@@ -752,6 +752,9 @@ msgstr "AUSGEBEN"
 # Dialogs
 msgid "ClueRequirement"
 msgstr "Wie viele Hinweise sollen ausgegeben werden? (i = pro Ermittler)"
+
+msgid "SetupAlreadyRunning"
+msgstr "Der Aufbau läuft schon. Prozess neu starten?"
 
 # Tour
 msgid "TOUR_Roland_introduction"

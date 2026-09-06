@@ -207,8 +207,8 @@ msgstr "Usa las imágenes de recurso personalizadas."
 # Tooltip: use custom resource token Images
 msgid "OP_useCustomResourceImages_tooltip"
 msgstr ""
-"Usa imágenes personalizadas para munición, cargas, secretos y demás en vez del token"
-" de recurso genérico."
+"Usa imágenes personalizadas para munición, cargas, secretos y demás en vez "
+"del token de recurso genérico."
 
 # Option: use clickable resource counters
 msgid "OP_useResourceCounters"
@@ -495,7 +495,7 @@ msgid "PAG_imageTab5"
 msgstr "Otras Imágenes"
 
 # Bottom Bar: Tooltips
-msgid "BB_phaseActionTracker_tooltip"
+msgid "BB_togglePhaseTracker_tooltip"
 msgstr "Monitor de Fase Actual"
 
 msgid "BB_toggleActionTracker_tooltip"
@@ -748,6 +748,9 @@ msgstr "GASTAR"
 # Dialogs
 msgid "ClueRequirement"
 msgstr "Indica el número de pistas a gastar (i = por investigador):"
+
+msgid "SetupAlreadyRunning"
+msgstr "Setup already running. Do you want to restart it?"
 
 # Tour
 msgid "TOUR_Roland_introduction"

@@ -342,11 +342,16 @@ function addCardToIndex(cardData)
     end
 
     -- maybe copy data to mechanically identical reprints
+    -- we need to copy the original metadata for filtering
     if REPRINT_GROUPS[id] then
       for _, reprintId in ipairs(REPRINT_GROUPS[id]) do
         local reprintData = cardIdIndex[reprintId]
         if reprintData and not reprintData.localized then
-          cardIdIndex[reprintId] = indexData
+          cardIdIndex[reprintId] = {
+            data      = indexData.data,
+            metadata  = reprintData.metadata,
+            localized = true
+          }
         end
       end
     end
@@ -666,8 +671,17 @@ end
 
 -- inform the player card panel about the presence of other cards (no cycle -> fan-made)
 function updatePlayerCardPanel()
-  local panel = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", "PlayerCardPanel")
-  if panel then panel.call("createXML") end
+  -- loop to allow copying the panel
+  -- (extensive in-mod deckbuilding is necessary in restricted regions)
+  for _, panel in ipairs(getObjectsWithTag("PlayerCardPanel")) do
+    panel.call("createXML")
+  end
+end
+
+function onObjectSpawn(obj)
+  if obj.hasTag("PlayerCardPanel") and indexingDone then
+    obj.call("createXML")
+  end
 end
 
 ---@return boolean: If true, the bag is currently not indexing and ready to be accessed
@@ -1069,33 +1083,29 @@ function buildAvailableWeaknesses(restrictions)
   -- basicWeaknessList is sorted, so later duplicates with the same name overwrite earlier versions
   local uniqueNameMap = {} -- Temporary map: [Name] = { ID, count }
   for _, weaknessId in ipairs(basicWeaknessList) do
-    if inPlay[weaknessId] and inPlay[weaknessId] > 0 then
-      inPlay[weaknessId] = inPlay[weaknessId] - 1
-    else
+    local card           = cardIdIndex[weaknessId] or {}
+    local md             = card.metadata or {}
+    local name           = card.data.Nickname
+    local totalCount     = md.basicWeaknessCount or 1
+    local inPlayCount    = inPlay[weaknessId] or 0
+    local availableCount = math.max(0, totalCount - inPlayCount)
+
+    if availableCount > 0 then
       local eligible = true
-      local card     = cardIdIndex[weaknessId] or {}
-      local md       = card.metadata or {}
-      local name     = card.data.Nickname
 
       -- filter for correct chapter
-      if restrictions.chapter then
-        if not restrictions.chapter[md.chapter] then
-          eligible = false
-        end
+      if restrictions.chapter and not restrictions.chapter[md.chapter] then
+        eligible = false
       end
 
       -- disable 'Campaign only' weaknesses in standalone mode
-      if restrictions.standalone then
-        if md.modeRestriction == "Campaign" then
-          eligible = false
-        end
+      if restrictions.standalone and md.modeRestriction == "Campaign" then
+        eligible = false
       end
 
       -- disable class restricted weaknesses
-      if restrictions.class then
-        if md.classRestriction and md.classRestriction ~= restrictions.class then
-          eligible = false
-        end
+      if restrictions.class and md.classRestriction and md.classRestriction ~= restrictions.class then
+        eligible = false
       end
 
       -- disable non-matching traits
@@ -1131,7 +1141,7 @@ function buildAvailableWeaknesses(restrictions)
 
       -- add weakness to list if eligible
       if eligible and name then
-        uniqueNameMap[name] = { id = weaknessId, count = md.basicWeaknessCount }
+        uniqueNameMap[name] = { id = weaknessId, count = availableCount }
       end
     end
   end

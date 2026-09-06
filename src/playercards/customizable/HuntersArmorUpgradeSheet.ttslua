@@ -1,54 +1,19 @@
 -- Customizable Cards: Hunter's Armor
 
 -- Color information for buttons
-boxSize = 40
+boxSize        = 40
 
 -- static values
-xInitial = -0.933
-xOffset  = 0.075
+xInitial       = -0.933
+xOffset        = 0.075
 
 customizations = {
-  [1] = {
-    checkboxes = {
-      posZ = -0.892,
-      count = 1,
-    }
-  },
-  [2] = {
-    checkboxes = {
-      posZ = -0.560,
-      count = 2,
-    }
-  },
-  [3] = {
-    checkboxes = {
-      posZ = -0.220,
-      count = 2,
-    }
-  },
-  [4] = {
-    checkboxes = {
-      posZ = -0.092,
-      count = 2,
-    }
-  },
-  [5] = {
-    checkboxes = {
-      posZ = 0.047,
-      count = 2,
-    },
-  },
-  [6] = {
-    checkboxes = {
-      posZ = 0.376,
-      count = 3,
-    }
-  },
-  [7] = {
-    checkboxes = {
-      posZ = 0.820,
-      count = 3,
-    },
-  },
+  [1] = { checkboxes = { posZ = -0.892, count = 1 } },
+  [2] = { checkboxes = { posZ = -0.560, count = 2 } },
+  [3] = { checkboxes = { posZ = -0.220, count = 2 } },
+  [4] = { checkboxes = { posZ = -0.092, count = 2 } },
+  [5] = { checkboxes = { posZ = 0.047, count = 2 } },
+  [6] = { checkboxes = { posZ = 0.376, count = 3 } },
+  [7] = { checkboxes = { posZ = 0.820, count = 3 } }
 }
 require("playercards/customizable/UpgradeSheetLibrary")

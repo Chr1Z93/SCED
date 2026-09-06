@@ -1,0 +1,10 @@
+{
+  "id": "73059",
+  "type": "Asset",
+  "slot": "Ally",
+  "class": "Neutral",
+  "cost": 3,
+  "level": 3,
+  "traits": "Ally. Detective.",
+  "cycle": "Traces to Nowhere"
+}

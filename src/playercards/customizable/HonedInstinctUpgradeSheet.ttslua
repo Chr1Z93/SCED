@@ -1,61 +1,21 @@
 -- Customizable Cards: Honed Instinct
 
 -- Color information for buttons
-boxSize = 38
+boxSize        = 38
 
 -- static values
-xInitial = -0.935
-xOffset  = 0.069
+xInitial       = -0.935
+xOffset        = 0.069
 
 customizations = {
-  [1] = {
-    checkboxes = {
-      posZ = -0.905,
-      count = 1,
-    }
-  },
-  [2] = {
-    checkboxes = {
-      posZ = -0.705,
-      count = 1,
-    }
-  },
-  [3] = {
-    checkboxes = {
-      posZ = -0.5,
-      count = 1,
-    }
-  },
-  [4] = {
-    checkboxes = {
-      posZ = -0.29,
-      count = 1,
-    }
-  },
-  [5] = {
-    checkboxes = {
-      posZ = -0.09,
-      count = 1,
-    },
-  },
-  [6] = {
-    checkboxes = {
-      posZ = 0.12,
-      count = 2,
-    }
-  },
-  [7] = {
-    checkboxes = {
-      posZ = 0.325,
-      count = 3,
-    },
-  },
-  [8] = {
-    checkboxes = {
-      posZ = 0.62,
-      count = 5,
-    }
-  },
+  [1] = { checkboxes = { posZ = -0.905, count = 1 } },
+  [2] = { checkboxes = { posZ = -0.705, count = 1 } },
+  [3] = { checkboxes = { posZ = -0.5, count = 1 } },
+  [4] = { checkboxes = { posZ = -0.29, count = 1 } },
+  [5] = { checkboxes = { posZ = -0.09, count = 1 } },
+  [6] = { checkboxes = { posZ = 0.12, count = 2 } },
+  [7] = { checkboxes = { posZ = 0.325, count = 3 } },
+  [8] = { checkboxes = { posZ = 0.62, count = 5 } }
 }
 
 require("playercards/customizable/UpgradeSheetLibrary")

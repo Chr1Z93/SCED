@@ -494,7 +494,7 @@ msgid "PAG_imageTab5"
 msgstr "Другие изображения"
 
 # Bottom Bar: Tooltips
-msgid "BB_phaseActionTracker_tooltip"
+msgid "BB_togglePhaseTracker_tooltip"
 msgstr "Phase Tracker"
 
 msgid "BB_toggleActionTracker_tooltip"
@@ -747,6 +747,9 @@ msgstr "ПОТРАТИТЬ"
 # Dialogs
 msgid "ClueRequirement"
 msgstr "Введите кол-во улик, которые хотите потратить (i = за сыщика):"
+
+msgid "SetupAlreadyRunning"
+msgstr "Setup already running. Do you want to restart it?"
 
 # Tour
 msgid "TOUR_Roland_introduction"

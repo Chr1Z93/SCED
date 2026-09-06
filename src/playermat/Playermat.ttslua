@@ -1164,7 +1164,7 @@ function addGameplayButtons(xml)
   -- Helper to generate the tooltip child structure
   local function getTooltip(id, i18n, dir)
     local w, h        = 550, 125
-    local p           = dir == "above" and "0 250 -11" or "0 -135 -11"
+    local p           = dir == "above" and "0 250 -21" or "0 -135 -21"
     local lookUpKey   = (i18n or id) .. "+tooltiptext"
     local tooltipText = i18nApi.getStrById(lookUpKey)
     if tooltipText == lookUpKey then return {} end

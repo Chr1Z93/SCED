@@ -494,7 +494,7 @@ msgid "PAG_imageTab5"
 msgstr "Altre Immagini"
 
 # Bottom Bar: Tooltips
-msgid "BB_phaseActionTracker_tooltip"
+msgid "BB_togglePhaseTracker_tooltip"
 msgstr "Phase Tracker"
 
 msgid "BB_toggleActionTracker_tooltip"
@@ -744,6 +744,9 @@ msgstr "SPENDI"
 # Dialogs
 msgid "ClueRequirement"
 msgstr "Immetti l'importo degli indizi da spendere (i = per investigatore):"
+
+msgid "SetupAlreadyRunning"
+msgstr "Setup already running. Do you want to restart it?"
 
 # Tour
 msgid "TOUR_Roland_introduction"

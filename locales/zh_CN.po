@@ -483,8 +483,8 @@ msgid "PAG_imageTab5"
 msgstr "其它图片"
 
 # Bottom Bar: Tooltips
-msgid "BB_phaseActionTracker_tooltip"
-msgstr "Phase Tracker"
+msgid "BB_togglePhaseTracker_tooltip"
+msgstr "阶段追踪器"
 
 msgid "BB_toggleActionTracker_tooltip"
 msgstr "行动追踪器"
@@ -731,6 +731,9 @@ msgstr "花费"
 # Dialogs
 msgid "ClueRequirement"
 msgstr "输入要花费的线索数量（i = 每位调查员）："
+
+msgid "SetupAlreadyRunning"
+msgstr "Setup already running. Do you want to restart it?"
 
 # Tour
 msgid "TOUR_Roland_introduction"
