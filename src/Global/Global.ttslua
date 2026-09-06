@@ -891,6 +891,7 @@ function returnChaosTokens()
     if token ~= nil then
       token.memo = nil
       token.destroyAttachments()
+      token.setRotation(chaosBag.getRotation())
       chaosBag.putObject(token)
     end
   end
