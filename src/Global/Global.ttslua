@@ -4,6 +4,7 @@ require("core/Constants")
 require("Global/i18n")
 require("Global/i18nData")
 require("util/TtsLuaAdditions")
+local abConnector                 = require("core/abConnector")
 local BlessCurseManagerApi        = require("chaosbag/BlessCurseManagerApi")
 local ColorLib                    = require("util/ColorLib")
 local CoroutineLib                = require("util/CoroutineLib")
@@ -2177,11 +2178,16 @@ function onClick_toggleUi(player, windowId)
     return
   end
 
-  -- hide the playAreaGallery / downloadWindow if visible
+  -- hide the abConnector / playAreaGallery / downloadWindow if visible
   if windowId == "downloadWindow" then
+    changeWindowVisibilityForColor(player.color, "abConnector", false)
     changeWindowVisibilityForColor(player.color, "playAreaGallery", false)
   elseif windowId == "playAreaGallery" then
+    changeWindowVisibilityForColor(player.color, "abConnector", false)
     changeWindowVisibilityForColor(player.color, "downloadWindow", false)
+  elseif windowId == "abConnector" then
+    changeWindowVisibilityForColor(player.color, "downloadWindow", false)
+    changeWindowVisibilityForColor(player.color, "playAreaGallery", false)
   elseif windowId == "blessCurseManager" then
     -- store the state of the Bless/Curse Manager UI to restore it onLoad()
     blurseVisibility[player.color] = changeWindowVisibilityForColor(player.color, "blessCurseManager")
@@ -4385,7 +4391,7 @@ end
 -- loads the default options
 function onClick_defaultSettings()
   -- clean reset of variables
-  optionPanel = {
+  loadOptionPanelState({
     uiLanguage                = "en",
     changePlayAreaImage       = false,
     defaultHardExpert         = false,
@@ -4413,15 +4419,7 @@ function onClick_defaultSettings()
     useCustomResourceImages   = true,
     useResourceCounters       = "disabled",
     useSnapTags               = true
-  }
-
-  -- applying changes
-  for id, state in pairs(optionPanel) do
-    applyOptionPanelChange(id, state)
-  end
-
-  -- update UI
-  updateOptionPanelState()
+  }, false)
 
   -- ensure correct language for UIs
   Wait.frames(function()
