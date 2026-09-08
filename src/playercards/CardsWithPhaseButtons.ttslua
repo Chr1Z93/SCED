@@ -84,7 +84,7 @@ end
 function onClick_sideButton(player, clickType, buttonId)
   setStateForButton(nil, buttonId)
 
-  local isReady = self.UI.getAttribute(buttonId, "buttonState") == "on"
+  local isReady = self.UI.getAttribute(buttonId, "buttonState") ~= "off"
   if isReady and phaseButtonClick then phaseButtonClick(player, clickType, buttonId) end
 end
 
