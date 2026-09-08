@@ -81,8 +81,9 @@ function setStateForButton(state, buttonId)
 end
 
 -- toggles the state for the clicked button
-function onClick_sideButton(_, _, buttonId)
+function onClick_sideButton(player, clickType, buttonId)
   setStateForButton(nil, buttonId)
+  if phaseButtonClick then phaseButtonClick(player, clickType, buttonId) end
 end
 
 -- called by the Upkeep function - sets all buttons to enabled
