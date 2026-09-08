@@ -83,7 +83,9 @@ end
 -- toggles the state for the clicked button
 function onClick_sideButton(player, clickType, buttonId)
   setStateForButton(nil, buttonId)
-  if phaseButtonClick then phaseButtonClick(player, clickType, buttonId) end
+
+  local isReady = self.UI.getAttribute(buttonId, "buttonState") == "on"
+  if isReady and phaseButtonClick then phaseButtonClick(player, clickType, buttonId) end
 end
 
 -- called by the Upkeep function - sets all buttons to enabled
