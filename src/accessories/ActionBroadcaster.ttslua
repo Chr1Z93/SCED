@@ -1,0 +1,57 @@
+local GlobalApi = require("Global/GlobalApi")
+
+-- button labels and whether they can be basic
+local BUTTON_LABELS = {
+  ["Fight"]       = true,
+  ["Investigate"] = true,
+  ["Evade"]       = true,
+  ["Draw"]        = true,
+  ["Resource"]    = true,
+  ["Move"]        = true,
+  ["Play"]        = false,
+  ["Activate"]    = false,
+  ["Resign"]      = false,
+  ["Parley"]      = false,
+  ["Engage"]      = true,
+  ["End Turn"]    = false
+}
+
+function onLoad()
+  local buttonWidth  = 5000
+  local buttonHeight = 2000
+  local scale        = 0.25
+  local spacingX     = 3
+  local spacingZ     = 1.5
+  local columns      = 3
+
+  local i = 0
+  for label, canBeBasic in pairs(BUTTON_LABELS) do
+    i = i + 1
+    local functionName = "actionButton_" .. i
+    _G[functionName]   = function(_, playerColor, isRightClick)
+      if Player[playerColor] then
+        local actionText = (isRightClick and canBeBasic) and "Basic " or ""
+        broadcastToAll(GlobalApi.getColoredName(playerColor) .. ": " .. actionText .. label)
+      end
+    end
+
+    -- Convert button index to grid coordinates
+    local column       = (i - 1) % columns
+    local row          = math.floor((i - 1) / columns)
+
+    self.createButton({
+      label          = label,
+      click_function = functionName,
+      function_owner = self,
+      position       = Vector(
+        (column - 1) * spacingX,
+        1,
+        (row - 2) * spacingZ
+      ),
+      width          = buttonWidth,
+      height         = buttonHeight,
+      scale          = Vector(scale, scale, scale),
+      font_size      = 1250
+    })
+  end
+end
