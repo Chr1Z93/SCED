@@ -192,9 +192,9 @@ def main():
     branch = get_current_git_branch()
 
     print(f"{start_time_formatted}")
-    print(f"Branch: {branch}")
-    print(f"Action: {args.action}")
-    print(f"Running: {' '.join(full_cmd)}")
+    print(f"Branch:  {branch}")
+    print(f"Action:  {args.action}")
+    print(f"Command: {' '.join(full_cmd)}")
 
     if using_go:
         git_dir_path = Path(__file__).resolve().parent.resolve().parent.resolve().parent
