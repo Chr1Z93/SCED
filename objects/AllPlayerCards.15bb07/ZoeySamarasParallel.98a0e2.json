@@ -21,7 +21,7 @@
   "Description": "The Chef",
   "GMNotes_path": "AllPlayerCards.15bb07/ZoeySamarasParallel.98a0e2.gmnotes",
   "GUID": "98a0e2",
-  "LuaScript": "require(\"playercards/CardsWithPhaseButtons\")",
+  "LuaScript": "require(\"playercards/cards/ParallelZoey\")",
   "Name": "Card",
   "Nickname": "Zoey Samaras (Parallel)",
   "SidewaysCard": true,
