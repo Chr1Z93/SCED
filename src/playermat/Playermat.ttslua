@@ -1597,7 +1597,7 @@ function syncAllCustomizableCards()
   -- Sync all customizable cards using the indexed upgrade sheets
   for _, card in ipairs(cards) do
     local metadata = JSON.decode(card.getGMNotes()) or {}
-    if metadata.customizations ~= nil then
+    if metadata.customizations then
       syncCustomizableMetadata(card, metadata, upgradeSheets)
     end
   end
@@ -1614,36 +1614,42 @@ function findUpgradeSheets()
   return upgradeSheets
 end
 
-function syncCustomizableMetadata(card, cardMetadata, upgradeSheets)
-  if not cardMetadata.id or not cardMetadata.customizations then return end
+function syncCustomizableMetadata(card, metadata, upgradeSheets)
+  if not metadata.id or not metadata.customizations then return end
 
   if not upgradeSheets then
     upgradeSheets = findUpgradeSheets()
   end
 
-  local baseId = GlobalApi.getBaseId(cardMetadata.id)
-  local upgradeSheet = upgradeSheets[baseId .. "-c"]
+  local upgradeSheetId = metadata.id .. "-c"
+
+  -- special handling for Empirical Hypothesis since it does not have a changed UpgradeSheet
+  if metadata.id == "09041-t" then
+    upgradeSheetId = "09041-c"
+  end
+
+  local upgradeSheet = upgradeSheets[upgradeSheetId]
   if not upgradeSheet then return end
 
   -- Start from the original card metadata so inactive customizations are reverted
-  local originalData = AllCardsBagApi.getCardById(cardMetadata.id)
+  local originalData = AllCardsBagApi.getCardById(metadata.id)
   if not originalData or not originalData.metadata then return end
 
-  local metadata = TableLib.copy(originalData.metadata)
+  local newMetadata = TableLib.copy(originalData.metadata)
 
   -- Apply active customization replacements
   for i, customization in ipairs(metadata.customizations) do
     if customization.replaces and upgradeSheet.call("isUpgradeActive", i) then
-      TableLib.update(metadata, customization.replaces)
+      TableLib.update(newMetadata, customization.replaces)
     end
   end
 
-  card.setGMNotes(JSON.encode(metadata))
+  card.setGMNotes(JSON.encode(newMetadata))
 
   -- maybe update the card image
-  local CardReplacerList = getObjectsWithTag("CardReplacer")
-  if #CardReplacerList > 0 then
-    CardReplacerList[1].call("updateCardImage", { card = card, metadata = metadata, upgradeSheet = upgradeSheet })
+  local objList = getObjectsWithTag("CustomizableReplacer")
+  if #objList > 0 then
+    objList[1].call("updateCardImage", { card = card, metadata = newMetadata, upgradeSheet = upgradeSheet })
   end
 end
 
