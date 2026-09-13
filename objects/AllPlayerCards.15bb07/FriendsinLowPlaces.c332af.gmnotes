@@ -8,6 +8,7 @@
   "intellectIcons": 1,
   "agilityIcons": 1,
   "customizations": [
+    {},
     {
       "name": "Helpful",
       "xp": 1
