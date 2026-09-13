@@ -5,6 +5,7 @@
 </Defaults>
 
 <Include src="Global/BottomBar.xml"/>
+<Include src="Global/abConnector.xml"/>
 <Include src="Global/DownloadWindow.xml"/>
 <Include src="Global/PlayAreaGallery.xml"/>
 <Include src="Global/TitleSplash.xml"/>
