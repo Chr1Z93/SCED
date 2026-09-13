@@ -1621,7 +1621,8 @@ function syncCustomizableMetadata(card, cardMetadata, upgradeSheets)
     upgradeSheets = findUpgradeSheets()
   end
 
-  local upgradeSheet = upgradeSheets[cardMetadata.id .. "-c"]
+  local baseId = GlobalApi.getBaseId(cardMetadata.id)
+  local upgradeSheet = upgradeSheets[baseId .. "-c"]
   if not upgradeSheet then return end
 
   -- Start from the original card metadata so inactive customizations are reverted
