@@ -252,10 +252,7 @@ function onLoad(savedData)
       function(playerColor)
         handleStatTrackerClick(Player[playerColor], "-3")
       end)
-    statTracker.addContextMenuItem("Export stats",
-      function(playerColor)
-        exportChaosTokenStats(Player[playerColor])
-      end)
+    statTracker.addContextMenuItem("Export stats", exportChaosTokenStats)
   end
 
   -- load specific option panel state for debugging / developing
@@ -1674,7 +1671,13 @@ function resetChaosTokenStatTracker(player)
   )
 end
 
-function exportChaosTokenStats(player)
+function exportChaosTokenStats(playerColor)
+  local player = Player[playerColor]
+  if not player.admin then
+    printToColor("This is only available to promoted players and the host.", playerColor)
+    return
+  end
+
   player.showInputDialog(
     "Enter Google Apps Script URL:",
     googleAppsScriptUrl,
@@ -1682,7 +1685,7 @@ function exportChaosTokenStats(player)
       if not url or url == "" then return end
 
       if not string.startsWith(url, "https://script.google.com/") then
-        printToColor("Invalid Google Apps Script URL.", player.color, "Red")
+        printToColor("Invalid Google Apps Script URL.", playerColor, "Red")
         return
       end
 
