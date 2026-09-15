@@ -884,7 +884,7 @@ end
 -- returns all chaos tokens to the bag
 function returnChaosTokens()
   local chaosBag = findChaosBag()
-  for _, token in pairs(chaosTokens) do
+  for _, token in ipairs(chaosTokens) do
     if token ~= nil then
       token.memo = nil
       token.destroyAttachments()
@@ -1138,6 +1138,14 @@ function getReadableTokenName(tokenName)
   return tokenName
 end
 
+function removeInvalidChaosTokenReferences()
+  for i = #chaosTokens, 1, -1 do
+    if chaosTokens[i] == nil then
+      table.remove(chaosTokens, i)
+    end
+  end
+end
+
 -- called by playermats (by the "Draw chaos token" button)
 function drawChaosToken(params)
   if not canTouchChaosTokens() then return end
@@ -1147,6 +1155,9 @@ function drawChaosToken(params)
   end
 
   local matGUID = params.mat.getGUID()
+
+  -- double-check object references
+  removeInvalidChaosTokenReferences()
 
   -- return token(s) on other playermat first
   if chaosTokensLastMatGUID ~= nil and chaosTokensLastMatGUID ~= matGUID and #chaosTokens ~= 0 then
@@ -5458,6 +5469,29 @@ end
 -- converts a string to boolean (because TTS is very inconsistent with these in XML)
 function convertStringToBoolean(str)
   return str == "True" or str == "true" or str == true
+end
+
+-- Removes common suffixes from IDs
+function getBaseId(id)
+  -- 1. %-[mpct]$ : Matches -m, -p, -c, or -t
+  -- 2. %-p[fb]$  : Matches -pb or -pf
+  -- 3. %-b%d$    : Matches -b followed by any digit (e.g., -b1, -b2)
+  local patterns = { "%-[mpct]$", "%-p[fb]$", "%-b%d$" }
+  local changed  = true
+  local baseId   = id
+
+  while changed do
+    changed = false
+    for _, pattern in ipairs(patterns) do
+      local newId, count = baseId:gsub(pattern, "")
+      if count > 0 then
+        baseId  = newId
+        changed = true
+      end
+    end
+  end
+
+  return baseId
 end
 
 -- allows calling a function inside of a table (like the TokenManager)
