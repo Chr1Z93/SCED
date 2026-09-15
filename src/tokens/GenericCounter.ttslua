@@ -13,13 +13,13 @@ local DATA      = {
     FONT_COLOR = "#FFFFFF"
   },
   ["damage"] = {
-    ROTATION = "180 180 0",
+    ROTATION = "0 180 180",
     POSITION = "-7 5 6",
     MESSAGE  = true
   },
   ["horror"] = {
     POSITION = "5 -15 6",
-    ROTATION = "180 180 0",
+    ROTATION = "0 180 180",
     MESSAGE  = true
   },
   ["resourceCounter"] = {
