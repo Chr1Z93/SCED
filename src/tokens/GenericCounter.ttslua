@@ -5,27 +5,24 @@ local DATA      = {
   ["default"] = {
     MIN_VALUE  = 0,
     MAX_VALUE  = 99,
-    POSITION   = Vector(0, 0.06, 0),
-    ROTATION   = Vector(0, 0, 0),
-    HEIGHT     = 600,
+    POSITION   = "0 5 -6",
+    ROTATION   = "0 0 180",
+    HEIGHT     = 650,
     WIDTH      = 1000,
-    FONT_SIZE  = 600,
-    FONT_COLOR = { 1, 1, 1, 100 },
-    COLOR      = { 0, 0, 0, 0 },
-    SCALE      = { 1.5, 1.5, 1.5 }
+    FONT_SIZE  = 400,
+    FONT_COLOR = "#FFFFFF"
   },
   ["damage"] = {
-    POSITION = Vector(0.1, -0.07, 0.1),
-    ROTATION = Vector(180, 180, 0),
+    ROTATION = "0 180 180",
+    POSITION = "-7 5 6",
     MESSAGE  = true
   },
   ["horror"] = {
-    POSITION = Vector(-0.025, -0.07, 0.025),
-    ROTATION = Vector(180, 180, 0),
+    POSITION = "5 -15 6",
+    ROTATION = "0 180 180",
     MESSAGE  = true
   },
   ["resourceCounter"] = {
-    POSITION = Vector(0, 0.06, 0.1),
     MESSAGE  = true
   },
   ["clueCounter"] = {
@@ -34,8 +31,7 @@ local DATA      = {
   ["DoomCounter"] = {
     SIZE       = 800,
     FONT_SIZE  = 650,
-    FONT_COLOR = { 1, 1, 1, 95 },
-    POSITION   = Vector(0, 0.06, 0),
+    FONT_COLOR = "#FFFFFFF2",
   }
 }
 
@@ -56,19 +52,7 @@ function onLoad(savedData)
   val = tonumber(savedData) or 0
   self.max_typed_number = getDataValue("MAX_VALUE")
 
-  self.createButton({
-    label          = tostring(val),
-    click_function = "addOrSubtract",
-    function_owner = self,
-    scale          = getDataValue("SCALE"),
-    position       = getDataValue("POSITION"),
-    rotation       = getDataValue("ROTATION"),
-    height         = getDataValue("HEIGHT"),
-    width          = getDataValue("WIDTH"),
-    font_size      = getFontSize(val),
-    font_color     = getDataValue("FONT_COLOR"),
-    color          = getDataValue("COLOR")
-  })
+  createXml()
 
   -- add context menu entries
   self.addContextMenuItem("Add 5", function() modifyValue(5, true) end)
@@ -77,12 +61,54 @@ function onLoad(savedData)
   self.addContextMenuItem("Subtract 10", function() modifyValue(-10, true) end)
 end
 
+function createXml()
+
+  local xml = {
+    {
+      tag = "Button",
+      attributes = {
+        id            = "xmlBtn",
+        image         = "circle",
+        onClick       = "addOrSubtract",
+        scale         = "0.35 0.35 1",
+        rayCastTarget = true,
+        colors        = getColorBlock("#00000000"),
+        position      = getDataValue("POSITION"),
+        rotation      = getDataValue("ROTATION"),
+        height        = getDataValue("HEIGHT"),
+        width         = getDataValue("WIDTH"),
+      },
+      children = {
+        {
+          tag = "Text",
+          attributes = {
+            id        = "xmlTxt",
+            fontSize  = getFontSize(val),
+            font      = "font_arkham-numbers",
+            text      = val,
+            color = getDataValue("FONT_COLOR")
+          }
+        }
+      }
+    }
+  }
+  self.UI.setXmlTable(xml)
+end
+
+function getColorBlock(hexColor)
+  return table.concat({ hexColor, hexColor, hexColor }, "|")
+end
+
 function onNumberTyped(_, number)
   updateVal(number, true)
 end
 
-function addOrSubtract(_, _, isRightClick)
-  modifyValue(isRightClick and -1 or 1, true)
+function addOrSubtract(_, clickType)
+  local mod = 1
+  if clickType == "-2" then
+    mod = -1
+  end
+  modifyValue(mod, true)
 end
 
 function getFontSize(val)
@@ -106,7 +132,8 @@ function actualUpdate(newVal, logChange)
 
   -- perform the variable and label update
   val = newVal
-  self.editButton({ index = 0, label = tostring(val), font_size = getFontSize(val) })
+  self.UI.setAttribute("xmlTxt", "fontSize", getFontSize(val))
+  self.UI.setAttribute("xmlTxt", "text", val)
   updateSave()
 end
 
