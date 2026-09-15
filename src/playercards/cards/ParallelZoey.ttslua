@@ -1,0 +1,7 @@
+local BlessCurseManagerApi = require("chaosbag/BlessCurseManagerApi")
+
+function phaseButtonClick(player, clickType, buttonId)
+  BlessCurseManagerApi.addToken("Bless", player.color)
+end
+
+require("playercards/CardsWithPhaseButtons")
