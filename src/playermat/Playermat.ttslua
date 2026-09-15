@@ -1580,39 +1580,76 @@ end
 -- playermat token spawning
 ---------------------------------------------------------
 
--- Finds all customizable cards in this play area and updates their metadata based on the selections
--- on the matching upgrade sheet.
--- This method is theoretically O(n^2), and should be used sparingly.  In practice it will only be
--- called when a checkbox is added or removed in-game (which should be rare), and is bounded by the
--- number of customizable cards in play.
+-- Finds all customizable cards in this play area and updates their metadata
+-- based on the selections on the matching upgrade sheet.
 function syncAllCustomizableCards()
-  for _, card in ipairs(searchAroundSelf("isCard")) do
-    syncCustomizableMetadata(card, JSON.decode(card.getGMNotes()))
+  local cards = searchAroundSelf("isCard")
+  local upgradeSheets = {}
+
+  -- Index upgrade sheets by the ID of the card they customize
+  for _, card in ipairs(cards) do
+    local metadata = JSON.decode(card.getGMNotes()) or {}
+    if metadata.id and metadata.type == "UpgradeSheet" then
+      upgradeSheets[metadata.id] = card
+    end
+  end
+
+  -- Sync all customizable cards using the indexed upgrade sheets
+  for _, card in ipairs(cards) do
+    local metadata = JSON.decode(card.getGMNotes()) or {}
+    if metadata.customizations then
+      syncCustomizableMetadata(card, metadata, upgradeSheets)
+    end
   end
 end
 
-function syncCustomizableMetadata(card, cardMetadata)
-  if cardMetadata == nil or cardMetadata.customizations == nil then return end
-
-  for _, upgradeSheet in ipairs(searchAroundSelf("isCard")) do
-    local upgradeSheetMetadata = JSON.decode(upgradeSheet.getGMNotes()) or {}
-    if upgradeSheetMetadata.id == (cardMetadata.id .. "-c") then
-      for i, customization in ipairs(cardMetadata.customizations) do
-        if customization.replaces ~= nil and customization.replaces.uses ~= nil then
-          if upgradeSheet.call("isUpgradeActive", i) then
-            cardMetadata.uses = customization.replaces.uses
-            card.setGMNotes(JSON.encode(cardMetadata))
-          else
-            -- restore original 'uses' metadata
-            local originalData = AllCardsBagApi.getCardById(cardMetadata.id)
-            if originalData and originalData.metadata and originalData.metadata.uses then
-              cardMetadata.uses = originalData.metadata.uses
-              card.setGMNotes(JSON.encode(cardMetadata))
-            end
-          end
-        end
-      end
+function findUpgradeSheets()
+  local upgradeSheets = {}
+  for _, card in ipairs(searchAroundSelf("isCard")) do
+    local metadata = JSON.decode(card.getGMNotes()) or {}
+    if metadata.id and metadata.type == "UpgradeSheet" then
+      upgradeSheets[metadata.id] = card
     end
+  end
+  return upgradeSheets
+end
+
+function syncCustomizableMetadata(card, metadata, upgradeSheets)
+  if not metadata.id or not metadata.customizations then return end
+
+  if not upgradeSheets then
+    upgradeSheets = findUpgradeSheets()
+  end
+
+  local upgradeSheetId = metadata.id .. "-c"
+
+  -- special handling for Empirical Hypothesis since it does not have a changed UpgradeSheet
+  if metadata.id == "09041-t" then
+    upgradeSheetId = "09041-c"
+  end
+
+  local upgradeSheet = upgradeSheets[upgradeSheetId]
+  if not upgradeSheet then return end
+
+  -- Start from the original card metadata so inactive customizations are reverted
+  local originalData = AllCardsBagApi.getCardById(metadata.id)
+  if not originalData or not originalData.metadata then return end
+
+  local newMetadata = TableLib.copy(originalData.metadata)
+
+  -- Apply active customization replacements
+  for i, customization in ipairs(metadata.customizations) do
+    if customization.replaces and upgradeSheet.call("isUpgradeActive", i) then
+      TableLib.update(newMetadata, customization.replaces)
+    end
+  end
+
+  card.setGMNotes(JSON.encode(newMetadata))
+
+  -- maybe update the card image
+  local objList = getObjectsWithTag("CustomizableReplacer")
+  if #objList > 0 then
+    objList[1].call("updateCardImage", { card = card, metadata = newMetadata, upgradeSheet = upgradeSheet })
   end
 end
 

@@ -806,29 +806,6 @@ function handleUnderworldMarket(cardsToSpawn, deckMeta, playerColor)
   end
 end
 
--- Removes common suffixes from IDs
-function getBaseId(id)
-  -- 1. %-[mpct]$ : Matches -m, -p, -c, or -t
-  -- 2. %-p[fb]$  : Matches -pb or -pf
-  -- 3. %-b%d$    : Matches -b followed by any digit (e.g., -b1, -b2)
-  local patterns = { "%-[mpct]$", "%-p[fb]$", "%-b%d$" }
-  local changed  = true
-  local baseId   = id
-
-  while changed do
-    changed = false
-    for _, pattern in ipairs(patterns) do
-      local newId, count = baseId:gsub(pattern, "")
-      if count > 0 then
-        baseId  = newId
-        changed = true
-      end
-    end
-  end
-
-  return baseId
-end
-
 function moveListOfCardsFromDeck(cardsToSpawn, moveList, targetZone)
   -- Create a frequency map
   local moveCounts = {}
@@ -837,7 +814,7 @@ function moveListOfCardsFromDeck(cardsToSpawn, moveList, targetZone)
     -- since it might be replaced by a reprint
     local card = AllCardsBagApi.getCardById(id)
     if card and card.metadata and card.metadata.id then
-      local baseId = getBaseId(card.metadata.id)
+      local baseId = GlobalApi.getBaseId(card.metadata.id)
       moveCounts[baseId] = (moveCounts[baseId] or 0) + 1
     end
   end
@@ -848,11 +825,11 @@ function moveListOfCardsFromDeck(cardsToSpawn, moveList, targetZone)
     local md     = card.metadata
 
     -- We need to check the primary ID and all alternate IDs
-    local idList = { getBaseId(md.id) }
+    local idList = { GlobalApi.getBaseId(md.id) }
 
     if md.alternate_ids then
       for _, altId in ipairs(md.alternate_ids) do
-        table.insert(idList, getBaseId(altId))
+        table.insert(idList, GlobalApi.getBaseId(altId))
       end
     end
 
@@ -876,7 +853,7 @@ end
 function handleCustomizableUpgrades(cardList, deckMeta)
   for _, card in ipairs(cardList) do
     if card.metadata.type == "UpgradeSheet" then
-      local baseId   = getBaseId(card.metadata.id)
+      local baseId   = GlobalApi.getBaseId(card.metadata.id)
       local upgrades = deckMeta["cus_" .. baseId]
 
       if upgrades ~= nil then

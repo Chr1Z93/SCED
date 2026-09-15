@@ -120,6 +120,11 @@ do
     })
   end
 
+  -- Removes common suffixes from IDs
+  function GlobalApi.getBaseId(id)
+    return Global.call("getBaseId", id)
+  end
+
   -- checks if a card is exhausted
   ---@param card tts__Object Card to be checked
   function GlobalApi.isExhausted(card)
