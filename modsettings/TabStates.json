@@ -1,6 +1,6 @@
 {
   "0": {
-    "body": "Welcome to Arkham Horror LCG - Super Complete Edition!\n\nMake sure to take the tour that can be started with the token in the middle of the main playarea. Some basic notes:\n\nDECKBUILDING\n- All currently existing investigators and player cards are accessible via the player card panel in the upper left corner of the table.\n\n- On the leftside underneath the Investigators, you will find the ArkhamDB Deckimporter. Insert your deck ID and it will build the deck automatically for you.\n\nSCENARIOS \u0026 SETUP\n- Arkham Horror LCG comes with a core campaign (Night of the Zealot) and several expansions. Within each box you will find all the cards required for each scenario setup, as well as a the official campaign guide PDF.\n\n2. Each scenario is setup differently, and while some of the work has been prepared beforehand (such as building encounter decks), you will have to refer to the Campaign Guide for specific instructions on how to set up each scenario.\n\nINVESTIGATOR PLAYMAT AND GAMEPLAY\n- Playermats are scripted to automate most of the gameplay for you.",
+    "body": "Welcome to Arkham Horror LCG - Super Complete Edition!\n\nMake sure to take the tour that can be started with the token in the middle of the main playarea. Some basic notes:\n\nDECKBUILDING\n- All currently existing investigators and player cards are accessible via the player card panel in the upper left corner of the table.\n\n- On the leftside underneath the Investigators, you will find the ArkhamDB Deckimporter. Insert your deck ID and it will build the deck automatically for you.\n\n- It is recommended to use https://arkham.build/ instead of ArkhamDB.\n\nSCENARIOS \u0026 SETUP\n- Arkham Horror LCG comes with a core campaign (Night of the Zealot) and several expansions. Within each box you will find all the cards required for each scenario setup, as well as a the official campaign guide PDF.\n\n- Each scenario is setup differently, and while some of the work has been prepared beforehand (such as building encounter decks), you will have to refer to the Campaign Guide for specific instructions on how to set up each scenario.\n\nINVESTIGATOR PLAYMAT AND GAMEPLAY\n- Playermats are scripted to automate most of the gameplay for you.",
     "color": "Grey",
     "id": 0,
     "title": "Basic Intro",
@@ -14,7 +14,18 @@
     "body": "You can instruct the mod to import custom cards with your ArkhamDB deck by putting 'instructions' in the deck description.\nThere's a tool to generate them left of the deck importer. Simply place your cards on it and press 'Generate!'. Then make sure to copy the generated section from the Notebook beginning with '++SCED import instructions++' to your ArkhamDB / arkham.build deck description.\nAfter doing so, the Deck Importer will be able to spawn these cards IF they are added to the mod's card index (for example by throwing them into the 'Additional Cards Box' next to the Player Cards Panel in the upper left corner of the table.\nIt also supports '- remove:' instructions to automatically remove placeholder cards.\nIf you are using a custom investigator, make sure to use a 'remove' instruction to remove the original one.",
     "color": "Grey",
     "id": 1,
-    "title": "FAQ: Use custom cards with ArkhamDB",
+    "title": "ArkhamDB and custom cards",
+    "visibleColor": {
+      "b": 0.5,
+      "g": 0.5,
+      "r": 0.5
+    }
+  },
+  "2": {
+    "body": "The 'auto-fail' token with the crown near the chaos bag tracks the chaos tokens that were drawn. It has the following features:\n\nLeft-click: Display the full list for all playermats\n\nMiddle-Click: Display your own stats\n\nRight-click: Reset the stats\n\nIts context menu offers the additional feature to 'Export Stats', which will send the data to a webservice like a google sheet. You can find a template sheet with setup instructions here:\n\nhttps://docs.google.com/spreadsheets/d/1AvTBEOF8fHQpEP1GJrrmPPZpZ50qRPu1Jt-m2ss8PWE/edit?usp=sharing",
+    "color": "Grey",
+    "id": 2,
+    "title": "Chaos Token Stats",
     "visibleColor": {
       "b": 0.5,
       "g": 0.5,
