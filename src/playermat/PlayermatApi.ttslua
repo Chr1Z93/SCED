@@ -217,6 +217,15 @@ do
     end
   end
 
+  -- Searches the threat are of the given playermat
+  ---@param filter string Name of the filter function or custom filter function
+  ---@param matColor string Does not support "All"
+  function PlayermatApi.searchThreatArea(filter, matColor)
+    for _, mat in pairs(getMatForColor(matColor)) do
+      return mat.call("searchThreatArea", filter)
+    end
+  end
+
   -- Reports the clue count for the requested playermat
   function PlayermatApi.getClueCount(matColor)
     local total       = 0
