@@ -124,6 +124,13 @@ local GUID_INDEX_MAP              = {
   ["Token Remover"]   = "TokenRemover"
 }
 
+local VALID_MATCOLORS             = {
+  White  = true,
+  Orange = true,
+  Green  = true,
+  Red    = true
+}
+
 -- track player-specific visibilities
 local actionTrackerVisibility     = {}
 local phaseTrackerVisibility      = {}
@@ -5407,10 +5414,15 @@ end
 -- Utility functions
 ---------------------------------------------------------
 
+function getMatColorFromMemo(obj)
+  local memo = obj.getMemo()
+  return VALID_MATCOLORS[memo] and memo or nil
+end
+
 -- handles discarding for a list of objects
 ---@param params table Parameters:
 --- objectList table|tts__Object List of objects to discard (or a single object)
---- owner string Owner of the objects (determines trash can)
+--- owner? string Owner of the objects (determines trash can)
 function discardObjects(params)
   local objectList = params.objectList
 
@@ -5419,12 +5431,10 @@ function discardObjects(params)
     objectList = { objectList }
   end
 
-  local owner = params.owner or "Mythos"
-
-  local trash = GUIDReferenceApi.getObjectByOwnerAndType(owner, "Trash")
-  if trash == nil then return end
-
   for _, obj in ipairs(objectList) do
+    local owner = params.owner or getMatColorFromMemo(obj) or "Mythos"
+    local trash = GUIDReferenceApi.getObjectByOwnerAndType(owner, "Trash")
+
     if obj.hasTag("TrashMe") then
       trash.putObject(obj)
       -- put Jim's spirits back into the helper, if present

@@ -133,7 +133,7 @@ do
 
   -- handles discarding for a list of objects
   ---@param objectList table|tts__Object List of objects to discard (or a single object)
-  ---@param owner string Owner of the objects (determines trash can)
+  ---@param owner? string Owner of the objects (determines trash can)
   function GlobalApi.discardObjects(objectList, owner)
     return Global.call("discardObjects", { objectList = objectList, owner = owner })
   end
