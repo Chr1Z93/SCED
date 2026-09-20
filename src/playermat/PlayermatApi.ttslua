@@ -330,7 +330,7 @@ do
   end
 
   -- Finds all objects on the playermat and associated set aside zone and returns a table
-  ---@param filter? string Name of the filte function (see util/SearchLib)
+  ---@param filter? string Name of the filter function (see util/SearchLib)
   function PlayermatApi.searchAroundPlayermat(matColor, filter)
     local objList = {}
     for _, mat in pairs(getMatForColor(matColor)) do

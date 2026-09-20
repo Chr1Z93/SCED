@@ -25,31 +25,51 @@ local STANDALONE_TOGGLE_LABELS  = {}
 STANDALONE_TOGGLE_LABELS[true]  = "Yes"
 STANDALONE_TOGGLE_LABELS[false] = "No"
 
-redDeckId                       = ""
-orangeDeckId                    = ""
+-- intentionally global
 whiteDeckId                     = ""
+orangeDeckId                    = ""
 greenDeckId                     = ""
+redDeckId                       = ""
 
 local privateDeck               = true
 local loadNewestDeck            = true
 local standalone                = false
 
-function onLoad(script_state)
-  initializeUi(JSON.decode(script_state))
+function onSave() return JSON.encode(getUiState()) end
+
+function onLoad(savedData)
+  self.addContextMenuItem("Mark Cards", markPlayerCards)
+  initializeUi(JSON.decode(savedData))
   WebInterface.initialize()
 end
 
-function onSave() return JSON.encode(getUiState()) end
+function markPlayerCards()
+  for _, matColor in pairs(PlayermatApi.getUsedMatColors()) do
+    for _, obj in ipairs(PlayermatApi.searchAroundPlayermat(matColor, "isCardOrDeck")) do
+      if obj.type == "Card" then
+        obj.setMemo(matColor)
+      elseif obj.type == "Deck" then
+        local data = obj.getData()
+        for _, cardData in ipairs(data.ContainedObjects) do
+          cardData.Memo = matColor
+        end
+        obj.destruct()
+        spawnObjectData({ data = data })
+      end
+    end
+  end
+  broadcastToAll("Marked all player cards.")
+end
 
 -- Returns a table with the full state of the UI, including options and deck IDs.
 -- This can be used to persist via onSave(), or provide values for a load operation
 ---@return uiStateTable uiStateTable Contains data about the current UI state
 function getUiState()
   return {
-    redDeck     = redDeckId,
-    orangeDeck  = orangeDeckId,
     whiteDeck   = whiteDeckId,
+    orangeDeck  = orangeDeckId,
     greenDeck   = greenDeckId,
+    redDeck     = redDeckId,
     privateDeck = privateDeck,
     loadNewest  = loadNewestDeck,
     standalone  = standalone
@@ -67,10 +87,10 @@ end
 -- Sets up the UI for the deck loader, populating fields from the given save state table decoded from onLoad()
 function initializeUi(savedUiState)
   if savedUiState ~= nil then
-    redDeckId      = savedUiState.redDeck or ""
-    orangeDeckId   = savedUiState.orangeDeck or ""
     whiteDeckId    = savedUiState.whiteDeck or ""
+    orangeDeckId   = savedUiState.orangeDeck or ""
     greenDeckId    = savedUiState.greenDeck or ""
+    redDeckId      = savedUiState.redDeck or ""
     privateDeck    = savedUiState.privateDeck or false
     loadNewestDeck = savedUiState.loadNewest or false
     standalone     = savedUiState.standalone or false
@@ -131,10 +151,16 @@ function makeDeckIdFields()
   iParams.font_color     = { 0, 0, 0 }
   iParams.validation     = 4 -- alphanumeric (to support arkham.build IDs)
 
-  -- Green
-  iParams.input_function = "greenDeckChanged"
-  iParams.position       = { -0.16, 0.1, 0.385 }
-  iParams.value          = greenDeckId
+  -- White
+  iParams.input_function = "whiteDeckChanged"
+  iParams.position       = { -0.16, 0.1, 0.474 }
+  iParams.value          = whiteDeckId
+  self.createInput(iParams)
+
+  -- Orange
+  iParams.input_function = "orangeDeckChanged"
+  iParams.position       = { 0.165, 0.1, 0.474 }
+  iParams.value          = orangeDeckId
   self.createInput(iParams)
 
   -- Red
@@ -143,16 +169,10 @@ function makeDeckIdFields()
   iParams.value          = redDeckId
   self.createInput(iParams)
 
-  -- White
-  iParams.input_function = "whiteDeckChanged"
-  iParams.position = { -0.16, 0.1, 0.474 }
-  iParams.value = whiteDeckId
-  self.createInput(iParams)
-
-  -- Orange
-  iParams.input_function = "orangeDeckChanged"
-  iParams.position       = { 0.165, 0.1, 0.474 }
-  iParams.value          = orangeDeckId
+  -- Green
+  iParams.input_function = "greenDeckChanged"
+  iParams.position       = { -0.16, 0.1, 0.385 }
+  iParams.value          = greenDeckId
   self.createInput(iParams)
 end
 
@@ -192,6 +212,12 @@ end
 function standaloneChanged()
   standalone = not standalone
   self.editButton({ index = 2, label = STANDALONE_TOGGLE_LABELS[standalone] })
+end
+
+function printForMat(str, matColor)
+  if not matColor or matColor == "None" then return end
+  local playerColor = PlayermatApi.getPlayerColor(matColor) or "White"
+  printToAll(str, playerColor)
 end
 
 -- start the deck importing process
@@ -238,7 +264,7 @@ function getDefaultCardZone(cardMetadata, bondedList)
   elseif cardMetadata.type == "UpgradeSheet" then
     return "SetAside4"
   elseif cardMetadata.startsInPlay then
-    return startsInPlayTracker()
+    return getNextBlankZone()
   elseif cardMetadata.permanent then
     return "SetAside1"
   else
@@ -246,7 +272,7 @@ function getDefaultCardZone(cardMetadata, bondedList)
   end
 end
 
-function startsInPlayTracker()
+function getNextBlankZone()
   startsInPlayCount = startsInPlayCount + 1
   if startsInPlayCount > 6 then
     broadcastToAll("Card that should start in play was placed with permanents because no blank slots remained")
@@ -256,10 +282,10 @@ function startsInPlayTracker()
   end
 end
 
-function buildDeck(playerColor, deckId)
+function buildDeck(matColor, deckId)
   local uiState = getUiState()
   WebInterface.getDecklist(
-    playerColor,
+    matColor,
     deckId,
     uiState.privateDeck,
     uiState.loadNewest,
@@ -277,9 +303,9 @@ end
 ---@param bondedList table A table of cardID keys to meaningless values. Card IDs in this list were added
 --     from a parent bonded card.
 ---@param deckMeta table Metadata for the deck (contains the customizations on customizable cards for example)
----@param playerColor string Color name of the player mat to place this deck on (e.g. "Red")
+---@param matColor string Color name of the player mat to place this deck on (e.g. "Red")
 ---@param loadAltInvestigator string Contains the name of alternative art for the investigator ("normal", "revised" or "promo")
-function loadCards(slots, investigatorId, bondedList, deckMeta, playerColor, loadAltInvestigator)
+function loadCards(slots, investigatorId, bondedList, deckMeta, matColor, loadAltInvestigator)
   local slotsCopy           = TableLib.copy(slots)
   local cardsToSpawn        = {}
   local resourceModifier    = 0
@@ -316,7 +342,7 @@ function loadCards(slots, investigatorId, bondedList, deckMeta, playerColor, loa
         cardsWithAttachments[cardId] = startsInPlayCount
 
         -- reserve an additional slot for the attachments
-        zoneWithAttachments[startsInPlayTracker()] = true
+        zoneWithAttachments[getNextBlankZone()] = true
       end
     end
   end
@@ -335,6 +361,9 @@ function loadCards(slots, investigatorId, bondedList, deckMeta, playerColor, loa
       else
         cardZone = getDefaultCardZone(card.metadata, bondedList)
       end
+
+      -- add the owning matColor to the Memo field
+      card.data.Memo = matColor
 
       for i = 1, cardCount do
         table.insert(cardsToSpawn, { data = card.data, metadata = card.metadata, zone = cardZone })
@@ -357,12 +386,12 @@ function loadCards(slots, investigatorId, bondedList, deckMeta, playerColor, loa
     table.insert(cardsToSpawn, {
       data     = card.data,
       metadata = card.metadata,
-      zone     = startsInPlayTracker()
+      zone     = getNextBlankZone()
     })
   end
 
-  handleAllAttachments(cardsToSpawn, slotsCopy, bondedList, deckMeta, playerColor)
-  handleExtraDeck(investigatorId, cardsToSpawn, deckMeta, playerColor)
+  handleAllAttachments(cardsToSpawn, slotsCopy, bondedList, deckMeta, matColor)
+  handleExtraDeck(investigatorId, cardsToSpawn, deckMeta, matColor)
   handleCustomizableUpgrades(cardsToSpawn, deckMeta)
   handlePeteSignatureAssets(investigatorId, cardsToSpawn)
 
@@ -370,22 +399,22 @@ function loadCards(slots, investigatorId, bondedList, deckMeta, playerColor, loa
   local zoneDecks = buildZoneLists(cardsToSpawn)
 
   -- Check for existing cards in zones and maybe skip them
-  local skippedDeck = removeBusyZones(playerColor, zoneDecks)
+  local skippedDeck = removeBusyZones(matColor, zoneDecks)
 
   if not skippedDeck then
-    updateStartingResources(playerColor, resourceModifier)
+    updateStartingResources(matColor, resourceModifier)
   end
 
   -- Spawn attachment helpers if option is enabled
   if GlobalApi.getOptionPanelState()["showAttachmentHelper"] then
     local objs = getObjectsWithTag("AttachmentHelperBag")
     if #objs > 0 then
-      local helperRot = Zones.getDefaultCardRotation(playerColor, "Blank1")
+      local helperRot = Zones.getDefaultCardRotation(matColor, "Blank1")
       for cardId, reservedSlot in pairs(cardsWithAttachments) do
         -- only spawn Attachment Helper if the actual card is supposed to be import too
         if type(reservedSlot) == "number" and reservedSlot < 6 and zoneDecks["Blank" .. reservedSlot] then
           local helper = objs[1].takeObject({
-            position = Zones.getZonePosition(playerColor, "Blank" .. (reservedSlot + 1)):setAt("y", 1.8),
+            position = Zones.getZonePosition(matColor, "Blank" .. (reservedSlot + 1)):setAt("y", 1.8),
             rotation = helperRot,
             smooth   = false
           })
@@ -397,8 +426,8 @@ function loadCards(slots, investigatorId, bondedList, deckMeta, playerColor, loa
 
   -- Spawn the list for each zone
   for zone, zoneCards in pairs(zoneDecks) do
-    local deckPos  = Zones.getZonePosition(playerColor, zone):setAt("y", 3)
-    local deckRot  = Zones.getDefaultCardRotation(playerColor, zone)
+    local deckPos  = Zones.getZonePosition(matColor, zone):setAt("y", 3)
+    local deckRot  = Zones.getDefaultCardRotation(matColor, zone)
     local callback = nil
 
     -- if this is a zone with attachments, spawn cards facedown and add additional delay
@@ -414,9 +443,9 @@ function loadCards(slots, investigatorId, bondedList, deckMeta, playerColor, loa
       -- so their checkboxes are visible
       -- TO-DO: take into account that spreading will make multiple rows
       -- (this is affected by the user's local settings!)
-      if (playerColor == "White") then
+      if (matColor == "White") then
         deckPos.z = deckPos.z + (#zoneCards - 1) * spreadDistance
-      elseif (playerColor == "Green") then
+      elseif (matColor == "Green") then
         deckPos.x = deckPos.x + (#zoneCards - 1) * spreadDistance
       end
       callback = function(deck)
@@ -426,7 +455,7 @@ function loadCards(slots, investigatorId, bondedList, deckMeta, playerColor, loa
         end
       end
     elseif zone == "Deck" then
-      callback = function(deck) deckSpawned(deck, playerColor) end
+      callback = function(deck) deckSpawned(deck, matColor) end
     elseif zone == "Investigator" or zone == "Minicard" then
       callback = function(card) loadAltArt(card, loadAltInvestigator) end
     elseif zone.startsWith("SetAside") then -- catch any other set aside zones, e.g. bonded cards
@@ -444,12 +473,12 @@ function loadCards(slots, investigatorId, bondedList, deckMeta, playerColor, loa
   for cardId, remainingCount in pairs(slots) do
     if remainingCount > 0 then
       hadError = true
-      printToAll("Card not found in index, ID: " .. cardId, playerColor)
+      printForMat("Card not found in index, ID: " .. cardId, matColor)
     end
   end
 
   if not hadError then
-    printToAll("Deck loaded successfully!", playerColor)
+    printForMat("Deck loaded successfully!", matColor)
   end
 end
 
@@ -467,14 +496,14 @@ end
 -- Callback handler for the main deck spawning. Looks for cards which should start in hand, and
 -- draws them for the appropriate player.
 ---@param deck tts__Object Callback-provided spawned deck object
----@param playerColor string Color of the player to draw the cards to
-function deckSpawned(deck, playerColor)
+---@param matColor string Color of the player to draw the cards to
+function deckSpawned(deck, matColor)
   -- ensure the deck is properly set to hide cards when facedown
   if deck then
     deck.hide_when_face_down = true
   end
 
-  local player    = Player[PlayermatApi.getPlayerColor(playerColor)]
+  local player    = Player[PlayermatApi.getPlayerColor(matColor)]
   local handPos   = player.getHandTransform(1).position -- Only one hand zone per player
   local deckCards = deck.getData().ContainedObjects
 
@@ -539,22 +568,22 @@ function buildZoneLists(cards)
 end
 
 -- removes zones from list if they are occupied
----@param playerColor string Color this deck is being loaded for
+---@param matColor string Color this deck is being loaded for
 ---@param zoneDecks table Table with zoneName as index: {zoneName=card list}
 ---@return boolean true If the deck was skipped due to existing cards
-function removeBusyZones(playerColor, zoneDecks)
+function removeBusyZones(matColor, zoneDecks)
   -- check for existing investigator
-  for _, matColor in ipairs(matsWithInvestigator) do
-    if matColor == playerColor then
+  for _, usedMatColor in ipairs(matsWithInvestigator) do
+    if usedMatColor == matColor then
       zoneDecks["Investigator"] = nil
-      printToAll("Skipped investigator import", playerColor)
+      printForMat("Skipped investigator import", matColor)
       break
     end
   end
 
   -- check for existing minicard
-  local mat = GUIDReferenceApi.getObjectByOwnerAndType(playerColor, "Playermat")
-  local activeInvestigatorData = PlayermatApi.getActiveInvestigatorData(playerColor)
+  local mat = GUIDReferenceApi.getObjectByOwnerAndType(matColor, "Playermat")
+  local activeInvestigatorData = PlayermatApi.getActiveInvestigatorData(matColor)
   local miniId = activeInvestigatorData.miniId
 
   -- remove taboo suffix since we don't have this for minicards
@@ -567,14 +596,14 @@ function removeBusyZones(playerColor, zoneDecks)
       obj.setPosition(pos)
       obj.setRotation(mat.getRotation())
       zoneDecks["Minicard"] = nil
-      printToAll("Skipped minicard import", playerColor)
+      printForMat("Skipped minicard import", matColor)
       break
     end
   end
 
   -- check for existing deck
   local cardsInDeckArea = 0
-  for _, obj in pairs(PlayermatApi.getDeckAreaObjects(playerColor)) do
+  for _, obj in pairs(PlayermatApi.getDeckAreaObjects(matColor)) do
     if obj.type == "Card" then
       cardsInDeckArea = cardsInDeckArea + 1
     elseif obj.type == "Deck" then
@@ -591,21 +620,21 @@ function removeBusyZones(playerColor, zoneDecks)
     zoneDecks["UnderSetAside3"] = nil
     zoneDecks["UnderSetAside6"] = nil
     zoneDecks["Deck"] = nil
-    printToAll("Skipped deck import", playerColor)
+    printForMat("Skipped deck import", matColor)
     return true
   end
 end
 
 -- handle cards with attachments (Stick to the Plan, Underworld Market and Bewitching)
-function handleAllAttachments(cardsToSpawn, slotsCopy, bondedList, deckMeta, playerColor)
+function handleAllAttachments(cardsToSpawn, slotsCopy, bondedList, deckMeta, matColor)
   for cardId, reservedSlot in pairs(cardsWithAttachments) do
     if slotsCopy[cardId] and slotsCopy[cardId] > 0 then
       if deckMeta["attachments_" .. cardId] and type(reservedSlot) == "number" and reservedSlot < 6 then
-        handleAttachment(cardId, cardsToSpawn, deckMeta, playerColor)
+        handleAttachment(cardId, cardsToSpawn, deckMeta, matColor)
       elseif cardId == "09077" or cardId == "09077-t" then
-        handleUnderworldMarket(cardsToSpawn, deckMeta, playerColor)
+        handleUnderworldMarket(cardsToSpawn, deckMeta, matColor)
       elseif cardId == "05002" then
-        handleHunchDeck(cardsToSpawn, deckMeta, bondedList, playerColor)
+        handleHunchDeck(cardsToSpawn, deckMeta, bondedList, matColor)
       elseif cardId == "07303" then
         handleAncestralKnowledge(cardsToSpawn)
       end
@@ -617,8 +646,8 @@ end
 ---@param parentId string CardID for the card that has the attachments
 ---@param cardsToSpawn table Deck list being created
 ---@param deckMeta table Metadata for the deck (contains the customizations on customizable cards for example)
----@param playerColor string Color this deck is being loaded for
-function handleAttachment(parentId, cardsToSpawn, deckMeta, playerColor)
+---@param matColor string Color this deck is being loaded for
+function handleAttachment(parentId, cardsToSpawn, deckMeta, matColor)
   -- get list of cards that are attached (split by ",")
   local attachmentList = {}
   for str in string.gmatch(deckMeta["attachments_" .. parentId], "([^,]+)") do
@@ -644,7 +673,7 @@ function handleAttachment(parentId, cardsToSpawn, deckMeta, playerColor)
     cardName = card.data.Nickname
   end
 
-  printToAll("Loaded attachment selection for " .. cardName, playerColor)
+  printForMat("Loaded attachment selection for " .. cardName, matColor)
 end
 
 function handleAncestralKnowledge(cardsToSpawn)
@@ -669,8 +698,8 @@ end
 -- Extract all Insight events to SetAside5 to build the Hunch Deck for Joe Diamond
 ---@param cardsToSpawn table Deck list being created
 ---@param deckMeta table Metadata for the deck (contains the customizations on customizable cards for example)
----@param playerColor string Color this deck is being loaded for
-function handleHunchDeck(cardsToSpawn, deckMeta, bondedList, playerColor)
+---@param matColor string Color this deck is being loaded for
+function handleHunchDeck(cardsToSpawn, deckMeta, bondedList, matColor)
   local attachmentList = {}
   if deckMeta["attachments_05002"] then
     -- get list of cards that are attached (split by ",")
@@ -694,11 +723,11 @@ function handleHunchDeck(cardsToSpawn, deckMeta, bondedList, playerColor)
   local count = #attachmentList
 
   if count < 11 then
-    printToAll("Joe's hunch deck must have 11 cards but the deck only has " .. count .. " Insight events.", playerColor)
+    printForMat("Joe's hunch deck must have 11 cards but the deck only has " .. count .. " Insight events.", matColor)
   elseif count > 11 then
-    printToAll("Moved all " .. count .. " Insight events to the hunch deck, reduce it to 11.", playerColor)
+    printForMat("Moved all " .. count .. " Insight events to the hunch deck, reduce it to 11.", matColor)
   else
-    printToAll("Built Joe's hunch deck", playerColor)
+    printForMat("Built Joe's hunch deck", matColor)
   end
 end
 
@@ -706,11 +735,11 @@ end
 ---@param investigatorId string ID for the deck's investigator card
 ---@param cardsToSpawn table Deck list being created
 ---@param deckMeta table Metadata for the deck (contains the customizations on customizable cards for example)
----@param playerColor string Color this deck is being loaded for
-function handleExtraDeck(investigatorId, cardsToSpawn, deckMeta, playerColor)
+---@param matColor string Color this deck is being loaded for
+function handleExtraDeck(investigatorId, cardsToSpawn, deckMeta, matColor)
   -- parallel Jim has his own function
   if investigatorId == "02004-p" or investigatorId == "02004-pb" then
-    handleSpiritDeck(cardsToSpawn, deckMeta, playerColor)
+    handleSpiritDeck(cardsToSpawn, deckMeta, matColor)
     return
   end
 
@@ -725,14 +754,14 @@ function handleExtraDeck(investigatorId, cardsToSpawn, deckMeta, playerColor)
     end
   end
 
-  printToAll("Built extra deck", playerColor)
+  printForMat("Built extra deck", matColor)
 end
 
 -- Extract all Ally assets to SetAside5 to build the Spirit Deck for parallel Jim Culver
 ---@param cardsToSpawn table Deck list being created
 ---@param deckMeta table Metadata for the deck (contains the customizations on customizable cards for example)
----@param playerColor string Color this deck is being loaded for
-function handleSpiritDeck(cardsToSpawn, deckMeta, playerColor)
+---@param matColor string Color this deck is being loaded for
+function handleSpiritDeck(cardsToSpawn, deckMeta, matColor)
   local spiritList = {}
   if deckMeta["extra_deck"] then
     -- split by ","
@@ -763,20 +792,20 @@ function handleSpiritDeck(cardsToSpawn, deckMeta, playerColor)
   local deckName = "Jim's spirit deck"
   local assetCount = (#spiritList - 1) .. " Ally assets"
   if #spiritList < 10 then
-    printToAll(deckName .. " must have 9 Ally assets but the deck only has " .. assetCount .. ".", playerColor)
+    printForMat(deckName .. " must have 9 Ally assets but the deck only has " .. assetCount .. ".", matColor)
   elseif #spiritList > 10 then
-    printToAll("Moved all " .. assetCount .. " to " .. deckName .. ", reduce it to 10 (including Vengeful Shade).",
-      playerColor)
+    printForMat("Moved all " .. assetCount .. " to " .. deckName .. ", reduce it to 10 (including Vengeful Shade).",
+      matColor)
   else
-    printToAll("Built " .. deckName, playerColor)
+    printForMat("Built " .. deckName, matColor)
   end
 end
 
 -- Check for and handle Underworld Market by moving all Illicit cards to UnderSetAside6
 ---@param cardsToSpawn table Deck list being created
 ---@param deckMeta table Metadata for the deck (contains the customizations on customizable cards for example)
----@param playerColor string Color this deck is being loaded for
-function handleUnderworldMarket(cardsToSpawn, deckMeta, playerColor)
+---@param matColor string Color this deck is being loaded for
+function handleUnderworldMarket(cardsToSpawn, deckMeta, matColor)
   local attachmentList = {}
   if deckMeta["attachments_09077"] then
     -- get list of cards that are attached (split by ",")
@@ -797,12 +826,12 @@ function handleUnderworldMarket(cardsToSpawn, deckMeta, playerColor)
   local count = #attachmentList
 
   if count < 10 then
-    printToAll("Only " .. count .. " Illicit cards in your deck, you can't trigger Underworld Market's ability.",
-      playerColor)
+    printForMat("Only " .. count .. " Illicit cards in your deck, you can't trigger Underworld Market's ability.",
+      matColor)
   elseif count > 10 then
-    printToAll("Moved all " .. count .. " Illicit cards to the Market deck, reduce it to 10", playerColor)
+    printForMat("Moved all " .. count .. " Illicit cards to the Market deck, reduce it to 10", matColor)
   else
-    printToAll("Built the Market deck", playerColor)
+    printForMat("Built the Market deck", matColor)
   end
 end
 
@@ -923,13 +952,13 @@ function handlePeteSignatureAssets(investigatorId, cardList)
   if investigatorId == "02005" or investigatorId == "02005-pb" then -- regular Pete's front
     for _, card in ipairs(cardList) do
       if card.metadata.id == "02014" then                           -- Duke
-        card.zone = startsInPlayTracker()
+        card.zone = getNextBlankZone()
       end
     end
   elseif investigatorId == "02005-p" or investigatorId == "02005-pf" then -- parallel Pete's front
     for _, card in ipairs(cardList) do
       if card.metadata.id == "90047" then                                 -- Pete's Guitar
-        card.zone = startsInPlayTracker()
+        card.zone = getNextBlankZone()
       end
     end
   end
@@ -953,11 +982,11 @@ function loadAltArt(card, loadAltInvestigator)
 end
 
 -- updates the starting resources
----@param playerColor string Color this deck is being loaded for
+---@param matColor string Color this deck is being loaded for
 ---@param resourceModifier number Modifier for the starting resources
-function updateStartingResources(playerColor, resourceModifier)
+function updateStartingResources(matColor, resourceModifier)
   if resourceModifier ~= 0 then
-    PlayermatApi.updateCounter(playerColor, "ResourceCounter", nil, resourceModifier)
-    printToAll("Modified starting resources", playerColor)
+    PlayermatApi.updateCounter(matColor, "ResourceCounter", nil, resourceModifier)
+    printForMat("Modified starting resources", matColor)
   end
 end
