@@ -181,7 +181,7 @@ do
   ---@param isDrawButtonVisible boolean Whether the draw 1 button should be visible or not
   function PlayermatApi.showDrawButton(isDrawButtonVisible, matColor)
     for _, mat in pairs(getMatForColor(matColor)) do
-      mat.call("showDrawButton", isDrawButtonVisible)
+      mat.UI.setAttribute("PMB_draw1_button", "active", isDrawButtonVisible)
     end
   end
 

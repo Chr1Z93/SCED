@@ -128,7 +128,6 @@ local DEFAULT_SLOT_DATA           = {
 local activeInvestigatorData      = {}
 luckyPennyEnabled                 = false
 local isClassTextureEnabled       = true
-local isDrawButtonVisible         = false
 local optionPanelVisibility       = ""
 
 -- table of type-object reference pairs of all owned objects
@@ -146,7 +145,6 @@ function updateSave()
   self.script_state = JSON.encode({
     activeInvestigatorData = activeInvestigatorData,
     isClassTextureEnabled  = isClassTextureEnabled,
-    isDrawButtonVisible    = isDrawButtonVisible,
     isHandShownToAll       = isHandShownToAll,
     optionPanelData        = optionPanelData,
     optionPanelVisibility  = optionPanelVisibility,
@@ -160,7 +158,6 @@ function onLoad(savedData)
     local loadedData            = JSON.decode(savedData)
     activeInvestigatorData      = loadedData.activeInvestigatorData
     isClassTextureEnabled       = loadedData.isClassTextureEnabled
-    isDrawButtonVisible         = loadedData.isDrawButtonVisible
     isHandShownToAll            = loadedData.isHandShownToAll
     optionPanelData             = loadedData.optionPanelData
     optionPanelVisibility       = loadedData.optionPanelVisibility
@@ -1161,6 +1158,8 @@ function hideTooltip(player, _, id)
 end
 
 function addGameplayButtons(xml)
+  local isDrawButtonVisible = GlobalApi.getOptionPanelState()["showDrawButton"]
+
   -- Helper to generate the tooltip child structure
   local function getTooltip(id, i18n, dir)
     local w, h        = 550, 125
@@ -2105,17 +2104,6 @@ function getEncounterCardDrawPosition(stack)
   end
 
   return drawPos
-end
-
--- creates / removes the draw 1 button
----@param visible? boolean Whether the draw 1 button should be visible
-function showDrawButton(visible)
-  if visible ~= nil then
-    isDrawButtonVisible = visible
-    updateSave()
-  end
-
-  self.UI.setAttribute("PMB_draw1_button", "active", isDrawButtonVisible)
 end
 
 -- shows / hides a clickable clue counter for this playermat and sets the correct amount of clues
