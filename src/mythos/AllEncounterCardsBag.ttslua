@@ -454,15 +454,30 @@ function updateOriginalItemData(originalData, replaceData)
     end
   end
 
+  -- special handling for tags
   originalData["Tags"] = originalData["Tags"] or replaceData["Tags"] or {}
-  if originalData["HideWhenFaceDown"] == nil then
-    originalData["HideWhenFaceDown"] = true
-  end
   table.insert(originalData["Tags"], "Replaced")
+
+  -- special handling for 'HideWhenFaceDown'
+  if replaceData["HideWhenFaceDown"] ~= nil then
+    -- inherit setting from replacement
+    originalData["HideWhenFaceDown"] = replaceData["HideWhenFaceDown"]
+  elseif originalData["HideWhenFaceDown"] == nil then
+    -- special handling for cards
+    if replaceData["Name"] == "Card" or replaceData["Name"] == "CardCustom" then
+      -- If UniqueBack is False, default HideWhenFaceDown is True
+      -- If UniqueBack is True, default HideWhenFaceDown is False
+      local _, customDeckData = next(replaceData["CustomDeck"])
+      originalData["HideWhenFaceDown"] = not customDeckData["UniqueBack"]
+    else
+      originalData["HideWhenFaceDown"] = true
+    end
+  end
 
   if originalData["Name"] == "Card" or originalData["Name"] == "CardCustom" then
     return processCard(originalData), rotationDelta
   end
+
   return true, rotationDelta
 end
 
