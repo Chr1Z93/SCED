@@ -388,8 +388,7 @@ function doUpkeep(player, clickType)
   local wracked            = false
   for _, obj in ipairs(searchThreatArea("isCard")) do
     if not obj.is_face_down then
-      local cardMetadata = JSON.decode(obj.getGMNotes()) or {}
-      if cardMetadata.id == "02015" then
+      if getId(obj.getGMNotes()) == "02015" then
         wracked = true
         printToColor("Wracked by Nightmares: Not readying assets", messageColor)
         break
@@ -622,8 +621,7 @@ function drawCardsWithReshuffle(numCards, fromBottom)
 end
 
 function isHarbinger(notes)
-  local md = JSON.decode(notes or "") or {}
-  return md.id == "08006"
+  return getId(notes) == "08006"
 end
 
 -- get the draw deck and discard pile objects and returns the references
@@ -1671,7 +1669,7 @@ function spawnTokensFor(object)
   local md = JSON.decode(object.getGMNotes()) or {}
   if string.find(md.traits or "", "Firearm.") then
     -- add additional ammo for "Locked and Loaded"
-    if foundLockedAndLoaded() then
+    if foundSpecificCard("11030") then
       extraUses["Ammo"] = 1
     end
 
@@ -1684,24 +1682,27 @@ function spawnTokensFor(object)
   TokenManagerApi.spawnForCard(object, extraUses, spawnReactionToken, matColor)
 end
 
--- search for "Locked and Loaded"
-function foundLockedAndLoaded()
+-- search for card by ID (e.g. "Locked and Loaded")
+function foundSpecificCard(searchId)
   for _, obj in ipairs(searchAroundSelf("isCardOrDeck")) do
     if obj.type == "Card" then
-      local md = JSON.decode(obj.getGMNotes()) or {}
-      if md.id == "11030" then
+      if getId(obj.getGMNotes()) == searchId then
         return true
       end
     elseif obj.type == "Deck" then
       for _, deepObj in ipairs(obj.getObjects()) do
-        local cardMetadata = JSON.decode(deepObj.gm_notes) or {}
-        if cardMetadata.id == "11030" then
+        if getId(deepObj.gm_notes) == searchId then
           return true
         end
       end
     end
   end
   return false
+end
+
+function getId(rawNotes)
+  local md = JSON.decode(rawNotes) or {}
+  return md.id
 end
 
 function onCollisionEnter(collisionInfo)
@@ -1783,8 +1784,11 @@ function onObjectEnterContainer(container, object)
   if inArea(localCardPos, DECK_DISCARD_AREA) then
     TokenSpawnTrackerApi.resetTokensSpawned(object)
     GlobalApi.removeTokensFromObject(object, matColor)
-    local metadata = JSON.decode(object.getGMNotes()) or {}
-    if metadata.id == "07224" then luckyPennyEnabled = false end
+
+    if getId(object.getGMNotes()) == "07224" then
+      luckyPennyEnabled = false
+    end
+
     if object.hasTag("Spirit") then
       broadcastToAll("Parallel Jim's Spirits do not go in any discard pile.", "Orange")
     end
