@@ -441,10 +441,13 @@ function updateOriginalItemData(originalData, replaceData)
 
     -- replace necessary properties
     originalData.Transform.rotY   = (originalData.Transform.rotY or 0) + rotationDelta
-    originalData.Transform.scaleX = replaceData.Transform.scaleX
-    originalData.Transform.scaleZ = replaceData.Transform.scaleZ
     originalData.SidewaysCard     = newSideways
   end
+
+  -- handle scale
+  originalData.Transform.scaleX = replaceData.Transform.scaleX
+  originalData.Transform.scaleY = replaceData.Transform.scaleY
+  originalData.Transform.scaleZ = replaceData.Transform.scaleZ
 
   -- handle data fields
   for _, dataKey in ipairs(REPLACEMENT_FIELDS) do
