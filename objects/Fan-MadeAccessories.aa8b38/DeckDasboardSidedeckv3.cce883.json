@@ -158,7 +158,7 @@
     "ImageURL": "https://steamusercontent-a.akamaihd.net/ugc/16644945447718302299/5E95DA5821A62D91CE2931BA0539D772ABB64B99/",
     "WidthScale": 0
   },
-  "Description": "A side deck for Deck Dashboard v3\nDesigned for extra deck (eg: parallel Jim Culver) / Candidate upgrade card / Bonded card\n\nTip: Myriad/Exceptional/Custom Card XP cant be auto-count",
+  "Description": "A side deck for Deck Dashboard v5\nDesigned for extra deck (eg: parallel Jim Culver) / Candidate upgrade card / Bonded card\n\nTip: Myriad/Exceptional/Custom Card XP cant be auto-count",
   "GUID": "cce883",
   "Hands": false,
   "HideWhenFaceDown": false,

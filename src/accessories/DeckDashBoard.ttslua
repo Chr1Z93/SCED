@@ -1,504 +1,615 @@
--- Deck Dashboard v3.2 by Rollingsnake
+-- Deck Dashboard v5.0 by Rollingsnake
 
--- Textures
+--------------------------------------------------
+-- SCED MODULES
+--------------------------------------------------
 
-local BOARD_TEXTURES             = {
-  Neutral = {
-    m30 = "https://steamusercontent-a.akamaihd.net/ugc/10930611583163488099/DDC0C113548EA70571E0B8E02D59285032F8E172/",
-    m50 = "https://steamusercontent-a.akamaihd.net/ugc/16901506604488824176/1699FF191E5DED16CF8A1FC51C10172E80FE36FB/"
-  },
-  Guardian = {
-    m30 = "https://steamusercontent-a.akamaihd.net/ugc/17169850574332468404/1992495BDA8E9E5E9BE361295B2C547F2B74A258/",
-    m50 = "https://steamusercontent-a.akamaihd.net/ugc/18065063376790178230/18BAACB9EFF46A0122D8219C83D39D8FA4ED14B1/"
-  },
-  Seeker = {
-    m30 = "https://steamusercontent-a.akamaihd.net/ugc/15692538794608391833/2BE4CE2D21BD7E46C36767D4040B0FEB0541DF8E/",
-    m50 = "https://steamusercontent-a.akamaihd.net/ugc/14432596416838611777/A29B4B1F340921DE370B53E1EAC70EE079109447/"
-  },
-  Rogue = {
-    m30 = "https://steamusercontent-a.akamaihd.net/ugc/13270955278469799915/144F0C275D664AF22B10A6F513767822D67802BD/",
-    m50 = "https://steamusercontent-a.akamaihd.net/ugc/13746772510542595283/320CA034B6E29B6FF356AFF4E879D6C7377A87F2/"
-  },
-  Mystic = {
-    m30 = "https://steamusercontent-a.akamaihd.net/ugc/17537972251263736988/4650C82CDED23B587237BDA1CD6FD28CC402E9E6/",
-    m50 = "https://steamusercontent-a.akamaihd.net/ugc/10745929622497685737/D2148B8E1117CAAC54B724DA7AA6B9238AC63213/"
-  },
-  Survivor = {
-    m30 = "https://steamusercontent-a.akamaihd.net/ugc/17388099104076991449/C68672BDFFA35903AB182A6BF2BD1B046AFEDE58/",
-    m50 = "https://steamusercontent-a.akamaihd.net/ugc/13280846733583172302/E340441F22F2D5D7921BACB88F313EA3B361044D/"
-  }
+local AllCardsBagApi   = require("playercards/AllCardsBagApi")
+local CardSpawner      = require("playercards/CardSpawner")
+local GlobalApi        = require("Global/GlobalApi")
+local GUIDReferenceApi = require("core/GUIDReferenceApi")
+local PlayermatApi     = require("playermat/PlayermatApi")
+local WebInterface     = require("deckbuilder/WebInterface")
+local WebRequestLib    = require("util/WebRequestLib")
+local Zones            = require("playermat/Zones")
+
+--------------------------------------------------
+-- URL RESOURCES / BOARD TEXTURES
+--------------------------------------------------
+
+local BOARD_TEXTURES = {
+    Neutral = {
+        m30 = "https://steamusercontent-a.akamaihd.net/ugc/10930611583163488099/DDC0C113548EA70571E0B8E02D59285032F8E172/",
+        m50 = "https://steamusercontent-a.akamaihd.net/ugc/16901506604488824176/1699FF191E5DED16CF8A1FC51C10172E80FE36FB/"
+    },
+    Guardian = {
+        m30 = "https://steamusercontent-a.akamaihd.net/ugc/17169850574332468404/1992495BDA8E9E5E9BE361295B2C547F2B74A258/",
+        m50 = "https://steamusercontent-a.akamaihd.net/ugc/18065063376790178230/18BAACB9EFF46A0122D8219C83D39D8FA4ED14B1/"
+    },
+    Seeker = {
+        m30 = "https://steamusercontent-a.akamaihd.net/ugc/15692538794608391833/2BE4CE2D21BD7E46C36767D4040B0FEB0541DF8E/",
+        m50 = "https://steamusercontent-a.akamaihd.net/ugc/14432596416838611777/A29B4B1F340921DE370B53E1EAC70EE079109447/"
+    },
+    Rogue = {
+        m30 = "https://steamusercontent-a.akamaihd.net/ugc/13270955278469799915/144F0C275D664AF22B10A6F513767822D67802BD/",
+        m50 = "https://steamusercontent-a.akamaihd.net/ugc/13746772510542595283/320CA034B6E29B6FF356AFF4E879D6C7377A87F2/"
+    },
+    Mystic = {
+        m30 = "https://steamusercontent-a.akamaihd.net/ugc/17537972251263736988/4650C82CDED23B587237BDA1CD6FD28CC402E9E6/",
+        m50 = "https://steamusercontent-a.akamaihd.net/ugc/10745929622497685737/D2148B8E1117CAAC54B724DA7AA6B9238AC63213/"
+    },
+    Survivor = {
+        m30 = "https://steamusercontent-a.akamaihd.net/ugc/17388099104076991449/C68672BDFFA35903AB182A6BF2BD1B046AFEDE58/",
+        m50 = "https://steamusercontent-a.akamaihd.net/ugc/13280846733583172302/E340441F22F2D5D7921BACB88F313EA3B361044D/"
+    }
 }
 
--- Settings
+--------------------------------------------------
+-- GENERAL SETTINGS
+--------------------------------------------------
 
-local DEFAULT_DECK_MODE          = "m30"
-local DEFAULT_INVESTIGATOR_CLASS = "Neutral"
-local SNAP_HEIGHT                = 0.12
-local BOARD_CAPTURE_MARGIN_X     = 0.60
-local BOARD_CAPTURE_MARGIN_Z     = 0.60
+local DEFAULT_DECK_MODE             = "m30"
+local DEFAULT_INVESTIGATOR_CLASS    = "Neutral"
+local SNAP_HEIGHT                   = 0.12
+local BOARD_CAPTURE_MARGIN_X        = 0.60
+local BOARD_CAPTURE_MARGIN_Z        = 0.60
+local BOARD_READY_DELAY             = 0.50
 
--- XP counter
-local XP_REFRESH_DELAY           = 0.80
-local XP_BUTTON_INDEX            = 0
-local XP_MODIFIER_BUTTON_INDEX   = 1
-local DECK_SIZE_BUTTON_INDEX     = 2
+--------------------------------------------------
+-- UI AND XP SETTINGS
+--------------------------------------------------
 
--- Deck export
-local EXPORT_BUTTON_INDEX        = 3
-local EXPORT_STACK_OFFSET_X      = -0.3
-local EXPORT_STACK_HEIGHT        = 0.85
-local EXPORT_CARD_DELAY_FRAMES   = 2
+local XP_REFRESH_DELAY              = 0.80
+local XP_BUTTON_INDEX               = 0
+local XP_MODIFIER_BUTTON_INDEX      = 1
+local DECK_SIZE_BUTTON_INDEX        = 2
 
--- Object detection uses actual snap-slot positions rather than one large
--- rectangular board area. This keeps the exported stack outside XP counting.
-local MAIN_SLOT_CAPTURE_X        = 0.105
-local MAIN_SLOT_CAPTURE_Z        = 0.155
-local AUX_SLOT_CAPTURE_X         = 0.115
-local AUX_SLOT_CAPTURE_Z         = 0.180
+--------------------------------------------------
+-- IMPORT SETTINGS
+--------------------------------------------------
 
-local BOARD_LAYOUTS              = {
-  m30 = {
-    boardObjectScale  = 9.52,
-    coordinateScaleX  = 1.000,
-    coordinateScaleZ  = 1.000,
-    coordinateOffsetX = -0.263,
-    coordinateOffsetZ = 0.195,
-    buttonScale       = 0.200,
-    buttonPositions   = {
-      xp       = { -1.14, 0.18, -1.07 },
-      modifier = { -0.92, 0.18, -1.07 },
-      deckSize = { 0.00, 0.18, -1.07 },
-      export   = { 1.14, 0.18, -1.07 }
-    },
-    topSlotZ          = -0.966,
-    topSlots          = {
-      { x = 1.327, rotationY = 90 },
-      { x = 0.927, rotationY = 90 },
-      { x = 0.642, rotationY = 0 }
-    },
-    sideSlotZ         = -0.939,
-    sideSlotXs        = { 0.388, 0.137, -0.114, -0.366, -0.617, -0.870 },
-    cardGridColumnXs  = { 1.398, 1.145, 0.893, 0.640, 0.388, 0.137, -0.114, -0.366, -0.617, -0.870 },
-    cardGridRowZs     = { -0.477, -0.131, 0.215, 0.562 }
-  },
-  m50 = {
-    boardObjectScale  = 12.94,
-    coordinateScaleX  = 0.755,
-    coordinateScaleZ  = 0.755,
-    coordinateOffsetX = -0.190,
-    coordinateOffsetZ = 0.200,
+-- Real SCED object references. Name checks remain as fallbacks.
+local FAN_MADE_BAG_GUID             = "aa8b38"
+local FAN_MADE_BAG_NAME             = "Fan-Made Accessories"
+local SIDE_DECK_TEMPLATE_GUID       = "cce883"
+local SIDE_DECK_TEMPLATE_NAME       = "Deck Dasboard Sidedeck v3"
 
-    buttonScale       = 0.151,
-    buttonPositions   = {
-      xp       = { -0.845, 0.18, -1.05 },
-      modifier = { -0.680, 0.18, -1.05 },
-      deckSize = { 0.025, 0.18, -1.05 },
-      export   = { 0.831, 0.18, -1.05 }
-    },
-    topSlotZ          = -1.357,
-    topSlots          = {
-      { x = 1.286, rotationY = 90 },
-      { x = 0.895, rotationY = 90 },
-      { x = 0.618, rotationY = 0 }
-    },
-    sideSlotZ         = -1.330,
-    sideSlotXs        = { 0.371, 0.126, -0.120, -0.365, -0.611, -0.856 },
-    cardGridColumnXs  = { 1.353, 1.107, 0.862, 0.617, 0.371, 0.126, -0.120, -0.365, -0.611, -0.856 },
-    cardGridRowZs     = { -0.879, -0.539, -0.204, 0.133, 0.470, 0.806 }
-  }
+local SIDE_DECK_CAPACITY            = 20
+local SIDE_DECK_MAX_BOARDS          = 2
+local IMPORT_CARD_HEIGHT            = 0.45
+local IMPORT_SIDE_READY_FRAMES      = 8
+local IMPORT_TRANSIT_HEIGHT         = 3.00
+local IMPORT_GROUP_HEIGHT_STEP      = 0.60
+local IMPORT_WEB_TIMEOUT_SECONDS    = 15
+local ARKHAM_BUILD_SHARE_ID_LENGTH  = 15
+local INVESTIGATOR_YAW_CORRECTION   = 180
+local CARD_BACK_FLIP_Z              = 180
+local SCED_ZONE_SPAWN_HEIGHT        = 3.00
+local SIDE_DECK_STAGING_Z           = 2.50
+
+-- Overflow stacks sit outside the board edge.
+local OVERFLOW_COLUMN_GAP_MULTIPLIER  = 1.60
+local OVERFLOW_COLUMN_MIN_GAP         = 0.38
+local OVERFLOW_FALLBACK_SOURCE_X      = -1.15
+local OVERFLOW_FALLBACK_SPACING       = 0.26
+local OVERFLOW_STACK_CAPTURE_X        = 0.24
+local OVERFLOW_STACK_CAPTURE_Z        = 0.30
+
+-- Side-deck matching and snap-point tolerances.
+local SIDE_BOARD_MATCH_RADIUS         = 0.90
+local SIDE_SNAP_ROW_TOLERANCE         = 0.02
+local SIDE_OVERFLOW_FALLBACK_X        = -1.20
+local SIDE_OVERFLOW_FALLBACK_Z        = 0.00
+local SIDE_OVERFLOW_FALLBACK_SPACING  = 0.26
+
+local IMPORT_SIDE_BOARD_OFFSETS = {
+    {x = 0.00, y = 0.30, z = 1.65},
+    {x = 0.00, y = 0.30, z = 2.65}
 }
 
-local PROTECTED_OBJECT_TYPES     = {
-  Card = true,
-  Deck = true,
-  Tile = true,
-  Custom_Tile = true,
-  Custom_Token = true,
-  Figurine = true,
-  Bag = true
+--------------------------------------------------
+-- BOARD COLOR SETTINGS
+--------------------------------------------------
+
+local COLOR_MODE_AUTO = "Auto"
+local BOARD_COLOR_OPTIONS = {
+    "Follow Investigator",
+    "Neutral",
+    "Guardian",
+    "Seeker",
+    "Rogue",
+    "Mystic",
+    "Survivor"
 }
 
-local currentDeckMode            = DEFAULT_DECK_MODE
-local currentInvestigatorClass   = DEFAULT_INVESTIGATOR_CLASS
-local collisionEnabled           = false
-local currentExperience          = 0
-local experienceModifier         = 0
-local xpRefreshVersion           = 0
-local exportInProgress           = false
+--------------------------------------------------
+-- EXPORT SETTINGS
+--------------------------------------------------
 
--- Loading and saving
+local EXPORT_STACK_OFFSET_X         = -0.65
+local EXPORT_STACK_HEIGHT           = 0.85
+local EXPORT_STACK_CARD_SPACING     = 0.12
+local EXPORT_CARD_DELAY_FRAMES      = 2
+local EXPORT_FINISH_BUFFER_FRAMES   = 30
+local CARD_SORT_Z_TOLERANCE         = 0.03
+local REALITY_ACID_REFERENCE_ID     = "89005"
+
+--------------------------------------------------
+-- OBJECT DETECTION TOLERANCES
+--------------------------------------------------
+
+-- Use snap-slot neighborhoods instead of one large rectangle.
+local MAIN_SLOT_CAPTURE_X           = 0.105
+local MAIN_SLOT_CAPTURE_Z           = 0.155
+local AUX_SLOT_CAPTURE_X            = 0.115
+local AUX_SLOT_CAPTURE_Z            = 0.180
+local TOP_SLOT_CAPTURE_X            = 0.35
+local TOP_SLOT_CAPTURE_Z            = 0.45
+local INVESTIGATOR_SLOT_CAPTURE_X   = 0.55
+local INVESTIGATOR_SLOT_CAPTURE_Z   = 0.35
+local SIDE_BOARD_SLOT_CAPTURE_X     = 0.35
+local SIDE_BOARD_SLOT_CAPTURE_Z     = 0.45
+
+local INVESTIGATOR_TOP_SLOT_INDEX   = 1
+local INVESTIGATOR_BACK_SLOT_INDEX  = 2
+local MINICARD_TOP_SLOT_INDEX       = 3
+
+local GRID_BOUND_FALLBACK_X         = 0.13
+local GRID_BOUND_FALLBACK_Z         = 0.18
+local GRID_BOUND_SPACING_FACTOR     = 0.48
+
+--------------------------------------------------
+-- BOARD LAYOUTS
+--------------------------------------------------
+
+local BOARD_LAYOUTS = {
+    m30 = {
+        boardObjectScale  = 9.52,
+        coordinateScaleX  = 1.000,
+        coordinateScaleZ  = 1.000,
+        coordinateOffsetX = -0.263,
+        coordinateOffsetZ = 0.195,
+        buttonScale       = 0.200,
+        buttonPositions   = {
+            xp       = {-1.14, 0.18, -1.07},
+            modifier = {-0.92, 0.18, -1.07},
+            deckSize = {0.00, 0.18, -1.07},
+            import   = {0.66, 0.18, -1.07},
+            export   = {1.14, 0.18, -1.07}
+        },
+        topSlotZ          = -0.966,
+        topSlots          = {
+            {x = 1.327, rotationY = 90},
+            {x = 0.927, rotationY = 90},
+            {x = 0.642, rotationY = 0}
+        },
+        sideSlotZ        = -0.939,
+        sideSlotXs       = {0.388, 0.137, -0.114, -0.366, -0.617, -0.870},
+        cardGridColumnXs = {1.398, 1.145, 0.893, 0.640, 0.388, 0.137, -0.114, -0.366, -0.617, -0.870},
+        cardGridRowZs    = {-0.477, -0.131, 0.215, 0.562}
+    },
+    m50 = {
+        boardObjectScale  = 12.94,
+        coordinateScaleX  = 0.755,
+        coordinateScaleZ  = 0.755,
+        coordinateOffsetX = -0.190,
+        coordinateOffsetZ = 0.200,
+
+        buttonScale       = 0.151,
+        buttonPositions   = {
+            xp       = {-0.845, 0.18, -1.05},
+            modifier = {-0.680, 0.18, -1.05},
+            deckSize = {0.025, 0.18, -1.05},
+            import   = {0.500, 0.18, -1.05},
+            export   = {0.831, 0.18, -1.05}
+        },
+        topSlotZ          = -1.357,
+        topSlots          = {
+            {x = 1.286, rotationY = 90},
+            {x = 0.895, rotationY = 90},
+            {x = 0.618, rotationY = 0}
+        },
+        sideSlotZ        = -1.330,
+        sideSlotXs       = {0.371, 0.126, -0.120, -0.365, -0.611, -0.856},
+        cardGridColumnXs = {1.353, 1.107, 0.862, 0.617, 0.371, 0.126, -0.120, -0.365, -0.611, -0.856},
+        cardGridRowZs    = {-0.879, -0.539, -0.204, 0.133, 0.470, 0.806}
+    }
+}
+
+--------------------------------------------------
+-- OBJECT FILTERS
+--------------------------------------------------
+
+local PROTECTED_OBJECT_TYPES = {
+    Card = true,
+    Deck = true,
+    Tile = true,
+    Custom_Tile = true,
+    Custom_Token = true,
+    Figurine = true,
+    Bag = true
+}
+
+--------------------------------------------------
+-- RUNTIME STATE
+--------------------------------------------------
+
+local currentDeckMode          = DEFAULT_DECK_MODE
+local currentInvestigatorClass = DEFAULT_INVESTIGATOR_CLASS
+local boardColorMode           = COLOR_MODE_AUTO
+local collisionEnabled         = false
+local currentExperience        = 0
+local experienceModifier       = 0
+local xpRefreshVersion         = 0
+local importInProgress         = false
+local importRequestVersion     = 0
+local exportInProgress         = false
+local pendingImportRef         = nil
+local pendingRestoreObjects    = nil
+
+local lastLoadAltInvestigator  = "normal"
+local lastAltInvestigatorId    = nil
+
+--------------------------------------------------
+-- LIFECYCLE AND STATE
+--------------------------------------------------
 
 function onLoad(savedData)
-  collisionEnabled = false
+    collisionEnabled = false
+    WebInterface.initialize()
 
-  if savedData and savedData ~= "" then
-    local savedState = JSON.decode(savedData)
-    currentDeckMode = savedState.deckMode or DEFAULT_DECK_MODE
-    currentInvestigatorClass = savedState.investigatorClass or DEFAULT_INVESTIGATOR_CLASS
-    experienceModifier = tonumber(savedState.experienceModifier) or 0
-  end
+    local resumeImport = nil
+    local restoreAfterReload = nil
 
-  createDashboardButtons()
-  applySnapPoints(self)
-  Wait.frames(function() applyBoardScale(self) end, 2)
-  Wait.time(function()
-    collisionEnabled = true
-    refreshExperience()
-  end, 0.5)
+    if savedData and savedData ~= "" then
+        local ok, savedState = pcall(JSON.decode, savedData)
+        if ok and type(savedState) == "table" then
+            currentDeckMode = savedState.deckMode or DEFAULT_DECK_MODE
+            currentInvestigatorClass = savedState.investigatorClass or DEFAULT_INVESTIGATOR_CLASS
+            boardColorMode = savedState.colorMode or COLOR_MODE_AUTO
+            experienceModifier = tonumber(savedState.experienceModifier) or 0
+            lastLoadAltInvestigator = savedState.lastLoadAltInvestigator or "normal"
+            lastAltInvestigatorId = savedState.lastAltInvestigatorId
+
+            if type(savedState.pendingRestoreObjects) == "table" then
+                restoreAfterReload = savedState.pendingRestoreObjects
+            end
+
+            if type(savedState.pendingImport) == "table"
+                and type(savedState.pendingImport.deckRef) == "table"
+                and savedState.pendingImport.deckRef.id then
+                resumeImport = savedState.pendingImport
+            end
+        end
+    end
+
+    pendingImportRef = nil
+    pendingRestoreObjects = nil
+
+    createDashboardButtons()
+    createDashboardContextMenu()
+    applySnapPoints(self)
+    Wait.frames(function() applyBoardScale(self) end, 2)
+    Wait.time(function()
+        collisionEnabled = true
+        refreshExperience()
+    end, BOARD_READY_DELAY)
+
+    if restoreAfterReload then
+        saveBoardState()
+        Wait.condition(
+            function()
+                Wait.frames(function()
+                    restoreCapturedObjects(restoreAfterReload)
+                end, 2)
+            end,
+            function()
+                return not self.loading_custom
+            end
+        )
+    end
+
+    if resumeImport then
+        saveBoardState()
+        importInProgress = true
+
+        Wait.condition(
+            function()
+                Wait.frames(function()
+                    requestDeckThroughSced(
+                        resumeImport.deckRef,
+                        resumeImport.playerColor
+                    )
+                end, 2)
+            end,
+            function()
+                return not self.loading_custom
+            end
+        )
+    end
 end
 
 function saveBoardState()
-  self.script_state = JSON.encode({
-    deckMode = currentDeckMode,
-    investigatorClass = currentInvestigatorClass,
-    experienceModifier = experienceModifier
-  })
+    self.script_state = JSON.encode({
+        deckMode = currentDeckMode,
+        investigatorClass = currentInvestigatorClass,
+        colorMode = boardColorMode,
+        experienceModifier = experienceModifier,
+        lastLoadAltInvestigator = lastLoadAltInvestigator,
+        lastAltInvestigatorId = lastAltInvestigatorId,
+        pendingImport = pendingImportRef,
+        pendingRestoreObjects = pendingRestoreObjects
+    })
 end
 
 -- Deck button
 
 function createDashboardButtons()
-  self.clearButtons()
+    self.clearButtons()
 
-  local activeLayout = getActiveLayout()
-  local buttonPositions = activeLayout.buttonPositions
-  local buttonScale = activeLayout.buttonScale
+    local activeLayout = getActiveLayout()
+    local buttonPositions = activeLayout.buttonPositions
+    local buttonScale = activeLayout.buttonScale
 
-  -- Button index 0: total XP / manual refresh
-  self.createButton({
-    click_function = "refreshExperience",
-    function_owner = self,
-    position       = buttonPositions.xp,
-    rotation       = { 0, 0, 0 },
-    scale          = { buttonScale, 1, buttonScale },
-    width          = 650,
-    height         = 220,
-    font_size      = 120,
-    label          = getExperienceLabel(),
-    tooltip        = "Total XP including manual modifier. Click to refresh XP from cards on this board.",
-    color          = { 0.15, 0.12, 0.08, 0.55 },
-    font_color     = { 1, 0.92, 0.75, 1 }
-  })
+    -- Button index 0: total XP / manual refresh
+    self.createButton({
+        click_function = "refreshExperience",
+        function_owner = self,
+        position       = buttonPositions.xp,
+        rotation       = {0, 0, 0},
+        scale          = {buttonScale, 1, buttonScale},
+        width          = 650,
+        height         = 220,
+        font_size      = 120,
+        label          = getExperienceLabel(),
+        tooltip        = "Total XP including manual modifier. Click to refresh XP from cards on this board.",
+        color          = {0.15, 0.12, 0.08, 0.55},
+        font_color     = {1, 0.92, 0.75, 1}
+    })
 
-  -- Button index 1: manual XP modifier
-  self.createButton({
-    click_function = "modifyExperience",
-    function_owner = self,
-    position       = buttonPositions.modifier,
-    rotation       = { 0, 0, 0 },
-    scale          = { buttonScale, 1, buttonScale },
-    width          = 380,
-    height         = 220,
-    font_size      = 120,
-    label          = getExperienceModifierLabel(),
-    tooltip        = "Click to modify total XP\nLeft/Right Click to +1/-1 XP",
-    color          = { 0.15, 0.12, 0.08, 0.55 },
-    font_color     = { 1, 0.92, 0.75, 1 }
-  })
+    -- Button index 1: manual XP modifier
+    self.createButton({
+        click_function = "modifyExperience",
+        function_owner = self,
+        position       = buttonPositions.modifier,
+        rotation       = {0, 0, 0},
+        scale          = {buttonScale, 1, buttonScale},
+        width          = 380,
+        height         = 220,
+        font_size      = 120,
+        label          = getExperienceModifierLabel(),
+        tooltip        = "Click to modify total XP\nLeft/Right Click to +1/-1 XP",
+        color          = {0.15, 0.12, 0.08, 0.55},
+        font_color     = {1, 0.92, 0.75, 1}
+    })
 
-  -- Button index 2: deck size
-  self.createButton({
-    click_function = "switchDeckSize",
-    function_owner = self,
-    position       = buttonPositions.deckSize,
-    rotation       = { 0, 0, 0 },
-    scale          = { buttonScale, 1, buttonScale },
-    width          = 350,
-    height         = 220,
-    font_size      = 120,
-    label          = getDeckSizeLabel(),
-    tooltip        = "Switch between 30-card and 50-card dashboard",
-    color          = { 0.15, 0.12, 0.08, 0.55 },
-    font_color     = { 1, 0.92, 0.75, 1 }
-  })
+    -- Button index 2: deck size
+    self.createButton({
+        click_function = "switchDeckSize",
+        function_owner = self,
+        position       = buttonPositions.deckSize,
+        rotation       = {0, 0, 0},
+        scale          = {buttonScale, 1, buttonScale},
+        width          = 350,
+        height         = 220,
+        font_size      = 120,
+        label          = getDeckSizeLabel(),
+        tooltip        = "Switch between 30-card and 50-card dashboard",
+        color          = {0.15, 0.12, 0.08, 0.55},
+        font_color     = {1, 0.92, 0.75, 1}
+    })
 
-  -- Button index 3: export the main card grid as one stack
-  self.createButton({
-    click_function = "exportDeck",
-    function_owner = self,
-    position       = buttonPositions.export,
-    rotation       = { 0, 0, 0 },
-    scale          = { buttonScale, 1, buttonScale },
-    width          = 750,
-    height         = 220,
-    font_size      = 110,
-    label          = "EXPORT",
-    tooltip        =
-    "Copy all cards in the main deck area into one deck right beside the dashboard. Top permanent slots are excluded.",
-    color          = { 0.15, 0.12, 0.08, 0.55 },
-    font_color     = { 1, 0.92, 0.75, 1 }
-  })
+    -- Button index 3: import an arkham.build share
+    self.createButton({
+        click_function = "openDeckImport",
+        function_owner = self,
+        position       = buttonPositions.import,
+        rotation       = {0, 0, 0},
+        scale          = {buttonScale, 1, buttonScale},
+        width          = 500,
+        height         = 220,
+        font_size      = 105,
+        label          = "IMPORT",
+        tooltip        = "Import an arkham.build deck/view or decklist/view URL, or paste its ID.",
+        color          = {0.15, 0.12, 0.08, 0.55},
+        font_color     = {1, 0.92, 0.75, 1}
+    })
+
+    -- Button index 4: export the main card grid as one stack
+    self.createButton({
+        click_function = "exportDeck",
+        function_owner = self,
+        position       = buttonPositions.export,
+        rotation       = {0, 0, 0},
+        scale          = {buttonScale, 1, buttonScale},
+        width          = 750,
+        height         = 220,
+        font_size      = 110,
+        label          = "EXPORT",
+        tooltip        = "Copy all cards in the main deck area into one deck right beside the dashboard. Top permanent slots are excluded.",
+        color          = {0.15, 0.12, 0.08, 0.55},
+        font_color     = {1, 0.92, 0.75, 1}
+    })
 end
 
 function getDeckSizeLabel()
-  return currentDeckMode == "m30" and "30" or "50"
+    return currentDeckMode == "m30" and "30" or "50"
 end
 
 function switchDeckSize()
-  currentDeckMode = currentDeckMode == "m30" and "m50" or "m30"
-  saveBoardState()
-  self.editButton({ index = DECK_SIZE_BUTTON_INDEX, label = getDeckSizeLabel() })
-  reloadBoardTexture()
+    currentDeckMode = currentDeckMode == "m30" and "m50" or "m30"
+    saveBoardState()
+    self.editButton({index = DECK_SIZE_BUTTON_INDEX, label = getDeckSizeLabel()})
+    reloadBoardTexture()
 end
 
 -- Investigator detection
 
 function onCollisionEnter(collisionInfo)
-  if not collisionEnabled then return end
+    if not collisionEnabled then return end
 
-  local collidedObject = collisionInfo.collision_object
-  if not collidedObject then return end
+    local collidedObject = collisionInfo.collision_object
+    if not collidedObject then return end
 
-  if collidedObject.type == "Card" or collidedObject.type == "Deck" then
-    scheduleExperienceRefresh()
-  end
+    if collidedObject.type == "Card" or collidedObject.type == "Deck" then
+        scheduleExperienceRefresh()
+    end
 
-  -- Investigator detection only applies to individual cards.
-  if collidedObject.type ~= "Card" then return end
+    -- Investigator detection only applies to individual cards.
+    if collidedObject.type ~= "Card" then return end
 
-  local cardLocalPosition = self.positionToLocal(collidedObject.getPosition())
-  if not isInsideInvestigatorSlot(cardLocalPosition) then return end
+    local cardLocalPosition = self.positionToLocal(collidedObject.getPosition())
+    local topSlotIndices = getTopSlotIndices(cardLocalPosition, true)
+    local isInvestigatorSlot = false
 
-  local decodedSuccessfully, cardMetadata = pcall(JSON.decode, collidedObject.getGMNotes())
-  if not decodedSuccessfully or not cardMetadata then return end
-  if cardMetadata.type ~= "Investigator" then return end
-  if not BOARD_TEXTURES[cardMetadata.class] then return end
-  if cardMetadata.class == currentInvestigatorClass then return end
+    for _, slotIndex in ipairs(topSlotIndices) do
+        if slotIndex == INVESTIGATOR_TOP_SLOT_INDEX then
+            isInvestigatorSlot = true
+            break
+        end
+    end
 
-  collisionEnabled = false
-  currentInvestigatorClass = cardMetadata.class
-  saveBoardState()
-  reloadBoardTexture()
+    if not isInvestigatorSlot then return end
+
+    local decodedSuccessfully, cardMetadata = pcall(JSON.decode, collidedObject.getGMNotes())
+    if not decodedSuccessfully or not cardMetadata then return end
+    if cardMetadata.type ~= "Investigator" then return end
+    if not BOARD_TEXTURES[cardMetadata.class] then return end
+    local collidedInvestigatorId = tostring(cardMetadata.id or "")
+    if lastAltInvestigatorId and collidedInvestigatorId ~= tostring(lastAltInvestigatorId) then
+        lastLoadAltInvestigator = "normal"
+        lastAltInvestigatorId = collidedInvestigatorId ~= "" and collidedInvestigatorId or nil
+    end
+
+    if boardColorMode ~= COLOR_MODE_AUTO then
+        saveBoardState()
+        return
+    end
+    if cardMetadata.class == currentInvestigatorClass then
+        saveBoardState()
+        return
+    end
+
+    collisionEnabled = false
+    currentInvestigatorClass = cardMetadata.class
+    saveBoardState()
+    reloadBoardTexture()
 end
 
 function onCollisionExit(collisionInfo)
-  if not collisionEnabled then return end
+    if not collisionEnabled then return end
 
-  local collidedObject = collisionInfo.collision_object
-  if not collidedObject then return end
+    local collidedObject = collisionInfo.collision_object
+    if not collidedObject then return end
 
-  if collidedObject.type == "Card" or collidedObject.type == "Deck" then
-    scheduleExperienceRefresh()
-  end
+    if collidedObject.type == "Card" or collidedObject.type == "Deck" then
+        scheduleExperienceRefresh()
+    end
 end
-
-function isInsideInvestigatorSlot(cardLocalPosition)
-  local activeLayout = getActiveLayout()
-  local investigatorSlot = activeLayout.topSlots[1]
-  local slotX, slotZ = convertLayoutPoint(activeLayout, investigatorSlot.x, activeLayout.topSlotZ)
-
-  return math.abs(cardLocalPosition.x - slotX) <= 0.55
-      and math.abs(cardLocalPosition.z - slotZ) <= 0.35
-end
-
--- Experience counter
 
 function getExperienceLabel()
-  return "XP: " .. tostring(currentExperience + experienceModifier)
+    return "XP: " .. tostring(currentExperience + experienceModifier)
 end
 
 function getExperienceModifierLabel()
-  if experienceModifier >= 0 then
-    return "+" .. tostring(experienceModifier)
-  end
+    if experienceModifier >= 0 then
+        return "+" .. tostring(experienceModifier)
+    end
 
-  return tostring(experienceModifier)
+    return tostring(experienceModifier)
 end
 
 function updateExperienceButtons()
-  self.editButton({
-    index = XP_BUTTON_INDEX,
-    label = getExperienceLabel()
-  })
+    self.editButton({
+        index = XP_BUTTON_INDEX,
+        label = getExperienceLabel()
+    })
 
-  self.editButton({
-    index = XP_MODIFIER_BUTTON_INDEX,
-    label = getExperienceModifierLabel()
-  })
+    self.editButton({
+        index = XP_MODIFIER_BUTTON_INDEX,
+        label = getExperienceModifierLabel()
+    })
 end
 
 function modifyExperience(_, _, altClick)
-  if altClick then
-    experienceModifier = experienceModifier - 1
-  else
-    experienceModifier = experienceModifier + 1
-  end
+    if altClick then
+        experienceModifier = experienceModifier - 1
+    else
+        experienceModifier = experienceModifier + 1
+    end
 
-  updateExperienceButtons()
-  saveBoardState()
+    updateExperienceButtons()
+    saveBoardState()
 end
 
 function scheduleExperienceRefresh()
-  xpRefreshVersion = xpRefreshVersion + 1
-  local scheduledVersion = xpRefreshVersion
+    xpRefreshVersion = xpRefreshVersion + 1
+    local scheduledVersion = xpRefreshVersion
 
-  Wait.time(function()
-    if scheduledVersion ~= xpRefreshVersion then return end
-    refreshExperience()
-  end, XP_REFRESH_DELAY)
+    Wait.time(function()
+        if scheduledVersion ~= xpRefreshVersion then return end
+        refreshExperience()
+    end, XP_REFRESH_DELAY)
 end
 
 function refreshExperience()
-  local newExperience = calculateExperienceOnBoard()
+    local newExperience = calculateExperienceOnBoard()
 
-  if newExperience ~= currentExperience then
-    currentExperience = newExperience
-    self.editButton({
-      index = XP_BUTTON_INDEX,
-      label = getExperienceLabel()
-    })
-  end
+    if newExperience ~= currentExperience then
+        currentExperience = newExperience
+        self.editButton({
+            index = XP_BUTTON_INDEX,
+            label = getExperienceLabel()
+        })
+    end
 
-  return currentExperience + experienceModifier
+    return currentExperience + experienceModifier
 end
 
 function calculateExperienceOnBoard()
-  local totalExperience = 0
+    local totalExperience = 0
+    local snapshot = scanMainDashboard()
 
-  for _, worldObject in ipairs(collectExperienceObjects()) do
-    if worldObject.type == "Card" then
-      totalExperience = totalExperience
-          + getCardExperience(worldObject.getGMNotes())
-    elseif worldObject.type == "Deck" then
-      for _, containedCard in ipairs(worldObject.getObjects()) do
-        totalExperience = totalExperience
-            + getCardExperience(containedCard.gm_notes)
-      end
+    for _, item in ipairs(snapshot.all) do
+        local worldObject = item.object
+        if worldObject.type == "Card" then
+            totalExperience = totalExperience + getCardExperience(worldObject.getGMNotes())
+        elseif worldObject.type == "Deck" then
+            for _, containedCard in ipairs(worldObject.getObjects() or {}) do
+                totalExperience = totalExperience + getCardExperience(containedCard.gm_notes)
+            end
+        end
     end
-  end
 
-  return totalExperience
+    return totalExperience
 end
 
-function collectExperienceObjects()
-  local collectedObjects = {}
-  local boardGuid = self.getGUID()
-  local boardBounds = calculateSnapBounds()
-  local boundsMarginX = math.max(MAIN_SLOT_CAPTURE_X, AUX_SLOT_CAPTURE_X, AUX_SLOT_CAPTURE_Z)
-  local boundsMarginZ = math.max(MAIN_SLOT_CAPTURE_Z, AUX_SLOT_CAPTURE_X, AUX_SLOT_CAPTURE_Z)
-
-  for _, worldObject in ipairs(getAllObjects()) do
-    if worldObject.getGUID() ~= boardGuid
-        and (worldObject.type == "Card"
-          or worldObject.type == "Deck") then
-      local localPosition =
-          self.positionToLocal(worldObject.getPosition())
-
-      -- Fast rectangular rejection before checking every individual slot.
-      local insideBoardBounds =
-          localPosition.x >= boardBounds.minX - boundsMarginX
-          and localPosition.x <= boardBounds.maxX + boundsMarginX
-          and localPosition.z >= boardBounds.minZ - boundsMarginZ
-          and localPosition.z <= boardBounds.maxZ + boundsMarginZ
-
-      -- XP includes cards in the main grid, top slots and side slots,
-      -- but excludes nearby objects such as the exported deck.
-      if insideBoardBounds
-          and isPositionInsideAnyBoardSlot(localPosition) then
-        table.insert(collectedObjects, worldObject)
-      end
-    end
-  end
-
-  return collectedObjects
-end
+--------------------------------------------------
+-- CARD SCANNING AND METADATA
+--------------------------------------------------
 
 function getCardExperience(gmNotes)
-  local metadata = decodeCardMetadata(gmNotes)
-  if not metadata then return 0 end
+    local metadata = decodeCardMetadata(gmNotes)
+    if not metadata then return 0 end
 
-  local cardLevel = tonumber(metadata.level)
-  if not cardLevel or cardLevel < 0 then return 0 end
+    local cardLevel = tonumber(metadata.level)
+    if not cardLevel or cardLevel < 0 then return 0 end
 
-  return cardLevel
+    return cardLevel
 end
 
 function decodeCardMetadata(gmNotes)
-  if not gmNotes or gmNotes == "" then return nil end
+    if not gmNotes or gmNotes == "" then return nil end
 
-  local decodedSuccessfully, metadata =
-      pcall(JSON.decode, gmNotes)
+    local decodedSuccessfully, metadata =
+        pcall(JSON.decode, gmNotes)
 
-  if not decodedSuccessfully
-      or type(metadata) ~= "table" then
-    return nil
-  end
-
-  return metadata
-end
-
-function isPositionInsideAnyBoardSlot(localPosition)
-  local activeLayout = getActiveLayout()
-
-  -- Main deck grid.
-  for _, sourceZ in ipairs(activeLayout.cardGridRowZs) do
-    for _, sourceX in ipairs(activeLayout.cardGridColumnXs) do
-      local slotX, slotZ =
-          convertLayoutPoint(activeLayout, sourceX, sourceZ)
-
-      if isPositionNearSlot(
-            localPosition,
-            slotX,
-            slotZ,
-            MAIN_SLOT_CAPTURE_X,
-            MAIN_SLOT_CAPTURE_Z
-          ) then
-        return true
-      end
-    end
-  end
-
-  -- Investigator/signature/permanent slots.
-  for _, topSlot in ipairs(activeLayout.topSlots) do
-    local slotX, slotZ =
-        convertLayoutPoint(
-          activeLayout,
-          topSlot.x,
-          activeLayout.topSlotZ
-        )
-
-    local toleranceX = AUX_SLOT_CAPTURE_X
-    local toleranceZ = AUX_SLOT_CAPTURE_Z
-
-    -- Rotated cards have their long and short sides exchanged.
-    if topSlot.rotationY == 90
-        or topSlot.rotationY == 270 then
-      toleranceX = AUX_SLOT_CAPTURE_Z
-      toleranceZ = AUX_SLOT_CAPTURE_X
+    if not decodedSuccessfully
+        or type(metadata) ~= "table" then
+        return nil
     end
 
-    if isPositionNearSlot(
-          localPosition,
-          slotX,
-          slotZ,
-          toleranceX,
-          toleranceZ
-        ) then
-      return true
-    end
-  end
-
-  -- Side permanent slots.
-  for _, sourceX in ipairs(activeLayout.sideSlotXs) do
-    local slotX, slotZ =
-        convertLayoutPoint(
-          activeLayout,
-          sourceX,
-          activeLayout.sideSlotZ
-        )
-
-    if isPositionNearSlot(
-          localPosition,
-          slotX,
-          slotZ,
-          AUX_SLOT_CAPTURE_X,
-          AUX_SLOT_CAPTURE_Z
-        ) then
-      return true
-    end
-  end
-
-  return false
+    return metadata
 end
 
 function isPositionNearSlot(
@@ -508,356 +619,2369 @@ function isPositionNearSlot(
     toleranceX,
     toleranceZ
 )
-  return math.abs(localPosition.x - slotX) <= toleranceX
-      and math.abs(localPosition.z - slotZ) <= toleranceZ
+    return math.abs(localPosition.x - slotX) <= toleranceX
+        and math.abs(localPosition.z - slotZ) <= toleranceZ
 end
 
--- Deck export
+function getTopSlotIndices(localPosition, useInvestigatorTolerance)
+    local layout = getActiveLayout()
+    local matches = {}
 
-function exportDeck(_, playerColor, altClick)
-  if exportInProgress then
-    if playerColor then
-      printToColor("Deck export is already in progress.", playerColor, { 1, 0.75, 0.25 })
-    end
-    return
-  end
+    for index, topSlot in ipairs(layout.topSlots) do
+        local slotX, slotZ = convertLayoutPoint(layout, topSlot.x, layout.topSlotZ)
+        local toleranceX = TOP_SLOT_CAPTURE_X
+        local toleranceZ = TOP_SLOT_CAPTURE_Z
 
-  local sourceObjects = collectMainGridObjects()
-  if #sourceObjects == 0 then
-    if playerColor then
-      printToColor("No cards found in the main deck grid.", playerColor, { 1, 0.75, 0.25 })
-    else
-      print("No cards found in the main deck grid.")
-    end
-    return
-  end
-
-  exportInProgress = true
-  collisionEnabled = false
-
-  local stackPosition = getExportStackWorldPosition()
-  local stackRotation = self.getRotation()
-
-  -- Exported cards are placed face down.
-  stackRotation.x = 0
-  stackRotation.z = 180
-
-  local createdObjects = {}
-
-  for index, sourceObject in ipairs(sourceObjects) do
-    Wait.frames(function()
-      if sourceObject then
-        local clone = sourceObject.clone({
-          position = {
-            stackPosition.x,
-            stackPosition.y + (index - 1) * 0.12,
-            stackPosition.z
-          },
-          rotation = stackRotation,
-          smooth   = false
-        })
-
-        if clone then
-          clone.setLock(false)
-          clone.resting = false
-          table.insert(createdObjects, clone)
+        if useInvestigatorTolerance and index == 1 then
+            toleranceX = INVESTIGATOR_SLOT_CAPTURE_X
+            toleranceZ = INVESTIGATOR_SLOT_CAPTURE_Z
         end
-      end
-    end, (index - 1) * EXPORT_CARD_DELAY_FRAMES)
-  end
 
-  Wait.frames(function()
-    exportInProgress = false
-    collisionEnabled = true
-    scheduleExperienceRefresh()
-
-    if playerColor then
-      printToColor(
-        "Copied " .. tostring(#sourceObjects) .. " card object(s) into one exported stack.",
-        playerColor,
-        { 0.65, 1, 0.65 }
-      )
+        if isPositionNearSlot(localPosition, slotX, slotZ, toleranceX, toleranceZ) then
+            table.insert(matches, index)
+        end
     end
-  end, #sourceObjects * EXPORT_CARD_DELAY_FRAMES + 30)
+
+    return matches
 end
 
-function collectMainGridObjects()
-  local collectedObjects = {}
-  local boardGuid = self.getGUID()
+-- Scan the main dashboard once and classify nearby card/deck objects.
+function scanMainDashboard(worldObjects)
+    local snapshot = {
+        all = {},
+        mainGrid = {},
+        upperRight = {},
+        topSlots = {}
+    }
 
-  for _, worldObject in ipairs(getAllObjects()) do
-    if worldObject.getGUID() ~= boardGuid
-        and (worldObject.type == "Card"
-          or worldObject.type == "Deck")
-        and not worldObject.getLock() then
-      local localPosition =
-          self.positionToLocal(worldObject.getPosition())
+    local boardGuid = self.getGUID()
+    local objects = worldObjects or getAllObjects()
+    local bounds = calculateSnapBounds()
+    local marginX = math.max(BOARD_CAPTURE_MARGIN_X, OVERFLOW_STACK_CAPTURE_X)
+    local marginZ = math.max(BOARD_CAPTURE_MARGIN_Z, OVERFLOW_STACK_CAPTURE_Z)
 
-      -- Export only cards actually occupying main-grid snap slots.
-      -- Top and side permanent slots are intentionally excluded.
-      if isPositionInsideMainGridSlot(localPosition) then
-        table.insert(collectedObjects, {
-          object = worldObject,
-          x = localPosition.x,
-          z = localPosition.z
+    for _, object in ipairs(objects) do
+        if object.getGUID() ~= boardGuid
+            and (object.type == "Card" or object.type == "Deck") then
+
+            local localPosition = self.positionToLocal(object.getPosition())
+            local topSlotIndices = getTopSlotIndices(localPosition)
+            local isInTopSlot = #topSlotIndices > 0
+            local nearBoard =
+                localPosition.x >= bounds.minX - marginX
+                and localPosition.x <= bounds.maxX + marginX
+                and localPosition.z >= bounds.minZ - marginZ
+                and localPosition.z <= bounds.maxZ + marginZ
+
+            local inFormalOverflow = isPositionInsideMainOverflowStack(localPosition, "formal")
+            local inUpperOverflow = isPositionInsideMainOverflowStack(localPosition, "upper")
+
+            -- Top-slot capture areas overlap by design. Keep every matching slot and
+            -- let card metadata decide which physical card belongs to each slot.
+            if isInTopSlot or nearBoard or inFormalOverflow or inUpperOverflow then
+                local inMainGrid = isPositionInsideMainGridSlot(localPosition) or inFormalOverflow
+                local inUpperRight = isPositionInsideUpperRightArea(localPosition)
+
+                if isInTopSlot or inMainGrid or inUpperRight then
+                    local item = {
+                        object = object,
+                        localPosition = localPosition
+                    }
+                    table.insert(snapshot.all, item)
+
+                    if inMainGrid then table.insert(snapshot.mainGrid, item) end
+                    if inUpperRight then table.insert(snapshot.upperRight, item) end
+
+                    for _, topSlotIndex in ipairs(topSlotIndices) do
+                        snapshot.topSlots[topSlotIndex] = snapshot.topSlots[topSlotIndex] or {}
+                        table.insert(snapshot.topSlots[topSlotIndex], item)
+                    end
+                end
+            end
+        end
+    end
+
+    table.sort(snapshot.mainGrid, function(a, b)
+        if math.abs(a.localPosition.z - b.localPosition.z) > CARD_SORT_Z_TOLERANCE then
+            return a.localPosition.z < b.localPosition.z
+        end
+        return a.localPosition.x > b.localPosition.x
+    end)
+
+    return snapshot
+end
+
+function appendPhysicalCardRecords(records, item)
+    local object = item.object or item
+    local localPosition = item.localPosition
+        or self.positionToLocal(object.getPosition())
+
+    if object.type == "Card" then
+        local metadata = decodeCardMetadata(object.getGMNotes())
+        if metadata and metadata.id then
+            table.insert(records, {
+                metadata = metadata,
+                localPosition = localPosition
+            })
+        end
+    elseif object.type == "Deck" then
+        for _, contained in ipairs(object.getObjects() or {}) do
+            local metadata = decodeCardMetadata(contained.gm_notes)
+            if metadata and metadata.id then
+                table.insert(records, {
+                    metadata = metadata,
+                    localPosition = localPosition
+                })
+            end
+        end
+    end
+end
+
+function collectPhysicalCardRecords(items)
+    local records = {}
+    for _, item in ipairs(items or {}) do
+        appendPhysicalCardRecords(records, item)
+    end
+    return records
+end
+
+--------------------------------------------------
+-- ARKHAM.BUILD IMPORT
+--------------------------------------------------
+
+function openDeckImport(_, playerColor)
+    if importInProgress then
+        printImportMessage(playerColor, "Deck import is already in progress.", {1, 0.75, 0.25})
+        return
+    end
+
+    local player = playerColor and Player[playerColor] or nil
+    if not player then
+        print("Deck import requires a seated player.")
+        return
+    end
+
+    player.showInputDialog(
+        "arkham.build deck URL or ID",
+        "",
+        function(inputText)
+            local deckRef = parseDeckReference(inputText)
+            if not deckRef then
+                printImportMessage(
+                    playerColor,
+                    "Unrecognized arkham.build deck/decklist URL or ID.",
+                    {1, 0.4, 0.4}
+                )
+                return
+            end
+
+            importInProgress = true
+            requestDeckThroughSced(deckRef, playerColor)
+        end
+    )
+end
+
+function parseDeckReference(inputText)
+    if inputText == nil then return nil end
+
+    local text = tostring(inputText):gsub("^%s+", ""):gsub("%s+$", "")
+    if text == "" then return nil end
+
+    local decklistId = text:match("^https://arkham%.build/decklist/view/(%d+)/?$")
+    if decklistId then
+        return {id = decklistId, kind = "decklist"}
+    end
+
+    local deckId = text:match("^https://arkham%.build/deck/view/([%w]+)/?$")
+    if deckId then
+        if deckId:match("^%d+$") then
+            return {id = deckId, kind = "deck"}
+        end
+        if #deckId == ARKHAM_BUILD_SHARE_ID_LENGTH then
+            return {id = deckId, kind = "deck"}
+        end
+        return nil
+    end
+
+    if text:match("^[%w]+$")
+        and not text:match("^%d+$")
+        and #text == ARKHAM_BUILD_SHARE_ID_LENGTH then
+        return {id = text, kind = "deck"}
+    end
+
+    if text:match("^%d+$") then
+        return {id = text, kind = "auto"}
+    end
+
+    return nil
+end
+
+function getImportConfiguration()
+    for _, provider in ipairs(getObjectsWithTag("import_configuration_provider") or {}) do
+        local configuration = provider.getTable("configuration")
+        if type(configuration) == "table" and configuration.arkhambuild_api_uri then
+            return configuration
+        end
+    end
+    return nil
+end
+
+function decodeRawArkhamBuildDeck(responseText)
+    if not responseText or responseText == "" then return nil end
+
+    local ok, deck = pcall(function()
+        if json and json.parse then
+            return json.parse(responseText)
+        end
+        return JSON.decode(responseText)
+    end)
+
+    if not ok or type(deck) ~= "table" then
+        local fallbackOk, fallback = pcall(JSON.decode, responseText)
+        if fallbackOk then deck = fallback end
+    end
+
+    if type(deck) ~= "table"
+        or type(deck.slots) ~= "table"
+        or not deck.investigator_code then
+        return nil
+    end
+
+    return deck
+end
+
+function buildArkhamBuildUri(deckId, kind)
+    local configuration = getImportConfiguration()
+    if not configuration or not configuration.arkhambuild_api_uri then
+        return nil
+    end
+
+    local uri = {
+        configuration.arkhambuild_api_uri,
+        tostring(deckId)
+    }
+
+    if kind == "decklist" then
+        table.insert(uri, configuration.arkhambuild_published_deck or "?type=decklist")
+    end
+
+    return uri
+end
+
+-- Probe arkham.build first so bare numeric IDs can fall back from deck to decklist.
+function fetchRawArkhamBuildDeck(deckRef, onSuccess, onError)
+    local function requestKind(kind, fallback)
+        local uri = buildArkhamBuildUri(deckRef.id, kind)
+        if not uri then
+            onError("SCED arkham.build configuration was not found.")
+            return
+        end
+
+        WebRequestLib.get(uri, function(responseText)
+            local deck = decodeRawArkhamBuildDeck(responseText)
+            if deck then
+                onSuccess(deck, kind)
+            elseif fallback then
+                fallback()
+            else
+                onError("arkham.build returned invalid deck data.")
+            end
+        end, function(_, responseCode)
+            if fallback then
+                fallback()
+            else
+                onError("arkham.build deck could not be loaded (HTTP " .. tostring(responseCode or "?") .. ").")
+            end
+        end)
+    end
+
+    if deckRef.kind == "auto" then
+        requestKind("deck", function()
+            requestKind("decklist")
+        end)
+    else
+        requestKind(deckRef.kind)
+    end
+end
+
+function requestDeckThroughSced(deckRef, playerColor)
+    importRequestVersion = importRequestVersion + 1
+    local requestVersion = importRequestVersion
+
+    local function requestIsCurrent()
+        return requestVersion == importRequestVersion
+    end
+
+    local function invalidateRequest()
+        if requestIsCurrent() then
+            importRequestVersion = importRequestVersion + 1
+        end
+    end
+
+    fetchRawArkhamBuildDeck(deckRef, function(rawDeck, resolvedKind)
+        if not requestIsCurrent() then return end
+
+        local isPrivate = resolvedKind ~= "decklist"
+        local started, reason = WebInterface.getDecklist(
+            playerColor or "None",
+            tostring(deckRef.id),
+            isPrivate,
+            false,
+            false,
+            function(slots, investigatorId, bondedList, _deckMeta, _returnedPlayerColor, loadAltInvestigator)
+                if not requestIsCurrent() then return end
+                invalidateRequest()
+
+                beginProcessedDeckImport({
+                    slots = slots,
+                    investigatorId = investigatorId,
+                    bondedList = bondedList,
+                    loadAltInvestigator = loadAltInvestigator,
+                    sourceDeck = rawDeck,
+                    requestingPlayer = playerColor,
+                    deckRef = {
+                        id = tostring(deckRef.id),
+                        kind = resolvedKind
+                    }
+                })
+            end
+        )
+
+        if started == false then
+            if not requestIsCurrent() then return end
+            invalidateRequest()
+            finishDeckImport()
+            printImportMessage(
+                playerColor,
+                reason or "SCED card index is not ready yet.",
+                {1, 0.65, 0.25}
+            )
+            return
+        end
+
+        -- WebInterface has no request-error callback; expire requests that never return.
+        Wait.time(function()
+            if not requestIsCurrent() then return end
+            invalidateRequest()
+            finishDeckImport()
+            printImportMessage(
+                playerColor,
+                "SCED WebInterface did not return deck data. Check the SCED console for the request error.",
+                {1, 0.65, 0.25}
+            )
+        end, IMPORT_WEB_TIMEOUT_SECONDS)
+    end, function(message)
+        if not requestIsCurrent() then return end
+        invalidateRequest()
+        finishDeckImport()
+        printImportMessage(playerColor, message or "arkham.build deck could not be loaded.", {1, 0.4, 0.4})
+    end)
+end
+
+--------------------------------------------------
+-- IMPORT CLASSIFICATION
+--------------------------------------------------
+
+function beginProcessedDeckImport(params)
+    if type(params) ~= "table" or type(params.slots) ~= "table" then
+        finishDeckImport()
+        local playerColor = type(params) == "table" and params.requestingPlayer or nil
+        printImportMessage(playerColor, "SCED returned invalid deck data.", {1, 0.4, 0.4})
+        return
+    end
+
+    local playerColor = params.requestingPlayer
+    local investigatorId = tostring(params.investigatorId or "")
+    local investigator = AllCardsBagApi.getCardById(investigatorId)
+
+    if not investigator or not investigator.data or not investigator.metadata then
+        finishDeckImport()
+        printImportMessage(playerColor, "Investigator " .. investigatorId .. " was not found in SCED.", {1, 0.4, 0.4})
+        return
+    end
+
+    local investigatorClass = investigator.metadata.class or DEFAULT_INVESTIGATOR_CLASS
+    if not BOARD_TEXTURES[investigatorClass] then
+        investigatorClass = DEFAULT_INVESTIGATOR_CLASS
+    end
+
+    local supportData = getInvestigatorSupportData(investigatorId, investigator.metadata)
+    local miniCard = supportData.miniCard
+    local signatureIds = supportData.signatureIds
+    local miniId = miniCard and miniCard.metadata and tostring(miniCard.metadata.id) or nil
+
+    local mainSlotMap = {}
+    local bondedSlotMap = {}
+    local missingIds = {}
+    local bondedList = type(params.bondedList) == "table" and params.bondedList or {}
+
+    for cardId, count in pairs(params.slots) do
+        local numericCount = tonumber(count) or 0
+        local id = tostring(cardId)
+        if numericCount > 0 and id ~= investigatorId and (not miniId or id ~= miniId) then
+            if bondedList[id] then
+                bondedSlotMap[id] = numericCount
+            else
+                mainSlotMap[id] = numericCount
+            end
+        end
+    end
+
+    local mainEntries = buildImportEntries(mainSlotMap, missingIds)
+    local bondedEntries = buildImportEntries(bondedSlotMap, missingIds)
+
+    local rawSideSlots = {}
+    if type(params.sourceDeck) == "table" and type(params.sourceDeck.sideSlots) == "table" then
+        rawSideSlots = params.sourceDeck.sideSlots
+    end
+    local sideEntries = buildImportEntries(rawSideSlots, missingIds)
+
+    local classified = classifyDashboardEntries(mainEntries, signatureIds)
+    local upperRightEntries = concatenateEntryLists(bondedEntries, classified.permanents)
+    local specialEntries = concatenateEntryLists(
+        classified.signatureAssets,
+        classified.signatureWeaknesses,
+        classified.basicWeaknesses
+    )
+
+    local m30Layout = BOARD_LAYOUTS.m30
+    local specialRowCapacity = #m30Layout.cardGridColumnXs
+    local m30FormalCapacity = (#m30Layout.cardGridRowZs - 1) * specialRowCapacity
+    local specialOverflow = math.max(0, countPhysicalEntries(specialEntries) - specialRowCapacity)
+    local requiredFormalSlots = countPhysicalEntries(classified.formal) + specialOverflow
+    local deckMode = requiredFormalSlots > m30FormalCapacity and "m50" or "m30"
+
+    lastLoadAltInvestigator = params.loadAltInvestigator or "normal"
+    lastAltInvestigatorId = investigatorId
+
+    local importData = {
+        sourceDeck         = params.sourceDeck or {},
+        investigator      = investigator,
+        investigatorId    = investigatorId,
+        miniCard           = miniCard,
+        investigatorClass  = investigatorClass,
+        deckMode           = deckMode,
+        upperRight         = upperRightEntries,
+        special            = specialEntries,
+        formal             = classified.formal,
+        side               = sideEntries,
+        missingIds         = deduplicateStrings(missingIds),
+        playerColor        = playerColor,
+        loadAltInvestigator = lastLoadAltInvestigator,
+        deckRef            = params.deckRef
+    }
+
+    prepareCurrentBoardForImport(importData)
+end
+
+function getInvestigatorSupportData(investigatorId, investigatorMetadata)
+    local result = {signatureIds = {}, miniCard = nil}
+
+    -- Let SCED resolve parallel/custom investigator minicard IDs.
+    local miniId = GlobalApi.getMiniId(tostring(investigatorId or ""))
+    if miniId and miniId ~= "" then
+        result.miniCard = AllCardsBagApi.getCardById(miniId)
+    end
+
+    local filters = {}
+    if investigatorMetadata and investigatorMetadata.class then
+        filters.f = {value = investigatorMetadata.class, operator = ":"}
+    end
+
+    local investigatorData = AllCardsBagApi.getInvestigatorData(filters) or {}
+    for invId, specificData in pairs(investigatorData) do
+        if type(specificData) == "table" then
+            local matches = tostring(invId) == tostring(investigatorId)
+            if not matches and type(specificData.cards) == "table" then
+                for _, cardId in ipairs(specificData.cards) do
+                    if tostring(cardId) == tostring(investigatorId) then
+                        matches = true
+                        break
+                    end
+                end
+            end
+
+            if matches then
+                for _, signatureId in ipairs(specificData.signatures or {}) do
+                    result.signatureIds[tostring(signatureId)] = true
+                end
+
+                if not result.miniCard and type(specificData.minicards) == "table" and specificData.minicards[1] then
+                    result.miniCard = AllCardsBagApi.getCardById(specificData.minicards[1])
+                end
+                break
+            end
+        end
+    end
+
+    return result
+end
+
+function buildImportEntries(slotMap, missingIds)
+    local entries = {}
+    if type(slotMap) ~= "table" then return entries end
+
+    for cardId, count in pairs(slotMap) do
+        local numericCount = tonumber(count) or 0
+        if numericCount > 0 then
+            local id = tostring(cardId)
+            local card = AllCardsBagApi.getCardById(id)
+            if card and card.data and card.metadata then
+                table.insert(entries, {
+                    id = id,
+                    count = numericCount,
+                    data = card.data,
+                    metadata = card.metadata
+                })
+            else
+                table.insert(missingIds, id)
+            end
+        end
+    end
+
+    table.sort(entries, dashboardEntryComparator)
+    return entries
+end
+
+function dashboardEntryComparator(a, b)
+    local typeA = tostring((a.metadata and a.metadata.type) or "")
+    local typeB = tostring((b.metadata and b.metadata.type) or "")
+    if typeA ~= typeB then return typeA < typeB end
+
+    local levelA = tonumber(a.metadata and a.metadata.level) or 0
+    local levelB = tonumber(b.metadata and b.metadata.level) or 0
+    if levelA ~= levelB then return levelA < levelB end
+
+    local nameA = tostring((a.data and a.data.Nickname) or a.id)
+    local nameB = tostring((b.data and b.data.Nickname) or b.id)
+    if nameA ~= nameB then return nameA < nameB end
+    return tostring(a.id) < tostring(b.id)
+end
+
+function metadataFlagIsTrue(value)
+    return value == true or value == 1 or value == "1" or value == "true"
+end
+
+function isWeaknessMetadata(metadata)
+    return metadata and metadataFlagIsTrue(metadata.weakness)
+end
+
+function isBasicWeaknessMetadata(metadata)
+    return isWeaknessMetadata(metadata)
+        and tonumber(metadata.basicWeaknessCount or 0) > 0
+end
+
+function classifyDashboardEntries(entries, signatureIds)
+    local result = {
+        signatureAssets     = {},
+        signatureWeaknesses = {},
+        basicWeaknesses     = {},
+        permanents          = {},
+        formal              = {}
+    }
+
+    for _, entry in ipairs(entries) do
+        local md = entry.metadata or {}
+        if metadataFlagIsTrue(md.permanent) then
+            table.insert(result.permanents, entry)
+        elseif signatureIds[entry.id] and isWeaknessMetadata(md) then
+            table.insert(result.signatureWeaknesses, entry)
+        elseif signatureIds[entry.id] then
+            table.insert(result.signatureAssets, entry)
+        elseif isBasicWeaknessMetadata(md) then
+            table.insert(result.basicWeaknesses, entry)
+        elseif md.type ~= "Investigator" and md.type ~= "Minicard" then
+            table.insert(result.formal, entry)
+        end
+    end
+
+    table.sort(result.signatureAssets, dashboardEntryComparator)
+    table.sort(result.signatureWeaknesses, dashboardEntryComparator)
+    table.sort(result.basicWeaknesses, dashboardEntryComparator)
+    table.sort(result.permanents, dashboardEntryComparator)
+    table.sort(result.formal, dashboardEntryComparator)
+    return result
+end
+
+function concatenateEntryLists(...)
+    local combined = {}
+    for _, list in ipairs({...}) do
+        for _, entry in ipairs(list or {}) do table.insert(combined, entry) end
+    end
+    return combined
+end
+
+function countPhysicalEntries(entries)
+    local count = 0
+    for _, entry in ipairs(entries or {}) do
+        count = count + math.max(tonumber(entry.count) or 1, 1)
+    end
+    return count
+end
+
+function expandEntries(entries)
+    local physical = {}
+    for _, entry in ipairs(entries or {}) do
+        for _ = 1, math.max(tonumber(entry.count) or 1, 1) do
+            table.insert(physical, entry)
+        end
+    end
+    return physical
+end
+
+function deduplicateStrings(values)
+    local seen, result = {}, {}
+    for _, value in ipairs(values or {}) do
+        value = tostring(value)
+        if not seen[value] then
+            seen[value] = true
+            table.insert(result, value)
+        end
+    end
+    table.sort(result)
+    return result
+end
+
+function prepareCurrentBoardForImport(importData)
+    currentDeckMode = importData.deckMode
+
+    if boardColorMode == COLOR_MODE_AUTO then
+        currentInvestigatorClass = importData.investigatorClass
+    end
+
+    local targetTexture = BOARD_TEXTURES[currentInvestigatorClass][currentDeckMode]
+    local customObjectConfig = self.getCustomObject()
+    local requiresReload = customObjectConfig.image ~= targetTexture
+
+    if requiresReload then
+        if not importData.deckRef or not importData.deckRef.id then
+            finishDeckImport()
+            printImportMessage(
+                importData.playerColor,
+                "Deck import could not resume after changing the dashboard texture.",
+                {1, 0.4, 0.4}
+            )
+            return
+        end
+
+        pendingImportRef = {
+            deckRef = {
+                id = tostring(importData.deckRef.id),
+                kind = importData.deckRef.kind
+            },
+            playerColor = importData.playerColor
+        }
+
+        saveBoardState()
+        reloadBoardTexture()
+        return
+    end
+
+    pendingImportRef = nil
+    saveBoardState()
+
+    reloadBoardTexture(function(board)
+        populateImportedDashboard(board or self, importData)
+    end)
+end
+
+--------------------------------------------------
+-- DASHBOARD CARD PLACEMENT
+--------------------------------------------------
+
+function populateImportedDashboard(board, importData)
+    local layout = BOARD_LAYOUTS[importData.deckMode] or BOARD_LAYOUTS.m30
+    local tasks = {}
+
+    -- Top three slots: investigator front, investigator back, investigator minicard.
+    local frontSlot = layout.topSlots[INVESTIGATOR_TOP_SLOT_INDEX]
+    local backSlot = layout.topSlots[INVESTIGATOR_BACK_SLOT_INDEX]
+    local miniSlot = layout.topSlots[MINICARD_TOP_SLOT_INDEX]
+
+    local frontX, frontZ = convertLayoutPoint(layout, frontSlot.x, layout.topSlotZ)
+    appendPlacementTask(
+        tasks, importData.investigator, board, frontX, frontZ,
+        (frontSlot.rotationY or 0) + INVESTIGATOR_YAW_CORRECTION, 0, true
+    )
+
+    local backX, backZ = convertLayoutPoint(layout, backSlot.x, layout.topSlotZ)
+    appendPlacementTask(
+        tasks, importData.investigator, board, backX, backZ,
+        (backSlot.rotationY or 0) + INVESTIGATOR_YAW_CORRECTION, CARD_BACK_FLIP_Z, true
+    )
+
+    if importData.miniCard and importData.miniCard.data then
+        local miniX, miniZ = convertLayoutPoint(layout, miniSlot.x, layout.topSlotZ)
+        appendPlacementTask(tasks, importData.miniCard, board, miniX, miniZ, miniSlot.rotationY or 0, 0, true)
+    else
+        printImportMessage(importData.playerColor, "Minicard was not found in the SCED index.", {1, 0.65, 0.25})
+    end
+
+    -- Upper-right: bonded cards first, then permanents.
+    local upperRightPhysical = expandEntries(importData.upperRight)
+    local upperOverflowX, upperOverflowZ = getUpperOverflowLocalPosition(layout)
+    local upperOverflowCount = 0
+    for index, entry in ipairs(upperRightPhysical) do
+        local sourceX = layout.sideSlotXs[index]
+        if sourceX then
+            local x, z = convertLayoutPoint(layout, sourceX, layout.sideSlotZ)
+            appendPlacementTask(tasks, entry, board, x, z, 0, 0)
+        else
+            upperOverflowCount = upperOverflowCount + 1
+            appendPlacementTask(tasks, entry, board, upperOverflowX, upperOverflowZ, 0, 0, false, "upper-overflow")
+        end
+    end
+
+    -- First main-grid row: signatures, signature weaknesses, basic weaknesses.
+    local firstRowPhysical = expandEntries(importData.special)
+    local belowRowOverflow = {}
+    for index, entry in ipairs(firstRowPhysical) do
+        local sourceX = layout.cardGridColumnXs[index]
+        if sourceX then
+            local x, z = convertLayoutPoint(layout, sourceX, layout.cardGridRowZs[1])
+            appendPlacementTask(tasks, entry, board, x, z, 0, 0)
+        else
+            table.insert(belowRowOverflow, entry)
+        end
+    end
+
+    if upperOverflowCount > 0 then
+        printImportMessage(
+            importData.playerColor,
+            "More than " .. tostring(#layout.sideSlotXs)
+                .. " bonded/permanent cards: overflow was stacked to the right of the upper-right slots.",
+            {1, 0.65, 0.25}
+        )
+    end
+    if #belowRowOverflow > 0 then
+        printImportMessage(
+            importData.playerColor,
+            "More than " .. tostring(#layout.cardGridColumnXs)
+                .. " special cards: overflow was moved into the formal deck rows.",
+            {1, 0.65, 0.25}
+        )
+    end
+
+    -- Remaining rows: formal deck, one physical card per slot.
+    local formalPhysical = {}
+    for _, entry in ipairs(belowRowOverflow) do table.insert(formalPhysical, entry) end
+    for _, entry in ipairs(expandEntries(importData.formal)) do table.insert(formalPhysical, entry) end
+
+    local formalSlots = {}
+    for rowIndex = 2, #layout.cardGridRowZs do
+        for _, sourceX in ipairs(layout.cardGridColumnXs) do
+            local x, z = convertLayoutPoint(layout, sourceX, layout.cardGridRowZs[rowIndex])
+            table.insert(formalSlots, {x = x, z = z})
+        end
+    end
+
+    local formalOverflowX, formalOverflowZ = getFormalOverflowLocalPosition(layout)
+    local formalOverflowCount = 0
+    for index, entry in ipairs(formalPhysical) do
+        local slot = formalSlots[index]
+        if slot then
+            appendPlacementTask(tasks, entry, board, slot.x, slot.z, 0, 0)
+        else
+            formalOverflowCount = formalOverflowCount + 1
+            appendPlacementTask(tasks, entry, board, formalOverflowX, formalOverflowZ, 0, 0, false, "formal-overflow")
+        end
+    end
+
+    if formalOverflowCount > 0 then
+        printImportMessage(
+            importData.playerColor,
+            "Main deck exceeds " .. tostring(#formalSlots)
+                .. " formal slots: overflow was stacked to the right of the main-deck slots.",
+            {1, 0.65, 0.25}
+        )
+    end
+
+    printImportMessage(
+        importData.playerColor,
+        "Spawning " .. tostring(#tasks) .. " dashboard cards through SCED CardSpawner...",
+        {0.75, 0.85, 1}
+    )
+
+    spawnPlacementTasksWithCardSpawner(tasks, function()
+        Wait.time(function()
+            if board then board.call("refreshExperience") end
+        end, XP_REFRESH_DELAY)
+
+        local function completeImport()
+            finishDeckImport()
+            local deckName = importData.sourceDeck and importData.sourceDeck.name or "deck"
+            printImportMessage(importData.playerColor, "Imported " .. tostring(deckName) .. ".", {0.65, 1, 0.65})
+
+            if #importData.missingIds > 0 then
+                printImportMessage(
+                    importData.playerColor,
+                    "SCED could not find these card IDs: " .. table.concat(importData.missingIds, ", "),
+                    {1, 0.65, 0.25}
+                )
+            end
+        end
+
+        if countPhysicalEntries(importData.side) > 0 then
+            createImportedSideDecks(board, importData.side, importData.playerColor, completeImport)
+        else
+            completeImport()
+        end
+    end, importData.playerColor)
+end
+
+function convertLayoutPoint(layout, sourceX, sourceZ)
+    local localX = sourceX * layout.coordinateScaleX + layout.coordinateOffsetX
+    local localZ = sourceZ * layout.coordinateScaleZ + layout.coordinateOffsetZ
+    return localX, localZ
+end
+
+-- Calculate one overflow column beyond the board's rightmost card column.
+function getRightOverflowSourceX(sourceXs)
+    if not sourceXs or #sourceXs == 0 then return OVERFLOW_FALLBACK_SOURCE_X end
+    local rightmost = sourceXs[#sourceXs]
+    local spacing = OVERFLOW_FALLBACK_SPACING
+    if #sourceXs >= 2 then
+        spacing = math.abs(sourceXs[#sourceXs - 1] - rightmost)
+    end
+
+    -- Add extra clearance so the stack does not overlap the board edge.
+    local gap = math.max(spacing * OVERFLOW_COLUMN_GAP_MULTIPLIER, OVERFLOW_COLUMN_MIN_GAP)
+    return rightmost - gap
+end
+
+function getUpperOverflowLocalPosition(layout)
+    return convertLayoutPoint(
+        layout,
+        getRightOverflowSourceX(layout.sideSlotXs),
+        layout.sideSlotZ
+    )
+end
+
+function getFormalOverflowLocalPosition(layout)
+    local zTotal = 0
+    local zCount = 0
+    for rowIndex = 2, #layout.cardGridRowZs do
+        zTotal = zTotal + layout.cardGridRowZs[rowIndex]
+        zCount = zCount + 1
+    end
+    local sourceZ = zCount > 0 and (zTotal / zCount) or layout.cardGridRowZs[#layout.cardGridRowZs]
+    return convertLayoutPoint(
+        layout,
+        getRightOverflowSourceX(layout.cardGridColumnXs),
+        sourceZ
+    )
+end
+
+function isPositionInsideMainOverflowStack(localPosition, stackType)
+    local layout = getActiveLayout()
+    local x, z
+    if stackType == "upper" then
+        x, z = getUpperOverflowLocalPosition(layout)
+    else
+        x, z = getFormalOverflowLocalPosition(layout)
+    end
+    return isPositionNearSlot(
+        localPosition,
+        x,
+        z,
+        OVERFLOW_STACK_CAPTURE_X,
+        OVERFLOW_STACK_CAPTURE_Z
+    )
+end
+
+function appendPlacementTask(tasks, entryOrCard, board, localX, localZ, localRotationY, localRotationZ, primaryInvestigator, stackKey)
+    if not entryOrCard or not board then return end
+
+    local data = entryOrCard.data
+    local metadata = entryOrCard.metadata or {}
+    if not data then return end
+
+    local worldPosition = board.positionToWorld({localX, IMPORT_CARD_HEIGHT, localZ})
+    local boardRotation = board.getRotation()
+
+    local kind = "standard"
+    if metadata.type == "Investigator" then kind = "investigator"
+    elseif metadata.type == "Minicard" then kind = "mini" end
+
+    table.insert(tasks, {
+        matchId = tostring(metadata.id or entryOrCard.id or ""),
+        kind = kind,
+        card = {data = data, metadata = metadata},
+        position = {worldPosition.x, worldPosition.y, worldPosition.z},
+        rotation = {0, boardRotation.y + (localRotationY or 0), localRotationZ or 0},
+        primaryInvestigator = primaryInvestigator == true,
+        stackKey = stackKey
+    })
+end
+
+function spawnPlacementTasksWithCardSpawner(tasks, onComplete, playerColor)
+    if #tasks == 0 then
+        if onComplete then onComplete() end
+        return
+    end
+
+    local groups = {investigator = {}, standard = {}, mini = {}}
+    local stackGroups = {}
+
+    for _, task in ipairs(tasks) do
+        if task.stackKey then
+            local key = tostring(task.stackKey) .. "|" .. tostring(task.kind)
+            stackGroups[key] = stackGroups[key] or {}
+            table.insert(stackGroups[key], task)
+        else
+            table.insert(groups[task.kind] or groups.standard, task)
+        end
+    end
+
+    local activeGroups = {}
+    for _, kind in ipairs({"investigator", "standard", "mini"}) do
+        if #groups[kind] > 0 then
+            table.insert(activeGroups, groups[kind])
+        end
+    end
+
+    local activeStacks = {}
+    for _, stackTasks in pairs(stackGroups) do
+        table.insert(activeStacks, stackTasks)
+    end
+
+    local pending = #activeGroups + #activeStacks
+    if pending == 0 then
+        if onComplete then onComplete() end
+        return
+    end
+
+    local function groupFinished()
+        pending = pending - 1
+        if pending <= 0 and onComplete then
+            onComplete()
+        end
+    end
+
+    for groupIndex, groupTasks in ipairs(activeGroups) do
+        local cards = {}
+        for _, task in ipairs(groupTasks) do
+            table.insert(cards, task.card)
+        end
+
+        local staging = self.positionToWorld({
+            0,
+            IMPORT_TRANSIT_HEIGHT + (groupIndex - 1) * IMPORT_GROUP_HEIGHT_STEP,
+            0
         })
-      end
+        local rotation = Vector(0, self.getRotation().y, 0)
+
+        CardSpawner.spawnCards(
+            cards,
+            Vector(staging),
+            rotation,
+            false,
+            function(spawnedObject)
+                distributeSpawnedGroup(spawnedObject, groupTasks, groupFinished, playerColor)
+            end
+        )
     end
-  end
 
-  -- Predictable order: top-to-bottom, then left-to-right.
-  table.sort(collectedObjects, function(a, b)
-    if math.abs(a.z - b.z) > 0.03 then
-      return a.z < b.z
+    for _, stackTasks in ipairs(activeStacks) do
+        local cards = {}
+        for _, task in ipairs(stackTasks) do
+            table.insert(cards, task.card)
+        end
+
+        local firstTask = stackTasks[1]
+        CardSpawner.spawnCards(
+            cards,
+            Vector(firstTask.position),
+            Vector(firstTask.rotation),
+            false,
+            function(spawnedObject)
+                if spawnedObject then
+                    spawnedObject.setLock(false)
+                    spawnedObject.resting = false
+                else
+                    printImportMessage(playerColor, "SCED CardSpawner did not return an overflow stack.", {1, 0.65, 0.25})
+                end
+                groupFinished()
+            end
+        )
     end
-
-    return a.x > b.x
-  end)
-
-  local result = {}
-
-  for _, item in ipairs(collectedObjects) do
-    table.insert(result, item.object)
-  end
-
-  return result
 end
 
-function isPositionInsideMainGridSlot(localPosition)
-  local activeLayout = getActiveLayout()
+function distributeSpawnedGroup(spawnedObject, tasks, onComplete, playerColor)
+    if not spawnedObject then
+        printImportMessage(playerColor, "SCED CardSpawner did not return an object.", {1, 0.65, 0.25})
+        if onComplete then onComplete() end
+        return
+    end
 
-  for _, sourceZ in ipairs(activeLayout.cardGridRowZs) do
-    for _, sourceX in ipairs(activeLayout.cardGridColumnXs) do
-      local slotX, slotZ =
-          convertLayoutPoint(activeLayout, sourceX, sourceZ)
+    if #tasks == 1 or spawnedObject.type ~= "Deck" then
+        local task = tasks[1]
+        placeSpawnedCard(spawnedObject, task)
+        if onComplete then onComplete() end
+        return
+    end
 
-      if isPositionNearSlot(
+    dealSpawnedDeck(spawnedObject, tasks, onComplete, playerColor)
+end
+
+function placeSpawnedCard(card, task)
+    if not card or not task then return end
+
+    local target = card
+    if task.primaryInvestigator and lastLoadAltInvestigator ~= "normal" then
+        target = applyAltInvestigatorArt(card, lastLoadAltInvestigator) or card
+    end
+
+    target.setPosition(task.position)
+    target.setRotation(task.rotation)
+    target.setLock(false)
+    target.resting = false
+end
+
+function dealSpawnedDeck(deckObject, tasks, onComplete, playerColor)
+    local guidQueues = {}
+    local fallbackGuids = {}
+
+    for _, contained in ipairs(deckObject.getObjects() or {}) do
+        local metadata = decodeCardMetadata(contained.gm_notes)
+        local id = metadata and tostring(metadata.id or "") or ""
+        guidQueues[id] = guidQueues[id] or {}
+        table.insert(guidQueues[id], contained.guid)
+        table.insert(fallbackGuids, contained.guid)
+    end
+
+    local usedGuids = {}
+    local taskIndex = 1
+    local finalTask = tasks[#tasks]
+    local remainderObject = nil
+    local completed = false
+
+    local function takeGuidForTask(task)
+        local queue = guidQueues[task.matchId]
+        if queue and #queue > 0 then
+            local guid = table.remove(queue, 1)
+            usedGuids[guid] = true
+            return guid
+        end
+
+        for _, guid in ipairs(fallbackGuids) do
+            if not usedGuids[guid] then
+                usedGuids[guid] = true
+                return guid
+            end
+        end
+        return nil
+    end
+
+    local function finish()
+        if completed then return end
+        completed = true
+
+        -- remainder may be assigned by TTS one frame after takeObject() destroys the Deck.
+        Wait.frames(function()
+            if not remainderObject and deckObject then
+                remainderObject = deckObject.remainder
+            end
+
+            local function placeRemainder()
+                if remainderObject and not remainderObject.isDestroyed() then
+                    placeSpawnedCard(remainderObject, finalTask)
+                elseif finalTask then
+                    printImportMessage(playerColor, "The final card of a spawned deck could not be placed.", {1, 0.65, 0.25})
+                end
+
+                Wait.frames(function()
+                    if onComplete then onComplete() end
+                end, 1)
+            end
+
+            if remainderObject and remainderObject.spawning then
+                Wait.condition(placeRemainder, function()
+                    return remainderObject == nil
+                        or remainderObject.isDestroyed()
+                        or not remainderObject.spawning
+                end)
+            else
+                placeRemainder()
+            end
+        end, 1)
+    end
+
+    local function dealNext()
+        if taskIndex >= #tasks then
+            finish()
+            return
+        end
+
+        if not deckObject or deckObject.isDestroyed() then
+            finish()
+            return
+        end
+
+        local task = tasks[taskIndex]
+        local guid = takeGuidForTask(task)
+
+        if not guid then
+            taskIndex = taskIndex + 1
+            Wait.frames(dealNext, 1)
+            return
+        end
+
+        deckObject.takeObject({
+            guid = guid,
+            position = task.position,
+            rotation = task.rotation,
+            smooth = false,
+            callback_function = function(card)
+                if card then
+                    local placed = card
+                    if task.primaryInvestigator and lastLoadAltInvestigator ~= "normal" then
+                        placed = applyAltInvestigatorArt(card, lastLoadAltInvestigator) or card
+                        placed.setPosition(task.position)
+                        placed.setRotation(task.rotation)
+                    end
+                    placed.setLock(false)
+                end
+            end
+        })
+
+        taskIndex = taskIndex + 1
+
+        if deckObject.remainder then
+            remainderObject = deckObject.remainder
+            taskIndex = #tasks
+            finish()
+            return
+        end
+
+        Wait.frames(dealNext, 1)
+    end
+
+    dealNext()
+end
+
+function applyAltInvestigatorArt(card, mode)
+    if not card or mode == "normal" then return card end
+
+    if mode == "revised" then
+        local changed = card.setState(2)
+        return changed or card
+    elseif mode == "promo" then
+        local states = card.getStates() or {}
+        local changed = card.setState(#states + 1)
+        return changed or card
+    end
+
+    return card
+end
+
+--------------------------------------------------
+-- SIDE DECK PLACEMENT
+--------------------------------------------------
+
+function createImportedSideDecks(mainBoard, sideEntries, playerColor, onComplete)
+    local physicalCount = countPhysicalEntries(sideEntries)
+    if physicalCount <= 0 then
+        if onComplete then onComplete() end
+        return
+    end
+
+    local requiredBoards = math.ceil(physicalCount / SIDE_DECK_CAPACITY)
+    local boardCount = math.min(requiredBoards, SIDE_DECK_MAX_BOARDS)
+
+    local totalSideCapacity = SIDE_DECK_CAPACITY * SIDE_DECK_MAX_BOARDS
+    if physicalCount > totalSideCapacity then
+        printImportMessage(
+            playerColor,
+            "Side deck contains " .. tostring(physicalCount)
+                .. " physical cards; cards beyond " .. tostring(totalSideCapacity)
+                .. " will be stacked to the right of the second side-deck board.",
+            {1, 0.65, 0.25}
+        )
+    end
+
+    local bag = findFanMadeAccessoriesBag()
+    if not bag then
+        printImportMessage(playerColor, "Fan-Made Accessories bag was not found; side deck was skipped.", {1, 0.65, 0.25})
+        if onComplete then onComplete() end
+        return
+    end
+
+    local templateInfo = findSideDeckTemplateInBag(bag)
+    if not templateInfo then
+        printImportMessage(playerColor, "Deck Dashboard Side Deck template was not found in Fan-Made Accessories.", {1, 0.65, 0.25})
+        if onComplete then onComplete() end
+        return
+    end
+
+    local stagingPosition = mainBoard.positionToWorld({0, IMPORT_TRANSIT_HEIGHT, SIDE_DECK_STAGING_Z})
+    bag.takeObject({
+        index = templateInfo.index,
+        position = stagingPosition,
+        smooth = false,
+        callback_function = function(template)
+            if not template then
+                if onComplete then onComplete() end
+                return
+            end
+
+            local sideBoards = {}
+            for boardIndex = 1, boardCount do
+                local offset = IMPORT_SIDE_BOARD_OFFSETS[boardIndex]
+                local position = mainBoard.positionToWorld({offset.x, offset.y, offset.z})
+                local clone = template.clone({position = position, snap_to_grid = false})
+                if clone then
+                    clone.setRotation(mainBoard.getRotation())
+                    clone.setLock(mainBoard.getLock())
+                    table.insert(sideBoards, clone)
+                end
+            end
+
+            bag.putObject(template)
+
+            Wait.frames(function()
+                populateImportedSideBoards(sideBoards, sideEntries, playerColor, onComplete)
+            end, IMPORT_SIDE_READY_FRAMES)
+        end
+    })
+end
+
+function findFanMadeAccessoriesBag()
+    local byGuid = getObjectFromGUID(FAN_MADE_BAG_GUID)
+    if byGuid and (byGuid.type == "Bag" or byGuid.type == "Infinite") then return byGuid end
+
+    for _, object in ipairs(getAllObjects()) do
+        if object.type == "Bag" or object.type == "Infinite" then
+            local name = object.getName() or ""
+            if name == FAN_MADE_BAG_NAME then return object end
+        end
+    end
+    return nil
+end
+
+-- Prefer the real SCED GUID, then fall back to the template name.
+function findSideDeckTemplateInBag(bag)
+    for _, item in ipairs(bag.getObjects() or {}) do
+        local itemName = item.name or item.nickname or ""
+        if itemName == SIDE_DECK_TEMPLATE_NAME or tostring(item.guid or "") == SIDE_DECK_TEMPLATE_GUID then
+            return item
+        end
+    end
+    return nil
+end
+
+function populateImportedSideBoards(sideBoards, sideEntries, playerColor, onComplete)
+    local physical = expandEntries(sideEntries)
+    local slotCapacity = SIDE_DECK_CAPACITY * SIDE_DECK_MAX_BOARDS
+    local maxCards = math.min(#physical, slotCapacity)
+    local tasks = {}
+    local snapPointsByBoard = {}
+
+    for boardIndex, board in ipairs(sideBoards) do
+        snapPointsByBoard[boardIndex] = getSortedSnapPoints(board)
+    end
+
+    for physicalIndex = 1, maxCards do
+        local boardIndex = math.floor((physicalIndex - 1) / SIDE_DECK_CAPACITY) + 1
+        local slotIndex = ((physicalIndex - 1) % SIDE_DECK_CAPACITY) + 1
+        local sideBoard = sideBoards[boardIndex]
+        local snapPoint = snapPointsByBoard[boardIndex]
+            and snapPointsByBoard[boardIndex][slotIndex]
+
+        if sideBoard and snapPoint then
+            local snapPosition = snapPoint.position
+            local x = vectorComponent(snapPosition, "x", 1)
+            local z = vectorComponent(snapPosition, "z", 3)
+            local rotationY = vectorComponent(snapPoint.rotation, "y", 2) or 0
+            appendPlacementTask(tasks, physical[physicalIndex], sideBoard, x, z, rotationY, 0)
+        end
+    end
+
+    if #physical > slotCapacity and sideBoards[#sideBoards] then
+        local overflowBoard = sideBoards[#sideBoards]
+        local overflowX, overflowZ = getSideBoardOverflowLocalPosition(overflowBoard)
+
+        for physicalIndex = slotCapacity + 1, #physical do
+            appendPlacementTask(
+                tasks,
+                physical[physicalIndex],
+                overflowBoard,
+                overflowX,
+                overflowZ,
+                0,
+                0,
+                false,
+                "side-overflow"
+            )
+        end
+    end
+
+    spawnPlacementTasksWithCardSpawner(tasks, onComplete, playerColor)
+end
+
+function getSortedSnapPoints(board)
+    local snapPoints = board.getSnapPoints() or {}
+    table.sort(snapPoints, function(a, b)
+        local az = vectorComponent(a.position, "z", 3) or 0
+        local bz = vectorComponent(b.position, "z", 3) or 0
+        if math.abs(az - bz) > SIDE_SNAP_ROW_TOLERANCE then return az < bz end
+        local ax = vectorComponent(a.position, "x", 1) or 0
+        local bx = vectorComponent(b.position, "x", 1) or 0
+        return ax > bx
+    end)
+    return snapPoints
+end
+
+function getSideBoardOverflowLocalPosition(board)
+    local snapPoints = board.getSnapPoints() or {}
+    if #snapPoints == 0 then return SIDE_OVERFLOW_FALLBACK_X, SIDE_OVERFLOW_FALLBACK_Z end
+
+    local minX, minZ, maxZ = math.huge, math.huge, -math.huge
+    local uniqueXs = {}
+    local seenXs = {}
+
+    for _, snapPoint in ipairs(snapPoints) do
+        local x = vectorComponent(snapPoint.position, "x", 1) or 0
+        local z = vectorComponent(snapPoint.position, "z", 3) or 0
+        minX = math.min(minX, x)
+        minZ = math.min(minZ, z)
+        maxZ = math.max(maxZ, z)
+        local rounded = math.floor(x * 1000 + 0.5) / 1000
+        if not seenXs[rounded] then
+            seenXs[rounded] = true
+            table.insert(uniqueXs, rounded)
+        end
+    end
+
+    table.sort(uniqueXs)
+    local spacing = SIDE_OVERFLOW_FALLBACK_SPACING
+    if #uniqueXs >= 2 then
+        spacing = math.abs(uniqueXs[2] - uniqueXs[1])
+    end
+
+    local gap = math.max(spacing * OVERFLOW_COLUMN_GAP_MULTIPLIER, OVERFLOW_COLUMN_MIN_GAP)
+    return minX - gap, (minZ + maxZ) / 2
+end
+
+function vectorComponent(vectorLike, namedKey, numericKey)
+    if not vectorLike then return nil end
+    return vectorLike[namedKey] or vectorLike[numericKey]
+end
+
+function finishDeckImport()
+    importInProgress = false
+    pendingImportRef = nil
+    saveBoardState()
+end
+
+function printImportMessage(playerColor, message, color)
+    if playerColor and playerColor ~= "" then
+        printToColor(message, playerColor, color)
+    else
+        print(message)
+    end
+end
+
+--------------------------------------------------
+-- CONTEXT MENU
+--------------------------------------------------
+
+function createDashboardContextMenu()
+    self.clearContextMenu()
+
+    self.addContextMenuItem("Change Texture", openBoardColorMenu)
+    self.addContextMenuItem("Copy Deck JSON...", showMainBoardDeckJson)
+    self.addContextMenuItem("Send to playermat", openSendDeckMenu)
+end
+
+function openBoardColorMenu(playerColor)
+    local player = playerColor and Player[playerColor] or nil
+    if not player then return end
+
+    local currentLabel = boardColorMode == COLOR_MODE_AUTO
+        and "Follow Investigator"
+        or boardColorMode
+
+    player.showOptionsDialog(
+        "Deck Dashboard color",
+        BOARD_COLOR_OPTIONS,
+        currentLabel,
+        function(selectedText)
+            setBoardColorMode(selectedText, playerColor)
+        end
+    )
+end
+
+function setBoardColorMode(selectedText, playerColor)
+    if selectedText == "Follow Investigator" then
+        boardColorMode = COLOR_MODE_AUTO
+        local detectedClass = detectInvestigatorClassInPrimarySlot()
+        if detectedClass then
+            currentInvestigatorClass = detectedClass
+        end
+    elseif BOARD_TEXTURES[selectedText] then
+        boardColorMode = selectedText
+        currentInvestigatorClass = selectedText
+    else
+        return
+    end
+
+    saveBoardState()
+    createDashboardContextMenu()
+    reloadBoardTexture()
+
+    printImportMessage(
+        playerColor,
+        boardColorMode == COLOR_MODE_AUTO
+            and "Dashboard color now follows the investigator."
+            or "Dashboard color fixed to " .. boardColorMode .. ".",
+        {0.75, 0.85, 1}
+    )
+end
+
+function detectInvestigatorClassInPrimarySlot()
+    local snapshot = scanMainDashboard()
+
+    for _, item in ipairs(snapshot.topSlots[INVESTIGATOR_TOP_SLOT_INDEX] or {}) do
+        local object = item.object
+        if object and object.type == "Card" then
+            local metadata = decodeCardMetadata(object.getGMNotes())
+            if metadata and metadata.type == "Investigator" and BOARD_TEXTURES[metadata.class] then
+                return metadata.class
+            end
+        end
+    end
+
+    return nil
+end
+
+function collectBoardPhysicalCardRecords(snapshot)
+    snapshot = snapshot or scanMainDashboard()
+    return collectPhysicalCardRecords(snapshot.all)
+end
+
+function getPrimaryInvestigatorRecordFromRecords(records)
+    local layout = getActiveLayout()
+    local slot = layout.topSlots[INVESTIGATOR_TOP_SLOT_INDEX]
+    local slotX, slotZ = convertLayoutPoint(layout, slot.x, layout.topSlotZ)
+
+    for _, record in ipairs(records or {}) do
+        local md = record.metadata or {}
+        if md.type == "Investigator"
+            and isPositionNearSlot(record.localPosition, slotX, slotZ, TOP_SLOT_CAPTURE_X, TOP_SLOT_CAPTURE_Z) then
+            return record
+        end
+    end
+
+    for _, record in ipairs(records or {}) do
+        local md = record.metadata or {}
+        if md.type == "Investigator" and md.id then
+            return record
+        end
+    end
+
+    return nil
+end
+
+function normalizeArkhamBuildCardId(id)
+    -- Use SCED's common suffix handling (-t, -p, -pf, -pb, -m, -c, etc.).
+    return tostring(GlobalApi.getBaseId(tostring(id or "")) or "")
+end
+
+function getBondedIdSetFromRecords(records)
+    local bonded = {}
+    for _, record in ipairs(records or {}) do
+        local list = record.metadata and record.metadata.bonded
+        if type(list) == "table" then
+            for _, bond in ipairs(list) do
+                if bond.id then
+                    local rawId = tostring(bond.id)
+                    local baseId = normalizeArkhamBuildCardId(rawId)
+                    bonded[rawId] = true
+                    if baseId ~= "" then bonded[baseId] = true end
+                end
+            end
+        end
+    end
+    return bonded
+end
+
+function findAssociatedSideDeckBoards(worldObjects)
+    local candidates = {}
+    for _, object in ipairs(worldObjects or getAllObjects()) do
+        local name = object.getName() or ""
+        if name == SIDE_DECK_TEMPLATE_NAME then
+            table.insert(candidates, object)
+        end
+    end
+
+    local result = {}
+    local used = {}
+
+    for expectedIndex, offset in ipairs(IMPORT_SIDE_BOARD_OFFSETS) do
+        local bestBoard = nil
+        local bestDistance = math.huge
+
+        for _, object in ipairs(candidates) do
+            local guid = object.getGUID()
+            if not used[guid] then
+                local localPosition = self.positionToLocal(object.getPosition())
+                local dx = localPosition.x - offset.x
+                local dz = localPosition.z - offset.z
+                local distance = math.sqrt(dx * dx + dz * dz)
+
+                if distance <= SIDE_BOARD_MATCH_RADIUS and distance < bestDistance then
+                    bestDistance = distance
+                    bestBoard = object
+                end
+            end
+        end
+
+        if bestBoard then
+            used[bestBoard.getGUID()] = true
+            result[expectedIndex] = bestBoard
+        end
+    end
+
+    return result
+end
+
+function collectSideDeckPhysicalCardRecords(sideBoards, worldObjects)
+    sideBoards = sideBoards or findAssociatedSideDeckBoards(worldObjects)
+
+    local records = {}
+    local sideBoardGuids = {}
+    local hitAreas = {}
+
+    for _, board in pairs(sideBoards) do
+        if board then
+            local guid = board.getGUID()
+            sideBoardGuids[guid] = true
+            hitAreas[guid] = {}
+
+            for _, snapPoint in ipairs(board.getSnapPoints() or {}) do
+                table.insert(hitAreas[guid], {
+                    x = vectorComponent(snapPoint.position, "x", 1) or 0,
+                    z = vectorComponent(snapPoint.position, "z", 3) or 0,
+                    toleranceX = SIDE_BOARD_SLOT_CAPTURE_X,
+                    toleranceZ = SIDE_BOARD_SLOT_CAPTURE_Z
+                })
+            end
+
+            local overflowX, overflowZ = getSideBoardOverflowLocalPosition(board)
+            table.insert(hitAreas[guid], {
+                x = overflowX,
+                z = overflowZ,
+                toleranceX = OVERFLOW_STACK_CAPTURE_X,
+                toleranceZ = OVERFLOW_STACK_CAPTURE_Z
+            })
+        end
+    end
+
+    for _, object in ipairs(worldObjects or getAllObjects()) do
+        if not sideBoardGuids[object.getGUID()]
+            and (object.type == "Card" or object.type == "Deck") then
+
+            for _, board in pairs(sideBoards) do
+                if board then
+                    local localPosition = board.positionToLocal(object.getPosition())
+                    local areas = hitAreas[board.getGUID()] or {}
+                    local matched = false
+
+                    for _, area in ipairs(areas) do
+                        if isPositionNearSlot(
+                            localPosition,
+                            area.x,
+                            area.z,
+                            area.toleranceX,
+                            area.toleranceZ
+                        ) then
+                            matched = true
+                            break
+                        end
+                    end
+
+                    if matched then
+                        appendPhysicalCardRecords(records, {
+                            object = object,
+                            localPosition = localPosition
+                        })
+                        break
+                    end
+                end
+            end
+        end
+    end
+
+    return records
+end
+
+function appendRecords(target, source)
+    for _, record in ipairs(source or {}) do
+        table.insert(target, record)
+    end
+end
+
+function buildSlotCounts(records, bondedSet)
+    local slots = {}
+
+    for _, record in ipairs(records or {}) do
+        local md = record.metadata or {}
+        local rawId = tostring(md.id or "")
+        local exportId = normalizeArkhamBuildCardId(rawId)
+
+        local shouldInclude = exportId ~= ""
+            and md.type ~= "Investigator"
+            and md.type ~= "Minicard"
+            and md.type ~= "UpgradeSheet"
+            and not bondedSet[rawId]
+            and not bondedSet[exportId]
+
+        if exportId == REALITY_ACID_REFERENCE_ID then
+            shouldInclude = false
+        end
+
+        if shouldInclude then
+            slots[exportId] = (slots[exportId] or 0) + 1
+        end
+    end
+
+    return slots
+end
+
+function encodeSlotCountsPretty(slots, indent, emptyAsArray)
+    indent = indent or "  "
+    local keys = {}
+    for id, count in pairs(slots or {}) do
+        if tonumber(count) and tonumber(count) > 0 then
+            table.insert(keys, tostring(id))
+        end
+    end
+    table.sort(keys)
+
+    if #keys == 0 then return emptyAsArray and "[]" or "{}" end
+
+    local lines = {"{"}
+    for index, id in ipairs(keys) do
+        local suffix = index < #keys and "," or ""
+        table.insert(
+            lines,
+            indent .. JSON.encode(id) .. ": " .. tostring(math.floor(tonumber(slots[id]) or 0)) .. suffix
+        )
+    end
+    table.insert(lines, "}")
+    return table.concat(lines, "\n")
+end
+
+--------------------------------------------------
+-- ARKHAM.BUILD JSON EXPORT
+--------------------------------------------------
+
+function buildArkhamBuildDeckJsonText()
+    local worldObjects = getAllObjects()
+    local snapshot = scanMainDashboard(worldObjects)
+    local mainRecords = collectBoardPhysicalCardRecords(snapshot)
+
+    local investigatorRecord = getPrimaryInvestigatorRecordFromRecords(mainRecords)
+    if not investigatorRecord then
+        return nil, "No investigator card was found on the dashboard."
+    end
+
+    local investigatorMetadata = investigatorRecord.metadata or {}
+    local investigatorId = normalizeArkhamBuildCardId(investigatorMetadata.id)
+    if investigatorId == "" then
+        return nil, "The investigator card has no usable card ID."
+    end
+
+    local investigatorCard = AllCardsBagApi.getCardById(investigatorMetadata.id)
+    local investigatorName = tostring(
+        investigatorMetadata.real_name
+        or investigatorMetadata.realName
+        or (investigatorCard and investigatorCard.data and investigatorCard.data.Nickname)
+        or investigatorMetadata.name
+        or "Investigator"
+    )
+
+    local sideBoards = findAssociatedSideDeckBoards(worldObjects)
+    local sideRecords = collectSideDeckPhysicalCardRecords(sideBoards, worldObjects)
+
+    local allRecords = {}
+    appendRecords(allRecords, mainRecords)
+    appendRecords(allRecords, sideRecords)
+
+    local bondedSet = getBondedIdSetFromRecords(allRecords)
+    local slots = buildSlotCounts(mainRecords, bondedSet)
+    local sideSlots = buildSlotCounts(sideRecords, bondedSet)
+
+    local now = os.time()
+    local timestamp = os.date("%Y%m%d%H%M%S", now)
+    local isoTimestamp = os.date("!%Y-%m-%dT%H:%M:%S+00:00", now)
+    local deckName = investigatorName .. " " .. timestamp
+
+    local slotText = encodeSlotCountsPretty(slots, "  ", false)
+    local sideSlotText = encodeSlotCountsPretty(sideSlots, "  ", true)
+
+    local lines = {
+        "{",
+        "  \"id\": " .. tostring(now) .. ",",
+        "  \"name\": " .. JSON.encode(deckName) .. ",",
+        "  \"date_creation\": " .. JSON.encode(isoTimestamp) .. ",",
+        "  \"date_update\": " .. JSON.encode(isoTimestamp) .. ",",
+        "  \"description_md\": \"\",",
+        "  \"user_id\": null,",
+        "  \"investigator_code\": " .. JSON.encode(investigatorId) .. ",",
+        "  \"investigator_name\": " .. JSON.encode(investigatorName) .. ",",
+        "  \"slots\": " .. slotText:gsub("\n", "\n  ") .. ",",
+        "  \"sideSlots\": " .. sideSlotText:gsub("\n", "\n  ") .. ",",
+        "  \"ignoreDeckLimitSlots\": null,",
+        "  \"version\": \"0.1\",",
+        "  \"xp\": null,",
+        "  \"xp_spent\": null,",
+        "  \"xp_adjustment\": null,",
+        "  \"exile_string\": null,",
+        "  \"taboo_id\": null,",
+        "  \"meta\": \"{}\",",
+        "  \"tags\": \"\",",
+        "  \"previous_deck\": null,",
+        "  \"next_deck\": null,",
+        "  \"problem\": null",
+        "}"
+    }
+
+    return table.concat(lines, "\n")
+end
+
+function showMainBoardDeckJson(playerColor)
+    local player = playerColor and Player[playerColor] or nil
+    if not player then return end
+
+    local text, errorMessage = buildArkhamBuildDeckJsonText()
+    if not text then
+        printImportMessage(playerColor, errorMessage, {1, 0.65, 0.25})
+        return
+    end
+
+    player.showMemoDialog(
+        "Deck JSON - Ctrl+A / Ctrl+C to copy",
+        text,
+        function() end
+    )
+end
+
+--------------------------------------------------
+-- SEND TO SCED PLAYERMAT
+--------------------------------------------------
+
+function openSendDeckMenu(playerColor)
+    local player = playerColor and Player[playerColor] or nil
+    if not player then return end
+
+    local mats = GUIDReferenceApi.getObjectsByType("Playermat") or {}
+    local colors = {}
+    for matColor, _ in pairs(mats) do
+        table.insert(colors, tostring(matColor))
+    end
+
+    local preferredOrder = {Red = 1, Orange = 2, White = 3, Green = 4}
+    table.sort(colors, function(a, b)
+        local oa = preferredOrder[a] or 100
+        local ob = preferredOrder[b] or 100
+        if oa ~= ob then return oa < ob end
+        return a < b
+    end)
+
+    if #colors == 0 then
+        printImportMessage(playerColor, "No SCED playermats were found.", {1, 0.65, 0.25})
+        return
+    end
+
+    local labels = {}
+    local labelToMat = {}
+    for _, matColor in ipairs(colors) do
+        local handColor = PlayermatApi.getPlayerColor(matColor)
+        local label = matColor
+        if handColor and handColor ~= matColor then
+            label = matColor .. " mat (" .. handColor .. " player)"
+        end
+        table.insert(labels, label)
+        labelToMat[label] = matColor
+    end
+
+    player.showOptionsDialog(
+        "Send to playermat",
+        labels,
+        1,
+        function(selectedText)
+            sendMainBoardDeckToMat(labelToMat[selectedText], playerColor)
+        end
+    )
+end
+
+function buildMainGridCardListForPlayer(snapshot)
+    snapshot = snapshot or scanMainDashboard()
+    local cards = {}
+    local missingIds = {}
+
+    for _, record in ipairs(collectPhysicalCardRecords(snapshot.mainGrid)) do
+        local id = tostring(record.metadata.id or "")
+        if id ~= "" then
+            local card = AllCardsBagApi.getCardById(id)
+            if card and card.data and card.metadata then
+                table.insert(cards, {
+                    data = card.data,
+                    metadata = card.metadata
+                })
+            else
+                table.insert(missingIds, id)
+            end
+        end
+    end
+
+    return cards, deduplicateStrings(missingIds)
+end
+
+function isPositionInsideUpperRightArea(localPosition)
+    local layout = getActiveLayout()
+    for _, sourceX in ipairs(layout.sideSlotXs) do
+        local slotX, slotZ = convertLayoutPoint(layout, sourceX, layout.sideSlotZ)
+        if isPositionNearSlot(
             localPosition,
             slotX,
             slotZ,
-            MAIN_SLOT_CAPTURE_X,
-            MAIN_SLOT_CAPTURE_Z
-          ) then
-        return true
-      end
+            AUX_SLOT_CAPTURE_X,
+            AUX_SLOT_CAPTURE_Z
+        ) then
+            return true
+        end
     end
-  end
 
-  return false
+    return isPositionInsideMainOverflowStack(localPosition, "upper")
+end
+
+function buildSetAsideCardListsForPlayer(snapshot)
+    snapshot = snapshot or scanMainDashboard()
+
+    local records = collectBoardPhysicalCardRecords(snapshot)
+    local bondedSet = getBondedIdSetFromRecords(records)
+    local zoneCards = {SetAside1 = {}, SetAside2 = {}}
+    local missingIds = {}
+
+    for _, record in ipairs(collectPhysicalCardRecords(snapshot.upperRight)) do
+        local id = tostring(record.metadata.id or "")
+        if id ~= "" then
+            local card = AllCardsBagApi.getCardById(id)
+            if not card or not card.data or not card.metadata then
+                table.insert(missingIds, id)
+            else
+                local baseId = normalizeArkhamBuildCardId(id)
+                local isBonded = bondedSet[id] or bondedSet[baseId]
+                local zone = "SetAside2"
+                if not isBonded and metadataFlagIsTrue(card.metadata.permanent) then
+                    zone = "SetAside1"
+                end
+
+                table.insert(zoneCards[zone], {
+                    data = card.data,
+                    metadata = card.metadata
+                })
+            end
+        end
+    end
+
+    return zoneCards, deduplicateStrings(missingIds)
+end
+
+function getTopSlotCardForPlayer(snapshot, slotIndex, expectedType, expectedId)
+    snapshot = snapshot or scanMainDashboard()
+
+    local fallback = nil
+    local unresolvedId = nil
+    local wantedId = expectedId and tostring(expectedId) or nil
+
+    for _, item in ipairs(snapshot.topSlots[slotIndex] or {}) do
+        local object = item.object
+        if object and object.type == "Card" then
+            local metadata = decodeCardMetadata(object.getGMNotes())
+            if metadata and metadata.id then
+                local id = tostring(metadata.id)
+                local idMatches = wantedId ~= nil and id == wantedId
+                local typeMatches = expectedType ~= nil and metadata.type == expectedType
+
+                if idMatches or typeMatches then
+                    local card = AllCardsBagApi.getCardById(id)
+                    if card and card.data and card.metadata then
+                        if idMatches then
+                            return {data = card.data, metadata = card.metadata}, id
+                        end
+                        fallback = fallback or {card = {data = card.data, metadata = card.metadata}, id = id}
+                    else
+                        unresolvedId = unresolvedId or id
+                    end
+                end
+            end
+        end
+    end
+
+    if fallback then
+        return fallback.card, fallback.id
+    end
+
+    return nil, unresolvedId or wantedId
+end
+
+function spawnSingleDashboardCardToMat(card, matColor, zoneName)
+    if not card then return false end
+
+    local position = Zones.getZonePosition(matColor, zoneName)
+    local rotation = Zones.getDefaultCardRotation(matColor, zoneName)
+    if not position or not rotation then return false end
+
+    position = Vector(position):setAt("y", SCED_ZONE_SPAWN_HEIGHT)
+
+    local callback = nil
+    if zoneName == "Investigator" then
+        callback = function(spawnedCard)
+            local placedCard = spawnedCard
+            local cardId = card.metadata and tostring(card.metadata.id or "") or ""
+            local altMatches = lastAltInvestigatorId == nil
+                or cardId == tostring(lastAltInvestigatorId)
+
+            if placedCard and altMatches and lastLoadAltInvestigator ~= "normal" then
+                applyAltInvestigatorArt(placedCard, lastLoadAltInvestigator)
+            end
+        end
+    end
+
+    -- SCED CardSpawner/Playermat own the final investigator orientation.
+    CardSpawner.spawnCards({card}, position, rotation, true, callback)
+    return true
+end
+
+function spawnDashboardCardListToMat(cards, matColor, zoneName, deckCallback)
+    if not cards or #cards == 0 then return true end
+
+    local position = Zones.getZonePosition(matColor, zoneName)
+    local rotation = Zones.getDefaultCardRotation(matColor, zoneName)
+    if not position or not rotation then return false end
+
+    position = Vector(position):setAt("y", SCED_ZONE_SPAWN_HEIGHT)
+    CardSpawner.spawnCards(cards, position, rotation, true, deckCallback)
+    return true
+end
+
+function sendMainBoardDeckToMat(matColor, requestingPlayer)
+    if not matColor then return end
+
+    local snapshot = scanMainDashboard()
+    local cards, missingIds = buildMainGridCardListForPlayer(snapshot)
+    local setAsideCards, setAsideMissing = buildSetAsideCardListsForPlayer(snapshot)
+
+    for _, id in ipairs(setAsideMissing or {}) do
+        table.insert(missingIds, id)
+    end
+
+    local investigatorCard, investigatorId =
+        getTopSlotCardForPlayer(snapshot, INVESTIGATOR_TOP_SLOT_INDEX, "Investigator")
+
+    -- Top-slot capture areas overlap, so prefer the investigator's expected minicard ID.
+    local expectedMinicardId = investigatorId and GlobalApi.getMiniId(investigatorId) or nil
+    local minicard, minicardId =
+        getTopSlotCardForPlayer(snapshot, MINICARD_TOP_SLOT_INDEX, "Minicard", expectedMinicardId)
+
+    local permanentCards = setAsideCards.SetAside1 or {}
+    local bondedCards = setAsideCards.SetAside2 or {}
+
+    if #cards == 0
+        and #permanentCards == 0
+        and #bondedCards == 0
+        and not investigatorCard
+        and not minicard then
+        printImportMessage(requestingPlayer, "No sendable cards were found on the dashboard.", {1, 0.65, 0.25})
+        return
+    end
+
+    if #cards > 0 then
+        local sent = spawnDashboardCardListToMat(cards, matColor, "Deck", function(deck)
+            if deck and deck.type == "Deck" and deck.getQuantity() > 1 then
+                deck.addTag("PlayerCard")
+            end
+        end)
+
+        if not sent then
+            printImportMessage(requestingPlayer, "SCED playermat Deck zone was not found.", {1, 0.4, 0.4})
+            return
+        end
+    end
+
+    local permanentsSent = spawnDashboardCardListToMat(
+        permanentCards,
+        matColor,
+        "SetAside1"
+    )
+    local bondedSent = spawnDashboardCardListToMat(
+        bondedCards,
+        matColor,
+        "SetAside2"
+    )
+
+    if #permanentCards > 0 and not permanentsSent then
+        printImportMessage(requestingPlayer, "SCED playermat permanent-card zone was not found.", {1, 0.4, 0.4})
+    end
+    if #bondedCards > 0 and not bondedSent then
+        printImportMessage(requestingPlayer, "SCED playermat bonded-card zone was not found.", {1, 0.4, 0.4})
+    end
+
+    local investigatorSent =
+        spawnSingleDashboardCardToMat(investigatorCard, matColor, "Investigator")
+    local minicardSent =
+        spawnSingleDashboardCardToMat(minicard, matColor, "Minicard")
+
+    if investigatorId and not investigatorCard then table.insert(missingIds, investigatorId) end
+    if minicardId and not minicard then table.insert(missingIds, minicardId) end
+    missingIds = deduplicateStrings(missingIds)
+
+    local sentParts = {}
+    if #cards > 0 then table.insert(sentParts, tostring(#cards) .. " deck card(s)") end
+    if #permanentCards > 0 and permanentsSent then
+        table.insert(sentParts, tostring(#permanentCards) .. " permanent card(s)")
+    end
+    if #bondedCards > 0 and bondedSent then
+        table.insert(sentParts, tostring(#bondedCards) .. " bonded card(s)")
+    end
+    if investigatorSent then table.insert(sentParts, "investigator") end
+    if minicardSent then table.insert(sentParts, "minicard") end
+
+    if #sentParts > 0 then
+        printImportMessage(
+            requestingPlayer,
+            "Sent " .. table.concat(sentParts, ", ") .. " to the " .. tostring(matColor) .. " SCED playermat.",
+            {0.65, 1, 0.65}
+        )
+    else
+        printImportMessage(
+            requestingPlayer,
+            "No cards could be sent to the selected SCED playermat.",
+            {1, 0.65, 0.25}
+        )
+    end
+
+    if not investigatorSent then
+        printImportMessage(requestingPlayer, "No investigator card was found in the primary investigator slot.", {1, 0.65, 0.25})
+    end
+    if not minicardSent then
+        printImportMessage(requestingPlayer, "No minicard was found in the minicard slot.", {1, 0.65, 0.25})
+    end
+
+    if #missingIds > 0 then
+        printImportMessage(
+            requestingPlayer,
+            "SCED index could not resolve these card IDs: " .. table.concat(missingIds, ", "),
+            {1, 0.65, 0.25}
+        )
+    end
+end
+
+--------------------------------------------------
+-- PHYSICAL DECK EXPORT
+--------------------------------------------------
+
+function exportDeck(_, playerColor)
+    if exportInProgress then
+        if playerColor then
+            printToColor("Deck export is already in progress.", playerColor, {1, 0.75, 0.25})
+        end
+        return
+    end
+
+    local snapshot = scanMainDashboard()
+    local sourceObjects = collectMainGridObjects(snapshot)
+    if #sourceObjects == 0 then
+        if playerColor then
+            printToColor("No cards found in the main deck grid.", playerColor, {1, 0.75, 0.25})
+        else
+            print("No cards found in the main deck grid.")
+        end
+        return
+    end
+
+    exportInProgress = true
+    collisionEnabled = false
+
+    local stackPosition = getExportStackWorldPosition()
+    local stackRotation = self.getRotation()
+
+    -- Exported cards are placed face down.
+    stackRotation.x = 0
+    stackRotation.z = CARD_BACK_FLIP_Z
+
+    for index, sourceObject in ipairs(sourceObjects) do
+        Wait.frames(function()
+            if sourceObject then
+                local clone = sourceObject.clone({
+                    position = {
+                        stackPosition.x,
+                        stackPosition.y + (index - 1) * EXPORT_STACK_CARD_SPACING,
+                        stackPosition.z
+                    },
+                    rotation = stackRotation,
+                    smooth   = false
+                })
+
+                if clone then
+                    clone.setLock(false)
+                    clone.resting = false
+                end
+            end
+        end, (index - 1) * EXPORT_CARD_DELAY_FRAMES)
+    end
+
+    Wait.frames(function()
+        exportInProgress = false
+        collisionEnabled = true
+        scheduleExperienceRefresh()
+
+        if playerColor then
+            printToColor(
+                "Copied " .. tostring(#sourceObjects) .. " card object(s) into one exported stack.",
+                playerColor,
+                {0.65, 1, 0.65}
+            )
+        end
+    end, #sourceObjects * EXPORT_CARD_DELAY_FRAMES + EXPORT_FINISH_BUFFER_FRAMES)
+end
+
+function collectMainGridObjects(snapshot)
+    snapshot = snapshot or scanMainDashboard()
+
+    local result = {}
+    for _, item in ipairs(snapshot.mainGrid) do
+        table.insert(result, item.object)
+    end
+    return result
+end
+
+function isPositionInsideMainGridSlot(localPosition)
+    local activeLayout = getActiveLayout()
+
+    for _, sourceZ in ipairs(activeLayout.cardGridRowZs) do
+        for _, sourceX in ipairs(activeLayout.cardGridColumnXs) do
+            local slotX, slotZ =
+                convertLayoutPoint(activeLayout, sourceX, sourceZ)
+
+            if isPositionNearSlot(
+                localPosition,
+                slotX,
+                slotZ,
+                MAIN_SLOT_CAPTURE_X,
+                MAIN_SLOT_CAPTURE_Z
+            ) then
+                return true
+            end
+        end
+    end
+
+    return false
 end
 
 function calculateMainGridBounds()
-  local activeLayout = getActiveLayout()
-  local minimumX, maximumX = math.huge, -math.huge
-  local minimumZ, maximumZ = math.huge, -math.huge
+    local activeLayout = getActiveLayout()
+    local minimumX, maximumX = math.huge, -math.huge
+    local minimumZ, maximumZ = math.huge, -math.huge
 
-  local convertedColumns = {}
-  local convertedRows = {}
+    local convertedColumns = {}
+    local convertedRows = {}
 
-  for _, sourceX in ipairs(activeLayout.cardGridColumnXs) do
-    local localX = convertLayoutPoint(activeLayout, sourceX, 0)
-    table.insert(convertedColumns, localX)
-    minimumX = math.min(minimumX, localX)
-    maximumX = math.max(maximumX, localX)
-  end
+    for _, sourceX in ipairs(activeLayout.cardGridColumnXs) do
+        local localX = convertLayoutPoint(activeLayout, sourceX, 0)
+        table.insert(convertedColumns, localX)
+        minimumX = math.min(minimumX, localX)
+        maximumX = math.max(maximumX, localX)
+    end
 
-  for _, sourceZ in ipairs(activeLayout.cardGridRowZs) do
-    local _, localZ = convertLayoutPoint(activeLayout, 0, sourceZ)
-    table.insert(convertedRows, localZ)
-    minimumZ = math.min(minimumZ, localZ)
-    maximumZ = math.max(maximumZ, localZ)
-  end
+    for _, sourceZ in ipairs(activeLayout.cardGridRowZs) do
+        local _, localZ = convertLayoutPoint(activeLayout, 0, sourceZ)
+        table.insert(convertedRows, localZ)
+        minimumZ = math.min(minimumZ, localZ)
+        maximumZ = math.max(maximumZ, localZ)
+    end
 
-  local columnTolerance = calculateHalfSpacing(convertedColumns, 0.13)
-  local rowTolerance = calculateHalfSpacing(convertedRows, 0.18)
+    local columnTolerance = calculateHalfSpacing(convertedColumns, GRID_BOUND_FALLBACK_X)
+    local rowTolerance = calculateHalfSpacing(convertedRows, GRID_BOUND_FALLBACK_Z)
 
-  return {
-    minX = minimumX - columnTolerance,
-    maxX = maximumX + columnTolerance,
-    minZ = minimumZ - rowTolerance,
-    maxZ = maximumZ + rowTolerance
-  }
+    return {
+        minX = minimumX - columnTolerance,
+        maxX = maximumX + columnTolerance,
+        minZ = minimumZ - rowTolerance,
+        maxZ = maximumZ + rowTolerance
+    }
 end
 
 function calculateHalfSpacing(values, fallback)
-  if #values < 2 then return fallback end
+    if #values < 2 then return fallback end
 
-  table.sort(values)
-  local minimumSpacing = math.huge
+    table.sort(values)
+    local minimumSpacing = math.huge
 
-  for index = 2, #values do
-    minimumSpacing = math.min(minimumSpacing, values[index] - values[index - 1])
-  end
+    for index = 2, #values do
+        minimumSpacing = math.min(minimumSpacing, values[index] - values[index - 1])
+    end
 
-  if minimumSpacing == math.huge or minimumSpacing <= 0 then
-    return fallback
-  end
+    if minimumSpacing == math.huge or minimumSpacing <= 0 then
+        return fallback
+    end
 
-  return minimumSpacing * 0.48
+    return minimumSpacing * GRID_BOUND_SPACING_FACTOR
 end
 
 function getExportStackWorldPosition()
-  local mainGridBounds = calculateMainGridBounds()
-  local localTarget = {
-    x = mainGridBounds.minX + EXPORT_STACK_OFFSET_X,
-    y = EXPORT_STACK_HEIGHT,
-    z = (mainGridBounds.minZ + mainGridBounds.maxZ) / 2
-  }
+    local mainGridBounds = calculateMainGridBounds()
+    local localTarget = {
+        x = mainGridBounds.minX + EXPORT_STACK_OFFSET_X,
+        y = EXPORT_STACK_HEIGHT,
+        z = (mainGridBounds.minZ + mainGridBounds.maxZ) / 2
+    }
 
-  return self.positionToWorld(localTarget)
+    return self.positionToWorld(localTarget)
 end
 
 -- Board texture and scale
 
-function reloadBoardTexture()
-  local targetTexture = BOARD_TEXTURES[currentInvestigatorClass][currentDeckMode]
-  local customObjectConfig = self.getCustomObject()
+function reloadBoardTexture(onReady)
+    local targetTexture = BOARD_TEXTURES[currentInvestigatorClass][currentDeckMode]
+    local customObjectConfig = self.getCustomObject()
 
-  if customObjectConfig.image == targetTexture then
-    applyBoardScale(self)
-    applySnapPoints(self)
-    createDashboardButtons()
-    collisionEnabled = true
-    scheduleExperienceRefresh()
-    return
-  end
-
-  collisionEnabled = false
-
-  local capturedObjects = captureObjectsOnBoard()
-  customObjectConfig.image = targetTexture
-  self.setCustomObject(customObjectConfig)
-
-  local reloadedBoard = self.reload()
-
-  Wait.condition(
-    function()
-      Wait.frames(function()
-        applyBoardScale(reloadedBoard)
-        applySnapPoints(reloadedBoard)
-        restoreCapturedObjects(capturedObjects)
+    if customObjectConfig.image == targetTexture then
+        applyBoardScale(self)
+        applySnapPoints(self)
+        createDashboardButtons()
+        createDashboardContextMenu()
         collisionEnabled = true
         scheduleExperienceRefresh()
-      end, 2)
-    end,
-    function()
-      return not reloadedBoard.loading_custom
+
+        if onReady then
+            Wait.frames(function() onReady(self) end, 2)
+        end
+        return
     end
-  )
+
+    collisionEnabled = false
+
+    pendingRestoreObjects = captureObjectsOnBoard()
+    customObjectConfig.image = targetTexture
+    self.setCustomObject(customObjectConfig)
+    saveBoardState()
+    self.reload()
 end
 
 function applyBoardScale(boardObject)
-  local boardScale = getActiveLayout().boardObjectScale
-  local currentScaleY = boardObject.getScale().y
-  boardObject.setScale({ boardScale, currentScaleY, boardScale })
+    local boardScale = getActiveLayout().boardObjectScale
+    local currentScaleY = boardObject.getScale().y
+    boardObject.setScale({boardScale, currentScaleY, boardScale})
 end
 
 -- Object protection
 
 function captureObjectsOnBoard()
-  local capturedObjects = {}
-  local boardSnapBounds = calculateSnapBounds()
-  local boardGuid = self.getGUID()
+    local capturedObjects = {}
+    local boardSnapBounds = calculateSnapBounds()
+    local boardGuid = self.getGUID()
 
-  for _, worldObject in ipairs(getAllObjects()) do
-    local shouldCapture = worldObject.getGUID() ~= boardGuid
-        and PROTECTED_OBJECT_TYPES[worldObject.type]
-        and not worldObject.getLock()
+    for _, worldObject in ipairs(getAllObjects()) do
+        local shouldCapture = worldObject.getGUID() ~= boardGuid
+            and PROTECTED_OBJECT_TYPES[worldObject.type]
+            and not worldObject.getLock()
 
-    if shouldCapture then
-      local localPosition = self.positionToLocal(worldObject.getPosition())
-      local insideCaptureArea =
-          localPosition.x >= boardSnapBounds.minX - BOARD_CAPTURE_MARGIN_X
-          and localPosition.x <= boardSnapBounds.maxX + BOARD_CAPTURE_MARGIN_X
-          and localPosition.z >= boardSnapBounds.minZ - BOARD_CAPTURE_MARGIN_Z
-          and localPosition.z <= boardSnapBounds.maxZ + BOARD_CAPTURE_MARGIN_Z
+        if shouldCapture then
+            local localPosition = self.positionToLocal(worldObject.getPosition())
+            local insideCaptureArea =
+                localPosition.x >= boardSnapBounds.minX - BOARD_CAPTURE_MARGIN_X
+                and localPosition.x <= boardSnapBounds.maxX + BOARD_CAPTURE_MARGIN_X
+                and localPosition.z >= boardSnapBounds.minZ - BOARD_CAPTURE_MARGIN_Z
+                and localPosition.z <= boardSnapBounds.maxZ + BOARD_CAPTURE_MARGIN_Z
 
-      if insideCaptureArea then
-        table.insert(capturedObjects, {
-          object   = worldObject,
-          position = worldObject.getPosition(),
-          rotation = worldObject.getRotation()
-        })
-        worldObject.resting = true
-      end
+            if insideCaptureArea then
+                local position = worldObject.getPosition()
+                local rotation = worldObject.getRotation()
+                table.insert(capturedObjects, {
+                    guid = worldObject.getGUID(),
+                    position = {position.x, position.y, position.z},
+                    rotation = {rotation.x, rotation.y, rotation.z}
+                })
+                worldObject.resting = true
+            end
+        end
     end
-  end
 
-  return capturedObjects
+    return capturedObjects
 end
 
 function restoreCapturedObjects(capturedObjects)
-  for _, capturedObject in ipairs(capturedObjects) do
-    if capturedObject.object then
-      capturedObject.object.setPosition(capturedObject.position)
-      capturedObject.object.setRotation(capturedObject.rotation)
-      capturedObject.object.resting = true
+    for _, capturedObject in ipairs(capturedObjects or {}) do
+        local object = capturedObject.guid and getObjectFromGUID(capturedObject.guid) or nil
+        if object then
+            object.setPosition(capturedObject.position)
+            object.setRotation(capturedObject.rotation)
+            object.resting = true
+        end
     end
-  end
 end
 
 -- Snap points
 
-function convertLayoutPoint(activeLayout, sourceX, sourceZ)
-  local localX = sourceX * activeLayout.coordinateScaleX + activeLayout.coordinateOffsetX
-  local localZ = sourceZ * activeLayout.coordinateScaleZ + activeLayout.coordinateOffsetZ
-  return localX, localZ
-end
-
 function buildSnapPoints()
-  local activeLayout = getActiveLayout()
-  local snapPoints = {}
+    local activeLayout = getActiveLayout()
+    local snapPoints = {}
 
-  local function addSnapPoint(sourceX, sourceZ, rotationY)
-    local localX, localZ = convertLayoutPoint(activeLayout, sourceX, sourceZ)
-    table.insert(snapPoints, {
-      position      = { localX, SNAP_HEIGHT, localZ },
-      rotation      = { 0, rotationY, 0 },
-      rotation_snap = false
-    })
-  end
-
-  for _, topSlot in ipairs(activeLayout.topSlots) do
-    addSnapPoint(topSlot.x, activeLayout.topSlotZ, topSlot.rotationY)
-  end
-
-  for _, sideSlotX in ipairs(activeLayout.sideSlotXs) do
-    addSnapPoint(sideSlotX, activeLayout.sideSlotZ, 0)
-  end
-
-  for _, rowZ in ipairs(activeLayout.cardGridRowZs) do
-    for _, columnX in ipairs(activeLayout.cardGridColumnXs) do
-      addSnapPoint(columnX, rowZ, 0)
+    local function addSnapPoint(sourceX, sourceZ, rotationY)
+        local localX, localZ = convertLayoutPoint(activeLayout, sourceX, sourceZ)
+        table.insert(snapPoints, {
+            position      = {localX, SNAP_HEIGHT, localZ},
+            rotation      = {0, rotationY, 0},
+            rotation_snap = false
+        })
     end
-  end
 
-  return snapPoints
+    for _, topSlot in ipairs(activeLayout.topSlots) do
+        addSnapPoint(topSlot.x, activeLayout.topSlotZ, topSlot.rotationY)
+    end
+
+    for _, sideSlotX in ipairs(activeLayout.sideSlotXs) do
+        addSnapPoint(sideSlotX, activeLayout.sideSlotZ, 0)
+    end
+
+    for _, rowZ in ipairs(activeLayout.cardGridRowZs) do
+        for _, columnX in ipairs(activeLayout.cardGridColumnXs) do
+            addSnapPoint(columnX, rowZ, 0)
+        end
+    end
+
+    return snapPoints
 end
 
 function applySnapPoints(boardObject)
-  boardObject.setSnapPoints(buildSnapPoints())
+    boardObject.setSnapPoints(buildSnapPoints())
 end
 
 function calculateSnapBounds()
-  local minimumX, maximumX = math.huge, -math.huge
-  local minimumZ, maximumZ = math.huge, -math.huge
+    local minimumX, maximumX = math.huge, -math.huge
+    local minimumZ, maximumZ = math.huge, -math.huge
 
-  for _, snapPoint in ipairs(buildSnapPoints()) do
-    local position = snapPoint.position
-    minimumX = math.min(minimumX, position[1])
-    maximumX = math.max(maximumX, position[1])
-    minimumZ = math.min(minimumZ, position[3])
-    maximumZ = math.max(maximumZ, position[3])
-  end
+    for _, snapPoint in ipairs(buildSnapPoints()) do
+        local position = snapPoint.position
+        minimumX = math.min(minimumX, position[1])
+        maximumX = math.max(maximumX, position[1])
+        minimumZ = math.min(minimumZ, position[3])
+        maximumZ = math.max(maximumZ, position[3])
+    end
 
-  return {
-    minX = minimumX,
-    maxX = maximumX,
-    minZ = minimumZ,
-    maxZ = maximumZ
-  }
+    return {
+        minX = minimumX,
+        maxX = maximumX,
+        minZ = minimumZ,
+        maxZ = maximumZ
+    }
 end
 
 function getActiveLayout()
-  return BOARD_LAYOUTS[currentDeckMode]
+    return BOARD_LAYOUTS[currentDeckMode]
 end

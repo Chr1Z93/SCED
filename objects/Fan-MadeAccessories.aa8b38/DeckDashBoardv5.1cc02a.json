@@ -367,7 +367,7 @@
   "HideWhenFaceDown": false,
   "LuaScript": "require(\"accessories/DeckDashBoard\")",
   "Name": "Custom_Tile",
-  "Nickname": "Deck DashBoard v3",
+  "Nickname": "Deck DashBoard v5",
   "Transform": {
     "rotY": 270,
     "scaleX": 9.52,
