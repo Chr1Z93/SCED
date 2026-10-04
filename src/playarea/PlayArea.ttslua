@@ -436,7 +436,7 @@ end
 ---@param locData table A table containing the metadata for the card (for the correct side)
 function buildLocListByIcon(cardId, iconCardList, locData)
   if locData ~= nil and locData.icons ~= nil then
-    for icon in string.gmatch(locData.icons, "%a+") do
+    for icon in string.gmatch(locData.icons, "[^|]+") do
       if iconCardList[icon] == nil then
         iconCardList[icon] = {}
       end
@@ -453,7 +453,7 @@ end
 function buildConnection(cardId, iconCardList, locData)
   if locData ~= nil and locData.connections ~= nil then
     locationConnections[cardId] = {}
-    for icon in string.gmatch(locData.connections, "%a+") do
+    for icon in string.gmatch(locData.connections, "[^|]+") do
       if iconCardList[icon] ~= nil then
         for _, connectedGuid in ipairs(iconCardList[icon]) do
           -- If the reciprocal exists, convert it to BiDi, otherwise add as a one-way
@@ -548,17 +548,13 @@ end
 ---    positioning and scaling, as well as highlighting connections during a drag operation
 ---@param lines table List of vector line elements. Mutable, will be updated to add this connector
 function addBidirectionalVector(card1, card2, vectorOwner, lines)
-  local cardPos1 = card1.getPosition()
-  local cardPos2 = card2.getPosition()
-  cardPos1.y = CONNECTION_LINE_Y
-  cardPos2.y = CONNECTION_LINE_Y
-
-  local pos1 = vectorOwner.positionToLocal(cardPos1)
-  local pos2 = vectorOwner.positionToLocal(cardPos2)
-
+  local cardPos1 = card1.getPosition():setAt("y", CONNECTION_LINE_Y)
+  local cardPos2 = card2.getPosition():setAt("y", CONNECTION_LINE_Y)
+  local pos1     = vectorOwner.positionToLocal(cardPos1)
+  local pos2     = vectorOwner.positionToLocal(cardPos2)
   table.insert(lines, {
-    points = { pos1, pos2 },
-    color = vectorOwner == self and connectionColor or DRAGGING_COLOR,
+    points    = { pos1, pos2 },
+    color     = vectorOwner == self and connectionColor or DRAGGING_COLOR,
     thickness = vectorOwner == self and CONNECTION_THICKNESS or DRAGGING_THICKNESS,
   })
 end
@@ -573,10 +569,8 @@ end
 function addOneWayVector(origin, target, vectorOwner, lines)
   -- Start with the BiDi then add the arrow lines to it
   addBidirectionalVector(origin, target, vectorOwner, lines)
-  local originPos = origin.getPosition()
-  local targetPos = target.getPosition()
-  originPos.y = CONNECTION_LINE_Y
-  targetPos.y = CONNECTION_LINE_Y
+  local originPos = origin.getPosition():setAt("y", CONNECTION_LINE_Y)
+  local targetPos = target.getPosition():setAt("y", CONNECTION_LINE_Y)
 
   -- Calculate distance to be closer for horizontal positions than vertical, since cards are taller than wide
   local heading = Vector(originPos):sub(targetPos):heading("y")
@@ -603,15 +597,17 @@ end
 ---    positioning and scaling, as well as highlighting connections during a drag operation
 ---@param lines table List of vector line elements. Mutable, will be updated to add this arrow
 function addArrowLines(arrowheadPos, originPos, vectorOwner, lines)
-  local arrowArm1 = Vector(arrowheadPos):moveTowards(originPos, ARROW_ARM_LENGTH):sub(arrowheadPos):rotateOver("y", -1 * ARROW_ANGLE):add(arrowheadPos)
-  local arrowArm2 = Vector(arrowheadPos):moveTowards(originPos, ARROW_ARM_LENGTH):sub(arrowheadPos):rotateOver("y", ARROW_ANGLE):add(arrowheadPos)
+  local arm = Vector(arrowheadPos):moveTowards(originPos, ARROW_ARM_LENGTH):sub(arrowheadPos)
+  local arrowArm1 = arrowheadPos + arm:copy():rotateOver("y", -ARROW_ANGLE)
+  local arrowArm2 = arrowheadPos + arm:copy():rotateOver("y", ARROW_ANGLE)
 
-  local head = vectorOwner.positionToLocal(arrowheadPos)
-  local arm1 = vectorOwner.positionToLocal(arrowArm1)
-  local arm2 = vectorOwner.positionToLocal(arrowArm2)
   table.insert(lines, {
-    points = { arm1, head, arm2 },
-    color = vectorOwner == self and connectionColor or DRAGGING_COLOR,
+    points    = {
+      vectorOwner.positionToLocal(arrowArm1),
+      vectorOwner.positionToLocal(arrowheadPos),
+      vectorOwner.positionToLocal(arrowArm2),
+    },
+    color     = vectorOwner == self and connectionColor or DRAGGING_COLOR,
     thickness = vectorOwner == self and CONNECTION_THICKNESS or DRAGGING_THICKNESS,
   })
 end
