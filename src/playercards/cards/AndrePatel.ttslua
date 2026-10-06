@@ -68,7 +68,8 @@ function addExtraAction()
 
   local callbackName   = "updateUniversalActionAbilityToken"
   local callbackParams = { class = "Rogue", symbol = "Rogue" }
-  TokenManagerApi.spawnToken(emptyPos + Vector(0, 0.7, 0), "universalActionAbility", rotation, callbackName, callbackParams, nil, "Temporary")
+  TokenManagerApi.spawnToken(emptyPos + Vector(0, 0.7, 0), "universalActionAbility", rotation, callbackName,
+    callbackParams, nil, "Temporary")
   state = { Action = false, ElderSign = true }
   setUiState(state)
   Wait.frames(function() updated = true end, 3)

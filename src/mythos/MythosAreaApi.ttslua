@@ -21,7 +21,7 @@ do
     return getMythosArea().call("getEncounterDeckObjects")
   end
 
-  ---@return tts__Object: object reference to the set-aside chest
+  ---@return tts__Object|nil: object reference to the set-aside chest
   function MythosAreaApi.getSetAsideChest()
     local searchPos = MythosAreaApi.getSetAsideChestPosition()
     for _, obj in ipairs(SearchLib.atPosition(searchPos, "isInteractable")) do

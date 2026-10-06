@@ -41,7 +41,8 @@ local galleryTemplateStart = [[<style>
 </style>
 <div class="sced-container">]]
 local templateCard = [[  <img class="sced-card" src="{{IMAGE_URL}}"/>]]
-local templateSlice = [[  <div class="sced-card sced-slice{{ROTATION_CLASS}}" style="background-image: url('{{IMAGE_URL}}'); background-size: {{SHEET_SIZE_1}}px {{SHEET_SIZE_2}}px; background-position: -{{OFFSET_1}}px -{{OFFSET_2}}px;"></div>]]
+local templateSlice =
+[[  <div class="sced-card sced-slice{{ROTATION_CLASS}}" style="background-image: url('{{IMAGE_URL}}'); background-size: {{SHEET_SIZE_1}}px {{SHEET_SIZE_2}}px; background-position: -{{OFFSET_1}}px -{{OFFSET_2}}px;"></div>]]
 local galleryTemplateEnd = [[</div>]] .. "\n" .. [[<div class="sced-spacer"></div>]]
 
 function onLoad()
@@ -117,7 +118,7 @@ function generate(_, playerColor)
   -- attempt to edit the existing tab
   for _, nb in ipairs(Notes.getNotebookTabs()) do
     if nb.title == "Deck Instructions" then
-      Notes.editNotebookTab({index = nb.index, body = os.date("%Y-%m-%d %H:%M") .. "\n\n" .. description })
+      Notes.editNotebookTab({ index = nb.index, body = os.date("%Y-%m-%d %H:%M") .. "\n\n" .. description })
       return
     end
   end

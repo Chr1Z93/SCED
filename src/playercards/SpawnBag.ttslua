@@ -90,7 +90,8 @@ do
       end
     end
     if spawnSpec.spread then
-      CardSpawner.spawnCardSpread(cardsToSpawn, spawnSpec.globalPos, spawnSpec.spreadCols or 9999, spawnSpec.rotation, false, internal.recordPlacedObject)
+      CardSpawner.spawnCardSpread(cardsToSpawn, spawnSpec.globalPos, spawnSpec.spreadCols or 9999, spawnSpec.rotation,
+        false, internal.recordPlacedObject)
     else
       -- TTS decks come out in reverse order of the cards, reverse the list so the input order stays
       -- This only applies for decks; spreads are spawned by us in the order given

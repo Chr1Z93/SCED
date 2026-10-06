@@ -1,20 +1,20 @@
-local GlobalApi            = require("Global/GlobalApi")
-local PlayermatApi         = require("playermat/PlayermatApi")
+local GlobalApi    = require("Global/GlobalApi")
+local PlayermatApi = require("playermat/PlayermatApi")
 
-VALID_TOKENS = {
+VALID_TOKENS       = {
   ["Curse"] = true
 }
 
-KEEP_OPEN = true
-MAX_SEALED = 3
-RESOLVE_TOKEN = true
+KEEP_OPEN          = true
+MAX_SEALED         = 3
+RESOLVE_TOKEN      = true
 
 require("playercards/CardsThatSealTokens")
 
 function resolveCallback()
   local matColor = PlayermatApi.getMatColorByPosition(self.getPosition())
   self.setRotationSmooth(PlayermatApi.getExhaustRotation(matColor, true), nil, true)
-  
+
   local playerColor = PlayermatApi.getPlayerColor(matColor)
   PlayermatApi.updateCounter(matColor, "ResourceCounter", nil, 1)
   local name = GlobalApi.getColoredName(playerColor)

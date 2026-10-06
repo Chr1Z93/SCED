@@ -1,12 +1,12 @@
 ---@type table Contains fields used by the deck importer
 configuration = {
-    -- arkham.build's API is now the default because of custom card support
-    arkhambuild_api_uri        = "https://api.arkham.build/v1/public/share",
-    arkhambuild_published_deck = "?type=decklist",
-    ArkhamDB_api_uri           = "https://arkhamdb.com/api/public",
-    ArkhamDB_published_deck    = "decklist",
-    ArkhamDB_private_deck      = "deck",
-    cards                      = "card",
-    -- flag for Whimsical to use ArkhamDB fork (add a leading 0 to DeckID)
-    maybe_enforce_ArkhamDB     = false
+  -- arkham.build's API is now the default because of custom card support
+  arkhambuild_api_uri        = "https://api.arkham.build/v1/public/share",
+  arkhambuild_published_deck = "?type=decklist",
+  ArkhamDB_api_uri           = "https://arkhamdb.com/api/public",
+  ArkhamDB_published_deck    = "decklist",
+  ArkhamDB_private_deck      = "deck",
+  cards                      = "card",
+  -- flag for Whimsical to use ArkhamDB fork (add a leading 0 to DeckID)
+  maybe_enforce_ArkhamDB     = false
 }

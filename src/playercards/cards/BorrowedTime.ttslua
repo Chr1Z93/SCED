@@ -62,7 +62,8 @@ function addAction(player, foundTokens)
   local positions = getSpawnPositions(numTokens)
 
   for i = 1, numTokens do
-    TokenManagerApi.spawnToken(positions[i], "universalActionAbility", self.getRotation(), "multiplyScale", 0.6, nil, "Temporary")
+    TokenManagerApi.spawnToken(positions[i], "universalActionAbility", self.getRotation(), "multiplyScale", 0.6, nil,
+      "Temporary")
   end
 
   broadcastToColor("Spawning " .. numTokens .. " temporary action token(s).", player.color)

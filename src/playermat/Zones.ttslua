@@ -63,31 +63,31 @@ do
   commonZones["HandZone"]                   = Vector(0, 4.55, 1.555)
 
   -- local coordinates for white / green (inverted X for orange / red)
-  local mirrorZones              = {}
-  mirrorZones["SetAside1"]       = Vector(2.35, 0, -0.520)
-  mirrorZones["SetAside2"]       = Vector(2.35, 0, 0.042)
-  mirrorZones["SetAside3"]       = Vector(2.35, 0, 0.605)
-  mirrorZones["UnderSetAside3"]  = Vector(2.50, 0, 0.805)
-  mirrorZones["SetAside4"]       = Vector(2.78, 0, -0.520)
-  mirrorZones["SetAside5"]       = Vector(2.78, 0, 0.042)
-  mirrorZones["SetAside6"]       = Vector(2.78, 0, 0.605)
-  mirrorZones["UnderSetAside6"]  = Vector(2.93, 0, 0.805)
-  mirrorZones["AboveSetAside"]   = Vector(2.35, 0, -1.069)
-  mirrorZones["BelowSetAside"]   = Vector(2.85, 0, 1.650)
+  local mirrorZones                         = {}
+  mirrorZones["SetAside1"]                  = Vector(2.35, 0, -0.520)
+  mirrorZones["SetAside2"]                  = Vector(2.35, 0, 0.042)
+  mirrorZones["SetAside3"]                  = Vector(2.35, 0, 0.605)
+  mirrorZones["UnderSetAside3"]             = Vector(2.50, 0, 0.805)
+  mirrorZones["SetAside4"]                  = Vector(2.78, 0, -0.520)
+  mirrorZones["SetAside5"]                  = Vector(2.78, 0, 0.042)
+  mirrorZones["SetAside6"]                  = Vector(2.78, 0, 0.605)
+  mirrorZones["UnderSetAside6"]             = Vector(2.93, 0, 0.805)
+  mirrorZones["AboveSetAside"]              = Vector(2.35, 0, -1.069)
+  mirrorZones["BelowSetAside"]              = Vector(2.85, 0, 1.650)
 
   -- position of tokens and related objects
-  mirrorZones["Trash"]           = Vector(-1.851, 0.1, -1.131)
-  mirrorZones["Dynamic tokens"]  = Vector(-2.325, 0.13, -1.09)
-  mirrorZones["Resource tokens"] = Vector(-2.325, 0.13, -0.79)
-  mirrorZones["Damage tokens"]   = Vector(-2.325, 0.13, -0.49)
-  mirrorZones["Horror tokens"]   = Vector(-2.325, 0.13, -0.19)
-  mirrorZones["Clue tokens"]     = Vector(-2.325, 0.13, 0.11)
-  mirrorZones["Doom tokens"]     = Vector(-2.325, 0.13, 0.41)
-  mirrorZones["Token Remover"]   = Vector(-2.325, 0.031, 0.71)
+  mirrorZones["Trash"]                      = Vector(-1.851, 0.1, -1.131)
+  mirrorZones["Dynamic tokens"]             = Vector(-2.325, 0.13, -1.09)
+  mirrorZones["Resource tokens"]            = Vector(-2.325, 0.13, -0.79)
+  mirrorZones["Damage tokens"]              = Vector(-2.325, 0.13, -0.49)
+  mirrorZones["Horror tokens"]              = Vector(-2.325, 0.13, -0.19)
+  mirrorZones["Clue tokens"]                = Vector(-2.325, 0.13, 0.11)
+  mirrorZones["Doom tokens"]                = Vector(-2.325, 0.13, 0.41)
+  mirrorZones["Token Remover"]              = Vector(-2.325, 0.031, 0.71)
 
-  local zoneData                 = {}
-  zoneData["White"]              = {}
-  zoneData["Orange"]             = {}
+  local zoneData                            = {}
+  zoneData["White"]                         = {}
+  zoneData["Orange"]                        = {}
 
   -- copy common coordinates
   for zoneName, zonePos in pairs(commonZones) do

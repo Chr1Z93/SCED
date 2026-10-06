@@ -89,7 +89,8 @@ function removeAndExtraAction(player)
 
   local callbackName = "updateUniversalActionAbilityToken"
   local callbackParams = { class = "Mystic", symbol = "Mystic" }
-  TokenManagerApi.spawnToken(emptyPos + Vector(0, 0.7, 0), "universalActionAbility", rotation, callbackName, callbackParams, nil, "Temporary")
+  TokenManagerApi.spawnToken(emptyPos + Vector(0, 0.7, 0), "universalActionAbility", rotation, callbackName,
+    callbackParams, nil, "Temporary")
 end
 
 function elderSignAbility(player)

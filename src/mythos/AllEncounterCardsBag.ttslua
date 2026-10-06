@@ -437,11 +437,11 @@ function updateOriginalItemData(originalData, replaceData)
 
   if originalSideways ~= newSideways then
     -- adjust the transform by 90°
-    rotationDelta                 = newSideways and -90 or 90
+    rotationDelta               = newSideways and -90 or 90
 
     -- replace necessary properties
-    originalData.Transform.rotY   = (originalData.Transform.rotY or 0) + rotationDelta
-    originalData.SidewaysCard     = newSideways
+    originalData.Transform.rotY = (originalData.Transform.rotY or 0) + rotationDelta
+    originalData.SidewaysCard   = newSideways
   end
 
   -- handle scale

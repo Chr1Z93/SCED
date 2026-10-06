@@ -24,9 +24,9 @@ function onLoad()
   local spacingZ     = 1.5
   local columns      = 3
 
-  local i = 0
+  local i            = 0
   for label, canBeBasic in pairs(BUTTON_LABELS) do
-    i = i + 1
+    i                  = i + 1
     local functionName = "actionButton_" .. i
     _G[functionName]   = function(_, playerColor, isRightClick)
       if Player[playerColor] then

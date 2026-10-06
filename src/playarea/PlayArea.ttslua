@@ -32,7 +32,8 @@ local STEP_Z                  = (LOWER_RIGHT_SNAP.z - UPPER_LEFT_SNAP.z) / 8 -- 
 local CENTER_X                = (UPPER_LEFT_SNAP.x + LOWER_RIGHT_SNAP.x) / 2 -- = 0
 local CENTER_Z                = (UPPER_LEFT_SNAP.z + LOWER_RIGHT_SNAP.z) / 2 -- = 0.23
 
-local DEFAULT_URL             = "https://steamusercontent-a.akamaihd.net/ugc/998015670465071049/FFAE162920D67CF38045EFBD3B85AD0F916147B2/"
+local DEFAULT_URL             =
+"https://steamusercontent-a.akamaihd.net/ugc/998015670465071049/FFAE162920D67CF38045EFBD3B85AD0F916147B2/"
 
 local SHIFT_OFFSETS           = {
   left  = { x = 0.00, y = 0, z = 7.67 },

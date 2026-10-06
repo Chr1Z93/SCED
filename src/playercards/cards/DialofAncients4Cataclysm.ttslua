@@ -1,5 +1,5 @@
-VALID_TOKENS   = {}
-INVALID_TOKENS = {}
+VALID_TOKENS    = {}
+INVALID_TOKENS  = {}
 
 UPDATE_ON_HOVER = true
 

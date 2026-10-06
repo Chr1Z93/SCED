@@ -2300,7 +2300,8 @@ function onLoad()
     scale          = { 0.5, 1, 0.5 }
   })
   printToAll("Customizable cards will be automatically replaced with specific images when possible.")
-  printToAll("This is automatically triggered by collision with the playermat or changes to the respective upgradesheet.")
+  printToAll(
+    "This is automatically triggered by collision with the playermat or changes to the respective upgradesheet.")
   printToAll("Note that only the taboo version of Empirical Hypothesis, Runic Axe and Power Word is supported.")
 end
 

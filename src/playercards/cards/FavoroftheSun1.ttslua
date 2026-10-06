@@ -1,12 +1,12 @@
-local PlayermatApi         = require("playermat/PlayermatApi")
+local PlayermatApi = require("playermat/PlayermatApi")
 
-VALID_TOKENS = {
+VALID_TOKENS       = {
   ["Bless"] = true
 }
 
-KEEP_OPEN = true
-MAX_SEALED = 3
-RESOLVE_TOKEN = true
+KEEP_OPEN          = true
+MAX_SEALED         = 3
+RESOLVE_TOKEN      = true
 
 require("playercards/CardsThatSealTokens")
 

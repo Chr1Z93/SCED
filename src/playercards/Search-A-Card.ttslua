@@ -156,7 +156,7 @@ function startSearch()
 
   if (#cardList > 100) and noLimit == false then
     printToAll(
-    "Matched more than 100 cards, please try a more specific search or enter unlimited mode from the context menu.",
+      "Matched more than 100 cards, please try a more specific search or enter unlimited mode from the context menu.",
       "Yellow")
     return
   end

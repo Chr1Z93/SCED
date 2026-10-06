@@ -31,6 +31,13 @@ function shortSupply(playerColor)
   -- discard cards, waiting 0.7 seconds between each discard to give players visiblity of the cards
   broadcastToColor("Discarding top 10 cards for player color '" .. matColor .. "'.", playerColor, "White")
   for i = 1, 10 do
-    Wait.time(function() drawDeck.takeObject({ flip = true, position = { discardPos.x, 2 + 0.075 * i, discardPos.z } }) end, 0.7 * (i - 1))
+    Wait.time(
+      function()
+        drawDeck.takeObject({
+          flip     = true,
+          position = { discardPos.x, 2 + 0.075 * i, discardPos.z }
+        })
+      end,
+      0.7 * (i - 1))
   end
 end

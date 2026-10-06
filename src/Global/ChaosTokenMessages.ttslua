@@ -1,4 +1,4 @@
-AUTO_FAIL_MESSAGES          = {
+AUTO_FAIL_MESSAGES  = {
   "<Name> has mastered the art of failure!",
   "The Auto-fail seems to have <Name>'s address.",
   "If there's an Auto-fail in the bag, <Name> will find it.",
@@ -21,7 +21,7 @@ AUTO_FAIL_MESSAGES          = {
   "It's not bad luck—it’s a lifestyle for <Name>."
 }
 
-ELDER_SIGN_MESSAGES         = {
+ELDER_SIGN_MESSAGES = {
   "<Name> is blessed by the elder gods!",
   "Luck flows through <Name>'s veins.",
   "<Name> is the chosen one!",
@@ -44,7 +44,7 @@ ELDER_SIGN_MESSAGES         = {
   "Elder Signs follow <Name> like moths to a flame."
 }
 
-DUAL_MESSAGES               = {
+DUAL_MESSAGES       = {
   "<Name> is the embodiment of extreme luck—both good and bad!",
   "No one has soared so high and fallen so hard as <Name>.",
   "Fate can’t decide what to do with <Name>—miracle one moment, disaster the next!",

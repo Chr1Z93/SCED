@@ -9,7 +9,7 @@ val                  = 0
 global               = false
 enabled              = false
 counterToken         = "Elder Sign"
-FONT_SIZE = 700
+FONT_SIZE            = 700
 
 function onDestroy()
   updateSave()
@@ -144,7 +144,8 @@ function onNumberTyped(_, number)
 end
 
 function createXmlNumber()
-  local numberXml = {{
+  local numberXml = {
+    {
       tag        = "Text",
       attributes = {
         scale       = "0.35 0.35 1",

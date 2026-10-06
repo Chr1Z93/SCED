@@ -26,7 +26,7 @@ end
 
 -- toggles the current state
 function toggleHelper(manual)
-  if manual and isHelperEnabled == true then -- do not allow helper to be forced to turn on
+  if manual and isHelperEnabled == true then      -- do not allow helper to be forced to turn on
     doNotTurnOff = true
   elseif manual and isHelperEnabled == false then -- return to default behavior
     doNotTurnOff = false
