@@ -1,4 +1,6 @@
 {
+  "flipVertically": false,
+  "flipHorizontally": false,
   "includeDrawnTokens": true,
   "tokenPrecedence": {
     "": [

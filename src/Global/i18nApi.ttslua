@@ -25,14 +25,14 @@ do
 
   function i18nApi.getPrefix(str)
     return Global.call("callTable", {
-    { "i18n", "getPrefix" },
+      { "i18n", "getPrefix" },
       str
     })
   end
 
   function i18nApi.updateObjectUiLanguage(obj)
     return Global.call("callTable", {
-    { "i18n", "updateObjectUiLanguage" },
+      { "i18n", "updateObjectUiLanguage" },
       obj
     })
   end

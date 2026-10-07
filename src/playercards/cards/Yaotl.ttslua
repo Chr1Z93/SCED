@@ -120,7 +120,7 @@ function discardTopCard()
   if not deckAreaObjects.topCard and not deckAreaObjects.draw then return end
 
   local card = deckAreaObjects.topCard or
-  deckAreaObjects.draw.takeObject({ position = discardPos, rotation = discardRot })
+      deckAreaObjects.draw.takeObject({ position = discardPos, rotation = discardRot })
 
   if deckAreaObjects.topCard then
     PlayermatApi.flipTopCardFromDeck(matColor, 0.75)

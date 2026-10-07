@@ -696,7 +696,7 @@ function putCardOnBottomOfMyDeck(playerColor, hoveredObject)
   local rot = PlayermatApi.returnRotation(matColor):setAt("z", 180)
 
   DeckLib.placeOrMergeIntoDeck(hoveredObject, pos, rot, true, false)
-  broadcastToColor("Placed card on bottom of ".. GlobalApi.getColoredName(vColor) .."'s deck.", playerColor, "White")
+  broadcastToColor("Placed card on bottom of " .. GlobalApi.getColoredName(vColor) .. "'s deck.", playerColor, "White")
 end
 
 function viewMythosArea(playerColor)

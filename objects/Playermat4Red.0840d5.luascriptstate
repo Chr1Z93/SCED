@@ -5,7 +5,6 @@
     "miniId": "00000-m"
   },
   "isClassTextureEnabled": true,
-  "isDrawButtonVisible": false,
   "isHandShownToAll": false,
   "optionPanelData": {
     "exhaustRotation": 90,

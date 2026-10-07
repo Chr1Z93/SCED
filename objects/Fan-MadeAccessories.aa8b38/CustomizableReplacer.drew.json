@@ -1,0 +1,76 @@
+{
+  "AltLookAngle": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+  "AttachedSnapPoints": [
+    {
+      "Position": {
+        "x": -3.93,
+        "y": -0.1,
+        "z": -2.657
+      }
+    },
+    {
+      "Position": {
+        "x": 1.063,
+        "y": 0.1,
+        "z": 0.218
+      }
+    },
+    {
+      "Position": {
+        "x": -1,
+        "y": 0.1,
+        "z": 0.175
+      }
+    }
+  ],
+  "Autoraise": true,
+  "ColorDiffuse": {
+    "b": 1,
+    "g": 1,
+    "r": 1
+  },
+  "CustomImage": {
+    "CustomToken": {
+      "MergeDistancePixels": 15,
+      "Stackable": false,
+      "StandUp": false,
+      "Thickness": 0.2
+    },
+    "ImageScalar": 1,
+    "ImageSecondaryURL": "",
+    "ImageURL": "https://steamusercontent-a.akamaihd.net/ugc/10577701098122332586/EB3FA1B652E9B81B1B483FE195B417AC16717F8F/",
+    "WidthScale": 0
+  },
+  "Description": "While this object is on the table, customizable cards will automatically load a special replacement image that includes their selected upgrades.\nNote: This does not support the non-taboo version of Empirical Hypothesis, Runic Axe and Power Word.",
+  "DragSelectable": true,
+  "GMNotes": "",
+  "GUID": "drew",
+  "Grid": true,
+  "GridProjection": false,
+  "Hands": false,
+  "HideWhenFaceDown": false,
+  "IgnoreFoW": false,
+  "LayoutGroupSortIndex": 0,
+  "Locked": false,
+  "LuaScript": "require(\"accessories/CustomizableReplacer\")",
+  "LuaScriptState": "",
+  "MeasureMovement": false,
+  "Name": "Custom_Token",
+  "Nickname": "Customizable Replacer",
+  "Snap": true,
+  "Sticky": true,
+  "Tags": [
+    "CustomizableReplacer"
+  ],
+  "Tooltip": true,
+  "Transform": {
+    "rotY": 270,
+    "scaleX": 2,
+    "scaleY": 1,
+    "scaleZ": 2
+  }
+}

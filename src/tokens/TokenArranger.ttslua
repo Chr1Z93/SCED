@@ -36,6 +36,8 @@ percentageLabel.height          = 0
 -- variables with save function
 local tokenPrecedence           = {}
 local includeDrawnTokens        = true
+local flipHorizontally          = false
+local flipVertically            = false
 
 -- variables without save function
 local updating                  = false
@@ -51,12 +53,16 @@ local TOKEN_NAMES               = {
   "Frost",
   ""
 }
+local FLIP_X                    = Vector(-1, 1, 1)
+local FLIP_Z                    = Vector(1, 1, -1)
 
 -- saving the precedence settings and information on the most recently loaded data
 function updateSave()
   self.script_state = JSON.encode({
     tokenPrecedence    = tokenPrecedence,
-    includeDrawnTokens = includeDrawnTokens
+    includeDrawnTokens = includeDrawnTokens,
+    flipHorizontally   = flipHorizontally,
+    flipVertically     = flipVertically
   })
 end
 
@@ -66,6 +72,8 @@ function onLoad(savedData)
     local loadedData   = JSON.decode(savedData)
     tokenPrecedence    = loadedData.tokenPrecedence
     includeDrawnTokens = loadedData.includeDrawnTokens
+    flipHorizontally   = loadedData.flipHorizontally
+    flipVertically     = loadedData.flipVertically
   else
     loadDefaultValues()
 
@@ -94,6 +102,16 @@ function onLoad(savedData)
     broadcastToAll("Token Arranger will" .. text .. "include currently drawn chaos tokens.", "Orange")
     updateSave()
     layout()
+  end)
+  self.addContextMenuItem("Flip vertically", function()
+    flipVertically = not flipVertically
+    layout()
+    updateSave()
+  end)
+  self.addContextMenuItem("Flip horizontally", function()
+    flipHorizontally = not flipHorizontally
+    layout()
+    updateSave()
   end)
 end
 
@@ -243,7 +261,7 @@ function createPercentageButton(tokenCount, rowCount, tokenName, optionPanelStat
   local buttonPosition = START_POSITION:copy():setAt("y", 0.05)
 
   -- flip X-coodinate for buttons
-  buttonPosition = buttonPosition * Vector(-1, 1, 1)
+  buttonPosition = buttonPosition * FLIP_X
 
   -- x-offset to align buttons
   buttonPosition = buttonPosition + Vector(0.02, 0, 0)
@@ -254,10 +272,10 @@ function createPercentageButton(tokenCount, rowCount, tokenName, optionPanelStat
   -- adjust data if both labels are enabled
   if optionPanelState == "Full" then
     percentageLabel.scale    = Vector(0.22, 0.22, 0.22)
-    percentageLabel.position = buttonPosition - Vector(0, 0, TOKEN_OFFSET * 0.19)
+    percentageLabel.position = getFinalLocalPosition(buttonPosition - Vector(0, 0, TOKEN_OFFSET * 0.19))
   else
     percentageLabel.scale    = Vector(0.26, 0.26, 0.26)
-    percentageLabel.position = buttonPosition
+    percentageLabel.position = getFinalLocalPosition(buttonPosition)
   end
 
   -- determine font_color
@@ -290,7 +308,7 @@ function createPercentageButton(tokenCount, rowCount, tokenName, optionPanelStat
 
   -- optionally create label for cumulative percentage
   if optionPanelState == "Full" then
-    percentageLabel.position = buttonPosition + Vector(0, 0, TOKEN_OFFSET * 0.19)
+    percentageLabel.position   = getFinalLocalPosition(buttonPosition + Vector(0, 0, TOKEN_OFFSET * 0.19))
     percentageLabel.font_color = { 1, 1, 1 }
 
     -- only display one digit for 100%
@@ -306,6 +324,10 @@ end
 
 function formatPercentage(value)
   return string.format("%s", string.format("%05.2f", value) .. "%")
+end
+
+function getFinalLocalPosition(position)
+  return position * (flipHorizontally and FLIP_X or 1) * (flipVertically and FLIP_Z or 1)
 end
 
 -- main function (delete old tokens, clone chaos bag content, sort it and position it)
@@ -407,7 +429,7 @@ function layout(_, _, isRightClick)
       tokenCount.row = 0
     end
 
-    local globalPos = self.positionToWorld(location)
+    local globalPos = self.positionToWorld(getFinalLocalPosition(location))
     item.token["Transform"]["posX"] = globalPos.x
     item.token["Transform"]["posY"] = globalPos.y
     item.token["Transform"]["posZ"] = globalPos.z

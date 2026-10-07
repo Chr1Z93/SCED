@@ -108,6 +108,7 @@ function buttonClick(index, isRightClick)
   printToAll("Adding " .. name .. " token (in bag: " .. #tokens + 1 .. ")", "White")
   if CORE_TOKEN_COUNT[name] and #tokens >= CORE_TOKEN_COUNT[name] then
     local tokenString = CORE_TOKEN_COUNT[name] == 1 and "' token." or "' tokens."
-    printToAll("INFO: A physical collection is limited to " .. CORE_TOKEN_COUNT[name] .. " '" .. name .. tokenString, "Yellow")
+    printToAll("INFO: A physical collection is limited to " .. CORE_TOKEN_COUNT[name] .. " '" .. name .. tokenString,
+      "Yellow")
   end
 end

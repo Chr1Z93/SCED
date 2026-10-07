@@ -1,0 +1,19 @@
+{
+  "ColorDiffuse": {
+    "b": 1,
+    "g": 1,
+    "r": 1
+  },
+  "Description": "Rollingsnake has created an amazing tool for players that want to build their deck directly in TTS.\n\nYou can find the tool here:\n\nhttps://steamcommunity.com/sharedfiles/filedetails/?id=3758233039",
+  "GUID": "1cc02a",
+  "Hands": false,
+  "HideWhenFaceDown": false,
+  "Name": "Notecard",
+  "Nickname": "Deck DashBoard - Note",
+  "Transform": {
+    "rotY": 90,
+    "scaleX": 1,
+    "scaleY": 1,
+    "scaleZ": 1
+  }
+}

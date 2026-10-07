@@ -58,7 +58,8 @@ function destiny(color)
   for i = 1, 8 do
     self.takeObject({ position = self.positionToWorld(BAG_OFFSET + i * CARD_OFFSET) })
   end
-  broadcastToColor("Each card corresponds to one scenario, leftmost is first. Choose and reverse half of the cards (rounded up).", color)
+  broadcastToColor(
+    "Each card corresponds to one scenario, leftmost is first. Choose and reverse half of the cards (rounded up).", color)
 end
 
 function fate(color)
@@ -75,7 +76,8 @@ function fate(color)
       end
     end
   end
-  broadcastToColor("Each card corresponds to one scenario, leftmost is first. Choose and reverse half of the cards (rounded up).", color)
+  broadcastToColor(
+    "Each card corresponds to one scenario, leftmost is first. Choose and reverse half of the cards (rounded up).", color)
 end
 
 function observed(color)

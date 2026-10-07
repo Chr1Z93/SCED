@@ -1,6 +1,6 @@
-local PlayAreaApi = require("playarea/PlayAreaApi")
+local PlayAreaApi               = require("playarea/PlayAreaApi")
 
-local UI_OFFSET = 1.15
+local UI_OFFSET                 = 1.15
 
 local buttonParamaters          = {}
 buttonParamaters.function_owner = self

@@ -21,7 +21,7 @@ do
   ---@return uiStateTable uiStateTable Contains data about the current UI state
   function DeckImporterApi.getUiState()
     local passthroughTable = {}
-    for k,v in pairs(getDeckImporter().call("getUiState")) do
+    for k, v in pairs(getDeckImporter().call("getUiState")) do
       passthroughTable[k] = v
     end
     return passthroughTable

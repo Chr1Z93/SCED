@@ -1,23 +1,23 @@
 require("core/Constants")
-local AllCardsBagApi              = require("playercards/AllCardsBagApi")
-local ChaosBagApi                 = require("chaosbag/ChaosBagApi")
-local ColorLib                    = require("util/ColorLib")
-local CoroutineLib                = require("util/CoroutineLib")
-local DeckLib                     = require("util/DeckLib")
-local GlobalApi                   = require("Global/GlobalApi")
-local GUIDReferenceApi            = require("core/GUIDReferenceApi")
-local i18nApi                     = require("Global/i18nApi")
-local MathLib                     = require("util/MathLib")
-local MythosAreaApi               = require("mythos/MythosAreaApi")
-local NavigationOverlayApi        = require("core/NavigationOverlayApi")
-local SearchLib                   = require("util/SearchLib")
-local TableLib                    = require("util/TableLib")
-local TokenManagerApi             = require("tokens/TokenManagerApi")
-local TokenSpawnTrackerApi        = require("tokens/TokenSpawnTrackerApi")
-local zones                       = require("playermat/Zones")
+local AllCardsBagApi           = require("playercards/AllCardsBagApi")
+local ChaosBagApi              = require("chaosbag/ChaosBagApi")
+local ColorLib                 = require("util/ColorLib")
+local CoroutineLib             = require("util/CoroutineLib")
+local DeckLib                  = require("util/DeckLib")
+local GlobalApi                = require("Global/GlobalApi")
+local GUIDReferenceApi         = require("core/GUIDReferenceApi")
+local i18nApi                  = require("Global/i18nApi")
+local MathLib                  = require("util/MathLib")
+local MythosAreaApi            = require("mythos/MythosAreaApi")
+local NavigationOverlayApi     = require("core/NavigationOverlayApi")
+local SearchLib                = require("util/SearchLib")
+local TableLib                 = require("util/TableLib")
+local TokenManagerApi          = require("tokens/TokenManagerApi")
+local TokenSpawnTrackerApi     = require("tokens/TokenSpawnTrackerApi")
+local zones                    = require("playermat/Zones")
 
 -- option panel data
-local AVAILABLE_OPTIONS           = {
+local AVAILABLE_OPTIONS        = {
   { id = "slotEditing",      type = "toggle" },
   { id = "handColorSelect",  type = "button" },
   { id = "textureSelect",    type = "button" },
@@ -42,33 +42,33 @@ local AVAILABLE_OPTIONS           = {
 }
 
 -- stores the value for each id
-local optionPanelData             = {}
-optionPanelData.slotEditing       = false
+local optionPanelData          = {}
+optionPanelData.slotEditing    = false
 
 -- we use this to turn off collision handling until onLoad() is complete
-local collisionEnabled            = false
-local currentlyEditingSlots       = false
+local collisionEnabled         = false
+local currentlyEditingSlots    = false
 
 -- for stopping multiple collisions of the same object
-local collisionTable              = {}
+local collisionTable           = {}
 
-local SEARCH_AROUND_SELF_X_BUFFER = 8
-local SEARCH_AROUND_SELF_Z_BUFFER = 1.75
+local SEARCH_AREA_X_BUFFER     = 8
+local SEARCH_AREA_Z_BUFFER     = 1.75
 
 -- defined areas for object searching
-local MAIN_PLAY_AREA              = {
+local MAIN_PLAY_AREA           = {
   upperLeft  = { x = 1.98, z = 0.736 },
   lowerRight = { x = -0.79, z = -0.39 }
 }
-local INVESTIGATOR_AREA           = {
+local INVESTIGATOR_AREA        = {
   upperLeft  = { x = -1.084, z = 0.06517 },
   lowerRight = { x = -1.258, z = -0.0805 }
 }
-local THREAT_AREA                 = {
+local THREAT_AREA              = {
   upperLeft  = { x = 1.53, z = -0.34 },
   lowerRight = { x = -1.13, z = -0.92 }
 }
-local DECK_DISCARD_AREA           = {
+local DECK_DISCARD_AREA        = {
   upperLeft  = { x = -1.62, z = 0.855 },
   lowerRight = { x = -2.02, z = -0.245 },
   center     = { x = -1.82, y = 0.5, z = 0.305 },
@@ -76,10 +76,10 @@ local DECK_DISCARD_AREA           = {
 }
 
 -- local positions
-local DRAW_DECK_POSITION          = { x = -1.82, y = 0.1, z = 0 }
-local DISCARD_PILE_POSITION       = { x = -1.82, y = 0.1, z = 0.61 }
-local DRAWN_ENCOUNTER_POSITION    = { x = 1.365, y = 0.5, z = -0.625 }
-local tokenSpawnPos               = {
+local DRAW_DECK_POSITION       = { x = -1.82, y = 0.1, z = 0 }
+local DISCARD_PILE_POSITION    = { x = -1.82, y = 0.1, z = 0.61 }
+local DRAWN_ENCOUNTER_POSITION = { x = 1.365, y = 0.5, z = -0.625 }
+local tokenSpawnPos            = {
   action = {
     Vector(-0.86, 0, -0.28), -- left of the regular three actions
     Vector(-1.54, 0, -0.28), -- right of the regular three actions
@@ -91,7 +91,7 @@ local tokenSpawnPos               = {
 }
 
 -- table of texture URLs
-local NAME_TO_TEXTURE_URL         = {
+local NAME_TO_TEXTURE_URL      = {
   Guardian = "https://steamusercontent-a.akamaihd.net/ugc/2501268517241599869/179119CA88170D9F5C87CD00D267E6F9F397D2F7/",
   Mystic   = "https://steamusercontent-a.akamaihd.net/ugc/2501268517241600113/F6473F92B3435C32A685BB4DC2A88C2504DDAC4F/",
   Neutral  = "https://steamusercontent-a.akamaihd.net/ugc/2462982115659543571/5D778EA4BC682DAE97E8F59A991BCF8CB3979B04/",
@@ -101,7 +101,7 @@ local NAME_TO_TEXTURE_URL         = {
 }
 
 -- translation table for slot names to characters for special font
-local SLOT_NAME_TO_CHAR           = {
+local SLOT_NAME_TO_CHAR        = {
   ["any"]          = "",
   ["Accessory"]    = "C",
   ["Ally"]         = "E",
@@ -116,8 +116,8 @@ local SLOT_NAME_TO_CHAR           = {
 }
 
 -- slot symbol for the respective slot (from top left to bottom right) - intentionally global!
-slotData                          = {}
-local DEFAULT_SLOT_DATA           = {
+slotData                       = {}
+local DEFAULT_SLOT_DATA        = {
   -- 1st row
   "any", "any", "any", "Head", "Hand (left)", "Hand (right)", "Ally",
 
@@ -125,28 +125,26 @@ local DEFAULT_SLOT_DATA           = {
   "any", "any", "Tarot", "Accessory", "Arcane", "Arcane", "Body"
 }
 
-local activeInvestigatorData      = {}
-luckyPennyEnabled                 = false
-local isClassTextureEnabled       = true
-local isDrawButtonVisible         = false
-local optionPanelVisibility       = ""
+local activeInvestigatorData   = {}
+luckyPennyEnabled              = false
+local isClassTextureEnabled    = true
+local optionPanelVisibility    = ""
 
 -- table of type-object reference pairs of all owned objects
-local ownedObjects                = {}
+local ownedObjects             = {}
 
-local matColor                    = self.getMemo()
-local tooltipTimers               = {}
+local matColor                 = self.getMemo()
+local tooltipTimers            = {}
 
 -- continuously updated
-local clueCount                   = 0
-local doomCount                   = 0
+local clueCount                = 0
+local doomCount                = 0
 
 function updateSave()
   optionPanelVisibility = self.UI.getAttribute("optionPanelMain", "visibility") or ""
   self.script_state = JSON.encode({
     activeInvestigatorData = activeInvestigatorData,
     isClassTextureEnabled  = isClassTextureEnabled,
-    isDrawButtonVisible    = isDrawButtonVisible,
     isHandShownToAll       = isHandShownToAll,
     optionPanelData        = optionPanelData,
     optionPanelVisibility  = optionPanelVisibility,
@@ -160,7 +158,6 @@ function onLoad(savedData)
     local loadedData            = JSON.decode(savedData)
     activeInvestigatorData      = loadedData.activeInvestigatorData
     isClassTextureEnabled       = loadedData.isClassTextureEnabled
-    isDrawButtonVisible         = loadedData.isDrawButtonVisible
     isHandShownToAll            = loadedData.isHandShownToAll
     optionPanelData             = loadedData.optionPanelData
     optionPanelVisibility       = loadedData.optionPanelVisibility
@@ -226,8 +223,11 @@ function searchAroundSelf(filter)
   local bounds            = self.getBoundsNormalized()
 
   -- Increase the width to cover the set aside zone (height needs to account for cards "below" the playermat)
-  local size              = Vector(bounds.size.x + SEARCH_AROUND_SELF_X_BUFFER, 3,
-    bounds.size.z + SEARCH_AROUND_SELF_Z_BUFFER)
+  local size              = Vector(
+    bounds.size.x + SEARCH_AREA_X_BUFFER,
+    3,
+    bounds.size.z + SEARCH_AREA_Z_BUFFER
+  )
 
   -- 'setAsideDirection' accounts for the set aside zone being on the left or right,
   -- depending on the table position of the playermat
@@ -236,8 +236,8 @@ function searchAroundSelf(filter)
   -- Since the cast is centered on the position, shift left or right to keep
   -- the non-set aside edge of the cast at the edge of the playermat
   local localCenter       = self.positionToLocal(bounds.center)
-  localCenter.x           = localCenter.x + setAsideDirection * SEARCH_AROUND_SELF_X_BUFFER / 2 / scale.x
-  localCenter.z           = localCenter.z - SEARCH_AROUND_SELF_Z_BUFFER / 2 / scale.z
+  localCenter.x           = localCenter.x + setAsideDirection * SEARCH_AREA_X_BUFFER / 2 / scale.x
+  localCenter.z           = localCenter.z - SEARCH_AREA_Z_BUFFER / 2 / scale.z
 
   -- Perform the search
   local pos               = self.positionToWorld(localCenter) + Vector(0, 1, 0)
@@ -391,8 +391,7 @@ function doUpkeep(player, clickType)
   local wracked            = false
   for _, obj in ipairs(searchThreatArea("isCard")) do
     if not obj.is_face_down then
-      local cardMetadata = JSON.decode(obj.getGMNotes()) or {}
-      if cardMetadata.id == "02015" then
+      if getId(obj.getGMNotes()) == "02015" then
         wracked = true
         printToColor("Wracked by Nightmares: Not readying assets", messageColor)
         break
@@ -625,8 +624,7 @@ function drawCardsWithReshuffle(numCards, fromBottom)
 end
 
 function isHarbinger(notes)
-  local md = JSON.decode(notes or "") or {}
-  return md.id == "08006"
+  return getId(notes) == "08006"
 end
 
 -- get the draw deck and discard pile objects and returns the references
@@ -1161,6 +1159,8 @@ function hideTooltip(player, _, id)
 end
 
 function addGameplayButtons(xml)
+  local isDrawButtonVisible = GlobalApi.getOptionPanelState()["showDrawButton"]
+
   -- Helper to generate the tooltip child structure
   local function getTooltip(id, i18n, dir)
     local w, h        = 550, 125
@@ -1580,39 +1580,76 @@ end
 -- playermat token spawning
 ---------------------------------------------------------
 
--- Finds all customizable cards in this play area and updates their metadata based on the selections
--- on the matching upgrade sheet.
--- This method is theoretically O(n^2), and should be used sparingly.  In practice it will only be
--- called when a checkbox is added or removed in-game (which should be rare), and is bounded by the
--- number of customizable cards in play.
+-- Finds all customizable cards in this play area and updates their metadata
+-- based on the selections on the matching upgrade sheet.
 function syncAllCustomizableCards()
-  for _, card in ipairs(searchAroundSelf("isCard")) do
-    syncCustomizableMetadata(card, JSON.decode(card.getGMNotes()))
+  local cards = searchAroundSelf("isCard")
+  local upgradeSheets = {}
+
+  -- Index upgrade sheets by the ID of the card they customize
+  for _, card in ipairs(cards) do
+    local metadata = JSON.decode(card.getGMNotes()) or {}
+    if metadata.id and metadata.type == "UpgradeSheet" then
+      upgradeSheets[metadata.id] = card
+    end
+  end
+
+  -- Sync all customizable cards using the indexed upgrade sheets
+  for _, card in ipairs(cards) do
+    local metadata = JSON.decode(card.getGMNotes()) or {}
+    if metadata.customizations then
+      syncCustomizableMetadata(card, metadata, upgradeSheets)
+    end
   end
 end
 
-function syncCustomizableMetadata(card, cardMetadata)
-  if cardMetadata == nil or cardMetadata.customizations == nil then return end
-
-  for _, upgradeSheet in ipairs(searchAroundSelf("isCard")) do
-    local upgradeSheetMetadata = JSON.decode(upgradeSheet.getGMNotes()) or {}
-    if upgradeSheetMetadata.id == (cardMetadata.id .. "-c") then
-      for i, customization in ipairs(cardMetadata.customizations) do
-        if customization.replaces ~= nil and customization.replaces.uses ~= nil then
-          if upgradeSheet.call("isUpgradeActive", i) then
-            cardMetadata.uses = customization.replaces.uses
-            card.setGMNotes(JSON.encode(cardMetadata))
-          else
-            -- restore original 'uses' metadata
-            local originalData = AllCardsBagApi.getCardById(cardMetadata.id)
-            if originalData and originalData.metadata and originalData.metadata.uses then
-              cardMetadata.uses = originalData.metadata.uses
-              card.setGMNotes(JSON.encode(cardMetadata))
-            end
-          end
-        end
-      end
+function findUpgradeSheets()
+  local upgradeSheets = {}
+  for _, card in ipairs(searchAroundSelf("isCard")) do
+    local metadata = JSON.decode(card.getGMNotes()) or {}
+    if metadata.id and metadata.type == "UpgradeSheet" then
+      upgradeSheets[metadata.id] = card
     end
+  end
+  return upgradeSheets
+end
+
+function syncCustomizableMetadata(card, metadata, upgradeSheets)
+  if not metadata.id or not metadata.customizations then return end
+
+  if not upgradeSheets then
+    upgradeSheets = findUpgradeSheets()
+  end
+
+  local upgradeSheetId = metadata.id .. "-c"
+
+  -- special handling for Empirical Hypothesis since it does not have a changed UpgradeSheet
+  if metadata.id == "09041-t" then
+    upgradeSheetId = "09041-c"
+  end
+
+  local upgradeSheet = upgradeSheets[upgradeSheetId]
+  if not upgradeSheet then return end
+
+  -- Start from the original card metadata so inactive customizations are reverted
+  local originalData = AllCardsBagApi.getCardById(metadata.id)
+  if not originalData or not originalData.metadata then return end
+
+  local newMetadata = TableLib.copy(originalData.metadata)
+
+  -- Apply active customization replacements
+  for i, customization in ipairs(metadata.customizations) do
+    if customization.replaces and upgradeSheet.call("isUpgradeActive", i) then
+      TableLib.update(newMetadata, customization.replaces)
+    end
+  end
+
+  card.setGMNotes(JSON.encode(newMetadata))
+
+  -- maybe update the card image
+  local objList = getObjectsWithTag("CustomizableReplacer")
+  if #objList > 0 then
+    objList[1].call("updateCardImage", { card = card, metadata = newMetadata, upgradeSheet = upgradeSheet })
   end
 end
 
@@ -1635,7 +1672,7 @@ function spawnTokensFor(object)
   local md = JSON.decode(object.getGMNotes()) or {}
   if string.find(md.traits or "", "Firearm.") then
     -- add additional ammo for "Locked and Loaded"
-    if foundLockedAndLoaded() then
+    if foundSpecificCard("11030") then
       extraUses["Ammo"] = 1
     end
 
@@ -1648,24 +1685,27 @@ function spawnTokensFor(object)
   TokenManagerApi.spawnForCard(object, extraUses, spawnReactionToken, matColor)
 end
 
--- search for "Locked and Loaded"
-function foundLockedAndLoaded()
+-- search for card by ID (e.g. "Locked and Loaded")
+function foundSpecificCard(searchId)
   for _, obj in ipairs(searchAroundSelf("isCardOrDeck")) do
     if obj.type == "Card" then
-      local md = JSON.decode(obj.getGMNotes()) or {}
-      if md.id == "11030" then
+      if getId(obj.getGMNotes()) == searchId then
         return true
       end
     elseif obj.type == "Deck" then
       for _, deepObj in ipairs(obj.getObjects()) do
-        local cardMetadata = JSON.decode(deepObj.gm_notes) or {}
-        if cardMetadata.id == "11030" then
+        if getId(deepObj.gm_notes) == searchId then
           return true
         end
       end
     end
   end
   return false
+end
+
+function getId(rawNotes)
+  local md = JSON.decode(rawNotes) or {}
+  return md.id
 end
 
 function onCollisionEnter(collisionInfo)
@@ -1747,8 +1787,11 @@ function onObjectEnterContainer(container, object)
   if inArea(localCardPos, DECK_DISCARD_AREA) then
     TokenSpawnTrackerApi.resetTokensSpawned(object)
     GlobalApi.removeTokensFromObject(object, matColor)
-    local metadata = JSON.decode(object.getGMNotes()) or {}
-    if metadata.id == "07224" then luckyPennyEnabled = false end
+
+    if getId(object.getGMNotes()) == "07224" then
+      luckyPennyEnabled = false
+    end
+
     if object.hasTag("Spirit") then
       broadcastToAll("Parallel Jim's Spirits do not go in any discard pile.", "Orange")
     end
@@ -2068,17 +2111,6 @@ function getEncounterCardDrawPosition(stack)
   end
 
   return drawPos
-end
-
--- creates / removes the draw 1 button
----@param visible? boolean Whether the draw 1 button should be visible
-function showDrawButton(visible)
-  if visible ~= nil then
-    isDrawButtonVisible = visible
-    updateSave()
-  end
-
-  self.UI.setAttribute("PMB_draw1_button", "active", isDrawButtonVisible)
 end
 
 -- shows / hides a clickable clue counter for this playermat and sets the correct amount of clues

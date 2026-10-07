@@ -1,8 +1,8 @@
-local GlobalApi = require("Global/GlobalApi")
-local MathLib   = require("util/MathLib")
+local GlobalApi            = require("Global/GlobalApi")
+local MathLib              = require("util/MathLib")
 
 local MIN_VALUE, MAX_VALUE = 0, 99
-val = 0
+val                        = 0
 
 function updateSave() self.script_state = val end
 

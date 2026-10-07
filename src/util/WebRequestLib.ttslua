@@ -65,5 +65,28 @@ do
     end)
   end
 
+  -- Custom WebRequest to send JSON data.
+  ---@param uri table|string The URL for the request.
+  ---@param data table The JSON data to post.
+  ---@param onSuccess fun(content: string) Called when the request is successful.
+  ---@param onError fun(errorMessage: string, responseCode: number|nil) Called when an error occurs.
+  function WebRequestLib.postJson(uri, data, onSuccess, onError)
+    local headers = {
+      ["Content-Type"] = "application/json",
+      ["Accept"] = "application/json"
+    }
+
+    WebRequest.custom(
+      formatUri(uri),
+      "POST",
+      true,
+      data,
+      headers,
+      function(requestInstance)
+        handleResponse(requestInstance, onSuccess, onError)
+      end
+    )
+  end
+
   return WebRequestLib
 end

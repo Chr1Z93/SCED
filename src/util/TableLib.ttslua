@@ -163,5 +163,10 @@ do
     return t
   end
 
+  -- Updates a table with the contents of a second table
+  function TableLib.update(t1, t2)
+    for k, v in pairs(t2 or {}) do t1[k] = v end
+  end
+
   return TableLib
 end

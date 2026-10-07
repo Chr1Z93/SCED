@@ -1,6 +1,7 @@
 require("playercards/ReprintGroups")
 local CoroutineLib          = require("util/CoroutineLib")
 local DeckImporterApi       = require("deckbuilder/DeckImporterApi")
+local GlobalApi             = require("Global/GlobalApi")
 local GUIDReferenceApi      = require("core/GUIDReferenceApi")
 local StringLib             = require("util/StringLib")
 local TableLib              = require("util/TableLib")
@@ -429,7 +430,7 @@ function buildSupplementalIndices()
 
       -- if this is a minicard without cycle, check the parent card for cycle data
       if not cycleName and md.type == "Minicard" then
-        local parentId = getBaseId(cardId)
+        local parentId = GlobalApi.getBaseId(cardId)
         local parent = cardIdIndex[parentId]
         if parent and parent.metadata.cycle then
           cycleName = parent.metadata.cycle
@@ -443,7 +444,7 @@ function buildSupplementalIndices()
 
       -- maybe add to special investigator / minicard index
       if md.type == "Investigator" then
-        local baseId = getBaseId(cardId)
+        local baseId = GlobalApi.getBaseId(cardId)
         writeToNestedTable(investigatorData, baseId, "cards", cardId)
 
         -- read the signatures
@@ -458,7 +459,7 @@ function buildSupplementalIndices()
           end
         end
       elseif md.type == "Minicard" then
-        local parentId = getBaseId(cardId)
+        local parentId = GlobalApi.getBaseId(cardId)
         writeToNestedTable(investigatorData, parentId, "minicards", cardId)
       end
     end
@@ -552,7 +553,7 @@ function generalizedCardComparator(id1, id2, criteria)
   if not card2 then return true end
 
   -- Same base card (e.g. "01001" vs "01001-p"), short comes first
-  if getBaseId(id1) == getBaseId(id2) then
+  if GlobalApi.getBaseId(id1) == GlobalApi.getBaseId(id2) then
     return string.len(id1) < string.len(id2)
   end
 
@@ -572,8 +573,8 @@ end
 
 -- Attempt to sort by ID first if reasonable
 function cycleSortFunction(id1, id2)
-  local base1  = getBaseId(id1)
-  local base2  = getBaseId(id2)
+  local base1  = GlobalApi.getBaseId(id1)
+  local base2  = GlobalApi.getBaseId(id2)
   local short1 = #base1 == 5 or #base1 == 6
   local short2 = #base2 == 5 or #base2 == 6
 
@@ -629,29 +630,6 @@ function sortIndices()
       table.sort(indexTable, cycleSortFunction)
     end
   end
-end
-
--- Removes common suffixes from IDs
-function getBaseId(id)
-  -- 1. %-[mpct]$ : Matches -m, -p, -c, or -t
-  -- 2. %-p[fb]$  : Matches -pb or -pf
-  -- 3. %-b%d$    : Matches -b followed by any digit (e.g., -b1, -b2)
-  local patterns = { "%-[mpct]$", "%-p[fb]$", "%-b%d$" }
-  local changed  = true
-  local baseId   = id
-
-  while changed do
-    changed = false
-    for _, pattern in ipairs(patterns) do
-      local newId, count = baseId:gsub(pattern, "")
-      if count > 0 then
-        baseId  = newId
-        changed = true
-      end
-    end
-  end
-
-  return baseId
 end
 
 -- helper function to ensure nested tables are initialized - last argument will be used as table element

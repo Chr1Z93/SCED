@@ -11,7 +11,7 @@ function toggleHelp(player)
 end
 
 function removeWarning(player)
-  player.showConfirmDialog("Do you really want to remove the entire 'Warning' tile?", function () self.destruct() end)
+  player.showConfirmDialog("Do you really want to remove the entire 'Warning' tile?", function() self.destruct() end)
 end
 
 -- updates the visibility of the help text

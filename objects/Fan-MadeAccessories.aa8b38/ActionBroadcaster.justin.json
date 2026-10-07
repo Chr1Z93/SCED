@@ -1,0 +1,25 @@
+{
+  "ColorDiffuse": {
+    "b": 0.0,
+    "g": 0.0,
+    "r": 0.0
+  },
+  "Description": "This tool is mostly useful for keeping track of actions.\nClick a button to broadcast what type of action you are doing.\nRight-click to make it 'Basic'.",
+  "GUID": "justin",
+  "Hands": false,
+  "HideWhenFaceDown": false,
+  "LuaScript": "require(\"accessories/ActionBroadcaster\")",
+  "Name": "BlockSquare",
+  "Nickname": "Action Broadcaster",
+  "Tags": [
+    "CleanUpHelper_ignore",
+    "Location"
+  ],
+  "Tooltip": false,
+  "Transform": {
+    "rotY": 270,
+    "scaleX": 1,
+    "scaleY": 0.1,
+    "scaleZ": 1
+  }
+}

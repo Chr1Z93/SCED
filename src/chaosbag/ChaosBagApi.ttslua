@@ -76,7 +76,15 @@ do
   ---@param drawSpecificToken? boolean if upon redrawing, a specific chaos token is drawn (e.g. Nkosi Mabati)
   ---@param triggeringCardGUID? string the GUID of the card triggering the token manipulation
   ---@param playerColor? string the color of the triggering player (useful for functions that require messaging the player)
-  function ChaosBagApi.removeTokenFromPlay(type, validTokens, invalidTokens, returnToPool, drawSpecificToken, triggeringCardGUID, playerColor)
+  function ChaosBagApi.removeTokenFromPlay(
+      type,
+      validTokens,
+      invalidTokens,
+      returnToPool,
+      drawSpecificToken,
+      triggeringCardGUID,
+      playerColor
+  )
     Global.call("removeTokenFromPlay", {
       type               = type,
       validTokens        = validTokens,

@@ -35,20 +35,20 @@ end
 
 function updateSave()
   local saveData = {}
-    -- allow the parent script to save data
+  -- allow the parent script to save data
   if getSaveData then
     saveData = getSaveData()
   end
   saveData.isHelperEnabled = isHelperEnabled
   saveData.selectedSkills  = selectedSkills
-  self.script_state = JSON.encode(saveData)
+  self.script_state        = JSON.encode(saveData)
 end
 
 function onLoad(savedData)
   if savedData and savedData ~= "" then
-    loadedData = JSON.decode(savedData)
-    isHelperEnabled  = loadedData.isHelperEnabled
-    selectedSkills   = loadedData.selectedSkills
+    loadedData      = JSON.decode(savedData)
+    isHelperEnabled = loadedData.isHelperEnabled
+    selectedSkills  = loadedData.selectedSkills
   end
 
   local md = JSON.decode(self.getGMNotes()) or {}
@@ -119,7 +119,7 @@ function skillClick(player, _, elementId)
     selectedSkills[elementId] = false
   else
     if maxActive == 1 then
-      selectedSkills = { [elementId] = true}
+      selectedSkills = { [elementId] = true }
     else
       local currentlyActive = 0
       for _, state in pairs(selectedSkills) do

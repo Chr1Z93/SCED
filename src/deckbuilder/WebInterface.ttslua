@@ -2,6 +2,7 @@ do
   local AllCardsBagApi     = require("playercards/AllCardsBagApi")
   local GlobalApi          = require("Global/GlobalApi")
   local PlayAreaApi        = require("playarea/PlayAreaApi")
+  local PlayermatApi       = require("playermat/PlayermatApi")
   local TabooList          = require("deckbuilder/TabooList")
   local WebRequestLib      = require("util/WebRequestLib")
 
@@ -12,11 +13,12 @@ do
 
   -- Some general notes (added here to avoid repetition):
   -- "slots" is a table, which defines the card list for a deck. Key is the cardId, value is the number of cards.
-  -- "playerColor" is a string, which defines which player the decklist is loaded for. Used for colored printing.
+  -- "matColor" is a string, which defines which player the decklist is loaded for. Used for colored printing.
 
   -- helper function for printing (unless being called by the PlayerCardPanel)
-  local function maybePrint(str, playerColor)
-    if not playerColor or playerColor == "None" then return end
+  local function printForMat(str, matColor)
+    if not matColor or matColor == "None" then return end
+    local playerColor = PlayermatApi.getPlayerColor(matColor) or "White"
     printToAll(str, playerColor)
   end
 
@@ -59,7 +61,7 @@ do
   ---  class string Class to restrict weakness to
   ---  standalone boolean Whether 'Campaign only' weaknesses should be exluded
   ---  traits? string Trait(s) to use as filter
-  local function maybeDrawRandomWeakness(slots, playerColor, restrictions)
+  local function maybeDrawRandomWeakness(slots, matColor, restrictions)
     local randomWeaknessAmount = slots[RANDOM_WEAKNESS_ID] or 0
     slots[RANDOM_WEAKNESS_ID] = nil
 
@@ -69,9 +71,9 @@ do
         slots[weaknessId] = (slots[weaknessId] or 0) + 1
       end
       if #weaknessIds == 1 then
-        maybePrint("Added 1 random basic weakness to deck", playerColor)
+        printForMat("Added 1 random basic weakness to deck", matColor)
       else
-        maybePrint("Added " .. #weaknessIds .. " random basic weaknesses to deck", playerColor)
+        printForMat("Added " .. #weaknessIds .. " random basic weaknesses to deck", matColor)
       end
     end
   end
@@ -154,7 +156,7 @@ do
   end
 
   -- Processes the deck description from ArkhamDB and modifies the slot list accordingly
-  local function maybeModifyDeckFromDescription(slots, description, playerColor)
+  local function maybeModifyDeckFromDescription(slots, description, matColor)
     -- check for import instructions
     local pos = string.find(description, "++SCED import instructions++")
     if not pos then return end
@@ -195,7 +197,7 @@ do
           slots[str] = (slots[str] or 0) + 1
         elseif instructor == "remove:" then
           if slots[str] == nil then
-            maybePrint("Tried to remove card ID " .. str .. ", but didn't find card in deck.", playerColor)
+            printForMat("Tried to remove card ID " .. str .. ", but didn't find card in deck.", matColor)
           else
             slots[str] = math.max(slots[str] - 1, 0)
 
@@ -248,7 +250,7 @@ do
 
   -- Check the deck for cards on its taboo list. If they're found, replace the entry in the slot with the Taboo id (i.e. "XXXX" becomes "XXXX-t")
   ---@param tabooId string The deck's taboo ID, taken from the deck response taboo_id field. May be nil, indicating that no taboo list should be used
-  local function checkTaboos(tabooId, slots, deckMeta, playerColor)
+  local function checkTaboos(tabooId, slots, deckMeta, matColor)
     if not tabooId or not TabooList[tabooId] then return end
 
     -- handle regular deck
@@ -261,8 +263,8 @@ do
         if tabooCard == nil then
           local baseCard = AllCardsBagApi.getCardById(cardId)
           if baseCard then
-            maybePrint("Taboo version for " .. baseCard.data.Nickname .. " not found - using standard version.",
-              playerColor)
+            printForMat("Taboo version for " .. baseCard.data.Nickname .. " not found - using standard version.",
+              matColor)
           end
         else
           slots[cardId .. "-t"] = slots[cardId]
@@ -297,7 +299,7 @@ do
   -- random weaknesses and checking for taboos. Once the deck is processed,
   -- passes to loadCards to actually spawn the defined deck.
   ---@param deck table ArkhamImportDeck
-  ---@param playerColor string Color name of the player mat to place this deck on (e.g. "Red")
+  ---@param matColor string Color name of the player mat to place this deck on (e.g. "Red")
   ---@param loadNewest boolean Whether the newest version of this deck should be loaded
   ---@param standalone boolean Whether 'Campaign only' weaknesses should be exluded
   ---@param callback function Callback which will be sent the results of this load.
@@ -307,16 +309,16 @@ do
   ---        bondedList A table of cardID keys to meaningless values. Card IDs in this list were
   ---        added from a parent bonded card.
   ---        customizations table The decoded table of customization upgrades in this deck
-  ---        playerColor String. Color this deck is being loaded for
-  local function onDeckResult(deck, playerColor, loadNewest, standalone, callback)
+  ---        matColor String. Color this deck is being loaded for
+  local function onDeckResult(deck, matColor, loadNewest, standalone, callback)
     -- Load the next deck in the upgrade path if the option is enabled
     if (loadNewest and deck.next_deck ~= nil and deck.next_deck ~= "") then
-      buildDeck(playerColor, deck.next_deck)
+      buildDeck(matColor, deck.next_deck)
       return
     end
 
-    maybePrint("----------------------------------------------", playerColor)
-    maybePrint("Found decklist: " .. deck.name, playerColor)
+    printForMat("----------------------------------------------", matColor)
+    printForMat("Found decklist: " .. deck.name, matColor)
 
     -- Initialize deck slot table and perform common transformations. The order of these should not
     -- be changed, as later steps may act on cards added in each. For example, a random weakness or
@@ -358,7 +360,7 @@ do
 
         if not everythingIndexed then
           for cycleId, cycleName in pairs(necessaryCustomContent) do
-            maybePrint("Attempting to download " .. cycleName, playerColor)
+            printForMat("Attempting to download " .. cycleName, matColor)
             local foundInLibrary = GlobalApi.downloadCustomCycle(cycleId)
             if foundInLibrary then
               AllCardsBagApi.addCustomCycleToQueueForDeckImporting(cycleId)
@@ -381,20 +383,20 @@ do
     if card and card.metadata then
       restrictions.class = card.metadata.class
     end
-    maybeDrawRandomWeakness(slots, playerColor, restrictions)
+    maybeDrawRandomWeakness(slots, matColor, restrictions)
 
     -- handles alternative investigators (parallel, promo or revised art)
     local loadAltInvestigator = addInvestigatorCards(deck, deckMeta, slots)
 
-    maybeModifyDeckFromDescription(slots, deck.description_md, playerColor)
+    maybeModifyDeckFromDescription(slots, deck.description_md, matColor)
     maybeAddSummonedServitor(slots)
     maybeAddOnTheMend(slots)
     maybeAddRealityAcidReference(slots)
     local bondList = extractBondedCards(slots)
-    checkTaboos(deck.taboo_id, slots, deckMeta, playerColor)
+    checkTaboos(deck.taboo_id, slots, deckMeta, matColor)
     maybeAddUpgradeSheets(slots)
 
-    callback(slots, deck.investigator_code, bondList, deckMeta, playerColor, loadAltInvestigator)
+    callback(slots, deck.investigator_code, bondList, deckMeta, matColor, loadAltInvestigator)
   end
 
   -- Sets up the ArkhamDb interface. Should be called from the parent object on load.
@@ -403,7 +405,7 @@ do
   end
 
   -- Start the deck build process for the given player color and deck ID.
-  ---@param playerColor string Color name of the player mat to place this deck on (e.g. "Red").
+  ---@param matColor string Color name of the player mat to place this deck on (e.g. "Red").
   ---@param deckId string deck id to be loaded
   ---@param isPrivate boolean Whether this deck is published or private on ArkhamDB
   ---@param loadNewest boolean Whether the newest version of this deck should be loaded
@@ -413,8 +415,8 @@ do
   ---     slots table A map of card ID to count in the deck
   ---     investigatorCode string ID of the investigator in this deck
   ---     customizations table The decoded table of customization upgrades in this deck
-  ---     playerColor string Color this deck is being loaded for
-  function WebInterface.getDecklist(playerColor, deckId, isPrivate, loadNewest, standalone, callback)
+  ---     matColor string Color this deck is being loaded for
+  function WebInterface.getDecklist(matColor, deckId, isPrivate, loadNewest, standalone, callback)
     -- Get a simple card to see if the bag indexes are complete
     local checkCard = AllCardsBagApi.getCardById("01001")
     if (checkCard ~= nil and checkCard.data == nil) then
@@ -459,14 +461,14 @@ do
       end
 
       if not deckData then
-        maybePrint("Deck ID " .. deckId .. " not found.", playerColor)
+        printForMat("Deck ID " .. deckId .. " not found.", matColor)
         return
       end
 
-      onDeckResult(deckData, playerColor, loadNewest, standalone, callback)
+      onDeckResult(deckData, matColor, loadNewest, standalone, callback)
     end, function(errorMessage, responseCode)
       local info = JSON.decode(errorMessage) or {}
-      maybePrint("Error (" .. responseCode .. "): " .. (info.message or "unknown issue"), playerColor)
+      printForMat("Error (" .. responseCode .. "): " .. (info.message or "unknown issue"), matColor)
     end)
   end
 

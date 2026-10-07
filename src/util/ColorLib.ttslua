@@ -3,7 +3,7 @@ do
 
   -- Converts a hex color string to a TTS Color table
   ---@param hex string The hex color string (e.g., "#RRGGBB" or "#RRGGBBAA")
-  ---@return tts__Color: A Color table {r, g, b, a} with values from 0-1, or nil if invalid
+  ---@return tts__Color|nil: A Color table {r, g, b, a} with values from 0-1, or nil if invalid
   function ColorLib.hexToColor(hex)
     -- Return nil if input is not a string
     if type(hex) ~= "string" then return nil end
