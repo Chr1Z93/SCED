@@ -120,6 +120,11 @@ do
     })
   end
 
+  -- updates a card's alt preview
+  function GlobalApi.updateAltView(card, useBack)
+    return Global.call("updateAltViewWrapper", { card = card, useBack = useBack })
+  end
+
   -- Removes common suffixes from IDs
   function GlobalApi.getBaseId(id)
     return Global.call("getBaseId", id)

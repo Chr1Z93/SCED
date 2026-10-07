@@ -861,11 +861,15 @@ function maybeUpdateActionTrackerTokens(obj, delayFrames)
   updateActionTrackerTokens(owner, delayFrames)
 end
 
-function updateAltView(obj, useBack)
+function updateAltViewWrapper(params)
+  updateAltView(params.card, params.useBack)
+end
+
+function updateAltView(card, useBack)
   if useBack == nil then
-    useBack = obj.is_face_down
+    useBack = card.is_face_down
   end
-  obj.alt_view_angle = ALT_VIEW_ANGLE[useBack][obj.hasTag("Sideways")]
+  card.alt_view_angle = ALT_VIEW_ANGLE[useBack][card.hasTag("Sideways")]
 end
 
 ---------------------------------------------------------
