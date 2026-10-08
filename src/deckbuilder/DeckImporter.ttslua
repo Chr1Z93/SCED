@@ -636,7 +636,7 @@ function handleAllAttachments(cardsToSpawn, slotsCopy, bondedList, deckMeta, mat
       elseif cardId == "05002" then
         handleHunchDeck(cardsToSpawn, deckMeta, bondedList, matColor)
       elseif cardId == "07303" then
-        handleAncestralKnowledge(cardsToSpawn)
+        handleAncestralKnowledge(cardsToSpawn, matColor)
       end
     end
   end
@@ -676,7 +676,7 @@ function handleAttachment(parentId, cardsToSpawn, deckMeta, matColor)
   printForMat("Loaded attachment selection for " .. cardName, matColor)
 end
 
-function handleAncestralKnowledge(cardsToSpawn)
+function handleAncestralKnowledge(cardsToSpawn, matColor)
   local skillList = {}
 
   -- process cardlist for skills
@@ -686,6 +686,12 @@ function handleAncestralKnowledge(cardsToSpawn)
     end
   end
 
+  local count = #skillList
+  if count < 5 then
+    printForMat("Only found" .. count .. " non-weakness skills for Ancestral Knowledge (needs at least 5).", matColor)
+    return
+  end
+
   -- move 5 random skills
   local zone = "Blank" .. (cardsWithAttachments["07303"] + 1)
   for i = 1, 5 do
@@ -693,6 +699,7 @@ function handleAncestralKnowledge(cardsToSpawn)
     local id              = table.remove(skillList, skillListIndex)
     cardsToSpawn[id].zone = zone
   end
+  printForMat("Moved 5 random skills near Ancestral Knowledge.", matColor)
 end
 
 -- Extract all Insight events to SetAside5 to build the Hunch Deck for Joe Diamond
