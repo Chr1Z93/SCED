@@ -5,5 +5,11 @@
   "level": 1,
   "traits": "Innate.",
   "willpowerIcons": 2,
+  "uses": [
+    {
+      "count": 2,
+      "token": "dynamic"
+    }
+  ],
   "cycle": "Starters 2026"
 }

@@ -6,6 +6,7 @@
   },
   "ContainedObjects_order": [
     "ClueDoom.a3fb6c",
+    "DynamicToken.910e09",
     "Damage.cd2a02",
     "Horror.36be72",
     "Path.7234af",
