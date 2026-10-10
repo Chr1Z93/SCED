@@ -17,7 +17,7 @@ do
 
   -- parses the mixed "object or reference" parameter
   ---@param objOrGuid tts__Object|string Object or GUID
-  ---@return tts__Object: Object reference
+  ---@return tts__Object|nil: Object reference
   local function parseObjectOrGuid(objOrGuid)
     if type(objOrGuid) == "string" then
       return getObjectFromGUID(objOrGuid)
