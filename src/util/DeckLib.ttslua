@@ -17,12 +17,16 @@ do
 
   -- parses the mixed "object or reference" parameter
   ---@param objOrGuid tts__Object|string Object or GUID
-  ---@return tts__Object: Object reference
+  ---@return tts__Object|nil: Object reference
   local function parseObjectOrGuid(objOrGuid)
     if type(objOrGuid) == "string" then
       return getObjectFromGUID(objOrGuid)
     end
     return objOrGuid
+  end
+
+  local function sameFaceAndBack(t1, t2)
+    return t1.FaceURL == t2.FaceURL and t1.BackURL == t2.BackURL
   end
 
   function DeckLib.spawnCard(cardData, position, rotation, scale)
@@ -46,22 +50,22 @@ do
   ---@param cardList table List of cards for the deck (in order)
   ---@param position? table Position for the deck (defaults to the middle of the play area)
   ---@param rotation? table Rotation for the deck (defaults to facedown)
-  ---@param scale? table Scale for the deck (defaults to 1)
-  ---@return table: Data to spawn a new deck
+  ---@param scale? table Scale for the deck (defaults to the scale of the first card)
+  ---@return table Data to spawn a new deck
   function DeckLib.generateDeckData(cardList, position, rotation, scale)
-    position = position or Vector(-30.24, 1.6, 0)
-    rotation = rotation or Vector(0, 270, 180)
-    if not scale then
-      scale = Vector(
-        cardList[1].Transform.scaleX,
-        cardList[1].Transform.scaleY,
-        cardList[1].Transform.scaleZ
-      )
-    end
+    position          = position or Vector(-30.24, 1.6, 0)
+    rotation          = rotation or Vector(0, 270, 180)
+    scale             = scale or Vector(
+      cardList[1].Transform.scaleX,
+      cardList[1].Transform.scaleY,
+      cardList[1].Transform.scaleZ
+    )
     local newDeckData = {
-      Name = "Deck",
-      ContainedObjects = cardList,
-      Transform = {
+      Name             = "Deck",
+      ContainedObjects = {},
+      CustomDeck       = {},
+      DeckIDs          = {},
+      Transform        = {
         posX   = position.x,
         posY   = position.y,
         posZ   = position.z,
@@ -71,18 +75,43 @@ do
         scaleX = scale.x,
         scaleY = scale.y,
         scaleZ = scale.z
-      },
-      CustomDeck = {},
-      DeckIDs = {}
+      }
     }
 
-    for _, cardData in ipairs(cardList) do
-      -- add each card's custom deck data
-      local customDeckId, customDeckData = next(cardData["CustomDeck"])
-      newDeckData.CustomDeck[customDeckId] = customDeckData
+    local usedIds     = {}
+    local maxId       = 0
 
-      -- add each card's CardID
-      table.insert(newDeckData.DeckIDs, cardData["CardID"])
+    -- Reserve all IDs used by the input cards
+    for _, cardData in ipairs(cardList) do
+      for customDeckId, _ in pairs(cardData.CustomDeck or {}) do
+        local id = tonumber(customDeckId)
+        usedIds[id] = true
+        maxId = math.max(maxId, id)
+      end
+    end
+
+    local function getNextCustomDeckId()
+      repeat
+        maxId = maxId + 1
+      until not usedIds[maxId]
+
+      usedIds[maxId] = true
+      return maxId
+    end
+
+    for _, cardData in ipairs(cardList) do
+      -- Copy the card to avoid modifying the input data
+      local newCardData = TableLib.copy(cardData)
+      local customDeckId, customDeckData = next(cardData.CustomDeck or {})
+      local existingData = newDeckData.CustomDeck[customDeckId]
+      if existingData and not sameFaceAndBack(existingData, customDeckData) then
+        -- Resolve the conflict by assigning a new custom deck ID
+        local newCustomDeckId = getNextCustomDeckId()
+        newDeckData.CustomDeck[newCustomDeckId] = customDeckData
+        newCardData.CardID = newCustomDeckId * 100 + (cardData.CardID % 100)
+      end
+      table.insert(newDeckData.ContainedObjects, newCardData)
+      table.insert(newDeckData.DeckIDs, newCardData.CardID)
     end
 
     if cardList[1].SidewaysCard then
