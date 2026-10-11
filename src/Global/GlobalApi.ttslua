@@ -180,5 +180,15 @@ do
     Global.call("showClueSpendingUi", totalNeededClues)
   end
 
+  ---@return boolean: True if the bag can be manipulated, false if it should be blocked.
+  function GlobalApi.canTouchChaosTokens()
+    return Global.call("canTouchChaosTokens")
+  end
+
+  ---@return boolean: True if the encounter deck can be manipulated, false if it should be blocked.
+  function GlobalApi.canTouchEncounterDeck()
+    return Global.call("canTouchEncounterDeck")
+  end
+
   return GlobalApi
 end
