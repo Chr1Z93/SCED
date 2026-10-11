@@ -85,7 +85,7 @@
       },
       "tooltip": "None",
       "value": [
-        "Arkham Horror LCG SCE 4.9.2 - 09/21/2026"
+        "Arkham Horror LCG SCE 4.9.3 - 10/11/2026"
       ]
     },
     {
@@ -124,7 +124,7 @@
       },
       "tooltip": "None",
       "value": [
-        "Hotfix Release Notes\n- added tool to replace images of customizable cards \nwith their upgraded form (in barrel)\n- added action broadcaster (in barrel) \n- Parallel Zoey's helper adds bless tokens automatically\n- added Aziza Steer\n- added support for chaos token tracking in Google Sheets (see Notebook)\n- increased size of playermat counters\n\nMajor Release Notes\n- added more gamekeys\n- added a global UI for the phase tracker\n- added rollingsnake's deck dashboard\n- improved loading time\n- Action Tracker: UI is now clickable to flip action tokens\n- Chaos Bag Manager: added blood token\n- Clean Up Helper: updated feedback messages\n- Deck Importer: improved error messages,\npublished deck handling and performance\n- Grimoire: updated to v1.1\n- Playermats: automatically rotate placed investigator cards\n- Play Area Images: updated the system to use IDs\nto work with language packs\n\nThis mod is a fan-made adaptation of Arkham Horror LCG.\nIt is not endorsed by Fantasy Flight Games or Asmodee Digital.\nPlease support the game by purchasing the official product."
+        "New Hotfix Release Notes\n- added an eligibility check for Ancestral Knowledge\n- added dynamic tokens as uses for some cards (e.g. Enraptured)\n- added a context menu to the Token Arranger to flip the layout\n- improved loading time (by caching repeated string manipulation)\n- fixed an issue with advancing acts / agendas with dynamic alt view\n- fixed a bug with missing \"Draw 1\" button on newly spawned playermats\n- fixed two bugs concerning language packs\n\nPrevious Hotfix Release Notes\n- added tool to replace images of customizable cards with their upgraded form\n- added action broadcaster (in barrel)\n- added support for chaos token tracking in Google Sheets (see Notebook)\n- increased size of playermat counters\n\nMajor Release Notes\n- added a global UI for the phase tracker\n- added rollingsnake's deck dashboard\n- Action Tracker: UI is now clickable to flip action tokens\n- Chaos Bag Manager: added blood token\n- Grimoire: updated to v1.1\n- Playermats: automatically rotate placed investigator cards\n- Play Area Images: improved for language packs\n\nThis mod is a fan-made adaptation of Arkham Horror LCG.\nIt is not endorsed by Fantasy Flight Games or Asmodee Digital.\nPlease support the game by purchasing the official product."
       ]
     }
   ],
