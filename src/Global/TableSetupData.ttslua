@@ -17,7 +17,8 @@ TABLE_SETUP_DATA          = {
     sharedBagArea = true,
     transforms    = {
       PlayermatWhite  = { position = Vector(-55.00, 1.45, 16.10), rotation = Vector(0, 270, 0) },
-      PlayermatOrange = { position = Vector(-55.00, 1.45, -16.10), rotation = Vector(0, 270, 0) }
+      PlayermatOrange = { position = Vector(-55.00, 1.45, -16.10), rotation = Vector(0, 270, 0) },
+      TokenArranger   = { position = Vector(-32.50, 1.48, -23.25), rotation = Vector(0, 270, 0) },
     }
   },
   ["Upright (4P)"] = {
