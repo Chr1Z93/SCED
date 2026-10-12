@@ -356,6 +356,8 @@ end
 
 -- 'params' contains the position, rotation and a boolean to force a faceup draw
 function drawEncounterCard(params)
+  if not GlobalApi.canTouchEncounterDeck() then return end
+
   local encounterDeckObjects = getEncounterDeckObjects()
   local reshuffledAlready
 
