@@ -16,12 +16,11 @@ function enable()
     zone.destruct()
   end
 
-  local scale = self.getScale()
   zone = spawnObject({
-    type = "ScriptingTrigger",
+    type     = "ScriptingTrigger",
     position = self.getPosition() + Vector(0, 3.5 + 0.11, 0),
     rotation = self.getRotation(),
-    scale = { scale.x * 2, 7, scale.z * 2 }
+    scale    = self.getScale():setAt("y", 7)
   })
   zone.setName("TokenDiscardZone")
   updateSave()

@@ -24,6 +24,7 @@
   "Nickname": "",
   "Snap": false,
   "Transform": {
+    "rotY": 180,
     "rotZ": 180,
     "scaleX": 0.25,
     "scaleY": 1,
