@@ -362,20 +362,30 @@ function updateBagData(bagData)
   return changedSomething
 end
 
+function sameFaceAndBack(t1, t2)
+  return t1.FaceURL == t2.FaceURL and t1.BackURL == t2.BackURL
+end
+
 function updateDeckData(deckData)
   local changedSomething  = false
   local cardIdConversion  = {}
-  local newDeckData       = {}
   local rotatedCards      = 0
-
   local deckRotationDelta = 0
+
+  -- Preserve the original CardIDs before updating the cards
+  local originalCardIds   = {}
+
+  for _, objData in ipairs(deckData.ContainedObjects) do
+    originalCardIds[objData] = objData.CardID
+  end
+
+  -- Update individual cards
   for i, objData in ipairs(deckData.ContainedObjects) do
     local md = JSON.decode(objData["GMNotes"]) or {}
     local id = md.id or md.TtsZoopGuid
     if id then
       local cardData = getCardById({ id = id })
       if cardData then
-        local originalId = objData["CardID"]
         local wasUpdated, rotationDelta = updateOriginalItemData(objData, cardData.data)
 
         -- maybe update deck based on first card
@@ -388,14 +398,8 @@ function updateDeckData(deckData)
         end
 
         if wasUpdated then
-          changedSomething                   = true
+          changedSomething = true
 
-          -- store changed card IDs / new deck data
-          cardIdConversion[originalId]       = cardData.data["CardID"]
-          local customDeckId, customDeckData = next(cardData.data["CustomDeck"])
-          newDeckData[customDeckId]          = customDeckData
-
-          -- handle rotation
           if rotationDelta ~= 0 then
             rotatedCards = rotatedCards + 1
           end
@@ -404,22 +408,73 @@ function updateDeckData(deckData)
     end
   end
 
-  if changedSomething then
-    -- update deck data with changes
-    local newDeckIds = {}
-    for _, id in pairs(deckData["DeckIDs"]) do
-      table.insert(newDeckIds, cardIdConversion[id] or id)
-    end
-    deckData["DeckIDs"] = newDeckIds
-
-    for k, v in pairs(newDeckData) do
-      deckData["CustomDeck"][k] = v
-    end
-
-    return true, deckRotationDelta
+  if not changedSomething then
+    return false, deckRotationDelta
   end
 
-  return false, deckRotationDelta
+  -- Reserve all existing CustomDeck IDs
+  local usedIds = {}
+  local maxId = 0
+
+  for customDeckId in pairs(deckData.CustomDeck or {}) do
+    local id = tonumber(customDeckId)
+    usedIds[id] = true
+    maxId = math.max(maxId, id)
+  end
+
+  for _, objData in ipairs(deckData.ContainedObjects) do
+    for customDeckId in pairs(objData.CustomDeck or {}) do
+      local id = tonumber(customDeckId)
+      usedIds[id] = true
+      maxId = math.max(maxId, id)
+    end
+  end
+
+  local function getNextCustomDeckId()
+    repeat
+      maxId = maxId + 1
+    until not usedIds[maxId]
+
+    usedIds[maxId] = true
+    return maxId
+  end
+
+  -- Rebuild CustomDeck definitions, resolving conflicting IDs
+  local newCustomDeck = {}
+
+  for _, objData in ipairs(deckData.ContainedObjects) do
+    local customDeckId, customDeckData = next(objData.CustomDeck or {})
+
+    if customDeckId then
+      customDeckId = tostring(customDeckId)
+
+      local existingData = newCustomDeck[customDeckId]
+      if existingData and not sameFaceAndBack(existingData, customDeckData) then
+        -- This ID is already assigned to a different definition
+        local newId = getNextCustomDeckId()
+        customDeckId = tostring(newId)
+        objData.CardID = newId * 100 + (objData.CardID % 100)
+        objData.CustomDeck = { [customDeckId] = customDeckData }
+      end
+
+      newCustomDeck[customDeckId] = customDeckData
+    end
+
+    -- Record the final CardID for the corresponding DeckIDs entry
+    cardIdConversion[originalCardIds[objData]] = objData.CardID
+  end
+
+  -- Update DeckIDs using the final CardIDs
+  local newDeckIds = {}
+
+  for _, id in ipairs(deckData.DeckIDs) do
+    table.insert(newDeckIds, cardIdConversion[id] or id)
+  end
+
+  deckData.DeckIDs = newDeckIds
+  deckData.CustomDeck = newCustomDeck
+
+  return true, deckRotationDelta
 end
 
 function updateOriginalItemData(originalData, replaceData)

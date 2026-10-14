@@ -7,5 +7,11 @@
   "traits": "Insight.",
   "willpowerIcons": 1,
   "intellectIcons": 1,
+  "uses": [
+    {
+      "count": 2,
+      "token": "dynamic"
+    }
+  ],
   "cycle": "The Drowned City"
 }

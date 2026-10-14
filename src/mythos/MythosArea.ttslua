@@ -123,8 +123,8 @@ function advance(player, deckType)
 
   -- make sure the alt preview is correct for cards with dynamic preview
   Wait.frames(function()
-    if card ~= nil and card.getVar("updateAltPreview") then
-      card.call("updateAltPreview", true)
+    if card ~= nil and card.hasTag("DynamicAltView") then
+      GlobalApi.updateAltView(card, true)
     end
   end, 5)
 
@@ -356,6 +356,8 @@ end
 
 -- 'params' contains the position, rotation and a boolean to force a faceup draw
 function drawEncounterCard(params)
+  if not GlobalApi.canTouchEncounterDeck() then return end
+
   local encounterDeckObjects = getEncounterDeckObjects()
   local reshuffledAlready
 

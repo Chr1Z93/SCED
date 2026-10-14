@@ -1,0 +1,32 @@
+{
+  "ColorDiffuse": {
+    "b": 1,
+    "g": 1,
+    "r": 1
+  },
+  "CustomImage": {
+    "CustomToken": {
+      "MergeDistancePixels": 10,
+      "Stackable": false,
+      "StandUp": false,
+      "Thickness": 0.3
+    },
+    "ImageScalar": 1,
+    "ImageSecondaryURL": "",
+    "ImageURL": "https://steamusercontent-a.akamaihd.net/ugc/62588809120495856/F5D7CC376F024745A283C1C23118C575A523B5A7/",
+    "WidthScale": 0
+  },
+  "Description": "Adapts to the uses of the card below when dropped.",
+  "GUID": "910e09",
+  "Hands": false,
+  "HideWhenFaceDown": false,
+  "Memo": "dynamic",
+  "Name": "Custom_Token",
+  "Nickname": "Dynamic Token",
+  "Snap": false,
+  "Transform": {
+    "scaleX": 0.17,
+    "scaleY": 0.17,
+    "scaleZ": 0.17
+  }
+}

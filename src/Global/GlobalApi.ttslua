@@ -120,6 +120,11 @@ do
     })
   end
 
+  -- updates a card's alt preview
+  function GlobalApi.updateAltView(card, useBack)
+    return Global.call("updateAltViewWrapper", { card = card, useBack = useBack })
+  end
+
   -- Removes common suffixes from IDs
   function GlobalApi.getBaseId(id)
     return Global.call("getBaseId", id)
@@ -173,6 +178,16 @@ do
   ---@param totalNeededClues number Clues to spend
   function GlobalApi.showClueSpendingUi(totalNeededClues)
     Global.call("showClueSpendingUi", totalNeededClues)
+  end
+
+  ---@return boolean: True if the bag can be manipulated, false if it should be blocked.
+  function GlobalApi.canTouchChaosTokens()
+    return Global.call("canTouchChaosTokens")
+  end
+
+  ---@return boolean: True if the encounter deck can be manipulated, false if it should be blocked.
+  function GlobalApi.canTouchEncounterDeck()
+    return Global.call("canTouchEncounterDeck")
   end
 
   return GlobalApi

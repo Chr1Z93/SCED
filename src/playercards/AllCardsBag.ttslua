@@ -30,6 +30,7 @@ local bondedList            = {}
 local upgradeSheetList      = {}
 
 local cycleIndex            = {}
+local baseIdCache           = {}
 
 local indexingDone          = false
 local indexedCustomCycles   = {}
@@ -142,6 +143,7 @@ end
 function clearIndexes()
   indexingDone        = false
   cardIdIndex         = {}
+  baseIdCache         = {}
   classAndLevelIndex  = {}
   cycleIndex          = {}
   investigatorData    = {}
@@ -151,6 +153,16 @@ function clearIndexes()
   evolvedWeaknessList = {}
   bondedList          = {}
   upgradeSheetList    = {}
+end
+
+-- Cache base IDs because index sorting compares the same IDs repeatedly
+function getCachedBaseId(id)
+  local baseId = baseIdCache[id]
+  if baseId == nil then
+    baseId = GlobalApi.getBaseId(id)
+    baseIdCache[id] = baseId
+  end
+  return baseId
 end
 
 -- Clears the bag indexes and starts the coroutine to rebuild the indexes
@@ -430,7 +442,7 @@ function buildSupplementalIndices()
 
       -- if this is a minicard without cycle, check the parent card for cycle data
       if not cycleName and md.type == "Minicard" then
-        local parentId = GlobalApi.getBaseId(cardId)
+        local parentId = getCachedBaseId(cardId)
         local parent = cardIdIndex[parentId]
         if parent and parent.metadata.cycle then
           cycleName = parent.metadata.cycle
@@ -444,7 +456,7 @@ function buildSupplementalIndices()
 
       -- maybe add to special investigator / minicard index
       if md.type == "Investigator" then
-        local baseId = GlobalApi.getBaseId(cardId)
+        local baseId = getCachedBaseId(cardId)
         writeToNestedTable(investigatorData, baseId, "cards", cardId)
 
         -- read the signatures
@@ -459,7 +471,7 @@ function buildSupplementalIndices()
           end
         end
       elseif md.type == "Minicard" then
-        local parentId = GlobalApi.getBaseId(cardId)
+        local parentId = getCachedBaseId(cardId)
         writeToNestedTable(investigatorData, parentId, "minicards", cardId)
       end
     end
@@ -553,7 +565,7 @@ function generalizedCardComparator(id1, id2, criteria)
   if not card2 then return true end
 
   -- Same base card (e.g. "01001" vs "01001-p"), short comes first
-  if GlobalApi.getBaseId(id1) == GlobalApi.getBaseId(id2) then
+  if getCachedBaseId(id1) == getCachedBaseId(id2) then
     return string.len(id1) < string.len(id2)
   end
 
@@ -573,8 +585,8 @@ end
 
 -- Attempt to sort by ID first if reasonable
 function cycleSortFunction(id1, id2)
-  local base1  = GlobalApi.getBaseId(id1)
-  local base2  = GlobalApi.getBaseId(id2)
+  local base1  = getCachedBaseId(id1)
+  local base2  = getCachedBaseId(id2)
   local short1 = #base1 == 5 or #base1 == 6
   local short2 = #base2 == 5 or #base2 == 6
 

@@ -45,6 +45,7 @@ local tokenDrawingStats           = {}
 local lastDrawnTokens             = {}
 
 local bagSearchers                = {}
+local deckSearchers               = {}
 local lastZoneEnterObject         = nil
 
 -- online functionality related variables
@@ -343,9 +344,10 @@ end
 -- container is being searched, a TTS bug can cause tokens to duplicate or vanish. We lock the
 -- chaos bag during search operations to avoid this.
 function onObjectSearchStart(object, playerColor)
-  local chaosBag = findChaosBag()
-  if object == chaosBag then
+  if object == findChaosBag() then
     bagSearchers[playerColor] = true
+  elseif object == MythosAreaApi.getEncounterDeckObjects().draw then
+    deckSearchers[playerColor] = true
   end
 end
 
@@ -353,9 +355,10 @@ end
 -- container is being searched, a TTS bug can cause tokens to duplicate or vanish. We lock the
 -- chaos bag during search operations to avoid this.
 function onObjectSearchEnd(object, playerColor)
-  local chaosBag = findChaosBag()
-  if object == chaosBag then
+  if object == findChaosBag() then
     bagSearchers[playerColor] = nil
+  elseif object == MythosAreaApi.getEncounterDeckObjects().draw then
+    deckSearchers[playerColor] = nil
   end
   Player[playerColor].clearSelectedObjects()
 end
@@ -862,11 +865,15 @@ function maybeUpdateActionTrackerTokens(obj, delayFrames)
   updateActionTrackerTokens(owner, delayFrames)
 end
 
-function updateAltView(obj, useBack)
+function updateAltViewWrapper(params)
+  updateAltView(params.card, params.useBack)
+end
+
+function updateAltView(card, useBack)
   if useBack == nil then
-    useBack = obj.is_face_down
+    useBack = card.is_face_down
   end
-  obj.alt_view_angle = ALT_VIEW_ANGLE[useBack][obj.hasTag("Sideways")]
+  card.alt_view_angle = ALT_VIEW_ANGLE[useBack][card.hasTag("Sideways")]
 end
 
 ---------------------------------------------------------
@@ -1119,11 +1126,22 @@ end
 -- are drawn or replaced a TTS bug can cause those tokens to vanish. Any functions which change the
 -- contents of the bag should check this method before doing so.
 -- This method will broadcast a message to all players if the bag is being searched.
----@return boolean: True if the bag is manipulated, false if it should be blocked.
+---@return boolean: True if the bag can be manipulated, false if it should be blocked.
 function canTouchChaosTokens()
   for _, searching in pairs(bagSearchers) do
     if searching then
       broadcastToAll("Someone is searching the chaos bag, can't touch the tokens.", "Red")
+      return false
+    end
+  end
+  return true
+end
+
+-- Equivalent to `canTouchChaosTokens()` for the encounter deck
+function canTouchEncounterDeck()
+  for _, searching in pairs(deckSearchers) do
+    if searching then
+      broadcastToAll("Someone is searching the encounter deck, can't touch the deck.", "Red")
       return false
     end
   end

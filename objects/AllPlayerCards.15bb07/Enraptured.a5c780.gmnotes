@@ -5,5 +5,11 @@
   "level": 0,
   "traits": "Practiced.",
   "intellectIcons": 1,
+  "uses": [
+    {
+      "count": 1,
+      "token": "dynamic"
+    }
+  ],
   "cycle": "The Forgotten Age"
 }

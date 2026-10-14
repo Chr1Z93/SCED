@@ -1,21 +1,23 @@
-local DeckLib                  = require("util/DeckLib")
-local GUIDReferenceApi         = require("core/GUIDReferenceApi")
-local MythosAreaApi            = require("mythos/MythosAreaApi")
-local PlayermatApi             = require("playermat/PlayermatApi")
+local DeckLib          = require("util/DeckLib")
+local GlobalApi        = require("Global/GlobalApi")
+local GUIDReferenceApi = require("core/GUIDReferenceApi")
+local MythosAreaApi    = require("mythos/MythosAreaApi")
+local PlayermatApi     = require("playermat/PlayermatApi")
 
 -- forward declaration of variables that are used across functions
 local matColor, handColor, drawDeckPosition, topCardDetected
-local ongoingSearch            = false
+local ongoingSearch    = false
 
-local quickParameters          = {}
-quickParameters.function_owner = self
-quickParameters.font_size      = 700
-quickParameters.width          = 1000
-quickParameters.height         = 1000
-quickParameters.color          = "White"
-quickParameters.scale          = Vector(0.3, 1, 0.3)
+local quickParameters  = {
+  function_owner = self,
+  font_size      = 700,
+  width          = 1000,
+  height         = 1000,
+  color          = "White",
+  scale          = Vector(0.3, 1, 0.3)
+}
 
-local buttonLabels             = {
+local buttonLabels     = {
   { label = 3,  position = { -0.5, 0.11, -0.5 } },
   { label = 6,  position = { 0.5, 0.11, -0.5 } },
   { label = 9,  position = { -0.5, 0.11, 0.5 } },
@@ -37,42 +39,39 @@ end
 
 function createContextMenu()
   self.clearContextMenu()
-  self.addContextMenuItem("Search Starting", function(triggeringColor)
-    if ongoingSearch then return end
-    getColors(triggeringColor)
+  if owner ~= "Mythos" then
+    self.addContextMenuItem("Search Starting", function(triggeringColor)
+      if ongoingSearch then return end
+      getColors(triggeringColor)
 
-    if owner == "Mythos" then
-      printToColor("This only works for playermats.", triggeringColor, "Red")
-      return
-    end
-
-    local deckAreaObjects = PlayermatApi.getDeckAreaObjects(matColor)
-    if not deckAreaObjects.draw then
-      printToColor("Couldn't find your deck.", triggeringColor, "Red")
-      return
-    end
-
-    local deckData = deckAreaObjects.draw.getData().ContainedObjects
-
-    local count = 0
-    for i = #deckData, 1, -1 do
-      local cardInfo = deckData[i]
-      local md       = JSON.decode(cardInfo.GMNotes) or {}
-      if md.starting then
-        count = count + 1
-        deckAreaObjects.draw.takeObject({ index = i - 1 }).deal(1, handColor)
-        printToColor("Starting: Added " .. cardInfo.Nickname .. " to the hand.", triggeringColor)
+      local deckAreaObjects = PlayermatApi.getDeckAreaObjects(matColor)
+      if not deckAreaObjects.draw then
+        broadcastToColor("Couldn't find your deck.", triggeringColor, "Red")
+        return
       end
-    end
 
-    if count == 0 then
-      printToColor("Your deck does not contain any starting cards.", triggeringColor, "Orange")
-    elseif count > 1 then
-      printToColor(
-        "Choose one card among the starting cards that were added by this to your hand and return the others to your deck.",
-        triggeringColor, "Green")
-    end
-  end)
+      local deckData = deckAreaObjects.draw.getData().ContainedObjects
+
+      local count = 0
+      for i = #deckData, 1, -1 do
+        local cardInfo = deckData[i]
+        local md       = JSON.decode(cardInfo.GMNotes) or {}
+        if md.starting then
+          count = count + 1
+          deckAreaObjects.draw.takeObject({ index = i - 1 }).deal(1, handColor)
+          broadcastToColor("Starting: Added " .. cardInfo.Nickname .. " to the hand.", triggeringColor)
+        end
+      end
+
+      if count == 0 then
+        broadcastToColor("Your deck does not contain any starting cards.", triggeringColor, "Orange")
+      elseif count > 1 then
+        broadcastToColor(
+          "Choose one card among the starting cards that were added by this to your hand and return the others to your deck.",
+          triggeringColor, "Green")
+      end
+    end)
+  end
 end
 
 -- regular view with search box
@@ -106,7 +105,7 @@ function getColors(messageColor)
   owner = GUIDReferenceApi.getOwnerOfObject(self)
   if owner == "Mythos" then
     if messageColor == "Black" then
-      printToColor("This does not work when playing as black.", messageColor, "Red")
+      broadcastToColor("This does not work when playing as black.", messageColor, "Red")
       return
     end
     matColor  = PlayermatApi.getMatColor(messageColor)
@@ -128,13 +127,14 @@ function startSearch(messageColor, number)
   -- get draw deck
   local deckAreaObjects
   if owner == "Mythos" then
+    if not GlobalApi.canTouchEncounterDeck() then return end
     deckAreaObjects = MythosAreaApi.getEncounterDeckObjects()
   else
     deckAreaObjects = PlayermatApi.getDeckAreaObjects(matColor)
   end
 
   if deckAreaObjects.draw == nil and deckAreaObjects.topCard == nil then
-    printToColor(owner .. " draw deck could not be found!", messageColor, "Red")
+    broadcastToColor(owner .. " draw deck could not be found!", messageColor, "Red")
     return
   end
 
@@ -149,7 +149,7 @@ function startSearch(messageColor, number)
     end
 
     if harbinger then
-      printToColor("The Harbinger is on top of your deck, searching isn't allowed.", messageColor)
+      broadcastToColor("The Harbinger is on top of your deck, searching isn't allowed.", messageColor)
       return
     end
   end

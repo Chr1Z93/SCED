@@ -7,5 +7,11 @@
   "traits": "Supply. Illicit.",
   "willpowerIcons": 1,
   "intellectIcons": 2,
+  "uses": [
+    {
+      "count": 2,
+      "token": "dynamic"
+    }
+  ],
   "cycle": "Return to the Dunwich Legacy"
 }

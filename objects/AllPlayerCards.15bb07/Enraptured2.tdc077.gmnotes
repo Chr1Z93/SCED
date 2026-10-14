@@ -6,5 +6,11 @@
   "traits": "Practiced.",
   "intellectIcons": 1,
   "wildIcons": 1,
+  "uses": [
+    {
+      "count": 3,
+      "token": "dynamic"
+    }
+  ],
   "cycle": "The Drowned City"
 }
