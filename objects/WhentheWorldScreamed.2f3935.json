@@ -1,9 +1,9 @@
 {
   "ColorDiffuse": {
-    "a": 0.27843,
-    "b": 1,
-    "g": 1,
-    "r": 1
+    "a": 1,
+    "b": 0.39216,
+    "g": 0.39216,
+    "r": 0.39216
   },
   "CustomMesh": {
     "DiffuseURL": "https://steamusercontent-a.akamaihd.net/ugc/17342867013126019534/9C0DFD8DFD953F999D3360F2C3B86BF0979A48FB/",

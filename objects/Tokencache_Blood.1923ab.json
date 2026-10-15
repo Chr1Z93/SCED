@@ -1,0 +1,35 @@
+{
+  "ColorDiffuse": {
+    "b": 1,
+    "g": 1,
+    "r": 1
+  },
+  "CustomImage": {
+    "CustomTile": {
+      "Stackable": false,
+      "Stretch": true,
+      "Thickness": 0.1,
+      "Type": 2
+    },
+    "ImageScalar": 1,
+    "ImageSecondaryURL": "",
+    "ImageURL": "https://steamusercontent-a.akamaihd.net/ugc/11440941927986617903/5F8262017D46AED3C2AB57BEDC145AFA842C530F/",
+    "WidthScale": 0
+  },
+  "GUID": "1923ab",
+  "Hands": false,
+  "HideWhenFaceDown": false,
+  "Locked": true,
+  "Name": "Custom_Tile",
+  "Nickname": "Tokencache_Blood",
+  "Transform": {
+    "posX": 78,
+    "posY": 3.045,
+    "posZ": -36,
+    "rotY": 270,
+    "rotZ": 180,
+    "scaleX": 0.81,
+    "scaleY": 1,
+    "scaleZ": 0.81
+  }
+}
