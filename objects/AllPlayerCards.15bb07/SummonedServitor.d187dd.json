@@ -14,7 +14,6 @@
   "GMNotes": "{\n  \"id\": \"09080-m\",\n  \"type\": \"Minicard\"\n}",
   "GUID": "d187dd",
   "Hands": false,
-  "HideWhenFaceDown": true,
   "Name": "CardCustom",
   "Nickname": "Summoned Servitor",
   "Snap": false,

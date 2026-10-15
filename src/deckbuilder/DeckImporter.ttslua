@@ -438,14 +438,14 @@ function loadCards(slots, investigatorId, bondedList, deckMeta, matColor, loadAl
     -- If cards are spread too close together TTS groups them weirdly, selecting multiples
     -- when hovering over a single card. This distance is the minimum to avoid that.
     local spreadDistance = 1.15
-    if (zone == "SetAside4") then
+    if zone == "SetAside4" then
       -- SetAside4 is reserved for customization cards, and we want them spread on the table
       -- so their checkboxes are visible
       -- TO-DO: take into account that spreading will make multiple rows
       -- (this is affected by the user's local settings!)
-      if (matColor == "White") then
+      if matColor == "White" then
         deckPos.z = deckPos.z + (#zoneCards - 1) * spreadDistance
-      elseif (matColor == "Green") then
+      elseif matColor == "Green" then
         deckPos.x = deckPos.x + (#zoneCards - 1) * spreadDistance
       end
       callback = function(deck)
