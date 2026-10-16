@@ -108,6 +108,19 @@ OPTION_PRESETS           = {
     useClueClickers     = true,
     useResourceCounters = "enabled",
     tableSetup          = "Rotated (2P)",
+  },
+  jimblewimble = {
+    showHandHelper       = true,
+    highlightMinicards   = true,
+    showAttachmentHelper = true,
+    showDrawButton       = true,
+    highlightMinicards   = true,
+    showSearchAssistant  = true,
+    tokenArrangerOdds    = "Full",
+    showTokenSplash      = true,
+    skipTour             = true,
+    useClueClickers      = true,
+    tableSetup           = "Rotated (2P)",
   }
 }
 
@@ -116,3 +129,8 @@ LOAD_DEBUG_OPTION_PANEL  = false
 DEBUG_OPTION_PANEL_STATE = {
   showSearchAssistant = true
 }
+
+-- debug helper for chaos stat tracker UI (seeds real token history from current bag once)
+LOAD_DEBUG_CHAOS_STAT_HISTORY  = false
+DEBUG_CHAOS_STAT_HISTORY_MIN_PULLS = 30
+DEBUG_CHAOS_STAT_HISTORY_MAX_PULLS = 300
