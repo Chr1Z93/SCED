@@ -1,0 +1,925 @@
+do
+  local ChaosTokenStatsUi = {}
+  local PlayermatApi = require("playermat/PlayermatApi")
+
+  local tokenDrawingStats = { ["Overall"] = {} }
+  local lastDrawnTokens = { ["Overall"] = {} }
+  local chaosStatSelectedScope = "Overall"
+  local chaosStatTokenFilterMode = "inBag"
+  local chaosStatScopeOptionKeys = { "Overall" }
+  local chaosStatScopeOptionsSig = ""
+
+  local CHAOS_STAT_TOKEN_ORDER = {
+    "Elder Sign", "+1", "0", "-1", "-2", "-3", "-4", "-5",
+    "-6", "-7", "-8", "Skull", "Cultist", "Tablet", "Elder Thing",
+    "Auto-fail", "Bless", "Curse", "Frost", "Blood", "Custom Token"
+  }
+
+  local CHAOS_STAT_FILTER_OPTIONS = {
+    { key = "inBag", label = "Tokens In Bag" },
+    { key = "symbols", label = "Symbol Tokens" },
+    { key = "all", label = "All Tokens" }
+  }
+
+  local CHAOS_STAT_SYMBOL_TOKEN_SET = {
+    ["Auto-fail"] = true,
+    ["Elder Sign"] = true,
+    ["Skull"] = true,
+    ["Cultist"] = true,
+    ["Tablet"] = true,
+    ["Elder Thing"] = true,
+    ["Bless"] = true,
+    ["Curse"] = true,
+    ["Frost"] = true,
+    ["Blood"] = true,
+    ["Custom Token"] = true
+  }
+
+  local function assertChaosStatDataSources()
+    if type(tokenDrawingStats) ~= "table" or type(lastDrawnTokens) ~= "table" then
+      error("ChaosTokenStatsUi data sources are not initialized")
+    end
+  end
+
+  function ChaosTokenStatsUi.setChaosStatDataSources(stats, history)
+    if type(stats) ~= "table" or type(history) ~= "table" then
+      error("ChaosTokenStatsUi.setChaosStatDataSources expects table sources")
+    end
+
+    tokenDrawingStats = stats
+    lastDrawnTokens = history
+  end
+
+  function ChaosTokenStatsUi.resetChaosStatTrackerUiState()
+    chaosStatSelectedScope = "Overall"
+    chaosStatTokenFilterMode = "inBag"
+    chaosStatScopeOptionKeys = { "Overall" }
+    chaosStatScopeOptionsSig = ""
+  end
+
+  function ChaosTokenStatsUi.getChaosStatScopeOptions()
+    assertChaosStatDataSources()
+
+    local options = {
+      { key = "Overall", label = "Overall" }
+    }
+    local others = {}
+    for key, stats in pairs(tokenDrawingStats) do
+      if key ~= "Overall" then
+        local hasData = false
+        for _, count in pairs(stats or {}) do
+          if (count or 0) > 0 then
+            hasData = true
+            break
+          end
+        end
+        if hasData then
+          table.insert(others, {
+            key = key,
+            label = getDisplayName(key)
+          })
+        end
+      end
+    end
+
+    table.sort(others, function(a, b)
+      return string.lower(a.label) < string.lower(b.label)
+    end)
+
+    for _, option in ipairs(others) do
+      table.insert(options, option)
+    end
+
+    return options
+  end
+
+  function ChaosTokenStatsUi.updateChaosStatScopeDropdown(scopeOptions)
+    local labels = {}
+    chaosStatScopeOptionKeys = {}
+
+    for i, option in ipairs(scopeOptions) do
+      labels[i] = option.label
+      chaosStatScopeOptionKeys[i] = option.key
+    end
+
+    local signature = table.concat(chaosStatScopeOptionKeys, "|") .. "::" .. table.concat(labels, "|")
+
+    if chaosStatScopeOptionsSig ~= signature then
+      local globalXml = Global.UI.getXmlTable() or {}
+      local dropdown = getXmlTableElementById(globalXml, "chaosStatScopeDropdown")
+      if dropdown then
+        dropdown.children = {}
+        for _, label in ipairs(labels) do
+          table.insert(dropdown.children, { tag = "Option", value = label })
+        end
+        updateGlobalXml(globalXml)
+      end
+      chaosStatScopeOptionsSig = signature
+    end
+
+    local selectedIndex = 0
+    for i, key in ipairs(chaosStatScopeOptionKeys) do
+      if key == chaosStatSelectedScope then
+        selectedIndex = i - 1
+        break
+      end
+    end
+    UI.setAttribute("chaosStatScopeDropdown", "value", selectedIndex)
+  end
+
+  function ChaosTokenStatsUi.setChaosStatScopeFromClick(player, clickType)
+    if clickType == "-2" then
+      return
+    end
+
+    if clickType ~= "-3" then
+      chaosStatSelectedScope = "Overall"
+      return
+    end
+
+    if not player then
+      chaosStatSelectedScope = "Overall"
+      return
+    end
+
+    local matColor = PlayermatApi.getMatColor(player.color)
+    if matColor then
+      chaosStatSelectedScope = matColor
+    else
+      chaosStatSelectedScope = "Overall"
+    end
+  end
+
+  function ChaosTokenStatsUi.onChaosStatScopeDropdownChanged(_, selectedIndex)
+    local numericIndex = tonumber(selectedIndex)
+    if numericIndex == nil then return end
+    local index = numericIndex + 1
+    local scopeKey = chaosStatScopeOptionKeys[index]
+    if scopeKey == nil then return end
+    chaosStatSelectedScope = scopeKey
+    ChaosTokenStatsUi.renderChaosStatTrackerUi()
+  end
+
+  function ChaosTokenStatsUi.onChaosStatTokenFilterDropdownChanged(_, selectedIndex)
+    local numericIndex = tonumber(selectedIndex)
+    if numericIndex == nil then return end
+    local index = numericIndex + 1
+    local selectedOption = CHAOS_STAT_FILTER_OPTIONS[index]
+    if not selectedOption then return end
+    chaosStatTokenFilterMode = selectedOption.key
+    ChaosTokenStatsUi.renderChaosStatTrackerUi()
+  end
+
+  function ChaosTokenStatsUi.onClick_chaosStatResetTokenStats(player, _, _)
+    if not player then return end
+    resetChaosTokenStatTracker(player, true)
+  end
+
+  function ChaosTokenStatsUi.getChaosStatTokenUiId(tokenName)
+    return tokenName
+        :gsub("%+", "plus_")
+        :gsub("%-", "minus_")
+        :gsub("[^%w]", "_")
+  end
+
+  function ChaosTokenStatsUi.getChaosStatTokenOrder()
+    local tokenNames = {}
+    local seen = {}
+
+    for _, tokenName in ipairs(CHAOS_STAT_TOKEN_ORDER) do
+      if not seen[tokenName] then
+        table.insert(tokenNames, tokenName)
+        seen[tokenName] = true
+      end
+    end
+
+    for _, tokenData in pairs(ID_URL_MAP) do
+      if tokenData and tokenData.name and not seen[tokenData.name] then
+        table.insert(tokenNames, tokenData.name)
+        seen[tokenData.name] = true
+      end
+    end
+
+    local customTokenName = getReadableTokenName("")
+    if not seen[customTokenName] then
+      table.insert(tokenNames, customTokenName)
+    end
+
+    return tokenNames
+  end
+
+  function ChaosTokenStatsUi.getChaosStatTokenNamesInBag()
+    local tokenNameSet = {}
+    local chaosBag = findChaosBag()
+    if not chaosBag then return nil end
+
+    for _, tokenId in ipairs(getChaosBagState()) do
+      local tokenData = ID_URL_MAP[tokenId]
+      if tokenData and tokenData.name then
+        tokenNameSet[tokenData.name] = true
+      end
+    end
+
+    return tokenNameSet
+  end
+
+  function ChaosTokenStatsUi.isChaosStatSymbolToken(tokenName)
+    return CHAOS_STAT_SYMBOL_TOKEN_SET[tokenName] == true
+  end
+
+  function ChaosTokenStatsUi.getChaosStatVisibleTokenOrder(scopeStats)
+    local tokenNames = ChaosTokenStatsUi.getChaosStatTokenOrder()
+    if chaosStatTokenFilterMode == "all" then
+      return tokenNames
+    end
+
+    local visibleTokenNames = {}
+    local inBag = nil
+    if chaosStatTokenFilterMode == "inBag" then
+      inBag = ChaosTokenStatsUi.getChaosStatTokenNamesInBag()
+      if not inBag then
+        return tokenNames
+      end
+    end
+
+    for _, tokenName in ipairs(tokenNames) do
+      if chaosStatTokenFilterMode == "inBag" and inBag[tokenName] then
+        table.insert(visibleTokenNames, tokenName)
+      elseif chaosStatTokenFilterMode == "symbols" and ChaosTokenStatsUi.isChaosStatSymbolToken(tokenName) then
+        table.insert(visibleTokenNames, tokenName)
+      end
+    end
+
+    if #visibleTokenNames == 0 then
+      return tokenNames
+    end
+
+    return visibleTokenNames
+  end
+
+  function ChaosTokenStatsUi.getChaosStatLastFiveForScope(scopeKey)
+    assertChaosStatDataSources()
+
+    local scopedHistory = (lastDrawnTokens[scopeKey] or {})
+    local result = {}
+
+    local startIndex = math.max(1, #scopedHistory - 4)
+    for i = startIndex, #scopedHistory do
+      local entry = scopedHistory[i]
+      if entry then
+        table.insert(result, getReadableTokenName(entry.tokenName or ""))
+      end
+    end
+
+    return result
+  end
+
+  function ChaosTokenStatsUi.getChaosTrackerUiText(id, fallback)
+    local value = i18n.getStrById(id)
+    if value and value ~= id and value ~= "" then
+      return value
+    end
+    return fallback
+  end
+
+  function ChaosTokenStatsUi.createChaosStatGraphColumn(tokenName)
+    local uiId = ChaosTokenStatsUi.getChaosStatTokenUiId(tokenName)
+    local tokenId = createChaosTokenNameLookupTable()[tokenName]
+    local labelElement
+
+    if tokenId then
+      labelElement = {
+        tag = "Image",
+        attributes = {
+          id = "chaosStatLabelSymbol_" .. uiId,
+          image = "token-" .. tokenId,
+          preserveAspect = true,
+          preferredWidth = 24,
+          preferredHeight = 24
+        }
+      }
+    else
+      labelElement = {
+        tag = "Text",
+        attributes = {
+          id = "chaosStatLabel_" .. uiId,
+          text = tokenName,
+          color = "#DDDDDD",
+          alignment = "UpperCenter",
+          fontSize = 11,
+          preferredHeight = 24
+        }
+      }
+    end
+
+    return {
+      tag = "VerticalLayout",
+      attributes = {
+        id = "chaosStatCol_" .. uiId,
+        active = false,
+        width = 32,
+        preferredHeight = 230,
+        spacing = 4
+      },
+      children = {
+        {
+          tag = "Text",
+          attributes = {
+            id = "chaosStatCount_" .. uiId,
+            text = "0",
+            color = "White",
+            alignment = "MiddleCenter",
+            fontSize = 13,
+            preferredHeight = 20
+          }
+        },
+        {
+          tag = "VerticalLayout",
+          attributes = {
+            preferredHeight = 180,
+            color = "#1C1C1C",
+            padding = "0 0 0 0"
+          },
+          children = {
+            {
+              tag = "Panel",
+              attributes = {
+                id = "chaosStatSpacer_" .. uiId,
+                preferredHeight = 1
+              }
+            },
+            {
+              tag = "Panel",
+              attributes = {
+                id = "chaosStatBar_" .. uiId,
+                preferredHeight = 0,
+                color = "#6FA8DC"
+              }
+            }
+          }
+        },
+        {
+          tag = "HorizontalLayout",
+          attributes = {
+            preferredHeight = 24,
+            childAlignment = "UpperCenter"
+          },
+          children = {
+            labelElement
+          }
+        }
+      }
+    }
+  end
+
+  function ChaosTokenStatsUi.createChaosStatTrackerUI()
+    local fontName = i18n.getFont()
+    local graphColumns = {}
+    for _, tokenName in ipairs(ChaosTokenStatsUi.getChaosStatTokenOrder()) do
+      table.insert(graphColumns, ChaosTokenStatsUi.createChaosStatGraphColumn(tokenName))
+    end
+
+    return {
+      tag = "VerticalLayout",
+      attributes = {
+        id                                   = "chaosStatTrackerWindow",
+        active                               = false,
+        color                                = "Black",
+        width                                = 850,
+        height                               = 560,
+        padding                              = "20 20 10 10",
+        spacing                              = 10,
+        outlineSize                          = "2 2",
+        outline                              = "#303030",
+        allowDragging                        = true,
+        returnToOriginalPositionWhenReleased = false,
+        showAnimation                        = "Grow",
+        hideAnimation                        = "Shrink",
+        showAnimationDelay                   = 0.25,
+        hideAnimationDelay                   = 0,
+        animationDuration                    = 0.5
+      },
+      children = {
+        {
+          tag = "Text",
+          attributes = {
+            id                   = "CT_title",
+            text                 = ChaosTokenStatsUi.getChaosTrackerUiText("CT_title", "Chaos Token Stats"),
+            resizeTextForBestFit = true,
+            resizeTextMaxSize    = 36,
+            font                 = fontName,
+            color                = "White",
+            preferredHeight      = 46,
+            alignment            = "Middle"
+          }
+        },
+        {
+          tag = "HorizontalLayout",
+          attributes = {
+            preferredHeight = 30,
+            width           = 800,
+            spacing         = 8
+          },
+          children = {
+            {
+              tag = "Text",
+              attributes = {
+                id                   = "CT_scope_label",
+                text                 = ChaosTokenStatsUi.getChaosTrackerUiText("CT_scope_label", "Scope") .. ":",
+                preferredWidth       = 70,
+                resizeTextForBestFit = true,
+                resizeTextMaxSize    = 18,
+                color                = "#DDDDDD",
+                alignment            = "MiddleLeft"
+              }
+            },
+            {
+              tag = "Dropdown",
+              attributes = {
+                id                   = "chaosStatScopeDropdown",
+                preferredWidth       = 300,
+                resizeTextForBestFit = true,
+                resizeTextMaxSize    = 18,
+                scrollSensitivity    = 20,
+                font                 = fontName,
+                onValueChanged       = "onChaosStatScopeDropdownChanged(selectedIndex)"
+              }
+            ,
+              children = {
+                { tag = "Option", value = "Overall" }
+              }
+            }
+            ,
+            { tag = "Panel", attributes = { flexibleWidth = 1000 } },
+            {
+              tag = "Dropdown",
+              attributes = {
+                id                   = "chaosStatTokenFilterDropdown",
+                preferredWidth       = 170,
+                resizeTextForBestFit = true,
+                resizeTextMaxSize    = 18,
+                scrollSensitivity    = 20,
+                font                 = fontName,
+                onValueChanged       = "onChaosStatTokenFilterDropdownChanged(selectedIndex)"
+              },
+              children = {
+                { tag = "Option", value = "Tokens In Bag" },
+                { tag = "Option", value = "Symbol Tokens" },
+                { tag = "Option", value = "All Tokens" }
+              }
+            },
+            {
+              tag = "Button",
+              attributes = {
+                id                   = "CT_button_reset",
+                text                 = ChaosTokenStatsUi.getChaosTrackerUiText("CT_button_reset", "Reset Token Stats"),
+                onClick              = "onClick_chaosStatResetTokenStats",
+                preferredWidth       = 170,
+                resizeTextForBestFit = true,
+                resizeTextMaxSize    = 16,
+                font                 = fontName,
+                color                = "#996666"
+              }
+            }
+          }
+        },
+        {
+          tag = "HorizontalLayout",
+          attributes = {
+            preferredHeight = 40,
+            width           = 800,
+            spacing         = 6
+          },
+          children = {
+            {
+              tag = "Text",
+              attributes = {
+                id                   = "CT_tokens_drawn_text",
+                text                 = "",
+                resizeTextForBestFit = true,
+                resizeTextMaxSize    = 24,
+                font                 = fontName,
+                color                = "#CCCCCC",
+                alignment            = "MiddleLeft",
+                preferredHeight      = 34,
+                preferredWidth       = 280
+              }
+            },
+            { tag = "Panel", attributes = { flexibleWidth = 1000 } },
+            {
+              tag = "HorizontalLayout",
+              attributes = {
+                preferredHeight = 30,
+                spacing         = 4,
+                childAlignment  = "MiddleRight"
+              },
+              children = {
+                {
+                  tag = "Text",
+                  attributes = {
+                    id                   = "CT_last_five_label",
+                    text                 = ChaosTokenStatsUi.getChaosTrackerUiText("CT_last_five_label", "Last 5") .. ":",
+                    color                = "#BBBBBB",
+                    alignment            = "MiddleRight",
+                    preferredWidth       = 64,
+                    preferredHeight      = 34,
+                    resizeTextForBestFit = true,
+                    resizeTextMaxSize    = 16,
+                    font                 = fontName
+                  }
+                },
+                {
+                  tag = "VerticalLayout",
+                  attributes = {
+                    preferredWidth = 148,
+                    preferredHeight = 34,
+                    spacing       = 0,
+                    childAlignment = "MiddleRight"
+                  },
+                  children = {
+                    {
+                      tag = "HorizontalLayout",
+                      attributes = {
+                        preferredHeight = 10,
+                        spacing = 2
+                      },
+                      children = {
+                        {
+                          tag = "Text",
+                          attributes = {
+                            id = "CT_last_five_oldest_marker",
+                            active = false,
+                            text = ChaosTokenStatsUi.getChaosTrackerUiText("CT_last_five_oldest_marker", "Oldest"),
+                            color = "#646464ee",
+                            alignment = "LowerLeft",
+                            preferredWidth = 44,
+                            preferredHeight = 10,
+                            fontSize = 9
+                          }
+                        },
+                        { tag = "Panel", attributes = { flexibleWidth = 1000 } },
+                        {
+                          tag = "Text",
+                          attributes = {
+                            id = "CT_last_five_newest_marker",
+                            active = false,
+                            text = ChaosTokenStatsUi.getChaosTrackerUiText("CT_last_five_newest_marker", "Newest"),
+                            color = "#646464ee",
+                            alignment = "LowerRight",
+                            preferredWidth = 48,
+                            preferredHeight = 10,
+                            fontSize = 9
+                          }
+                        }
+                      }
+                    },
+                    {
+                      tag = "HorizontalLayout",
+                      attributes = {
+                            id            = "chaosStatLastFiveContainer",
+                        preferredHeight = 24,
+                        spacing       = 2,
+                        childAlignment = "MiddleRight"
+                      },
+                      children = {
+                    {
+                      tag = "Panel",
+                      attributes = {
+                            id = "chaosStatLastFiveSlot_1",
+                        preferredWidth = 28,
+                        preferredHeight = 28,
+                        active = false
+                      },
+                      children = {
+                        {
+                          tag = "Image",
+                          attributes = {
+                                id = "chaosStatLastFiveImage_1",
+                            active = false,
+                            preserveAspect = true,
+                            preferredWidth = 28,
+                            preferredHeight = 28
+                          }
+                        },
+                        {
+                          tag = "Text",
+                          attributes = {
+                                id = "chaosStatLastFiveText_1",
+                            active = false,
+                            text = "",
+                            color = "#CCCCCC",
+                            alignment = "MiddleCenter",
+                            preferredWidth = 28,
+                            preferredHeight = 28,
+                            fontSize = 10
+                          }
+                        }
+                      }
+                    },
+                    {
+                      tag = "Panel",
+                      attributes = {
+                            id = "chaosStatLastFiveSlot_2",
+                        preferredWidth = 28,
+                        preferredHeight = 28,
+                        active = false
+                      },
+                      children = {
+                        {
+                          tag = "Image",
+                          attributes = {
+                                id = "chaosStatLastFiveImage_2",
+                            active = false,
+                            preserveAspect = true,
+                            preferredWidth = 28,
+                            preferredHeight = 28
+                          }
+                        },
+                        {
+                          tag = "Text",
+                          attributes = {
+                                id = "chaosStatLastFiveText_2",
+                            active = false,
+                            text = "",
+                            color = "#CCCCCC",
+                            alignment = "MiddleCenter",
+                            preferredWidth = 28,
+                            preferredHeight = 28,
+                            fontSize = 10
+                          }
+                        }
+                      }
+                    },
+                    {
+                      tag = "Panel",
+                      attributes = {
+                            id = "chaosStatLastFiveSlot_3",
+                        preferredWidth = 28,
+                        preferredHeight = 28,
+                        active = false
+                      },
+                      children = {
+                        {
+                          tag = "Image",
+                          attributes = {
+                                id = "chaosStatLastFiveImage_3",
+                            active = false,
+                            preserveAspect = true,
+                            preferredWidth = 28,
+                            preferredHeight = 28
+                          }
+                        },
+                        {
+                          tag = "Text",
+                          attributes = {
+                                id = "chaosStatLastFiveText_3",
+                            active = false,
+                            text = "",
+                            color = "#CCCCCC",
+                            alignment = "MiddleCenter",
+                            preferredWidth = 28,
+                            preferredHeight = 28,
+                            fontSize = 10
+                          }
+                        }
+                      }
+                    },
+                    {
+                      tag = "Panel",
+                      attributes = {
+                            id = "chaosStatLastFiveSlot_4",
+                        preferredWidth = 28,
+                        preferredHeight = 28,
+                        active = false
+                      },
+                      children = {
+                        {
+                          tag = "Image",
+                          attributes = {
+                                id = "chaosStatLastFiveImage_4",
+                            active = false,
+                            preserveAspect = true,
+                            preferredWidth = 28,
+                            preferredHeight = 28
+                          }
+                        },
+                        {
+                          tag = "Text",
+                          attributes = {
+                                id = "chaosStatLastFiveText_4",
+                            active = false,
+                            text = "",
+                            color = "#CCCCCC",
+                            alignment = "MiddleCenter",
+                            preferredWidth = 28,
+                            preferredHeight = 28,
+                            fontSize = 10
+                          }
+                        }
+                      }
+                    },
+                    {
+                      tag = "Panel",
+                      attributes = {
+                            id = "chaosStatLastFiveSlot_5",
+                        preferredWidth = 28,
+                        preferredHeight = 28,
+                        active = false
+                      },
+                      children = {
+                        {
+                          tag = "Image",
+                          attributes = {
+                                id = "chaosStatLastFiveImage_5",
+                            active = false,
+                            preserveAspect = true,
+                            preferredWidth = 28,
+                            preferredHeight = 28
+                          }
+                        },
+                        {
+                          tag = "Text",
+                          attributes = {
+                                id = "chaosStatLastFiveText_5",
+                            active = false,
+                            text = "",
+                            color = "#CCCCCC",
+                            alignment = "MiddleCenter",
+                            preferredWidth = 28,
+                            preferredHeight = 28,
+                            fontSize = 10
+                          }
+                        }
+                      }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          tag = "Panel",
+          attributes = {
+            color           = "#0F0F0F",
+            width           = 820,
+            preferredHeight = 270,
+            padding         = "8 8 8 8",
+            outlineSize     = "2 2",
+            outline         = "#202020"
+          },
+          children = {
+            {
+              tag = "HorizontalLayout",
+              attributes = {
+                width           = 750,
+                preferredHeight = 254,
+                spacing         = 2,
+                childAlignment  = "UpperCenter"
+              },
+              children = graphColumns
+            }
+          }
+        },
+        {
+          tag = "HorizontalLayout",
+          attributes = {
+            preferredHeight = 46
+          },
+          children = {
+            { tag = "Panel" },
+            {
+              tag = "Button",
+              attributes = {
+                id                   = "CT_button_close",
+                text                 = "Close",
+                resizeTextForBestFit = true,
+                resizeTextMaxSize    = 30,
+                onClick              = "onClick_hideUi(chaosStatTrackerWindow)",
+                font                 = fontName,
+                color                = "#888888",
+                preferredWidth       = 180,
+                height               = 40
+              }
+            },
+            { tag = "Panel" }
+          }
+        }
+      }
+    }
+  end
+
+  function ChaosTokenStatsUi.renderChaosStatTrackerUi()
+    assertChaosStatDataSources()
+
+    local scopeOptions = ChaosTokenStatsUi.getChaosStatScopeOptions()
+    local hasSelectedScope = false
+    for _, option in ipairs(scopeOptions) do
+      if option.key == chaosStatSelectedScope then
+        hasSelectedScope = true
+        break
+      end
+    end
+    if not hasSelectedScope then
+      chaosStatSelectedScope = "Overall"
+    end
+
+    ChaosTokenStatsUi.updateChaosStatScopeDropdown(scopeOptions)
+
+    local scopeStats = tokenDrawingStats[chaosStatSelectedScope] or {}
+    local totalCount = 0
+    for _, count in pairs(scopeStats) do
+      totalCount = totalCount + math.max(0, count or 0)
+    end
+
+    local allTokenNames = ChaosTokenStatsUi.getChaosStatTokenOrder()
+    local tokenNames = ChaosTokenStatsUi.getChaosStatVisibleTokenOrder(scopeStats)
+    local maxCount = 0
+    local maxBarHeight = 180
+
+    for _, tokenName in ipairs(tokenNames) do
+      local count = math.max(0, scopeStats[tokenName] or 0)
+      if count > maxCount then
+        maxCount = count
+      end
+    end
+
+    for _, tokenName in ipairs(allTokenNames) do
+      local uiId = ChaosTokenStatsUi.getChaosStatTokenUiId(tokenName)
+      UI.setAttribute("chaosStatCol_" .. uiId, "active", false)
+      UI.setAttribute("chaosStatCount_" .. uiId, "text", "0")
+      UI.setAttribute("chaosStatSpacer_" .. uiId, "preferredHeight", tostring(maxBarHeight))
+      UI.setAttribute("chaosStatBar_" .. uiId, "preferredHeight", "0")
+    end
+
+    for _, tokenName in ipairs(tokenNames) do
+      local count = math.max(0, scopeStats[tokenName] or 0)
+      local barHeight = 0
+      local spacerHeight = maxBarHeight
+      if maxCount > 0 and count > 0 then
+        barHeight = math.floor((count / maxCount) * maxBarHeight + 0.5)
+        spacerHeight = math.max(0, maxBarHeight - barHeight)
+      end
+
+      local uiId = ChaosTokenStatsUi.getChaosStatTokenUiId(tokenName)
+      UI.setAttribute("chaosStatCol_" .. uiId, "active", true)
+      UI.setAttribute("chaosStatCount_" .. uiId, "text", tostring(count))
+      UI.setAttribute("chaosStatSpacer_" .. uiId, "preferredHeight", tostring(spacerHeight))
+      UI.setAttribute("chaosStatBar_" .. uiId, "preferredHeight", tostring(barHeight))
+    end
+
+    local filterIndex = 0
+    for i, filterOption in ipairs(CHAOS_STAT_FILTER_OPTIONS) do
+      if filterOption.key == chaosStatTokenFilterMode then
+        filterIndex = i - 1
+        break
+      end
+    end
+    UI.setAttribute("chaosStatTokenFilterDropdown", "value", filterIndex)
+
+    local lastFiveTokens = ChaosTokenStatsUi.getChaosStatLastFiveForScope(chaosStatSelectedScope)
+    local hasLastFive = #lastFiveTokens > 0
+    local lastFiveLabelText = ""
+    if hasLastFive then
+      lastFiveLabelText = ChaosTokenStatsUi.getChaosTrackerUiText("CT_last_five_label", "Last 5") .. ":"
+    end
+    UI.setAttribute("CT_last_five_label", "text", lastFiveLabelText)
+    UI.setAttribute("CT_last_five_newest_marker", "active", hasLastFive)
+    UI.setAttribute("CT_last_five_oldest_marker", "active", hasLastFive)
+    local tokenNameLookup = createChaosTokenNameLookupTable()
+
+    for i = 1, 5 do
+      local tokenName = lastFiveTokens[i]
+      local slotImageId = "chaosStatLastFiveImage_" .. i
+      local slotTextId = "chaosStatLastFiveText_" .. i
+      local slotPanelId = "chaosStatLastFiveSlot_" .. i
+
+      if tokenName then
+        local tokenId = tokenNameLookup[tokenName]
+        UI.setAttribute(slotPanelId, "active", true)
+        if tokenId then
+          UI.setAttribute(slotImageId, "active", true)
+          UI.setAttribute(slotImageId, "image", "token-" .. tokenId)
+          UI.setAttribute(slotTextId, "active", false)
+        else
+          UI.setAttribute(slotImageId, "active", false)
+          UI.setAttribute(slotTextId, "active", true)
+          UI.setAttribute(slotTextId, "text", tokenName)
+        end
+      else
+        UI.setAttribute(slotPanelId, "active", false)
+        UI.setAttribute(slotImageId, "active", false)
+        UI.setAttribute(slotTextId, "active", false)
+        UI.setAttribute(slotTextId, "text", "")
+      end
+    end
+
+    UI.setAttribute("CT_title", "text", ChaosTokenStatsUi.getChaosTrackerUiText("CT_title", "Chaos Token Stats"))
+    UI.setAttribute("CT_tokens_drawn_text", "text",
+      ChaosTokenStatsUi.getChaosTrackerUiText("CT_tokens_drawn_text", "Tokens Drawn") .. ": " .. totalCount)
+  end
+
+  return ChaosTokenStatsUi
+end
