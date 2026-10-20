@@ -555,6 +555,28 @@ msgstr "Carregar padrões"
 msgid "NO_close"
 msgstr "Fechar"
 
+# Chaos Token Stats
+msgid "CT_button_close"
+msgstr "Fechar"
+
+msgid "CT_button_reset"
+msgstr "Redefinir estatísticas de fichas"
+
+msgid "CT_last_five_label"
+msgstr "Últimas 5"
+
+msgid "CT_last_five_newest_marker"
+msgstr "Mais recentes"
+
+msgid "CT_last_five_oldest_marker"
+msgstr "Mais antigos"
+
+msgid "CT_title"
+msgstr "Estatísticas de fichas do caos"
+
+msgid "CT_tokens_drawn_text"
+msgstr "Fichas sorteadas"
+
 # Clean Up Helper: Options
 msgid "CUH_title"
 msgstr "Opções"

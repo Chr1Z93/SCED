@@ -556,6 +556,28 @@ msgstr "Restablecer configuración predeterminada"
 msgid "NO_close"
 msgstr "Cerrar"
 
+# Chaos Token Stats
+msgid "CT_button_close"
+msgstr "Cerrar"
+
+msgid "CT_button_reset"
+msgstr "Restablecer estadísticas de fichas"
+
+msgid "CT_last_five_label"
+msgstr "Últimos 5"
+
+msgid "CT_last_five_newest_marker"
+msgstr "Más recientes"
+
+msgid "CT_last_five_oldest_marker"
+msgstr "Más antiguos"
+
+msgid "CT_title"
+msgstr "Estadísticas de fichas del caos"
+
+msgid "CT_tokens_drawn_text"
+msgstr "Fichas extraídas"
+
 # Clean Up Helper: Options
 msgid "CUH_title"
 msgstr "Opciones"

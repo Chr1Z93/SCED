@@ -559,6 +559,28 @@ msgstr "Charger les valeurs par défaut"
 msgid "NO_close"
 msgstr "Fermer"
 
+# Chaos Token Stats
+msgid "CT_button_close"
+msgstr "Fermer"
+
+msgid "CT_button_reset"
+msgstr "Réinitialiser les stats des jetons"
+
+msgid "CT_last_five_label"
+msgstr "5 derniers"
+
+msgid "CT_last_five_newest_marker"
+msgstr "Plus récents"
+
+msgid "CT_last_five_oldest_marker"
+msgstr "Plus anciens"
+
+msgid "CT_title"
+msgstr "Statistiques des jetons du chaos"
+
+msgid "CT_tokens_drawn_text"
+msgstr "Jetons tirés"
+
 # Clean Up Helper: Options
 msgid "CUH_title"
 msgstr "Options"
