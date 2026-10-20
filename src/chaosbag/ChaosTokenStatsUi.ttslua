@@ -172,34 +172,7 @@ do
 
   function ChaosTokenStatsUi.createChaosStatGraphColumn(tokenName)
     local uiId    = ChaosTokenStatsUi.getChaosStatTokenUiId(tokenName)
-    local tokenId = createChaosTokenNameLookupTable()[tokenName]
-    local labelElement
-
-    if tokenId then
-      labelElement = {
-        tag = "Image",
-        attributes = {
-          id              = "chaosStatLabelSymbol_" .. uiId,
-          image           = "token-" .. tokenId,
-          preserveAspect  = true,
-          preferredWidth  = 24,
-          preferredHeight = 24
-        }
-      }
-    else
-      labelElement = {
-        tag = "Text",
-        attributes = {
-          id              = "chaosStatLabel_" .. uiId,
-          text            = tokenName,
-          color           = "#DDDDDD",
-          alignment       = "UpperCenter",
-          fontSize        = 11,
-          preferredHeight = 24
-        }
-      }
-    end
-
+    local tokenId = createChaosTokenNameLookupTable()[tokenName] or "custom-token"
     return {
       tag = "VerticalLayout",
       attributes = {
@@ -252,7 +225,18 @@ do
             preferredHeight = 24,
             childAlignment  = "UpperCenter"
           },
-          children = { labelElement }
+          children = {
+            {
+              tag = "Image",
+              attributes = {
+                id              = "chaosStatLabelSymbol_" .. uiId,
+                image           = "token-" .. tokenId,
+                preserveAspect  = true,
+                preferredWidth  = 24,
+                preferredHeight = 24
+              }
+            }
+          }
         }
       }
     }
@@ -276,19 +260,6 @@ do
             preserveAspect  = true,
             preferredWidth  = 28,
             preferredHeight = 28
-          }
-        },
-        {
-          tag = "Text",
-          attributes = {
-            id              = "chaosStatLastFiveText_" .. i,
-            active          = false,
-            text            = "",
-            color           = "#CCCCCC",
-            alignment       = "MiddleCenter",
-            preferredWidth  = 28,
-            preferredHeight = 28,
-            fontSize        = 10
           }
         }
       }
@@ -651,26 +622,16 @@ do
     for i = 1, 5 do
       local tokenName   = lastFiveTokens[i]
       local slotImageId = "chaosStatLastFiveImage_" .. i
-      local slotTextId  = "chaosStatLastFiveText_" .. i
       local slotPanelId = "chaosStatLastFiveSlot_" .. i
 
       if tokenName then
-        local tokenId = tokenNameLookup[tokenName]
+        local tokenId = tokenNameLookup[tokenName] or "custom-token"
         UI.setAttribute(slotPanelId, "active", true)
-        if tokenId then
-          UI.setAttribute(slotImageId, "active", true)
-          UI.setAttribute(slotImageId, "image", "token-" .. tokenId)
-          UI.setAttribute(slotTextId, "active", false)
-        else
-          UI.setAttribute(slotImageId, "active", false)
-          UI.setAttribute(slotTextId, "active", true)
-          UI.setAttribute(slotTextId, "text", tokenName)
-        end
+        UI.setAttribute(slotImageId, "active", true)
+        UI.setAttribute(slotImageId, "image", "token-" .. tokenId)
       else
         UI.setAttribute(slotPanelId, "active", false)
         UI.setAttribute(slotImageId, "active", false)
-        UI.setAttribute(slotTextId, "active", false)
-        UI.setAttribute(slotTextId, "text", "")
       end
     end
 
