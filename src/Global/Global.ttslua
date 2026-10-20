@@ -437,34 +437,22 @@ function drawBorderAroundCard(params)
   local xSize  = bounds.size.x / 2 / scale.x
   local zSize  = bounds.size.z / 2 / scale.z
 
-  -- special handling for cards from custom decks because it seems like
-  -- the internal model for those is somehow different than custom cards :)
-  local data   = card.getData()
-
-  if data.Name == "CardCustom" or not isSingleCard(card) or string.match(data.GMNotes, "TtsZoopGuid") then
+  if xSize < 1.05 then
     xSize = xSize * 1.09
-  else
-    xSize = xSize / 1.035
   end
 
   card.setVectorLines({ {
     points    = {
-      { 0 - xSize, 0, 0 - zSize },
-      { 0 + xSize, 0, 0 - zSize },
-      { 0 + xSize, 0, 0 + zSize },
-      { 0 - xSize, 0, 0 + zSize },
-      { 0 - xSize, 0, 0 - zSize },
-      { 0 + xSize, 0, 0 - zSize }
+      { -xSize, 0, -zSize },
+      { xSize,  0, -zSize },
+      { xSize,  0, zSize },
+      { -xSize, 0, zSize },
+      { -xSize, 0, -zSize },
+      { xSize,  0, -zSize }
     },
     color     = params.borderColor,
     thickness = params.thickness
   } })
-end
-
--- check the size of the decksheet to know whether this is a single card image
-function isSingleCard(card)
-  local _, customDeckData = next(card.getData()["CustomDeck"])
-  return customDeckData["NumHeight"] == 1 and customDeckData["NumWidth"] == 1
 end
 
 -- moves an object to the new position of the mythos area
