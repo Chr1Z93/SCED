@@ -306,6 +306,7 @@ function fireScenarioChangedEvent(md)
     local objects = getEncounterDeckObjects()
     if objects.draw then
       objects.draw.shuffle()
+      objects.draw.hide_when_face_down = true
       printToAll("Encounter deck was shuffled.")
     end
   end

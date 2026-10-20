@@ -36,7 +36,6 @@
   "Description": "The Folklorist",
   "GMNotes_path": "AllPlayerCards.15bb07/KōhakuNarukami.54eaa7.gmnotes",
   "GUID": "54eaa7",
-  "HideWhenFaceDown": true,
   "LuaScript": "require(\"playercards/cards/KohakuNarukami\")",
   "Name": "Card",
   "Nickname": "Kōhaku Narukami",
