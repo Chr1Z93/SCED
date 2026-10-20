@@ -61,6 +61,7 @@ function createXml()
         {
           tag = "Button",
           attributes = {
+            active   = false,
             font     = "font_teutonic-arkham",
             scale    = "0.1 0.1 1",
             rotation = "0 0 180",
@@ -137,8 +138,6 @@ end
 
 -- Create dialog window to choose sigil and create sigil-drawing button
 function chooseSigil(player)
-  player.clearSelectedObjects()
-
   -- get list of readable names
   local readableNames = {}
   for token, _ in pairs(TOKEN_COLOR) do
@@ -164,19 +163,12 @@ function xmlSetter(id, newAttributes)
 end
 
 function resolveSigil()
-  local match = false
   for _, obj in ipairs(ChaosBagApi.findChaosBag().getObjects()) do
     -- if there are any sigils in the bag
     if obj.nickname == sigil then
-      match = true
-      break
+      ChaosBagApi.removeTokenFromPlay("redraw", VALID_TOKENS, nil, nil, sigil)
+      return
     end
   end
-
-  if not match then
-    broadcastToAll(ChaosBagApi.getReadableTokenName(sigil) .. " not found in chaos bag", "Red")
-    return
-  end
-
-  ChaosBagApi.removeTokenFromPlay("redraw", VALID_TOKENS, nil, nil, sigil)
+  broadcastToAll(ChaosBagApi.getReadableTokenName(sigil) .. " not found in chaos bag.", "Red")
 end
