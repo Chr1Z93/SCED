@@ -515,6 +515,9 @@ msgstr "Tokens Drawn"
 msgid "CT_scope_label"
 msgstr "Scope:"
 
+msgid "CT_button_export"
+msgstr "Export Stats"
+
 # Clean Up Helper: Options
 msgid "CUH_title"
 msgstr "Options"

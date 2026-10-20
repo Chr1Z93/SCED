@@ -2,31 +2,17 @@ do
   local ChaosTokenStatsUi         = {}
   local i18nApi                   = require("Global/i18nApi")
   local PlayermatApi              = require("playermat/PlayermatApi")
-  local TokenChecker              = require("tokens/TokenChecker")
 
   local chaosStatSelectedScope    = "Overall"
   local chaosStatTokenFilterMode  = "inBag"
   local chaosStatScopeOptionKeys  = { "Overall" }
   local chaosStatScopeOptionsSig  = ""
 
-  local CHAOS_STAT_TOKEN_ORDER    = {
-    "Elder Sign", "+1", "0", "-1", "-2", "-3", "-4", "-5",
-    "-6", "-7", "-8", "Skull", "Cultist", "Tablet", "Elder Thing",
-    "Auto-fail", "Bless", "Curse", "Frost", "Blood", "Custom Token"
-  }
-
   local CHAOS_STAT_FILTER_OPTIONS = {
-    { key = "inBag",   label = "Tokens In Bag" },
-    { key = "symbols", label = "Symbol Tokens" },
-    { key = "all",     label = "All Tokens" }
+    { key = "inBag", label = "Tokens In Bag" },
+    { key = "drawn", label = "Drawn Tokens" },
+    { key = "all",   label = "All Tokens" }
   }
-
-  function ChaosTokenStatsUi.resetChaosStatTrackerUiState()
-    chaosStatSelectedScope   = "Overall"
-    chaosStatTokenFilterMode = "inBag"
-    chaosStatScopeOptionKeys = { "Overall" }
-    chaosStatScopeOptionsSig = ""
-  end
 
   function ChaosTokenStatsUi.getChaosStatScopeOptions()
     local options = { { key = "Overall", label = "Overall" } }
@@ -129,65 +115,37 @@ do
 
   function ChaosTokenStatsUi.getChaosStatTokenOrder()
     local tokenNames = {}
-    local seen = {}
-
-    for _, tokenName in ipairs(CHAOS_STAT_TOKEN_ORDER) do
-      if not seen[tokenName] then
-        table.insert(tokenNames, tokenName)
-        seen[tokenName] = true
-      end
-    end
-
     for _, tokenData in pairs(ID_URL_MAP) do
-      if tokenData and tokenData.name and not seen[tokenData.name] then
-        table.insert(tokenNames, tokenData.name)
-        seen[tokenData.name] = true
-      end
+      table.insert(tokenNames, tokenData.name)
     end
-
-    local customTokenName = getReadableTokenName("")
-    if not seen[customTokenName] then
-      table.insert(tokenNames, customTokenName)
-    end
+    table.insert(tokenNames, getReadableTokenName(""))
 
     return tokenNames
   end
 
-  function ChaosTokenStatsUi.getChaosStatTokenNamesInBag()
-    local tokenNameSet = {}
-    local chaosBag = findChaosBag()
-    if not chaosBag then return nil end
-
-    for _, tokenId in ipairs(getChaosBagState()) do
-      local tokenData = ID_URL_MAP[tokenId]
-      if tokenData and tokenData.name then
-        tokenNameSet[tokenData.name] = true
-      end
-    end
-
-    return tokenNameSet
-  end
-
-  function ChaosTokenStatsUi.getChaosStatVisibleTokenOrder()
+  function ChaosTokenStatsUi.getChaosStatVisibleTokenOrder(scopeStats)
     local tokenNames = ChaosTokenStatsUi.getChaosStatTokenOrder()
     if chaosStatTokenFilterMode == "all" then
       return tokenNames
     end
 
     local visibleTokenNames = {}
-    local inBag = nil
     if chaosStatTokenFilterMode == "inBag" then
-      inBag = ChaosTokenStatsUi.getChaosStatTokenNamesInBag()
-      if not inBag then
-        return tokenNames
+      local inBag = {}
+      for _, token in ipairs(findChaosBag().getObjects()) do
+        inBag[token.name] = true
       end
-    end
 
-    for _, tokenName in ipairs(tokenNames) do
-      if chaosStatTokenFilterMode == "inBag" and inBag[tokenName] then
-        table.insert(visibleTokenNames, tokenName)
-      elseif chaosStatTokenFilterMode == "symbols" and TokenChecker.isChaosTokenName(tokenName) then
-        table.insert(visibleTokenNames, tokenName)
+      for _, tokenName in ipairs(tokenNames) do
+        if inBag[tokenName] then
+          table.insert(visibleTokenNames, tokenName)
+        end
+      end
+    elseif chaosStatTokenFilterMode == "drawn" then
+      for _, tokenName in ipairs(tokenNames) do
+        if scopeStats[tokenName] and scopeStats[tokenName] > 0 then
+          table.insert(visibleTokenNames, tokenName)
+        end
       end
     end
 
@@ -259,7 +217,7 @@ do
             text            = "0",
             color           = "White",
             alignment       = "MiddleCenter",
-            fontSize        = 13,
+            fontSize        = 18,
             preferredHeight = 20
           }
         },
@@ -393,7 +351,7 @@ do
                 text                 = i18nApi.getStrById("CT_scope_label"),
                 preferredWidth       = 70,
                 resizeTextForBestFit = true,
-                resizeTextMaxSize    = 18,
+                resizeTextMaxSize    = 24,
                 color                = "#DDDDDD",
                 alignment            = "MiddleLeft"
               }
@@ -419,14 +377,15 @@ do
                 id                   = "chaosStatTokenFilterDropdown",
                 preferredWidth       = 170,
                 resizeTextForBestFit = true,
-                resizeTextMaxSize    = 18,
+                resizeTextMaxSize    = 20,
                 scrollSensitivity    = 20,
                 font                 = fontName,
                 onValueChanged       = "onChaosStatTokenFilterDropdownChanged(selectedIndex)"
               },
               children = {
+                -- TODO: localization
                 { tag = "Option", value = "Tokens In Bag" },
-                { tag = "Option", value = "Symbol Tokens" },
+                { tag = "Option", value = "Drawn Tokens" },
                 { tag = "Option", value = "All Tokens" }
               }
             },
@@ -438,7 +397,7 @@ do
                 onClick              = "resetChaosTokenStatTracker",
                 preferredWidth       = 170,
                 resizeTextForBestFit = true,
-                resizeTextMaxSize    = 16,
+                resizeTextMaxSize    = 20,
                 font                 = fontName,
                 color                = "#996666"
               }
@@ -579,10 +538,22 @@ do
         },
         {
           tag = "HorizontalLayout",
-          attributes = {
-            preferredHeight = 46
-          },
+          attributes = { preferredHeight = 41 },
           children = {
+            {
+              tag = "Button",
+              attributes = {
+                id                   = "CT_button_export",
+                text                 = i18nApi.getStrById("CT_button_export"),
+                resizeTextForBestFit = true,
+                resizeTextMaxSize    = 30,
+                onClick              = "onClick_exportChaosTokenStats",
+                font                 = fontName,
+                color                = "#888888",
+                preferredWidth       = 100,
+                height               = 35
+              }
+            },
             { tag = "Panel" },
             {
               tag = "Button",
@@ -594,11 +565,10 @@ do
                 onClick              = "onClick_hideUi(chaosStatTrackerWindow)",
                 font                 = fontName,
                 color                = "#888888",
-                preferredWidth       = 180,
-                height               = 40
+                preferredWidth       = 100,
+                height               = 35
               }
-            },
-            { tag = "Panel" }
+            }
           }
         }
       }
@@ -627,7 +597,7 @@ do
     end
 
     local allTokenNames = ChaosTokenStatsUi.getChaosStatTokenOrder()
-    local tokenNames    = ChaosTokenStatsUi.getChaosStatVisibleTokenOrder()
+    local tokenNames    = ChaosTokenStatsUi.getChaosStatVisibleTokenOrder(scopeStats)
     local maxCount      = 0
     local maxBarHeight  = 180
 
@@ -647,8 +617,8 @@ do
     end
 
     for _, tokenName in ipairs(tokenNames) do
-      local count = math.max(0, scopeStats[tokenName] or 0)
-      local barHeight = 0
+      local count        = math.max(0, scopeStats[tokenName] or 0)
+      local barHeight    = 0
       local spacerHeight = maxBarHeight
       if maxCount > 0 and count > 0 then
         barHeight = math.floor((count / maxCount) * maxBarHeight + 0.5)

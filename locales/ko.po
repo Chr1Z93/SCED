@@ -572,6 +572,9 @@ msgstr "뽑은 토큰"
 msgid "CT_scope_label"
 msgstr "Scope:"
 
+msgid "CT_button_export"
+msgstr "Export Stats"
+
 # Clean Up Helper: Options
 msgid "CUH_title"
 msgstr "세부 설정"

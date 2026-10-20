@@ -569,6 +569,9 @@ msgstr "已抽取标记"
 msgid "CT_scope_label"
 msgstr "Scope:"
 
+msgid "CT_button_export"
+msgstr "Export Stats"
+
 # Clean Up Helper: Options
 msgid "CUH_title"
 msgstr "选项"

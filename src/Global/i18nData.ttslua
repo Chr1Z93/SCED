@@ -338,6 +338,20 @@ I18N_DATA = {
     ["zh_CN"] = "关闭",
     ["zh_TW"] = "關閉",
   },
+  ["CT_button_export"] = {
+    ["de"] = "Stats exportieren",
+    ["en"] = "Export Stats",
+    ["es"] = "Export Stats",
+    ["fr"] = "Export Stats",
+    ["it"] = "Export Stats",
+    ["ko"] = "Export Stats",
+    ["nl"] = "Export Stats",
+    ["pl"] = "Export Stats",
+    ["pt"] = "Export Stats",
+    ["ru"] = "Export Stats",
+    ["zh_CN"] = "Export Stats",
+    ["zh_TW"] = "Export Stats",
+  },
   ["CT_button_reset"] = {
     ["de"] = "Token-Statistiken zurücksetzen",
     ["en"] = "Reset Token Stats",
@@ -353,7 +367,7 @@ I18N_DATA = {
     ["zh_TW"] = "重設混沌標記統計",
   },
   ["CT_last_five_label"] = {
-    ["de"] = "Letzte 5_",
+    ["de"] = "Letzte 5:",
     ["en"] = "Last 5:",
     ["es"] = "Últimos 5:",
     ["fr"] = "5 derniers:",
@@ -395,7 +409,7 @@ I18N_DATA = {
     ["zh_TW"] = "最早",
   },
   ["CT_scope_label"] = {
-    ["de"] = "Scope:",
+    ["de"] = "Filter:",
     ["en"] = "Scope:",
     ["es"] = "Scope:",
     ["fr"] = "Scope:",
