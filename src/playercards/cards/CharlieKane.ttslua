@@ -78,7 +78,7 @@ end
 
 -- starts listening for Ally card exhausts
 function extraClickFunction()
-  addExhaustButtons()
+  addXmlToAllys()
   bigTable = {}
   matchingSkillTotal = 0
   self.UI.setAttribute("bottomButton", "active", true)
@@ -86,66 +86,29 @@ function extraClickFunction()
   isListening = true
 end
 
-function addExhaustButtons()
+function addXmlToAllys()
   local matColor = PlayermatApi.getMatColorByPosition(self.getPosition())
   for _, object in ipairs(PlayermatApi.searchAroundPlayermat(matColor)) do
     if object.type == "Card" then
       local md = JSON.decode(object.getGMNotes()) or {}
       if hasAllyTrait(md) then
-        if not hasSpecificXmlElement(object, "Charlie") then
-          local xml           = object.UI.getXmlTable() or {}
-          local exhaustButton = makeExhaustButton(object.getGUID())
-
-          table.insert(xml, exhaustButton)
+        if hasCharlieXml(object) then
+          object.UI.setAttribute("Charlie", "active", true)
+        else
+          local xml        = object.UI.getXmlTable() or {}
+          local charlieXml = {
+            tag        = "Panel",
+            attributes = { id = "Charlie", active = true },
+            children   = { makeExhaustButton(object.getGUID()) }
+          }
 
           -- add special button for Bonnie
           if md.id == "09019" then
-            local bonnieButton =
-            {
-              tag = "VerticalLayout",
-              attributes = {
-                height   = 375,
-                width    = 375,
-                padding  = "0 0 20 25",
-                scale    = ".2 .2 1",
-                position = "0 -87 -260",
-                rotation = "0 0 180",
-                color    = "rgba(0,0,0,0.9)",
-                onClick  = self.getGUID() .. "/bonnie"
-              },
-              children = {
-                {
-                  tag = "Text",
-                  attributes = {
-                    fontSize = 125,
-                    font     = "font_arkhamicons",
-                    color    = "#ffffff",
-                    text     = "u"
-                  }
-                },
-                {
-                  tag = "Text",
-                  attributes = {
-                    id       = "bonnieText",
-                    fontSize = 100,
-                    font     = "font_teutonic-arkham",
-                    color    = "#ffffff",
-                    text     = "Bonnie"
-                  }
-                }
-              }
-            }
-            table.insert(xml, bonnieButton)
+            table.insert(charlieXml.children, makeBonnieButton())
           end
-          -- panel to contain these elements
-          local panelXml = { {
-            tag        = "Panel",
-            attributes = { id = "Charlie", active = true },
-            children   = xml
-          } }
-          object.UI.setXmlTable(panelXml)
-        else
-          object.UI.setAttribute("Charlie", "active", true)
+
+          table.insert(xml, charlieXml)
+          object.UI.setXmlTable(xml)
         end
       end
     end
@@ -153,7 +116,7 @@ function addExhaustButtons()
 end
 
 function exhaustOrReadyAlly(_, allyGUID)
-  allyCard = getObjectFromGUID(allyGUID)
+  local allyCard = getObjectFromGUID(allyGUID)
 
   -- get behavior
   local exhaustOrUndo = allyCard.UI.getAttribute("charlieText", "text")
@@ -201,9 +164,9 @@ function bonnie()
   for _, object in ipairs(PlayermatApi.searchAroundPlayermat(matColor)) do
     if object.type == "Card" then
       local md = JSON.decode(object.getGMNotes()) or {}
-      if hasAllyTrait(md) and hasSpecificXmlElement(object, "Charlie") and md.id ~= "09019" then
+      if hasAllyTrait(md) and hasCharlieXml(object) and md.id ~= "09019" then
         bigTable[object.guid] = object.UI.getAttribute("charlieText", "text")
-        if isTrue(object.UI.getAttribute("Charlie", "active")) and GlobalApi.isExhausted(object) then
+        if isCharlieXmlActive(object) and GlobalApi.isExhausted(object) then
           object.UI.setAttribute("charlieText", "text", "Ready")
         end
       end
@@ -216,9 +179,9 @@ function revert()
   for _, object in ipairs(PlayermatApi.searchAroundPlayermat(matColor)) do
     if object.type == "Card" then
       local md = JSON.decode(object.getGMNotes()) or {}
-      if hasAllyTrait(md) and hasSpecificXmlElement(object, "Charlie") then
+      if hasAllyTrait(md) and hasCharlieXml(object) then
         local previousText = bigTable[object.guid]
-        if isTrue(object.UI.getAttribute("Charlie", "active")) and previousText ~= nil then
+        if isCharlieXmlActive(object) and previousText ~= nil then
           object.UI.setAttribute("charlieText", "text", previousText)
         end
       end
@@ -239,8 +202,8 @@ function stopListening()
   for _, object in ipairs(PlayermatApi.searchAroundPlayermat(matColor)) do
     if object.type == "Card" then
       local md = JSON.decode(object.getGMNotes()) or {}
-      if hasAllyTrait(md) and hasSpecificXmlElement(object, "Charlie") then
-        if isTrue(object.UI.getAttribute("Charlie", "active")) then
+      if hasAllyTrait(md) and hasCharlieXml(object) then
+        if isCharlieXmlActive(object) then
           object.UI.setAttribute("Charlie", "active", false)
           object.UI.setAttribute("charlieText", "text", "Exhaust")
         end
@@ -253,7 +216,7 @@ function stopListening()
   maybeUpdateButtonState()
 end
 
-function hasSpecificXmlElement(object, elementId)
+function hasCharlieXml(object)
   -- Check if the provided object is valid
   if object == nil then return false end
 
@@ -262,14 +225,11 @@ function hasSpecificXmlElement(object, elementId)
   -- Check if the XML string is empty
   if xml == nil or xml == "" then return false end
 
-  -- Split the XML string by lines to search for the element ID
-  for line in string.gmatch(xml, "[^\r\n]+") do
-    if string.find(line, 'id="' .. elementId .. '"') then
-      return true
-    end
-  end
+  return object.UI.getAttribute("Charlie", "active") ~= nil
+end
 
-  return false
+function isCharlieXmlActive(object)
+  return isTrue(object.UI.getAttribute("Charlie", "active"))
 end
 
 function makeExhaustButton(cardGUID)
@@ -303,6 +263,42 @@ function makeExhaustButton(cardGUID)
           font     = "font_teutonic-arkham",
           color    = "#ffffff",
           text     = "Exhaust"
+        }
+      }
+    }
+  }
+end
+
+function makeBonnieButton()
+  return {
+    tag = "VerticalLayout",
+    attributes = {
+      height   = 375,
+      width    = 375,
+      padding  = "0 0 20 25",
+      scale    = ".2 .2 1",
+      position = "0 -87 -260",
+      rotation = "0 0 180",
+      color    = "rgba(0,0,0,0.9)",
+      onClick  = self.getGUID() .. "/bonnie"
+    },
+    children = {
+      {
+        tag = "Text",
+        attributes = {
+          fontSize = 125,
+          font     = "font_arkhamicons",
+          color    = "#ffffff",
+          text     = "u"
+        }
+      },
+      {
+        tag = "Text",
+        attributes = {
+          fontSize = 100,
+          font     = "font_teutonic-arkham",
+          color    = "#ffffff",
+          text     = "Bonnie"
         }
       }
     }
