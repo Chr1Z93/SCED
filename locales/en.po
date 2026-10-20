@@ -498,7 +498,7 @@ msgid "CT_button_reset"
 msgstr "Reset Token Stats"
 
 msgid "CT_last_five_label"
-msgstr "Last 5"
+msgstr "Last 5:"
 
 msgid "CT_last_five_newest_marker"
 msgstr "Newest"
@@ -511,6 +511,9 @@ msgstr "Chaos Token Stats"
 
 msgid "CT_tokens_drawn_text"
 msgstr "Tokens Drawn"
+
+msgid "CT_scope_label"
+msgstr "Scope:"
 
 # Clean Up Helper: Options
 msgid "CUH_title"

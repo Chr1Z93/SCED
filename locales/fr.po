@@ -567,7 +567,7 @@ msgid "CT_button_reset"
 msgstr "Réinitialiser les stats des jetons"
 
 msgid "CT_last_five_label"
-msgstr "5 derniers"
+msgstr "5 derniers:"
 
 msgid "CT_last_five_newest_marker"
 msgstr "Plus récents"

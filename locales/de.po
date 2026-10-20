@@ -572,7 +572,7 @@ msgid "CT_button_reset"
 msgstr "Token-Statistiken zurücksetzen"
 
 msgid "CT_last_five_label"
-msgstr "Letzte 5"
+msgstr "Letzte 5_"
 
 msgid "CT_last_five_newest_marker"
 msgstr "Neueste"

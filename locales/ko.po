@@ -555,7 +555,7 @@ msgid "CT_button_reset"
 msgstr "토큰 통계 초기화"
 
 msgid "CT_last_five_label"
-msgstr "최근 5개"
+msgstr "최근 5개:"
 
 msgid "CT_last_five_newest_marker"
 msgstr "최신순"

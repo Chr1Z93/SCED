@@ -564,7 +564,7 @@ msgid "CT_button_reset"
 msgstr "Tokenstatistieken resetten"
 
 msgid "CT_last_five_label"
-msgstr "Laatste 5"
+msgstr "Laatste 5:"
 
 msgid "CT_last_five_newest_marker"
 msgstr "Nieuwste"

@@ -563,7 +563,7 @@ msgid "CT_button_reset"
 msgstr "Сбросить статистику жетонов"
 
 msgid "CT_last_five_label"
-msgstr "Последние 5"
+msgstr "Последние 5:"
 
 msgid "CT_last_five_newest_marker"
 msgstr "Новейшие"

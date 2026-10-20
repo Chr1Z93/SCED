@@ -564,7 +564,7 @@ msgid "CT_button_reset"
 msgstr "Restablecer estadísticas de fichas"
 
 msgid "CT_last_five_label"
-msgstr "Últimos 5"
+msgstr "Últimos 5:"
 
 msgid "CT_last_five_newest_marker"
 msgstr "Más recientes"

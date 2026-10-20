@@ -563,7 +563,7 @@ msgid "CT_button_reset"
 msgstr "Reimposta statistiche token"
 
 msgid "CT_last_five_label"
-msgstr "Ultimi 5"
+msgstr "Ultimi 5:"
 
 msgid "CT_last_five_newest_marker"
 msgstr "Più recenti"

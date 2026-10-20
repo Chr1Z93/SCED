@@ -552,7 +552,7 @@ msgid "CT_button_reset"
 msgstr "重置混沌标记统计"
 
 msgid "CT_last_five_label"
-msgstr "最近 5 个"
+msgstr "最近 5 个:"
 
 msgid "CT_last_five_newest_marker"
 msgstr "最新"

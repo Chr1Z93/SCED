@@ -564,7 +564,7 @@ msgid "CT_button_reset"
 msgstr "Zresetuj statystyki żetonów"
 
 msgid "CT_last_five_label"
-msgstr "Ostatnie 5"
+msgstr "Ostatnie 5:"
 
 msgid "CT_last_five_newest_marker"
 msgstr "Najnowsze"
