@@ -40,10 +40,9 @@ local chaosTokens                 = {}
 local chaosTokensLastMatGUID      = nil
 local namesToIds
 
--- chaos token stat tracking
-local tokenDrawingStats           = { ["Overall"] = {} }
-local lastDrawnTokens             = { ["Overall"] = {} }
-ChaosTokenStatsUi.setChaosStatDataSources(tokenDrawingStats, lastDrawnTokens)
+-- chaos token stat tracking (intentionally global!)
+tokenDrawingStats                 = {}
+lastDrawnTokens                   = {}
 
 local bagSearchers                = {}
 local deckSearchers               = {}
@@ -268,9 +267,6 @@ function onLoad(savedData)
   -- load specific option panel state for debugging / developing
   if LOAD_DEBUG_OPTION_PANEL then
     Wait.time(function() loadOptionPanelState(DEBUG_OPTION_PANEL_STATE) end, 2)
-  end
-  if LOAD_DEBUG_CHAOS_STAT_HISTORY then
-    Wait.time(generateDebugChaosStatHistory, getXmlDelay())
   end
 
   namesToIds = createChaosTokenNameLookupTable()
@@ -1571,41 +1567,12 @@ function trackChaosToken(tokenName, matColor, subtract)
   end
 end
 
-function generateDebugChaosStatHistory()
-  local bagTokenIds = getChaosBagState()
-  if not bagTokenIds or #bagTokenIds == 0 then return end
-
-  local minPulls = DEBUG_CHAOS_STAT_HISTORY_MIN_PULLS or 30
-  local maxPulls = DEBUG_CHAOS_STAT_HISTORY_MAX_PULLS or 300
-  if maxPulls < minPulls then
-    minPulls, maxPulls = maxPulls, minPulls
-  end
-
-  local pullsToGenerate = math.random(minPulls, maxPulls)
-  local matColors = TableLib.getKeys(GUIDReferenceApi.getObjectsByType("Playermat"))
-  if not matColors or #matColors == 0 then
-    matColors = { "White", "Orange", "Green", "Red" }
-  end
-
-  for _ = 1, pullsToGenerate do
-    local tokenId = bagTokenIds[math.random(#bagTokenIds)]
-    local tokenData = ID_URL_MAP[tokenId]
-    local tokenName = tokenData and tokenData.name or ""
-    local matColor = matColors[math.random(#matColors)]
-    trackChaosToken(tokenName, matColor, false)
-  end
+function onChaosStatScopeDropdownChanged(player, selectedIndex)
+  ChaosTokenStatsUi.onChaosStatScopeDropdownChanged(player, selectedIndex)
 end
 
-function onChaosStatScopeDropdownChanged(_, selectedIndex)
-  ChaosTokenStatsUi.onChaosStatScopeDropdownChanged(_, selectedIndex)
-end
-
-function onChaosStatTokenFilterDropdownChanged(_, selectedIndex)
-  ChaosTokenStatsUi.onChaosStatTokenFilterDropdownChanged(_, selectedIndex)
-end
-
-function onClick_chaosStatResetTokenStats(player, _, _)
-  ChaosTokenStatsUi.onClick_chaosStatResetTokenStats(player, _, _)
+function onChaosStatTokenFilterDropdownChanged(player, selectedIndex)
+  ChaosTokenStatsUi.onChaosStatTokenFilterDropdownChanged(player, selectedIndex)
 end
 
 -- Left-click: print all stats, Middle-click: print personal stats, Right-click: reset stats
@@ -1735,10 +1702,8 @@ function resetChaosTokenStatTracker(player)
   player.showConfirmDialog("Are you sure you want to reset the Chaos Token stats?",
     function()
       printToAll("Chaos Token stats have been reset.")
-      tokenDrawingStats = { ["Overall"] = {} }
-      lastDrawnTokens = { ["Overall"] = {} }
-      ChaosTokenStatsUi.setChaosStatDataSources(tokenDrawingStats, lastDrawnTokens)
-      ChaosTokenStatsUi.renderChaosStatTrackerUi()
+      tokenDrawingStats = {}
+      lastDrawnTokens   = {}
     end
   )
 end
@@ -3132,7 +3097,7 @@ function createGlobalXml()
   table.insert(globalXml, createActionTrackerUI())
   table.insert(globalXml, createPhaseTrackerUI())
   table.insert(globalXml, createChaosTokenSplashUI())
-  table.insert(globalXml, ChaosTokenStatsUi.createChaosStatTrackerUI())
+  table.insert(globalXml, ChaosTokenStatsUi.buildXml())
   table.insert(globalXml, createClueSpendingUI())
 
   -- finally, apply the updated XML
