@@ -181,13 +181,13 @@ function sealToken(name, playerColor)
       return token
     end
   end
-  printToColor(name .. " token not found in chaos bag", playerColor)
+  printToColor(name .. " token not found in chaos bag.", playerColor)
 end
 
 -- seals the named token on this card
 function sealRandomToken(playerColor)
   if #sealedTokens >= MAX_SEALED then
-    printToColor("Cannot seal any more tokens on this card", playerColor, "Red")
+    printToColor("Cannot seal any more tokens on this card.", playerColor, "Red")
     return
   end
 

@@ -103,11 +103,15 @@ do
       -- Copy the card to avoid modifying the input data
       local newCardData = TableLib.copy(cardData)
       local customDeckId, customDeckData = next(cardData.CustomDeck or {})
+      customDeckId = tostring(customDeckId)
       local existingData = newDeckData.CustomDeck[customDeckId]
-      if existingData and not sameFaceAndBack(existingData, customDeckData) then
+      if not existingData then
+        -- First occurrence: preserve the original ID and its data
+        newDeckData.CustomDeck[customDeckId] = TableLib.copy(customDeckData)
+      elseif not sameFaceAndBack(existingData, customDeckData) then
         -- Resolve the conflict by assigning a new custom deck ID
         local newCustomDeckId = getNextCustomDeckId()
-        newDeckData.CustomDeck[newCustomDeckId] = customDeckData
+        newDeckData.CustomDeck[tostring(newCustomDeckId)] = TableLib.copy(customDeckData)
         newCardData.CardID = newCustomDeckId * 100 + (cardData.CardID % 100)
       end
       table.insert(newDeckData.ContainedObjects, newCardData)

@@ -1,12 +1,14 @@
 require("playercards/CardsWithHelper")
-local ChaosBagApi = require("chaosbag/ChaosBagApi")
+local ChaosBagApi  = require("chaosbag/ChaosBagApi")
 
 -- intentionally global
-hasXML            = false
-isHelperEnabled   = false
+hasXML             = false
+isHelperEnabled    = false
+
+local namesToIds   = {}
 
 -- XML background color for each token
-local tokenColor  = {
+local TOKEN_COLOR  = {
   ["Skull"]       = "#4A0400E6",
   ["Cultist"]     = "#173B0BE6",
   ["Tablet"]      = "#1D2238E6",
@@ -18,121 +20,127 @@ local tokenColor  = {
   ["Blood"]       = "#C32127E6",
   [""]            = "#77674DE6"
 }
+local VALID_TOKENS = {
+  ["Tablet"]      = true,
+  ["Elder Thing"] = true,
+  ["Cultist"]     = true
+}
 
 function updateSave()
-  self.script_state = JSON.encode({
-    isHelperEnabled = isHelperEnabled,
-    sigil = sigil
-  })
+  self.script_state = JSON.encode({ isHelperEnabled = isHelperEnabled, sigil = sigil })
 end
 
 function onLoad(savedData)
   if savedData and savedData ~= "" then
     local loadedData = JSON.decode(savedData)
-    isHelperEnabled = loadedData.isHelperEnabled
-    sigil = loadedData.sigil
-    if isHelperEnabled then
-      if sigil and sigil ~= nil then
-        makeXMLButton()
-      else
-        updateDisplay()
-      end
-      self.clearContextMenu()
-      self.addContextMenuItem("Clear Helper", toggleHelper)
-    end
+    isHelperEnabled  = loadedData.isHelperEnabled
+    sigil            = loadedData.sigil
+  end
+  namesToIds = Global.call("createChaosTokenNameLookupTable")
+
+  createXml()
+
+  if isHelperEnabled then
+    updateDisplay()
   end
 end
 
-function makeXMLButton()
-  -- get name of the icon for the sigil ("token" + lowercase name without space characters)
-  local sigilName = ChaosBagApi.getReadableTokenName(sigil)
-  if sigilName == "Custom Token" then
-    iconName = "token-custom-token"
-  else
-    local namesToIds = Global.call("createChaosTokenNameLookupTable")
-    iconName = "token-" .. namesToIds[sigilName]
-  end
+function initialize()
+  updateXml()
+end
 
+function shutOff()
+  updateXml()
+end
+
+function createXml()
   self.UI.setXmlTable({
     {
-      tag = "Button",
-      attributes = {
-        height = 450,
-        width = 1400,
-        rotation = "0 0 180",
-        scale = "0.1 0.1 1",
-        position = "0 -55 -40",
-        padding = "50 50 50 50",
-        font = "font_teutonic-arkham",
-        fontSize = 300,
-        iconWidth = "400",
-        iconAlignment = "Right",
-        onClick = "resolveSigil",
-        icon = iconName,
-        color = tokenColor[sigil],
-        textColor = "White"
-      },
-      value = "Resolve"
+      tag = "Defaults",
+      children = {
+        {
+          tag = "Button",
+          attributes = {
+            active   = false,
+            font     = "font_teutonic-arkham",
+            scale    = "0.1 0.1 1",
+            rotation = "0 0 180",
+          }
+        }
+      }
     },
     {
       tag = "Button",
       attributes = {
-        height = 200,
-        width = 500,
-        rotation = "0 0 180",
-        scale = "0.1 0.1 1",
+        height        = 450,
+        width         = 1400,
+        position      = "0 -55 -40",
+        padding       = "50 50 50 50",
+        fontSize      = 300,
+        iconWidth     = 400,
+        iconAlignment = "Right",
+        onClick       = "resolveSigil",
+        id            = "Card_NkosiMabati_resolve_text",
+        text          = "Resolve"
+      }
+    },
+    {
+      tag = "Button",
+      attributes = {
+        height   = 200,
+        width    = 500,
         position = "65 125 -40",
-        padding = "30 30 30 30",
-        font = "font_teutonic-arkham",
+        padding  = "30 30 30 30",
         fontSize = 110,
-        onClick = "chooseSigil",
-        color = tokenColor[sigil],
-        textColor = "White"
-      },
-      value = "Reset Sigil"
-    }
-  }
-  )
-  updateSave()
-end
-
--- Create XML button to prompt choosing a sigil; acts as this card's helper
-function initialize()
-  if sigil and sigil ~= nil then
-    makeXMLButton()
-  else
-    self.UI.setXmlTable({
-      {
-        tag = "Button",
-        attributes = {
-          height = 450,
-          width = 1400,
-          rotation = "0 0 180",
-          scale = "0.1 0.1 1",
-          position = "0 -55 -40",
-          padding = "50 50 50 50",
-          font = "font_teutonic-arkham",
-          fontSize = 300,
-          onClick = "chooseSigil",
-          color = "#77674DE6",
-          textColor = "White"
-        },
-        value = "Choose Sigil"
+        onClick  = "chooseSigil",
+        id       = "Card_NkosiMabati_reset_text",
+        text     = "Reset Sigil"
+      }
+    },
+    {
+      tag = "Button",
+      attributes = {
+        height   = 450,
+        width    = 1400,
+        position = "0 -55 -40",
+        padding  = "50 50 50 50",
+        fontSize = 300,
+        onClick  = "chooseSigil",
+        color    = "#77674DE6",
+        id       = "Card_NkosiMabati_choose_text",
+        text     = "Choose Sigil"
       }
     }
-    )
-  end
+  })
+end
+
+function updateXml()
+  -- get name of the icon for the sigil ("token" + lowercase name without space characters)
+  local sigilName = ChaosBagApi.getReadableTokenName(sigil)
+  local iconName  = "token-" .. (namesToIds[sigilName] or "custom-token")
+
+  xmlSetter("Card_NkosiMabati_resolve_text", {
+    textColor = "White",
+    icon      = iconName,
+    color     = TOKEN_COLOR[sigil],
+    active    = isHelperEnabled and sigil ~= nil
+  })
+  xmlSetter("Card_NkosiMabati_reset_text", {
+    textColor = "White",
+    color     = TOKEN_COLOR[sigil],
+    active    = isHelperEnabled and sigil ~= nil
+  })
+  xmlSetter("Card_NkosiMabati_choose_text", {
+    textColor = "White",
+    active    = isHelperEnabled and not sigil
+  })
 end
 
 -- Create dialog window to choose sigil and create sigil-drawing button
 function chooseSigil(player)
-  player.clearSelectedObjects()
-  self.clearContextMenu()
-  self.addContextMenuItem("Clear Helper", toggleHelper)
-
   -- get list of readable names
   local readableNames = {}
-  for token, _ in pairs(tokenColor) do
+  for token, _ in pairs(TOKEN_COLOR) do
     table.insert(readableNames, ChaosBagApi.getReadableTokenName(token))
   end
 
@@ -140,36 +148,27 @@ function chooseSigil(player)
   player.showOptionsDialog("Choose Sigil", readableNames, 1,
     function(chosenToken)
       sigil = ChaosBagApi.getChaosTokenName(chosenToken)
-      makeXMLButton()
+      updateSave()
+      updateXml()
     end
   )
-  updateSave()
 end
 
-function shutOff()
-  self.UI.setXml("")
-  updateSave()
+function xmlSetter(id, newAttributes)
+  local currentAttributes = UI.getAttributes(id) or {}
+  for k, v in pairs(newAttributes or {}) do
+    currentAttributes[k] = v
+  end
+  self.UI.setAttributes(id, currentAttributes)
 end
 
 function resolveSigil()
-  local match = false
   for _, obj in ipairs(ChaosBagApi.findChaosBag().getObjects()) do
     -- if there are any sigils in the bag
     if obj.nickname == sigil then
-      match = true
-      break
+      ChaosBagApi.removeTokenFromPlay("redraw", VALID_TOKENS, nil, nil, sigil)
+      return
     end
   end
-
-  if not match then
-    broadcastToAll(ChaosBagApi.getReadableTokenName(sigil) .. " not found in chaos bag", "Red")
-    return
-  end
-
-  local VALID_TOKENS = {
-    ["Tablet"]      = true,
-    ["Elder Thing"] = true,
-    ["Cultist"]     = true
-  }
-  ChaosBagApi.removeTokenFromPlay("redraw", VALID_TOKENS, nil, nil, sigil)
+  broadcastToAll(ChaosBagApi.getReadableTokenName(sigil) .. " not found in chaos bag.", "Red")
 end
