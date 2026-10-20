@@ -5,6 +5,7 @@ require("Global/i18n")
 require("Global/i18nData")
 require("util/TtsLuaAdditions")
 local BlessCurseManagerApi        = require("chaosbag/BlessCurseManagerApi")
+local ChaosTokenStatsUi           = require("chaosbag/ChaosTokenStatsUi")
 local ColorLib                    = require("util/ColorLib")
 local CoroutineLib                = require("util/CoroutineLib")
 local DeckLib                     = require("util/DeckLib")
@@ -39,9 +40,9 @@ local chaosTokens                 = {}
 local chaosTokensLastMatGUID      = nil
 local namesToIds
 
--- chaos token stat tracking
-local tokenDrawingStats           = {}
-local lastDrawnTokens             = {}
+-- chaos token stat tracking (intentionally global!)
+tokenDrawingStats                 = {}
+lastDrawnTokens                   = {}
 
 local bagSearchers                = {}
 local deckSearchers               = {}
@@ -1566,13 +1567,25 @@ function trackChaosToken(tokenName, matColor, subtract)
   end
 end
 
--- Left-click: print stats, Right-click: reset stats
+function onChaosStatScopeDropdownChanged(player, selectedIndex)
+  ChaosTokenStatsUi.onChaosStatScopeDropdownChanged(player, selectedIndex)
+end
+
+function onChaosStatTokenFilterDropdownChanged(player, selectedIndex)
+  ChaosTokenStatsUi.onChaosStatTokenFilterDropdownChanged(player, selectedIndex)
+end
+
+-- Left-click: print all stats, Middle-click: print personal stats, Right-click: reset stats
 function handleStatTrackerClick(player, clickType, _)
   if clickType == "-2" then
     -- right-clicked
     resetChaosTokenStatTracker(player)
     return
   end
+
+  ChaosTokenStatsUi.setChaosStatScopeFromClick(player, clickType)
+  ChaosTokenStatsUi.renderChaosStatTrackerUi()
+  onClick_showUi(nil, "chaosStatTrackerWindow")
 
   local mostAutoFails, mostElderSigns = "Nobody", "Nobody"
   local maxAutoFails, maxElderSigns   = 0, 0
@@ -1689,14 +1702,21 @@ function resetChaosTokenStatTracker(player)
   player.showConfirmDialog("Are you sure you want to reset the Chaos Token stats?",
     function()
       printToAll("Chaos Token stats have been reset.")
-      lastDrawnTokens = { ["Overall"] = {} }
-      tokenDrawingStats = { ["Overall"] = {} }
+      tokenDrawingStats = {}
+      lastDrawnTokens   = {}
+      UI.setAttribute("chaosStatTrackerWindow", "active", false)
     end
   )
 end
 
+function onClick_exportChaosTokenStats(player)
+  exportChaosTokenStats(player.color)
+end
+
 function exportChaosTokenStats(playerColor)
   local player = Player[playerColor]
+  broadcastToColor("Please refer to the Notebook (top menu bar) for more information about this feature.", playerColor)
+
   if not player.admin then
     printToColor("This is only available to promoted players and the host.", playerColor)
     return
@@ -1805,12 +1825,12 @@ function getChaosBagState()
   local tokens = {}
   local chaosBag = findChaosBag()
 
-  for _, v in ipairs(chaosBag.getObjects()) do
-    local id = namesToIds[v.name]
+  for _, token in ipairs(chaosBag.getObjects()) do
+    local id = namesToIds[token.name]
     if id then
       table.insert(tokens, id)
     else
-      printToAll(v.name .. " token not recognized. Will not be recorded.", "Yellow")
+      printToAll(token.name .. " token not recognized. Will not be recorded.", "Yellow")
     end
   end
 
@@ -2272,12 +2292,10 @@ end
 
 function onClick_showUi(_, windowId)
   UI.show(windowId)
-  --UI.setAttribute(windowId, "active", true)
 end
 
 function onClick_hideUi(_, windowId)
   UI.hide(windowId)
-  --UI.setAttribute(windowId, "active", false)
 end
 
 -- toggles the visibility of the respective UI
@@ -3084,6 +3102,7 @@ function createGlobalXml()
   table.insert(globalXml, createActionTrackerUI())
   table.insert(globalXml, createPhaseTrackerUI())
   table.insert(globalXml, createChaosTokenSplashUI())
+  table.insert(globalXml, ChaosTokenStatsUi.buildXml())
   table.insert(globalXml, createClueSpendingUI())
 
   -- finally, apply the updated XML

@@ -94,20 +94,32 @@ OPTION_PRESETS           = {
     highlightMinicards     = true,
     showAttachmentHelper   = true,
     showHandHelper         = true,
+    showPlayermatExtension = true,
     showSearchAssistant    = true,
     skipTour               = true,
-    tokenArrangerOdds      = "Full",
-    showPlayermatExtension = true,
+    tokenArrangerOdds      = "Full"
   },
   elderlyman = {
     showHandHelper      = true,
     showSearchAssistant = true,
     showTokenSplash     = true,
     skipTour            = true,
+    tableSetup          = "Rotated (2P)",
     tokenArrangerOdds   = "Cumulative",
     useClueClickers     = true,
-    useResourceCounters = "enabled",
-    tableSetup          = "Rotated (2P)",
+    useResourceCounters = "enabled"
+  },
+  jimblewimble = {
+    highlightMinicards   = true,
+    showAttachmentHelper = true,
+    showDrawButton       = true,
+    showHandHelper       = true,
+    showSearchAssistant  = true,
+    showTokenSplash      = true,
+    skipTour             = true,
+    tableSetup           = "Rotated (2P)",
+    tokenArrangerOdds    = "Full",
+    useClueClickers      = true
   }
 }
 

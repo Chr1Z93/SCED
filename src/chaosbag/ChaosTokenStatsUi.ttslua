@@ -1,0 +1,643 @@
+do
+  local ChaosTokenStatsUi         = {}
+  local i18nApi                   = require("Global/i18nApi")
+  local PlayermatApi              = require("playermat/PlayermatApi")
+
+  local chaosStatSelectedScope    = "Overall"
+  local chaosStatTokenFilterMode  = "inBag"
+  local chaosStatScopeOptionKeys  = { "Overall" }
+  local chaosStatScopeOptionsSig  = ""
+
+  local CHAOS_STAT_FILTER_OPTIONS = {
+    { key = "inBag", label = "Tokens In Bag" },
+    { key = "drawn", label = "Drawn Tokens" },
+    { key = "all",   label = "All Tokens" }
+  }
+
+  function ChaosTokenStatsUi.getChaosStatScopeOptions()
+    local options = { { key = "Overall", label = "Overall" } }
+    local others = {}
+    for key, stats in pairs(tokenDrawingStats) do
+      if key ~= "Overall" then
+        local hasData = false
+        for _, count in pairs(stats or {}) do
+          if (count or 0) > 0 then
+            hasData = true
+            break
+          end
+        end
+        if hasData then
+          table.insert(others, { key = key, label = getDisplayName(key) })
+        end
+      end
+    end
+
+    table.sort(others, function(a, b)
+      return string.lower(a.label) < string.lower(b.label)
+    end)
+
+    for _, option in ipairs(others) do
+      table.insert(options, option)
+    end
+
+    return options
+  end
+
+  function ChaosTokenStatsUi.updateChaosStatScopeDropdown(scopeOptions)
+    local labels = {}
+    chaosStatScopeOptionKeys = {}
+
+    for i, option in ipairs(scopeOptions) do
+      labels[i] = option.label
+      chaosStatScopeOptionKeys[i] = option.key
+    end
+
+    local signature = table.concat(chaosStatScopeOptionKeys, "|") .. "::" .. table.concat(labels, "|")
+
+    if chaosStatScopeOptionsSig ~= signature then
+      local globalXml = Global.UI.getXmlTable() or {}
+      local dropdown = getXmlTableElementById(globalXml, "chaosStatScopeDropdown")
+      if dropdown then
+        dropdown.children = {}
+        for _, label in ipairs(labels) do
+          table.insert(dropdown.children, { tag = "Option", value = label })
+        end
+        updateGlobalXml(globalXml)
+      end
+      chaosStatScopeOptionsSig = signature
+    end
+
+    local selectedIndex = 0
+    for i, key in ipairs(chaosStatScopeOptionKeys) do
+      if key == chaosStatSelectedScope then
+        selectedIndex = i - 1
+        break
+      end
+    end
+    UI.setAttribute("chaosStatScopeDropdown", "value", selectedIndex)
+  end
+
+  function ChaosTokenStatsUi.setChaosStatScopeFromClick(player, clickType)
+    if clickType ~= "-3" then
+      chaosStatSelectedScope = "Overall"
+    else
+      chaosStatSelectedScope = PlayermatApi.getMatColor(player.color) or "Overall"
+    end
+  end
+
+  function ChaosTokenStatsUi.onChaosStatScopeDropdownChanged(_, selectedIndex)
+    local numericIndex = tonumber(selectedIndex)
+    if numericIndex == nil then return end
+
+    local index    = numericIndex + 1
+    local scopeKey = chaosStatScopeOptionKeys[index]
+    if scopeKey == nil then return end
+
+    chaosStatSelectedScope = scopeKey
+    ChaosTokenStatsUi.renderChaosStatTrackerUi()
+  end
+
+  function ChaosTokenStatsUi.onChaosStatTokenFilterDropdownChanged(_, selectedIndex)
+    local numericIndex = tonumber(selectedIndex)
+    if numericIndex == nil then return end
+
+    local index          = numericIndex + 1
+    local selectedOption = CHAOS_STAT_FILTER_OPTIONS[index]
+    if not selectedOption then return end
+
+    chaosStatTokenFilterMode = selectedOption.key
+    ChaosTokenStatsUi.renderChaosStatTrackerUi()
+  end
+
+  function ChaosTokenStatsUi.getChaosStatTokenUiId(tokenName)
+    return tokenName:gsub("%+", "plus_"):gsub("%-", "minus_"):gsub("[^%w]", "_")
+  end
+
+  function ChaosTokenStatsUi.getChaosStatTokenOrder()
+    local tokenNames = {}
+    for _, tokenData in pairs(ID_URL_MAP) do
+      table.insert(tokenNames, tokenData.name)
+    end
+    table.insert(tokenNames, getReadableTokenName(""))
+
+    return tokenNames
+  end
+
+  function ChaosTokenStatsUi.getChaosStatVisibleTokenOrder(scopeStats)
+    local tokenNames = ChaosTokenStatsUi.getChaosStatTokenOrder()
+    if chaosStatTokenFilterMode == "all" then
+      return tokenNames
+    end
+
+    local visibleTokenNames = {}
+    if chaosStatTokenFilterMode == "inBag" then
+      local inBag = {}
+      for _, token in ipairs(findChaosBag().getObjects()) do
+        inBag[token.name] = true
+      end
+
+      for _, tokenName in ipairs(tokenNames) do
+        if inBag[tokenName] then
+          table.insert(visibleTokenNames, tokenName)
+        end
+      end
+    elseif chaosStatTokenFilterMode == "drawn" then
+      for _, tokenName in ipairs(tokenNames) do
+        if scopeStats[tokenName] and scopeStats[tokenName] > 0 then
+          table.insert(visibleTokenNames, tokenName)
+        end
+      end
+    end
+
+    if #visibleTokenNames == 0 then
+      return tokenNames
+    end
+
+    return visibleTokenNames
+  end
+
+  function ChaosTokenStatsUi.getChaosStatLastFiveForScope(scopeKey)
+    local scopedHistory = (lastDrawnTokens[scopeKey] or {})
+    local result        = {}
+    local startIndex    = math.max(1, #scopedHistory - 4)
+    for i = startIndex, #scopedHistory do
+      local entry = scopedHistory[i]
+      if entry then
+        table.insert(result, getReadableTokenName(entry.tokenName or ""))
+      end
+    end
+
+    return result
+  end
+
+  function ChaosTokenStatsUi.createChaosStatGraphColumn(tokenName)
+    local uiId    = ChaosTokenStatsUi.getChaosStatTokenUiId(tokenName)
+    local tokenId = createChaosTokenNameLookupTable()[tokenName] or "custom-token"
+    return {
+      tag = "VerticalLayout",
+      attributes = {
+        id              = "chaosStatCol_" .. uiId,
+        active          = false,
+        width           = 32,
+        preferredHeight = 230,
+        spacing         = 4
+      },
+      children = {
+        {
+          tag = "Text",
+          attributes = {
+            id              = "chaosStatCount_" .. uiId,
+            text            = "0",
+            color           = "White",
+            alignment       = "MiddleCenter",
+            fontSize        = 18,
+            preferredHeight = 20
+          }
+        },
+        {
+          tag = "VerticalLayout",
+          attributes = {
+            preferredHeight = 180,
+            color           = "#1C1C1C",
+            padding         = "0 0 0 0"
+          },
+          children = {
+            {
+              tag = "Panel",
+              attributes = {
+                id              = "chaosStatSpacer_" .. uiId,
+                preferredHeight = 1
+              }
+            },
+            {
+              tag = "Panel",
+              attributes = {
+                id              = "chaosStatBar_" .. uiId,
+                preferredHeight = 0,
+                color           = "#6FA8DC"
+              }
+            }
+          }
+        },
+        {
+          tag = "HorizontalLayout",
+          attributes = {
+            preferredHeight = 24,
+            childAlignment  = "UpperCenter"
+          },
+          children = {
+            {
+              tag = "Image",
+              attributes = {
+                id              = "chaosStatLabelSymbol_" .. uiId,
+                image           = "token-" .. tokenId,
+                preserveAspect  = true,
+                preferredWidth  = 24,
+                preferredHeight = 24
+              }
+            }
+          }
+        }
+      }
+    }
+  end
+
+  local function makeLast5TokenContainer(i)
+    return {
+      tag = "Panel",
+      attributes = {
+        id              = "chaosStatLastFiveSlot_" .. i,
+        active          = false,
+        preferredWidth  = 28,
+        preferredHeight = 28
+      },
+      children = {
+        {
+          tag = "Image",
+          attributes = {
+            id              = "chaosStatLastFiveImage_" .. i,
+            active          = false,
+            preserveAspect  = true,
+            preferredWidth  = 28,
+            preferredHeight = 28
+          }
+        }
+      }
+    }
+  end
+
+  function ChaosTokenStatsUi.buildXml()
+    local fontName     = i18n.getFont()
+    local graphColumns = {}
+    for _, tokenName in ipairs(ChaosTokenStatsUi.getChaosStatTokenOrder()) do
+      table.insert(graphColumns, ChaosTokenStatsUi.createChaosStatGraphColumn(tokenName))
+    end
+
+    return {
+      tag = "VerticalLayout",
+      attributes = {
+        id                                   = "chaosStatTrackerWindow",
+        active                               = false,
+        color                                = "Black",
+        width                                = 850,
+        height                               = 560,
+        padding                              = "20 20 10 10",
+        spacing                              = 10,
+        outlineSize                          = "2 2",
+        outline                              = "#303030",
+        allowDragging                        = true,
+        returnToOriginalPositionWhenReleased = false,
+        showAnimation                        = "Grow",
+        hideAnimation                        = "Shrink",
+        showAnimationDelay                   = 0.25,
+        hideAnimationDelay                   = 0,
+        animationDuration                    = 0.5
+      },
+      children = {
+        {
+          tag = "Text",
+          attributes = {
+            id                   = "CT_title",
+            text                 = i18nApi.getStrById("CT_title"),
+            resizeTextForBestFit = true,
+            resizeTextMaxSize    = 36,
+            font                 = fontName,
+            color                = "White",
+            preferredHeight      = 46,
+            alignment            = "Middle"
+          }
+        },
+        {
+          tag = "HorizontalLayout",
+          attributes = {
+            preferredHeight = 30,
+            width           = 800,
+            spacing         = 8
+          },
+          children = {
+            {
+              tag = "Text",
+              attributes = {
+                id                   = "CT_scope_label",
+                text                 = i18nApi.getStrById("CT_scope_label"),
+                preferredWidth       = 70,
+                resizeTextForBestFit = true,
+                resizeTextMaxSize    = 24,
+                color                = "#DDDDDD",
+                alignment            = "MiddleLeft"
+              }
+            },
+            {
+              tag = "Dropdown",
+              attributes = {
+                id                   = "chaosStatScopeDropdown",
+                preferredWidth       = 300,
+                resizeTextForBestFit = true,
+                resizeTextMaxSize    = 18,
+                scrollSensitivity    = 20,
+                font                 = fontName,
+                onValueChanged       = "onChaosStatScopeDropdownChanged(selectedIndex)"
+              },
+              children = { { tag = "Option", value = "Overall" } }
+            }
+            ,
+            { tag = "Panel", attributes = { flexibleWidth = 1000 } },
+            {
+              tag = "Dropdown",
+              attributes = {
+                id                   = "chaosStatTokenFilterDropdown",
+                preferredWidth       = 170,
+                resizeTextForBestFit = true,
+                resizeTextMaxSize    = 20,
+                scrollSensitivity    = 20,
+                font                 = fontName,
+                onValueChanged       = "onChaosStatTokenFilterDropdownChanged(selectedIndex)"
+              },
+              children = {
+                -- TODO: localization
+                { tag = "Option", value = "Tokens In Bag" },
+                { tag = "Option", value = "Drawn Tokens" },
+                { tag = "Option", value = "All Tokens" }
+              }
+            },
+            {
+              tag = "Button",
+              attributes = {
+                id                   = "CT_button_reset",
+                text                 = i18nApi.getStrById("CT_button_reset"),
+                onClick              = "resetChaosTokenStatTracker",
+                preferredWidth       = 170,
+                resizeTextForBestFit = true,
+                resizeTextMaxSize    = 20,
+                font                 = fontName,
+                color                = "#996666"
+              }
+            }
+          }
+        },
+        {
+          tag = "HorizontalLayout",
+          attributes = {
+            preferredHeight = 40,
+            width           = 800,
+            spacing         = 6
+          },
+          children = {
+            {
+              tag = "Text",
+              attributes = {
+                id                   = "CT_tokens_drawn_text",
+                text                 = "",
+                resizeTextForBestFit = true,
+                resizeTextMaxSize    = 24,
+                font                 = fontName,
+                color                = "#CCCCCC",
+                alignment            = "MiddleLeft",
+                preferredHeight      = 34,
+                preferredWidth       = 280
+              }
+            },
+            { tag = "Panel", attributes = { flexibleWidth = 1000 } },
+            {
+              tag = "HorizontalLayout",
+              attributes = {
+                preferredHeight = 30,
+                spacing         = 4,
+                childAlignment  = "MiddleRight"
+              },
+              children = {
+                {
+                  tag = "Text",
+                  attributes = {
+                    id                   = "CT_last_five_label",
+                    text                 = i18nApi.getStrById("CT_last_five_label"),
+                    color                = "#BBBBBB",
+                    alignment            = "MiddleRight",
+                    preferredWidth       = 64,
+                    preferredHeight      = 34,
+                    resizeTextForBestFit = true,
+                    resizeTextMaxSize    = 16,
+                    font                 = fontName
+                  }
+                },
+                {
+                  tag = "VerticalLayout",
+                  attributes = {
+                    preferredWidth  = 148,
+                    preferredHeight = 34,
+                    spacing         = 0,
+                    childAlignment  = "MiddleRight"
+                  },
+                  children = {
+                    {
+                      tag = "HorizontalLayout",
+                      attributes = { preferredHeight = 10, spacing = 2 },
+                      children = {
+                        {
+                          tag = "Text",
+                          attributes = {
+                            id              = "CT_last_five_oldest_marker",
+                            active          = false,
+                            text            = i18nApi.getStrById("CT_last_five_oldest_marker"),
+                            color           = "#646464ee",
+                            alignment       = "LowerLeft",
+                            preferredWidth  = 44,
+                            preferredHeight = 10,
+                            fontSize        = 9
+                          }
+                        },
+                        { tag = "Panel", attributes = { flexibleWidth = 1000 } },
+                        {
+                          tag = "Text",
+                          attributes = {
+                            id              = "CT_last_five_newest_marker",
+                            active          = false,
+                            text            = i18nApi.getStrById("CT_last_five_newest_marker"),
+                            color           = "#646464ee",
+                            alignment       = "LowerRight",
+                            preferredWidth  = 48,
+                            preferredHeight = 10,
+                            fontSize        = 9
+                          }
+                        }
+                      }
+                    },
+                    {
+                      tag = "HorizontalLayout",
+                      attributes = {
+                        id              = "chaosStatLastFiveContainer",
+                        preferredHeight = 24,
+                        spacing         = 2,
+                        childAlignment  = "MiddleRight"
+                      },
+                      children = {
+                        makeLast5TokenContainer(1),
+                        makeLast5TokenContainer(2),
+                        makeLast5TokenContainer(3),
+                        makeLast5TokenContainer(4),
+                        makeLast5TokenContainer(5)
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          tag = "Panel",
+          attributes = {
+            color           = "#0F0F0F",
+            width           = 820,
+            preferredHeight = 270,
+            padding         = "8 8 8 8",
+            outlineSize     = "2 2",
+            outline         = "#202020"
+          },
+          children = {
+            {
+              tag = "HorizontalLayout",
+              attributes = {
+                width           = 750,
+                preferredHeight = 254,
+                spacing         = 2,
+                childAlignment  = "UpperCenter"
+              },
+              children = graphColumns
+            }
+          }
+        },
+        {
+          tag = "HorizontalLayout",
+          attributes = { preferredHeight = 41 },
+          children = {
+            {
+              tag = "Button",
+              attributes = {
+                id                   = "CT_button_export",
+                text                 = i18nApi.getStrById("CT_button_export"),
+                resizeTextForBestFit = true,
+                resizeTextMaxSize    = 30,
+                onClick              = "onClick_exportChaosTokenStats",
+                font                 = fontName,
+                color                = "#888888",
+                preferredWidth       = 100,
+                height               = 35
+              }
+            },
+            { tag = "Panel" },
+            {
+              tag = "Button",
+              attributes = {
+                id                   = "CT_button_close",
+                text                 = i18nApi.getStrById("CT_button_close"),
+                resizeTextForBestFit = true,
+                resizeTextMaxSize    = 30,
+                onClick              = "onClick_hideUi(chaosStatTrackerWindow)",
+                font                 = fontName,
+                color                = "#888888",
+                preferredWidth       = 100,
+                height               = 35
+              }
+            }
+          }
+        }
+      }
+    }
+  end
+
+  function ChaosTokenStatsUi.renderChaosStatTrackerUi()
+    local scopeOptions = ChaosTokenStatsUi.getChaosStatScopeOptions()
+    local hasSelectedScope = false
+    for _, option in ipairs(scopeOptions) do
+      if option.key == chaosStatSelectedScope then
+        hasSelectedScope = true
+        break
+      end
+    end
+    if not hasSelectedScope then
+      chaosStatSelectedScope = "Overall"
+    end
+
+    ChaosTokenStatsUi.updateChaosStatScopeDropdown(scopeOptions)
+
+    local scopeStats = tokenDrawingStats[chaosStatSelectedScope] or {}
+    local totalCount = 0
+    for _, count in pairs(scopeStats) do
+      totalCount = totalCount + math.max(0, count or 0)
+    end
+
+    local allTokenNames = ChaosTokenStatsUi.getChaosStatTokenOrder()
+    local tokenNames    = ChaosTokenStatsUi.getChaosStatVisibleTokenOrder(scopeStats)
+    local maxCount      = 0
+    local maxBarHeight  = 180
+
+    for _, tokenName in ipairs(tokenNames) do
+      local count = math.max(0, scopeStats[tokenName] or 0)
+      if count > maxCount then
+        maxCount = count
+      end
+    end
+
+    for _, tokenName in ipairs(allTokenNames) do
+      local uiId = ChaosTokenStatsUi.getChaosStatTokenUiId(tokenName)
+      UI.setAttribute("chaosStatCol_" .. uiId, "active", false)
+      UI.setAttribute("chaosStatCount_" .. uiId, "text", 0)
+      UI.setAttribute("chaosStatSpacer_" .. uiId, "preferredHeight", maxBarHeight)
+      UI.setAttribute("chaosStatBar_" .. uiId, "preferredHeight", 0)
+    end
+
+    for _, tokenName in ipairs(tokenNames) do
+      local count        = math.max(0, scopeStats[tokenName] or 0)
+      local barHeight    = 0
+      local spacerHeight = maxBarHeight
+      if maxCount > 0 and count > 0 then
+        barHeight = math.floor((count / maxCount) * maxBarHeight + 0.5)
+        spacerHeight = math.max(0, maxBarHeight - barHeight)
+      end
+
+      local uiId = ChaosTokenStatsUi.getChaosStatTokenUiId(tokenName)
+      UI.setAttribute("chaosStatCol_" .. uiId, "active", true)
+      UI.setAttribute("chaosStatCount_" .. uiId, "text", count)
+      UI.setAttribute("chaosStatSpacer_" .. uiId, "preferredHeight", spacerHeight)
+      UI.setAttribute("chaosStatBar_" .. uiId, "preferredHeight", barHeight)
+    end
+
+    local filterIndex = 0
+    for i, filterOption in ipairs(CHAOS_STAT_FILTER_OPTIONS) do
+      if filterOption.key == chaosStatTokenFilterMode then
+        filterIndex = i - 1
+        break
+      end
+    end
+    UI.setAttribute("chaosStatTokenFilterDropdown", "value", filterIndex)
+
+    local lastFiveTokens = ChaosTokenStatsUi.getChaosStatLastFiveForScope(chaosStatSelectedScope)
+    local hasLastFive    = #lastFiveTokens > 0
+    UI.setAttribute("CT_last_five_label", "text", hasLastFive and i18nApi.getStrById("CT_last_five_label") or "")
+    UI.setAttribute("CT_last_five_newest_marker", "active", hasLastFive)
+    UI.setAttribute("CT_last_five_oldest_marker", "active", hasLastFive)
+    local tokenNameLookup = createChaosTokenNameLookupTable()
+
+    for i = 1, 5 do
+      local tokenName   = lastFiveTokens[i]
+      local slotImageId = "chaosStatLastFiveImage_" .. i
+      local slotPanelId = "chaosStatLastFiveSlot_" .. i
+
+      if tokenName then
+        local tokenId = tokenNameLookup[tokenName] or "custom-token"
+        UI.setAttribute(slotPanelId, "active", true)
+        UI.setAttribute(slotImageId, "active", true)
+        UI.setAttribute(slotImageId, "image", "token-" .. tokenId)
+      else
+        UI.setAttribute(slotPanelId, "active", false)
+        UI.setAttribute(slotImageId, "active", false)
+      end
+    end
+
+    UI.setAttribute("CT_title", "text", i18nApi.getStrById("CT_title"))
+    UI.setAttribute("CT_tokens_drawn_text", "text", i18nApi.getStrById("CT_tokens_drawn_text") .. ": " .. totalCount)
+  end
+
+  return ChaosTokenStatsUi
+end

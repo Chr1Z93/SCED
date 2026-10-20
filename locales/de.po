@@ -564,6 +564,34 @@ msgstr "Standards"
 msgid "NO_close"
 msgstr "Schließen"
 
+# Chaos Token Stats
+msgid "CT_button_close"
+msgstr "Schließen"
+
+msgid "CT_button_reset"
+msgstr "Token-Statistiken zurücksetzen"
+
+msgid "CT_last_five_label"
+msgstr "Letzte 5:"
+
+msgid "CT_last_five_newest_marker"
+msgstr "Neueste"
+
+msgid "CT_last_five_oldest_marker"
+msgstr "Älteste"
+
+msgid "CT_title"
+msgstr "Chaos-Token-Statistiken"
+
+msgid "CT_tokens_drawn_text"
+msgstr "Gezogene Tokens"
+
+msgid "CT_scope_label"
+msgstr "Filter:"
+
+msgid "CT_button_export"
+msgstr "Stats exportieren"
+
 # Clean Up Helper: Options
 msgid "CUH_title"
 msgstr "Optionen"

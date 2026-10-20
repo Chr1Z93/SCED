@@ -555,6 +555,34 @@ msgstr "По умолчанию"
 msgid "NO_close"
 msgstr "Закрыть"
 
+# Chaos Token Stats
+msgid "CT_button_close"
+msgstr "Закрыть"
+
+msgid "CT_button_reset"
+msgstr "Сбросить статистику жетонов"
+
+msgid "CT_last_five_label"
+msgstr "Последние 5:"
+
+msgid "CT_last_five_newest_marker"
+msgstr "Новейшие"
+
+msgid "CT_last_five_oldest_marker"
+msgstr "Самые старые"
+
+msgid "CT_title"
+msgstr "Статистика жетонов Хаоса"
+
+msgid "CT_tokens_drawn_text"
+msgstr "Вытянутые жетоны"
+
+msgid "CT_scope_label"
+msgstr "Scope:"
+
+msgid "CT_button_export"
+msgstr "Export Stats"
+
 # Clean Up Helper: Options
 msgid "CUH_title"
 msgstr "Настройки"
