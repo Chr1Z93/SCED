@@ -312,7 +312,7 @@ function updateBagData(bagData)
       end
       objData.Tags = objData.Tags or {}
       table.insert(objData.Tags, "Replaced")
-    elseif objData.Name == "Card" then
+    elseif objData.Name == "Card" or objData.Name == "CardCustom" then
       local md = JSON.decode(objData.GMNotes) or {}
       local id = md.id or md.TtsZoopGuid
       if id then
