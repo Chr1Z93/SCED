@@ -566,6 +566,9 @@ msgstr "混沌標記統計"
 msgid "CT_tokens_drawn_text"
 msgstr "已抽取標記"
 
+msgid "CT_scope_label"
+msgstr "Scope:"
+
 # Clean Up Helper: Options
 msgid "CUH_title"
 msgstr "選項"

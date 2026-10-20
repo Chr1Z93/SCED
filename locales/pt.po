@@ -577,6 +577,9 @@ msgstr "Estatísticas de fichas do caos"
 msgid "CT_tokens_drawn_text"
 msgstr "Fichas sorteadas"
 
+msgid "CT_scope_label"
+msgstr "Scope:"
+
 # Clean Up Helper: Options
 msgid "CUH_title"
 msgstr "Opções"

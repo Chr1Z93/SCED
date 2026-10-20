@@ -578,6 +578,9 @@ msgstr "Statystyki żetonów chaosu"
 msgid "CT_tokens_drawn_text"
 msgstr "Wylosowane żetony"
 
+msgid "CT_scope_label"
+msgstr "Scope:"
+
 # Clean Up Helper: Options
 msgid "CUH_title"
 msgstr "Ustawienia"

@@ -586,6 +586,9 @@ msgstr "Chaos-Token-Statistiken"
 msgid "CT_tokens_drawn_text"
 msgstr "Gezogene Tokens"
 
+msgid "CT_scope_label"
+msgstr "Scope:"
+
 # Clean Up Helper: Options
 msgid "CUH_title"
 msgstr "Optionen"

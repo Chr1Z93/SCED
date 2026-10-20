@@ -578,6 +578,9 @@ msgstr "Estadísticas de fichas del caos"
 msgid "CT_tokens_drawn_text"
 msgstr "Fichas extraídas"
 
+msgid "CT_scope_label"
+msgstr "Scope:"
+
 # Clean Up Helper: Options
 msgid "CUH_title"
 msgstr "Opciones"

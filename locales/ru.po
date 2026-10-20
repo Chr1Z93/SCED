@@ -577,6 +577,9 @@ msgstr "Статистика жетонов Хаоса"
 msgid "CT_tokens_drawn_text"
 msgstr "Вытянутые жетоны"
 
+msgid "CT_scope_label"
+msgstr "Scope:"
+
 # Clean Up Helper: Options
 msgid "CUH_title"
 msgstr "Настройки"

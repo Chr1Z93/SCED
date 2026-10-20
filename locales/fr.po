@@ -581,6 +581,9 @@ msgstr "Statistiques des jetons du chaos"
 msgid "CT_tokens_drawn_text"
 msgstr "Jetons tirés"
 
+msgid "CT_scope_label"
+msgstr "Scope:"
+
 # Clean Up Helper: Options
 msgid "CUH_title"
 msgstr "Options"

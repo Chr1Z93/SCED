@@ -577,6 +577,9 @@ msgstr "Statistiche token del Caos"
 msgid "CT_tokens_drawn_text"
 msgstr "Token estratti"
 
+msgid "CT_scope_label"
+msgstr "Scope:"
+
 # Clean Up Helper: Options
 msgid "CUH_title"
 msgstr "Opzioni"
