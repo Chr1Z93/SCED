@@ -544,6 +544,34 @@ msgstr "載入預設"
 msgid "NO_close"
 msgstr "關閉"
 
+# Chaos Token Stats
+msgid "CT_button_close"
+msgstr "關閉"
+
+msgid "CT_button_reset"
+msgstr "重設混沌標記統計"
+
+msgid "CT_last_five_label"
+msgstr "最近 5 個:"
+
+msgid "CT_last_five_newest_marker"
+msgstr "最新"
+
+msgid "CT_last_five_oldest_marker"
+msgstr "最早"
+
+msgid "CT_title"
+msgstr "混沌標記統計"
+
+msgid "CT_tokens_drawn_text"
+msgstr "已抽取標記"
+
+msgid "CT_scope_label"
+msgstr "Scope:"
+
+msgid "CT_button_export"
+msgstr "Export Stats"
+
 # Clean Up Helper: Options
 msgid "CUH_title"
 msgstr "選項"
