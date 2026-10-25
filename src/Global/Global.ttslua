@@ -1873,6 +1873,7 @@ function setChaosBagState(tokenList)
 
   -- reset bless / curse manager
   BlessCurseManagerApi.removeTakenTokensAndReset()
+  TokenArrangerApi.layout()
 end
 
 -- spawns the specified chaos token and puts it into the chaos bag
