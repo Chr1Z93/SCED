@@ -180,6 +180,11 @@ do
     Global.call("showClueSpendingUi", totalNeededClues)
   end
 
+  -- resets the chaos token stats
+  function GlobalApi.resetChaosTokenStats()
+    Global.call("resetChaosTokenStats")
+  end
+  
   ---@return boolean: True if the bag can be manipulated, false if it should be blocked.
   function GlobalApi.canTouchChaosTokens()
     return Global.call("canTouchChaosTokens")

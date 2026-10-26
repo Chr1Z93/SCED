@@ -83,6 +83,11 @@ local DROPDOWN_DATA               = {
     "Cumulative",
     "Full"
   },
+  tokenStatsResetMode = {
+    "Per Session",
+    "Per Scenario",
+    "Never"
+  },
   useResourceCounters = {
     "enabled",
     "custom",
@@ -188,7 +193,7 @@ function onSave()
     end
   end
 
-  return JSON.encode({
+  local dataToPersist = {
     acknowledgedUpgradeVersions = acknowledgedUpgradeVersions,
     actionTrackerVisibility     = actionTrackerVisibility,
     phaseTrackerVisibility      = phaseTrackerVisibility,
@@ -199,7 +204,14 @@ function onSave()
     optionPanel                 = optionPanel,
     customTableSetupData        = TABLE_SETUP_DATA["Custom"],
     googleAppsScriptUrl         = googleAppsScriptUrl
-  })
+  }
+
+  if optionPanel["tokenStatsResetMode"] ~= "Per Session" then
+    dataToPersist.tokenDrawingStats = tokenDrawingStats
+    dataToPersist.lastDrawnTokens = lastDrawnTokens
+  end
+
+  return JSON.encode(dataToPersist)
 end
 
 function onLoad(savedData)
@@ -213,6 +225,13 @@ function onLoad(savedData)
     handVisibility              = loadedData.handVisibility
     optionPanel                 = loadedData.optionPanel
     TABLE_SETUP_DATA["Custom"]  = loadedData.customTableSetupData
+
+    if loadedData.tokenDrawingStats then
+      tokenDrawingStats           = loadedData.tokenDrawingStats
+    end
+    if loadedData.lastDrawnTokens then
+      lastDrawnTokens             = loadedData.lastDrawnTokens
+    end
 
     -- restore saved state for drawn chaos tokens
     for _, guid in ipairs(loadedData.chaosTokensGUID or {}) do
@@ -1701,12 +1720,16 @@ end
 function resetChaosTokenStatTracker(player)
   player.showConfirmDialog("Are you sure you want to reset the Chaos Token stats?",
     function()
-      printToAll("Chaos Token stats have been reset.")
-      tokenDrawingStats = {}
-      lastDrawnTokens   = {}
+      resetChaosTokenStats()
       UI.setAttribute("chaosStatTrackerWindow", "active", false)
     end
   )
+end
+
+function resetChaosTokenStats()
+  printToAll("Chaos Token stats have been reset.")
+  tokenDrawingStats = {}
+  lastDrawnTokens   = {}
 end
 
 function onClick_exportChaosTokenStats(player)
@@ -3867,6 +3890,8 @@ function onDropdownChange(player, selectedIndex, id)
         "Odds calculation is unreliable when using tokens that draw other tokens (bless or curse for example).", "Yellow")
       tokenArrangerWarningShown = true
     end
+  elseif id == "tokenStatsResetMode" then
+    printToAll("Token stats reset mode changed to " .. valueToStore, "Yellow")
   end
 end
 
@@ -4542,6 +4567,7 @@ function onClick_defaultSettings()
     showTokenSplash           = false,
     tableSetup                = "Classic (4P)",
     tokenArrangerOdds         = "No Odds",
+    tokenStatsResetMode       = "Per Session",
     useClassTexture           = true,
     useClueClickers           = false,
     useCustomResourceImages   = true,
