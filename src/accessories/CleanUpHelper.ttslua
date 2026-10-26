@@ -32,16 +32,7 @@ local options                   = {
   ["removeDrawnLines"] = false
 }
 local removeIgnoreLater         = {}
-
--- don't clean playermats for preludes
-local scenarioName
-local preludeList               = {
-  ["Prelude: Welcome to Hemlock Vale!"] = true, -- real prelude, don't clean playermats
-  ["Prelude: The First Evening"]        = true, -- interlude, but maybe players already imported decks
-  ["Prelude: Dawn of the Second Day"]   = true, -- real prelude, don't clean playermats
-  ["Prelude: The Second Evening"]       = true, -- interlude, but maybe players already imported decks
-  ["Prelude: Dawn of the Final Day"]    = true  -- real prelude, don't clean playermats
-}
+local scenarioId
 
 local buttonParameters          = {}
 buttonParameters.function_owner = self
@@ -142,7 +133,7 @@ function cleanUp(_, color)
     table.insert(matColorList, matColor)
   end
 
-  getScenarioName()
+  scenarioId = MythosAreaApi.returnTokenData().scenarioId
   MythosAreaApi.resetScenarioData()
   SoundCubeApi.playSoundByName("Vacuum")
   getTrauma()
@@ -151,7 +142,11 @@ function cleanUp(_, color)
   Wait.time(updateCounters, 0.2)
 
   resetDoomCounter()
-  BlessCurseManagerApi.removeAll(color)
+
+  if not isPrelude() then
+    BlessCurseManagerApi.removeAll(color)
+  end
+
   removeLines()
   returnMiniCards()
   discardHands()
@@ -168,13 +163,8 @@ end
 -- modular functions, called by other functions
 ---------------------------------------------------------
 
-function getScenarioName()
-  local tokenData = MythosAreaApi.returnTokenData()
-  scenarioName = tokenData.currentScenario
-end
-
 function updateCounters()
-  if not getOptionValue() then return end
+  if not shouldTidyPlayermats() then return end
 
   PlayermatApi.updateCounter("All", "ResourceCounter", 5)
 
@@ -275,7 +265,7 @@ end
 -- returns the mini cards back to the owning mat
 function returnMiniCards()
   -- stop if playermats get tidied anyway
-  if getOptionValue() then return end
+  if shouldTidyPlayermats() then return end
 
   -- get mini cards in play
   local miniCardIndex = {}
@@ -298,7 +288,7 @@ end
 
 -- discard all hand objects
 function discardHands()
-  if not getOptionValue() then return end
+  if not shouldTidyPlayermats() then return end
   for _, color in ipairs(matColorList) do
     local trash = GUIDReferenceApi.getObjectByOwnerAndType(color, "Trash")
     if trash then
@@ -364,7 +354,7 @@ end
 function tidyPlayerMatCoroutine()
   local tekeliliHelper = getTekeliliHelper()
 
-  if getOptionValue() then
+  if shouldTidyPlayermats() then
     for _, matColor in ipairs(matColorList) do
       local trash = GUIDReferenceApi.getObjectByOwnerAndType(matColor, "Trash")
       if trash == nil then
@@ -434,8 +424,10 @@ function tidyPlayerMatCoroutine()
     removeIgnoreLater = {}
   end
 
-  -- reset spawned data
-  TokenSpawnTrackerApi.resetAll()
+  if not isPrelude() then
+    -- reset token spawn data
+    TokenSpawnTrackerApi.resetAll()
+  end
 
   printToAll("Clean up completed!", "Green")
 end
@@ -460,11 +452,15 @@ function maybeTrashObject(obj, trash)
 end
 
 -- get value with respect to override value
-function getOptionValue()
-  -- don't clean up playermats if playing a prelude from the list
-  if scenarioName and preludeList[scenarioName] then
+function shouldTidyPlayermats()
+  if isPrelude() then
+    -- don't clean up playermats if playing a prelude (Hemlock Vale)
     return false
   else
     return options["tidyPlayermats"]
   end
+end
+
+function isPrelude()
+  return scenarioId == "10704"
 end
