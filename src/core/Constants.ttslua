@@ -119,6 +119,7 @@ OPTION_PRESETS           = {
     skipTour             = true,
     tableSetup           = "Rotated (2P)",
     tokenArrangerOdds    = "Full",
+    tokenStatsResetMode     = "Never",
     useClueClickers      = true
   }
 }
