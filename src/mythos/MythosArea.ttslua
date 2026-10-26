@@ -268,6 +268,11 @@ function fireScenarioChangedEvent(md)
   -- maybe show the title splash screen
   Wait.frames(function() GlobalApi.titleSplash(currentScenario) end, 20)
 
+  -- maybe reset token drawing stats
+  if GlobalApi.getOptionPanelState()['tokenStatsResetMode'] == "Per Scenario" then
+    GlobalApi.resetChaosTokenStats()
+  end
+
   -- maybe temporarily disable the location connections
   PlayAreaApi.onScenarioChanged(md.disableConnections)
 
