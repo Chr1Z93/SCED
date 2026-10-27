@@ -208,7 +208,7 @@ function onSave()
 
   if optionPanel["tokenStatsResetMode"] ~= "Per Session" then
     dataToPersist.tokenDrawingStats = tokenDrawingStats
-    dataToPersist.lastDrawnTokens = lastDrawnTokens
+    dataToPersist.lastDrawnTokens   = lastDrawnTokens
   end
 
   return JSON.encode(dataToPersist)
@@ -225,13 +225,8 @@ function onLoad(savedData)
     handVisibility              = loadedData.handVisibility
     optionPanel                 = loadedData.optionPanel
     TABLE_SETUP_DATA["Custom"]  = loadedData.customTableSetupData
-
-    if loadedData.tokenDrawingStats then
-      tokenDrawingStats           = loadedData.tokenDrawingStats
-    end
-    if loadedData.lastDrawnTokens then
-      lastDrawnTokens             = loadedData.lastDrawnTokens
-    end
+    tokenDrawingStats           = loadedData.tokenDrawingStats or {}
+    lastDrawnTokens             = loadedData.lastDrawnTokens or {}
 
     -- restore saved state for drawn chaos tokens
     for _, guid in ipairs(loadedData.chaosTokensGUID or {}) do
@@ -3890,8 +3885,6 @@ function onDropdownChange(player, selectedIndex, id)
         "Odds calculation is unreliable when using tokens that draw other tokens (bless or curse for example).", "Yellow")
       tokenArrangerWarningShown = true
     end
-  elseif id == "tokenStatsResetMode" then
-    printToAll("Token stats reset mode changed to " .. valueToStore, "Yellow")
   end
 end
 

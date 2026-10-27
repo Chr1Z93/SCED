@@ -255,7 +255,7 @@
           <!-- Option: Token stats reset mode -->
           <Row id="OP_tokenStatsResetMode_tooltip"
             class="option-text"
-            tooltip="Sets when token stats are reset.">
+            tooltip="Controls when chaos token stats are reset.">
             <Cell class="option-singleColumn">
               <Panel class="singleColumn-wrapper">
                 <Text id="OP_tokenStatsResetMode"
@@ -265,9 +265,9 @@
             <Cell class="option-doubleColumn">
               <Panel class="doubleColumn-wrapper">
                 <Dropdown id="tokenStatsResetMode">
-                  <Option>Per Session</Option>
-                  <Option>Per Scenario</Option>
-                  <Option>Never</Option>
+                  <Option id="OP_tokenStatsResetMode_session">Per Session</Option>
+                  <Option id="OP_tokenStatsResetMode_scenario">Per Scenario</Option>
+                  <Option id="OP_tokenStatsResetMode_never">Never</Option>
                 </Dropdown>
               </Panel>
             </Cell>
@@ -706,6 +706,8 @@
         <Button id="OP_button_defaults"
           class="bottomButtons"
           onClick="onClick_defaultSettings"
+          
+
           text ="Load defaults"/>
         <Button id="OP_button_close"
           class="bottomButtons"
