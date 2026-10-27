@@ -85,7 +85,7 @@
       },
       "tooltip": "None",
       "value": [
-        "Arkham Horror LCG SCE 4.9.3 - 10/15/2026"
+        "Arkham Horror LCG SCE 4.10.0 - 11/??/2026"
       ]
     },
     {
@@ -104,7 +104,7 @@
         "g": 1,
         "r": 1
       },
-      "font": "100",
+      "font": "107",
       "locked": false,
       "name": "Details",
       "pos": {
@@ -124,7 +124,7 @@
       },
       "tooltip": "None",
       "value": [
-        "New Hotfix Release Notes\n- added an eligibility check for Ancestral Knowledge\n- added dynamic tokens as uses for some cards (e.g. Enraptured)\n- added a context menu to the Token Arranger to flip the layout\n- improved loading time (by caching repeated string manipulation)\n- fixed an issue with advancing acts / agendas with dynamic alt view\n- fixed a bug with missing \"Draw 1\" button on newly spawned playermats\n- fixed two bugs concerning language packs\n\nPrevious Hotfix Release Notes\n- added tool to replace images of customizable cards with their upgraded form\n- added action broadcaster (in barrel)\n- added support for chaos token tracking in Google Sheets (see Notebook)\n- increased size of playermat counters\n\nMajor Release Notes\n- added a global UI for the phase tracker\n- added rollingsnake's deck dashboard\n- Action Tracker: UI is now clickable to flip action tokens\n- Chaos Bag Manager: added blood token\n- Grimoire: updated to v1.1\n- Playermats: automatically rotate placed investigator cards\n- Play Area Images: improved for language packs\n\nThis mod is a fan-made adaptation of Arkham Horror LCG.\nIt is not endorsed by Fantasy Flight Games or Asmodee Digital.\nPlease support the game by purchasing the official product."
+        "Major Release Notes\n- CRITICAL FIX for Charlie Kane & Nkosi Mabati deployed\n- added a Chaos Token Stat UI (thanks @Jimble!)\n- added a setting to control when chaos tokens stats get reset\n- added Token Arranger to 2p Table Setup\n- improved Clean Up Helper's functionality for Hemlock preludes\n- fixed an issue with replacing cards in containers (relevant for Language Packs)\n- fixed an issue with mini card border drawing not matching the card size properly\n- fixed a bug with doom token rotation for rotated player mats\n\nThis mod is a fan-made adaptation of Arkham Horror LCG.\nIt is not endorsed by Fantasy Flight Games or Asmodee Digital.\nPlease support the game by purchasing the official product."
       ]
     }
   ],
