@@ -1,9 +1,4 @@
-<Defaults>
-  <!-- general stuff -->
-  <Text color="white"
-    fontSize="18"/>
-</Defaults>
-
+<Include src="Global/Defaults.xml"/>
 <Include src="Global/BottomBar.xml"/>
 <Include src="Global/DownloadWindow.xml"/>
 <Include src="Global/PlayAreaGallery.xml"/>
