@@ -402,6 +402,26 @@ msgstr "Kumulativ"
 msgid "OP_tokenArrangerOdds_full"
 msgstr "Vollständig"
 
+# Option: Token Stats Reset Mode
+msgid "OP_tokenStatsResetMode"
+msgstr "Token Statistik Reset Modus"
+
+# Tooltip: Token Stats Reset Mode
+msgid "OP_tokenStatsResetMode_tooltip"
+msgstr "Steuert, wann die Chaos Token Statistik zurückgesetzt wird."
+
+# Dropdown Option: Token Stats Reset Mode 1
+msgid "OP_tokenStatsResetMode_session"
+msgstr "Je Sitzung"
+
+# Dropdown Option: Token Stats Reset Mode 2
+msgid "OP_tokenStatsResetMode_scenario"
+msgstr "Je Szenario"
+
+# Dropdown Option: Token Stats Reset Mode 3
+msgid "OP_tokenStatsResetMode_never"
+msgstr "Niemals"
+
 # Button: Defaults
 msgid "OP_button_defaults"
 msgstr "Standard"

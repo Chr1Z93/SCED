@@ -62,6 +62,7 @@ OPTION_PRESETS           = {
     showSearchAssistant  = true,
     skipTour             = true,
     tokenArrangerOdds    = "Full",
+    tokenStatsResetMode  = "Per Scenario",
     useResourceCounters  = "custom",
     NavigationOverlay    = { pitch = 90, distance = 110 }
   },
@@ -119,6 +120,7 @@ OPTION_PRESETS           = {
     skipTour             = true,
     tableSetup           = "Rotated (2P)",
     tokenArrangerOdds    = "Full",
+    tokenStatsResetMode  = "Never",
     useClueClickers      = true
   }
 }

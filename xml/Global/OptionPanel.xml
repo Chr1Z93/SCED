@@ -252,6 +252,27 @@
             </Cell>
           </Row>
 
+          <!-- Option: Token stats reset mode -->
+          <Row id="OP_tokenStatsResetMode_tooltip"
+            class="option-text"
+            tooltip="Controls when chaos token stats are reset.">
+            <Cell class="option-singleColumn">
+              <Panel class="singleColumn-wrapper">
+                <Text id="OP_tokenStatsResetMode"
+                  class="option-header">Token Stats Reset Mode</Text>
+              </Panel>
+            </Cell>
+            <Cell class="option-doubleColumn">
+              <Panel class="doubleColumn-wrapper">
+                <Dropdown id="tokenStatsResetMode">
+                  <Option id="OP_tokenStatsResetMode_session">Per Session</Option>
+                  <Option id="OP_tokenStatsResetMode_scenario">Per Scenario</Option>
+                  <Option id="OP_tokenStatsResetMode_never">Never</Option>
+                </Dropdown>
+              </Panel>
+            </Cell>
+          </Row>
+
           <!-- Group: play area settings -->
           <Row class="group-header">
             <Cell class="group-header">
@@ -685,6 +706,8 @@
         <Button id="OP_button_defaults"
           class="bottomButtons"
           onClick="onClick_defaultSettings"
+          
+
           text ="Load defaults"/>
         <Button id="OP_button_close"
           class="bottomButtons"
