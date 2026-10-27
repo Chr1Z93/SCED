@@ -3118,6 +3118,7 @@ function createGlobalXml()
   local globalXml = Global.UI.getXmlTable() or {}
 
   -- add additional XML to it
+  table.insert(globalXml, createOptionPanelDefaults())
   table.insert(globalXml, createOptionPanelXml())
   table.insert(globalXml, createActionTrackerUI())
   table.insert(globalXml, createPhaseTrackerUI())
@@ -3127,6 +3128,171 @@ function createGlobalXml()
 
   -- finally, apply the updated XML
   updateGlobalXml(globalXml)
+end
+
+function createOptionPanelDefaults()
+  return {
+    tag = "Defaults",
+    children = {
+      {
+        tag = "Text",
+        attributes = { color = "#FFFFFF", alignment = "MiddleLeft" }
+      },
+      {
+        tag = "Dropdown",
+        attributes = {
+          rectAlignment     = "MiddleCenter",
+          onValueChanged    = "onDropdownChange(selectedIndex)",
+          scrollSensitivity = 30
+        }
+      },
+      {
+        tag = "Cell",
+        attributes = {
+          dontUseTableCellBackground = true,
+          outlineSize                = "0 1",
+          outline                    = "grey"
+        }
+      },
+      {
+        tag = "TableLayout",
+        attributes = {
+          class       = "window",
+          width       = 500,
+          height      = 800,
+          active      = false,
+          color       = "#000000",
+          outlineSize = "2 2",
+          outline     = "grey"
+        }
+      },
+      {
+        tag = "Row",
+        attributes = { class = "group-header", preferredHeight = 44 }
+      },
+      {
+        tag = "Cell",
+        attributes = {
+          class      = "group-header",
+          padding    = "10 10 0 0",
+          columnSpan = 3,
+          color      = "#222222"
+        }
+      },
+      {
+        tag = "Panel",
+        attributes = { class = "group-header", padding = "5 0 0 0" }
+      },
+      {
+        tag = "Text",
+        attributes = {
+          class    = "group-header",
+          fontSize = 28,
+          font     = "font_teutonic-arkham"
+        }
+      },
+      {
+        tag = "Row",
+        attributes = {
+          class                  = "option-text",
+          preferredHeight        = 50,
+          tooltipPosition        = "Left",
+          tooltipOffset          = 10,
+          tooltipBackgroundColor = "rgba(0,0,0,1)"
+        }
+      },
+      {
+        tag = "Cell",
+        attributes = {
+          class      = "option-text",
+          padding    = "10 10 5 5",
+          color      = "#333333",
+          columnSpan = 2
+        }
+      },
+      {
+        tag = "Cell",
+        attributes = {
+          class   = "option-button",
+          padding = "10 10 5 5",
+          color   = "#333333"
+        }
+      },
+      {
+        tag = "Cell",
+        attributes = {
+          class      = "option-singleColumn",
+          padding    = "10 10 5 5",
+          color      = "#333333",
+          columnSpan = 1
+        }
+      },
+      {
+        tag = "Cell",
+        attributes = {
+          class      = "option-doubleColumn",
+          padding    = "10 10 5 5",
+          color      = "#333333",
+          columnSpan = 2
+        }
+      },
+      {
+        tag = "Panel",
+        attributes = { class = "singleColumn-wrapper", padding = "10 0 0 0" }
+      },
+      {
+        tag = "Text",
+        attributes = {
+          class    = "option-header",
+          fontSize = 22,
+          font     = "font_teutonic-arkham"
+        }
+      },
+      {
+        tag = "Panel",
+        attributes = { class = "doubleColumn-wrapper", padding = "0 17 3 3" }
+      },
+      {
+        tag = "Button",
+        attributes = {
+          class         = "optionToggle",
+          image         = "option_off",
+          onClick       = "onClick_toggleOption",
+          rectAlignment = "MiddleRight",
+          offsetXY      = "-30 0",
+          colors        = "#FFFFFF|#dfdfdf",
+          height        = 36,
+          width         = 65,
+          ignoreLayout  = true
+        }
+      },
+      {
+        tag = "Button",
+        attributes = {
+          class       = "bottomButtons",
+          hoverClass  = "hover",
+          pressClass  = "press",
+          selectClass = "select",
+          color       = "#888888",
+          minHeight   = 35,
+          fontSize    = 24,
+          font        = "font_teutonic-arkham"
+        }
+      },
+      {
+        tag = "Button",
+        attributes = { class = "hover", color = "grey" }
+      },
+      {
+        tag = "Button",
+        attributes = { class = "press", color = "white" }
+      },
+      {
+        tag = "Button",
+        attributes = { class = "select", color = "white" }
+      }
+    }
+  }
 end
 
 function createOptionPanelXml()
@@ -3178,19 +3344,25 @@ function createOptionPanelXml()
         {
           id      = "removePlayermat",
           type    = "dropdown",
-          options = { "select", "white", "orange", "green", "red" }
+          options = {
+            "dropdown_select",
+            "dropdown_white",
+            "dropdown_orange",
+            "dropdown_green",
+            "dropdown_red"
+          }
         },
         {
           id      = "tableSetup",
           type    = "dropdown",
           options = {
-            "classic4",
-            "classic2",
-            "upright4",
-            "upright3",
-            "sides4",
-            "solo",
-            "rotated2"
+            "dropdown_classic4",
+            "dropdown_classic2",
+            "dropdown_upright4",
+            "dropdown_upright3",
+            "dropdown_sides4",
+            "dropdown_solo",
+            "dropdown_rotated2"
           }
         },
         { id = "customTableSetup", type = "button" }
@@ -3305,9 +3477,9 @@ function createOptionPanelXml()
       end
 
       control = {
-        tag = "Dropdown",
+        tag        = "Dropdown",
         attributes = { id = option.id },
-        children = {}
+        children   = {}
       }
       for _, choice in ipairs(choices) do
         table.insert(control.children, {
