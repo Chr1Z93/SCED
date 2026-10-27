@@ -1,5 +1,4 @@
 require("Global/TableSetupData")
-local GlobalApi         = require("Global/GlobalApi")
 local GUIDReferenceApi  = require("core/GUIDReferenceApi")
 local PlayermatApi      = require("playermat/PlayermatApi")
 
@@ -179,25 +178,27 @@ function setVisibility(type, color)
   updateVisibility()
 end
 
--- update XML visibility
-function updateVisibility()
+function getVisibilityAttributes()
   local colorString = { full = "", play = "" }
 
-  for color, v in pairs(visibility) do
-    if v.full then
-      if colorString.full == "" then
-        colorString.full = color
-      else
-        colorString.full = colorString.full .. '|' .. color
-      end
-    elseif v.play then
-      if colorString.play == "" then
-        colorString.play = color
-      else
-        colorString.play = colorString.play .. '|' .. color
+  for playerColor, v in pairs(visibility) do
+    for _, key in ipairs({ "full", "play" }) do
+      if v[key] then
+        if colorString[key] == "" then
+          colorString[key] = playerColor
+        else
+          colorString[key] = colorString[key] .. '|' .. playerColor
+        end
       end
     end
   end
+
+  return colorString
+end
+
+-- update XML visibility
+function updateVisibility()
+  local colorString = getVisibilityAttributes()
 
   -- update the visibility on the XML
   UI.setAttribute("navPanelFull", "visibility", colorString.full)
@@ -207,60 +208,282 @@ function updateVisibility()
 end
 
 ---------------------------------------------------------
--- XML button creation
+-- XML generation
 ---------------------------------------------------------
 
-function createXmlButtons()
-  local xml = Global.UI.getXmlTable() or {}
-  xml = createXmlButtonHelper(xml, {
-    data    = BUTTON_DATA_FULL,
-    id      = "navPanelFull",
-    overlay = "OverlayLarge"
-  })
-  xml = createXmlButtonHelper(xml, {
-    data    = BUTTON_DATA_SMALL,
-    id      = "navPanelPlay",
-    overlay = "OverlaySmall"
-  })
-  GlobalApi.updateGlobalXml(xml)
-end
+function getXml()
+  local colorString     = getVisibilityAttributes()
 
--- XML button creation
-function createXmlButtonHelper(ui, params)
-  local xml = findTagWithId(ui, params.id)
+  local overlayXml      = {}
+  local overlayDefaults = {
+    tag      = "Defaults",
+    children = {
+      { tag = "Text",   attributes = { color = "#FFFFFF", alignment = "MiddleLeft" } },
+      { tag = "Toggle", attributes = { isOn = "False", rectAlignment = "MiddleRight" } },
+      {
+        tag = "Cell",
+        attributes = {
+          dontUseTableCellBackground = true,
+          outlineSize                = "0 1",
+          outline                    = "grey"
+        }
+      },
+      { tag = "Row",  attributes = { class = "nav_option-text", preferredHeight = 45 } },
+      { tag = "Cell", attributes = { class = "nav_option-text", color = "#333333" } },
+      { tag = "Cell", attributes = { class = "nav_option-button", color = "#333333" } },
+      {
+        tag = "Text",
+        attributes = {
+          class    = "nav_option-header",
+          fontSize = 20,
+          font     = "font_teutonic-arkham"
+        }
+      },
+      {
+        tag = "Cell",
+        attributes = {
+          class           = "claim",
+          i18n            = "NO_claim+tooltip",
+          tooltipOffset   = 10,
+          tooltipPosition = "Right"
+        }
+      },
+      {
+        tag = "Panel",
+        attributes = {
+          class                                = "navPanel",
+          active                               = false,
+          allowDragging                        = true,
+          rectAlignment                        = "LowerRight",
+          returnToOriginalPositionWhenReleased = false,
+          offsetXY                             = "-40 0"
+        }
+      }
+    }
+  }
 
-  -- add basic image
-  xml.children = { {
-    tag = "image",
-    attributes = { image = params.overlay }
-  } }
+  table.insert(overlayXml, overlayDefaults)
 
-  -- add all buttons
-  for _, d in ipairs(params.data) do
-    table.insert(xml.children, {
-      tag = "button",
+  local panelData = {
+    {
+      id         = "navPanelFull",
+      height     = 358,
+      width      = 455,
+      image      = "OverlayLarge",
+      visibility = "full",
+      data       = BUTTON_DATA_FULL
+    },
+    {
+      id         = "navPanelPlay",
+      height     = 208,
+      width      = 205,
+      image      = "OverlaySmall",
+      visibility = "play",
+      data       = BUTTON_DATA_SMALL
+    }
+  }
+
+  for _, panel in ipairs(panelData) do
+    local children = {
+      { tag = "image", attributes = { image = panel.image } }
+    }
+
+    for _, button in ipairs(panel.data) do
+      table.insert(children, {
+        tag = "button",
+        attributes = {
+          onClick  = self.getGUID() .. "/buttonClicked",
+          id       = button.id,
+          height   = button.height,
+          width    = button.width,
+          offsetXY = button.offset,
+          color    = "rgba(0,1,0,0)"
+        }
+      })
+    end
+
+    table.insert(overlayXml, {
+      tag = "Panel",
       attributes = {
-        onClick  = self.getGUID() .. "/buttonClicked",
-        id       = d.id,
-        height   = d.height,
-        width    = d.width,
-        offsetXY = d.offset,
-        color    = "rgba(0,1,0,0)"
+        id         = panel.id,
+        height     = panel.height,
+        width      = panel.width,
+        class      = "navPanel",
+        active     = colorString[panel.visibility] ~= "",
+        visibility = colorString[panel.visibility]
+      },
+      children = children
+    })
+  end
+
+  local settingsOptions = {
+    {
+      label      = "NO_viewing_angle",
+      tag        = "Slider",
+      attributes = {
+        id              = "NO_sliderPitch",
+        onValueChanged  = self.getGUID() .. "/updatePitch",
+        wholeNumbers    = true,
+        minValue        = 0,
+        maxValue        = 89,
+        value           = 75,
+        tooltipPosition = "Right"
+      }
+    },
+    {
+      label      = "NO_viewing_distance",
+      tag        = "Slider",
+      attributes = {
+        id              = "NO_sliderDistance",
+        onValueChanged  = self.getGUID() .. "/updateDistance",
+        wholeNumbers    = true,
+        minValue        = 50,
+        maxValue        = 200,
+        value           = 100,
+        tooltipPosition = "Right"
+      }
+    }
+  }
+
+  for _, color in ipairs({ "White", "Orange", "Green", "Red" }) do
+    table.insert(settingsOptions, {
+      label      = "NO_claim_" .. color:lower(),
+      tag        = "Toggle",
+      class      = "nav_option-button claim",
+      attributes = {
+        id             = "claim" .. color,
+        onValueChanged = self.getGUID() .. "/claimColor(" .. color .. ")"
       }
     })
   end
-  return ui
-end
 
-function findTagWithId(ui, id)
-  for _, obj in ipairs(ui) do
-    if obj.attributes and obj.attributes.id and obj.attributes.id == id then return obj end
-    if obj.children then
-      local result = findTagWithId(obj.children, id)
-      if result then return result end
-    end
+  local settingsRows = {}
+  for _, option in ipairs(settingsOptions) do
+    table.insert(settingsRows, {
+      tag = "Row",
+      attributes = { class = "nav_option-text" },
+      children = {
+        {
+          tag = "Cell",
+          attributes = { class = "nav_option-text" },
+          children = {
+            {
+              tag = "Text",
+              attributes = { id = option.label, class = "nav_option-header" }
+            }
+          }
+        },
+        {
+          tag        = "Cell",
+          attributes = { class = option.class or "nav_option-button" },
+          children   = {
+            { tag = option.tag, attributes = option.attributes }
+          }
+        }
+      }
+    })
   end
-  return nil
+
+  table.insert(overlayXml, {
+    tag = "TableLayout",
+    attributes = {
+      id            = "navPanelSettings",
+      active        = settingsOpenForColor ~= nil,
+      visibility    = settingsOpenForColor or "",
+      width         = 300,
+      height        = 380,
+      color         = "#000000",
+      outlineSize   = "2 2",
+      outline       = "grey",
+      rectAlignment = "MiddleCenter"
+    },
+    children = {
+      {
+        tag = "Row",
+        attributes = { preferredHeight = 60 },
+        children = {
+          {
+            tag = "Cell",
+            children = {
+              {
+                tag = "Panel",
+                attributes = { padding = "10 0 0 0" },
+                children = {
+                  {
+                    tag = "Text",
+                    attributes = {
+                      id       = "NO_title",
+                      font     = "font_teutonic-arkham",
+                      fontSize = 35
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        tag = "Row",
+        children = {
+          {
+            tag = "Cell",
+            children = {
+              {
+                tag = "TableLayout",
+                attributes = {
+                  columnWidths        = "0 125",
+                  autoCalculateHeight = 1,
+                  cellPadding         = "10 0 5 5"
+                },
+                children = settingsRows
+              }
+            }
+          }
+        }
+      },
+      {
+        tag = "Row",
+        attributes = { preferredHeight = 50 },
+        children = {
+          {
+            tag = "Cell",
+            children = {
+              {
+                tag = "HorizontalLayout",
+                attributes = {
+                  minHeight      = 55,
+                  flexibleHeight = 0,
+                  padding        = "10 10 5 10",
+                  spacing        = 35
+                },
+                children = {
+                  {
+                    tag = "Button",
+                    attributes = {
+                      id      = "NO_load_defaults",
+                      class   = "bottomButtons",
+                      onClick = self.getGUID() .. "/loadDefaultSettings"
+                    }
+                  },
+                  {
+                    tag = "Button",
+                    attributes = {
+                      id      = "NO_close",
+                      class   = "bottomButtons",
+                      onClick = self.getGUID() .. "/toggleSettings"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  })
+
+  return overlayXml
 end
 
 ---------------------------------------------------------
@@ -319,8 +542,8 @@ function getDynamicViewBounds(objList)
 
   totalBounds.middleX = (totalBounds.maxX + totalBounds.minX) / 2
   totalBounds.middleZ = (totalBounds.maxZ + totalBounds.minZ) / 2
-  totalBounds.diffX = totalBounds.maxX - totalBounds.minX
-  totalBounds.diffZ = totalBounds.maxZ - totalBounds.minZ
+  totalBounds.diffX   = totalBounds.maxX - totalBounds.minX
+  totalBounds.diffZ   = totalBounds.maxZ - totalBounds.minZ
 
   return totalBounds
 end

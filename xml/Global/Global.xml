@@ -8,7 +8,6 @@
 <Include src="Global/DownloadWindow.xml"/>
 <Include src="Global/PlayAreaGallery.xml"/>
 <Include src="Global/TitleSplash.xml"/>
-<Include src="Global/NavigationOverlay.xml"/>
 <Include src="Global/BlessCurseManager.xml"/>
 <Include src="Global/UpdateNotification.xml"/>
 <Include src="Global/InputDialog.xml"/>
