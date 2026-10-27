@@ -231,23 +231,23 @@ msgstr ""
 "目前展示的是預設顏色。"
 
 # Dropdown Option: Remove Playermat 1
-msgid "OP_removePlayermat_option_select"
+msgid "OP_removePlayermat_dropdown_select"
 msgstr "點擊選擇"
 
 # Dropdown Option: Remove Playermat 2
-msgid "OP_removePlayermat_option_white"
+msgid "OP_removePlayermat_dropdown_white"
 msgstr "1: 白色"
 
 # Dropdown Option: Remove Playermat 3
-msgid "OP_removePlayermat_option_orange"
+msgid "OP_removePlayermat_dropdown_orange"
 msgstr "2: 橙色"
 
 # Dropdown Option: Remove Playermat 4
-msgid "OP_removePlayermat_option_green"
+msgid "OP_removePlayermat_dropdown_green"
 msgstr "3: 綠色"
 
 # Dropdown Option: Remove Playermat 5
-msgid "OP_removePlayermat_option_red"
+msgid "OP_removePlayermat_dropdown_red"
 msgstr "4: 紅色"
 
 # Option: choose a table setup
@@ -259,31 +259,31 @@ msgid "OP_tableSetup_tooltip"
 msgstr "選擇一種預設的桌面佈局。"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_classic4"
+msgid "OP_tableSetup_dropdown_classic4"
 msgstr "經典（4名玩家）"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_classic2"
+msgid "OP_tableSetup_dropdown_classic2"
 msgstr "經典（2名玩家）"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_upright4"
+msgid "OP_tableSetup_dropdown_upright4"
 msgstr "竪向（4名玩家）"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_upright3"
+msgid "OP_tableSetup_dropdown_upright3"
 msgstr "竪向（3名玩家）"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_sides4"
+msgid "OP_tableSetup_dropdown_sides4"
 msgstr "側向（4名玩家）"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_solo"
+msgid "OP_tableSetup_dropdown_solo"
 msgstr "單人（1名玩家）"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_rotated2"
+msgid "OP_tableSetup_dropdown_rotated2"
 msgstr "旋轉 (2名玩家)"
 
 # Option: customize Table Setup

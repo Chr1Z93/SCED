@@ -243,23 +243,23 @@ msgstr ""
 "Toont de standaardkleuren."
 
 # Dropdown Option: Remove Playermat 1
-msgid "OP_removePlayermat_option_select"
+msgid "OP_removePlayermat_dropdown_select"
 msgstr "Klik om te kiezen"
 
 # Dropdown Option: Remove Playermat 2
-msgid "OP_removePlayermat_option_white"
+msgid "OP_removePlayermat_dropdown_white"
 msgstr "1: Wit"
 
 # Dropdown Option: Remove Playermat 3
-msgid "OP_removePlayermat_option_orange"
+msgid "OP_removePlayermat_dropdown_orange"
 msgstr "2: Oranje"
 
 # Dropdown Option: Remove Playermat 4
-msgid "OP_removePlayermat_option_green"
+msgid "OP_removePlayermat_dropdown_green"
 msgstr "3: Groen"
 
 # Dropdown Option: Remove Playermat 5
-msgid "OP_removePlayermat_option_red"
+msgid "OP_removePlayermat_dropdown_red"
 msgstr "4: Rood"
 
 # Option: choose a table setup
@@ -271,31 +271,31 @@ msgid "OP_tableSetup_tooltip"
 msgstr "Kies een vooraf ingestelde tafelopstelling."
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_classic4"
+msgid "OP_tableSetup_dropdown_classic4"
 msgstr "Klassiek (4P)"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_classic2"
+msgid "OP_tableSetup_dropdown_classic2"
 msgstr "Klassiek (2P)"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_upright4"
+msgid "OP_tableSetup_dropdown_upright4"
 msgstr "Staand (4P)"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_upright3"
+msgid "OP_tableSetup_dropdown_upright3"
 msgstr "Staand (3P)"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_sides4"
+msgid "OP_tableSetup_dropdown_sides4"
 msgstr "Zijdes (4P)"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_solo"
+msgid "OP_tableSetup_dropdown_solo"
 msgstr "Solo (1P)"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_rotated2"
+msgid "OP_tableSetup_dropdown_rotated2"
 msgstr "Gedraaid (2P)"
 
 # Option: customize Table Setup
