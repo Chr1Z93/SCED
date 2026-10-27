@@ -27,7 +27,7 @@
 
 <!-- Action Tracker -->
 <VerticalLayout class="navbar"
-  offsetXY="-1 240"
+  offsetXY="-1 280"
   height="800">
   <Button id="BB_toggleActionTracker_tooltip"
     class="navbar"
@@ -38,7 +38,7 @@
 
 <!-- Navigation Overlay + Bless / Curse Manager (height: n * width) -->
 <VerticalLayout class="navbar"
-  offsetXY="-1 160"
+  offsetXY="-1 200"
   height="1600">
   <Button id="BB_toggleBlessCurseManager_tooltip"
     class="navbar"
@@ -55,7 +55,7 @@
 <!-- Download Menu + Option Panel (height: n * width) -->
 <VerticalLayout class="navbar"
   visibility="Admin"
-  offsetXY="-1 80"
+  offsetXY="-1 120"
   height="1600">
   <Button id="BB_toggleDownloadWindow_tooltip"
     class="navbar"
@@ -67,4 +67,15 @@
     icon="option-gear"
     tooltip="Options"
     onClick="onClick_toggleOptionPanel"/>
+</VerticalLayout>
+
+<!-- arkham.build Connector -->
+<VerticalLayout class="navbar"
+  offsetXY="-1 80"
+  height="800">
+  <Button id="BB_abConnector_tooltip"
+    class="navbar"
+    icon="arkhambuild-logo-black"
+    tooltip="arkham.build Connector"
+    onClick="onClick_toggleUi(abConnector)"/>
 </VerticalLayout>
