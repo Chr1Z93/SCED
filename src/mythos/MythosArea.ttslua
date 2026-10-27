@@ -29,7 +29,7 @@ local STORY_CARD_POS              = Vector(-2.2, 0.1, 0.37)
 
 local isReshuffling               = false
 local collisionEnabled            = false
-local currentScenario, useFrontData, tokenData, scenarioCard
+local currentScenario, useFrontData, tokenData, scenarioCard, scenarioId
 
 -- for stopping multiple collisions of the same object
 local collisionTable              = {}
@@ -37,6 +37,7 @@ local collisionTable              = {}
 function updateSave()
   local data = {
     currentScenario = currentScenario,
+    scenarioId      = scenarioId,
     useFrontData    = useFrontData,
     tokenData       = tokenData
   }
@@ -51,6 +52,7 @@ function onLoad(savedData)
     local loadedState = JSON.decode(savedData) or {}
     scenarioCard      = getObjectFromGUID(loadedState.scenarioCardGuid) or nil
     currentScenario   = loadedState.currentScenario or ""
+    scenarioId        = loadedState.scenarioId or ""
     useFrontData      = loadedState.useFrontData
     tokenData         = loadedState.tokenData or {}
 
@@ -61,6 +63,7 @@ end
 
 function resetScenarioData()
   currentScenario = ""
+  scenarioId      = ""
   useFrontData    = true
   tokenData       = {}
   updateSave()
@@ -185,7 +188,7 @@ function onCollisionEnter(collisionInfo)
     GlobalApi.removeTokensFromObject(object, "Mythos")
   elseif inArea(localPos, SCENARIO_REFERENCE_AREA) then
     -- detect scenario reference card and attempt to load data from it
-    local md = JSON.decode(object.getGMNotes()) or {}
+    local md       = JSON.decode(object.getGMNotes()) or {}
     local cardName = object.getName()
 
     if cardName == "Scenario" or md.type == "ScenarioReference" then
@@ -217,6 +220,7 @@ function getDataFromReferenceCard(card, cardName, md)
   -- detect if a new scenario card is placed down
   if currentScenario ~= newScenarioName then
     currentScenario = newScenarioName
+    scenarioId      = md.id or md.TtsZoopGuid
     fireScenarioChangedEvent(md)
 
     -- flip scenario card to Hard/Expert
@@ -280,15 +284,10 @@ function fireScenarioChangedEvent(md)
   local playAreaImageSelector = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", "PlayAreaImageSelector")
   playAreaImageSelector.call("maybeUpdatePlayAreaImage", md.id or md.TtsZoopGuid)
 
-  -- maybe change behavior of some player cards or other objects
-  for _, obj in ipairs(getObjectsWithTag("ListenForScenario")) do
-    obj.call("scenarioChange", currentScenario)
-  end
-
   -- maybe ask the host whether to update player count
   local usedMatColors = PlayermatApi.getUsedMatColors()
   local matColorCount = #usedMatColors
-  local invCount = PlayAreaApi.getInvestigatorCount()
+  local invCount      = PlayAreaApi.getInvestigatorCount()
 
   if matColorCount > 0 and matColorCount ~= invCount then
     for _, player in ipairs(Player.getPlayers()) do
@@ -333,6 +332,7 @@ function returnTokenData()
   return {
     tokenData       = tokenData,
     currentScenario = currentScenario,
+    scenarioId      = scenarioId,
     useFrontData    = useFrontData
   }
 end
