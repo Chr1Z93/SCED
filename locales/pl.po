@@ -243,23 +243,23 @@ msgstr ""
 "Jako opcje dostępne są kolory domyślne."
 
 # Dropdown Option: Remove Playermat 1
-msgid "OP_removePlayermat_option_select"
+msgid "OP_removePlayermat_dropdown_select"
 msgstr "Naciśnij, by wybrać"
 
 # Dropdown Option: Remove Playermat 2
-msgid "OP_removePlayermat_option_white"
+msgid "OP_removePlayermat_dropdown_white"
 msgstr "1: Biały"
 
 # Dropdown Option: Remove Playermat 3
-msgid "OP_removePlayermat_option_orange"
+msgid "OP_removePlayermat_dropdown_orange"
 msgstr "2: Pomarańczowy"
 
 # Dropdown Option: Remove Playermat 4
-msgid "OP_removePlayermat_option_green"
+msgid "OP_removePlayermat_dropdown_green"
 msgstr "3: Zielony"
 
 # Dropdown Option: Remove Playermat 5
-msgid "OP_removePlayermat_option_red"
+msgid "OP_removePlayermat_dropdown_red"
 msgstr "4: Czerwony"
 
 # Option: choose a table setup
@@ -271,31 +271,31 @@ msgid "OP_tableSetup_tooltip"
 msgstr "Wybierz z dostępnych układów stołu."
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_classic4"
+msgid "OP_tableSetup_dropdown_classic4"
 msgstr "Klasyczny (4G)"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_classic2"
+msgid "OP_tableSetup_dropdown_classic2"
 msgstr "Klasyczny (2G)"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_upright4"
+msgid "OP_tableSetup_dropdown_upright4"
 msgstr "Pionowy (4G)"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_upright3"
+msgid "OP_tableSetup_dropdown_upright3"
 msgstr "Pionowy (3G)"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_sides4"
+msgid "OP_tableSetup_dropdown_sides4"
 msgstr "Strony (4G)"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_solo"
+msgid "OP_tableSetup_dropdown_solo"
 msgstr "Tryb Solo (1G)"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_rotated2"
+msgid "OP_tableSetup_dropdown_rotated2"
 msgstr "Obrócony (2G)"
 
 # Option: customize Table Setup

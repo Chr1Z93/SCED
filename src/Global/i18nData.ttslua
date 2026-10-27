@@ -1402,7 +1402,7 @@ I18N_DATA = {
     ["zh_CN"] = "移除/重新生成一张玩家桌垫",
     ["zh_TW"] = "移除/重新生成一張玩家桌墊",
   },
-  ["OP_removePlayermat_option_green"] = {
+  ["OP_removePlayermat_dropdown_green"] = {
     ["de"] = "3: Grün",
     ["en"] = "3: Green",
     ["es"] = "3: Verde",
@@ -1416,7 +1416,7 @@ I18N_DATA = {
     ["zh_CN"] = "3: 绿色",
     ["zh_TW"] = "3: 綠色",
   },
-  ["OP_removePlayermat_option_orange"] = {
+  ["OP_removePlayermat_dropdown_orange"] = {
     ["de"] = "2: Orange",
     ["en"] = "2: Orange",
     ["es"] = "2: Naranja",
@@ -1430,7 +1430,7 @@ I18N_DATA = {
     ["zh_CN"] = "2: 橙色",
     ["zh_TW"] = "2: 橙色",
   },
-  ["OP_removePlayermat_option_red"] = {
+  ["OP_removePlayermat_dropdown_red"] = {
     ["de"] = "4: Rot",
     ["en"] = "4: Red",
     ["es"] = "4: Rojo",
@@ -1444,7 +1444,7 @@ I18N_DATA = {
     ["zh_CN"] = "4: 红色",
     ["zh_TW"] = "4: 紅色",
   },
-  ["OP_removePlayermat_option_select"] = {
+  ["OP_removePlayermat_dropdown_select"] = {
     ["de"] = "Auswählen",
     ["en"] = "Click to select",
     ["es"] = "Haz clic para seleccionar",
@@ -1458,7 +1458,7 @@ I18N_DATA = {
     ["zh_CN"] = "点击选择",
     ["zh_TW"] = "點擊選擇",
   },
-  ["OP_removePlayermat_option_white"] = {
+  ["OP_removePlayermat_dropdown_white"] = {
     ["de"] = "1: Weiß",
     ["en"] = "1: White",
     ["es"] = "1: Blanco",
@@ -1780,7 +1780,7 @@ I18N_DATA = {
     ["zh_CN"] = "选择桌面布局",
     ["zh_TW"] = "選擇桌面佈局",
   },
-  ["OP_tableSetup_option_classic2"] = {
+  ["OP_tableSetup_dropdown_classic2"] = {
     ["de"] = "Klassisch (2S)",
     ["en"] = "Classic (2P)",
     ["es"] = "Clásico (2J)",
@@ -1794,7 +1794,7 @@ I18N_DATA = {
     ["zh_CN"] = "经典 (2名玩家)",
     ["zh_TW"] = "經典（2名玩家）",
   },
-  ["OP_tableSetup_option_classic4"] = {
+  ["OP_tableSetup_dropdown_classic4"] = {
     ["de"] = "Klassisch (4S)",
     ["en"] = "Classic (4P)",
     ["es"] = "Clásico (4J)",
@@ -1808,7 +1808,7 @@ I18N_DATA = {
     ["zh_CN"] = "经典 (4名玩家)",
     ["zh_TW"] = "經典（4名玩家）",
   },
-  ["OP_tableSetup_option_rotated2"] = {
+  ["OP_tableSetup_dropdown_rotated2"] = {
     ["de"] = "Gedreht (2S)",
     ["en"] = "Rotated (2P)",
     ["es"] = "Rotado (2J)",
@@ -1822,7 +1822,7 @@ I18N_DATA = {
     ["zh_CN"] = "旋转 (2名玩家)",
     ["zh_TW"] = "旋轉 (2名玩家)",
   },
-  ["OP_tableSetup_option_sides4"] = {
+  ["OP_tableSetup_dropdown_sides4"] = {
     ["de"] = "Seiten (4S)",
     ["en"] = "Sides (4P)",
     ["es"] = "A los Lados (4J)",
@@ -1836,7 +1836,7 @@ I18N_DATA = {
     ["zh_CN"] = "侧向 (4名玩家)",
     ["zh_TW"] = "側向（4名玩家）",
   },
-  ["OP_tableSetup_option_solo"] = {
+  ["OP_tableSetup_dropdown_solo"] = {
     ["de"] = "Solo (1S)",
     ["en"] = "True Solo (1P)",
     ["es"] = "Solitario (1J)",
@@ -1850,7 +1850,7 @@ I18N_DATA = {
     ["zh_CN"] = "单人 (1名玩家)",
     ["zh_TW"] = "單人（1名玩家）",
   },
-  ["OP_tableSetup_option_upright3"] = {
+  ["OP_tableSetup_dropdown_upright3"] = {
     ["de"] = "Aufrecht (3S)",
     ["en"] = "Upright (3P)",
     ["es"] = "Vertical (3J)",
@@ -1864,7 +1864,7 @@ I18N_DATA = {
     ["zh_CN"] = "竖向 (3名玩家)",
     ["zh_TW"] = "竪向（3名玩家）",
   },
-  ["OP_tableSetup_option_upright4"] = {
+  ["OP_tableSetup_dropdown_upright4"] = {
     ["de"] = "Aufrecht (4S)",
     ["en"] = "Upright (4P)",
     ["es"] = "Vertical (4J)",

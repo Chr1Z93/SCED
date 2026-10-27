@@ -3118,6 +3118,8 @@ function createGlobalXml()
   local globalXml = Global.UI.getXmlTable() or {}
 
   -- add additional XML to it
+  table.insert(globalXml, createOptionPanelDefaults())
+  table.insert(globalXml, createOptionPanelXml())
   table.insert(globalXml, createActionTrackerUI())
   table.insert(globalXml, createPhaseTrackerUI())
   table.insert(globalXml, createChaosTokenSplashUI())
@@ -3126,6 +3128,523 @@ function createGlobalXml()
 
   -- finally, apply the updated XML
   updateGlobalXml(globalXml)
+end
+
+function createOptionPanelDefaults()
+  return {
+    tag = "Defaults",
+    children = {
+      {
+        tag = "Text",
+        attributes = { color = "#FFFFFF", alignment = "MiddleLeft" }
+      },
+      {
+        tag = "Dropdown",
+        attributes = {
+          rectAlignment     = "MiddleCenter",
+          onValueChanged    = "onDropdownChange(selectedIndex)",
+          scrollSensitivity = 30
+        }
+      },
+      {
+        tag = "Cell",
+        attributes = {
+          dontUseTableCellBackground = true,
+          outlineSize                = "0 1",
+          outline                    = "grey"
+        }
+      },
+      {
+        tag = "TableLayout",
+        attributes = {
+          class       = "window",
+          width       = 500,
+          height      = 800,
+          active      = false,
+          color       = "#000000",
+          outlineSize = "2 2",
+          outline     = "grey"
+        }
+      },
+      {
+        tag = "Row",
+        attributes = { class = "group-header", preferredHeight = 44 }
+      },
+      {
+        tag = "Cell",
+        attributes = {
+          class      = "group-header",
+          padding    = "10 10 0 0",
+          columnSpan = 3,
+          color      = "#222222"
+        }
+      },
+      {
+        tag = "Panel",
+        attributes = { class = "group-header", padding = "5 0 0 0" }
+      },
+      {
+        tag = "Text",
+        attributes = {
+          class    = "group-header",
+          fontSize = 28,
+          font     = "font_teutonic-arkham"
+        }
+      },
+      {
+        tag = "Row",
+        attributes = {
+          class                  = "option-text",
+          preferredHeight        = 50,
+          tooltipPosition        = "Left",
+          tooltipOffset          = 10,
+          tooltipBackgroundColor = "rgba(0,0,0,1)"
+        }
+      },
+      {
+        tag = "Cell",
+        attributes = {
+          class      = "option-text",
+          padding    = "10 10 5 5",
+          color      = "#333333",
+          columnSpan = 2
+        }
+      },
+      {
+        tag = "Cell",
+        attributes = {
+          class   = "option-button",
+          padding = "10 10 5 5",
+          color   = "#333333"
+        }
+      },
+      {
+        tag = "Cell",
+        attributes = {
+          class      = "option-singleColumn",
+          padding    = "10 10 5 5",
+          color      = "#333333",
+          columnSpan = 1
+        }
+      },
+      {
+        tag = "Cell",
+        attributes = {
+          class      = "option-doubleColumn",
+          padding    = "10 10 5 5",
+          color      = "#333333",
+          columnSpan = 2
+        }
+      },
+      {
+        tag = "Panel",
+        attributes = { class = "singleColumn-wrapper", padding = "10 0 0 0" }
+      },
+      {
+        tag = "Text",
+        attributes = {
+          class    = "option-header",
+          fontSize = 22,
+          font     = "font_teutonic-arkham"
+        }
+      },
+      {
+        tag = "Panel",
+        attributes = { class = "doubleColumn-wrapper", padding = "0 17 3 3" }
+      },
+      {
+        tag = "Button",
+        attributes = {
+          class         = "optionToggle",
+          image         = "option_off",
+          onClick       = "onClick_toggleOption",
+          rectAlignment = "MiddleRight",
+          offsetXY      = "-30 0",
+          colors        = "#FFFFFF|#dfdfdf",
+          height        = 36,
+          width         = 65,
+          ignoreLayout  = true
+        }
+      },
+      {
+        tag = "Button",
+        attributes = {
+          class       = "bottomButtons",
+          hoverClass  = "hover",
+          pressClass  = "press",
+          selectClass = "select",
+          color       = "#888888",
+          minHeight   = 35,
+          fontSize    = 24,
+          font        = "font_teutonic-arkham"
+        }
+      },
+      {
+        tag = "Button",
+        attributes = { class = "hover", color = "grey" }
+      },
+      {
+        tag = "Button",
+        attributes = { class = "press", color = "white" }
+      },
+      {
+        tag = "Button",
+        attributes = { class = "select", color = "white" }
+      }
+    }
+  }
+end
+
+function createOptionPanelXml()
+  local groups = {
+    {
+      id      = "general",
+      image   = "header_acolyte",
+      options = {
+        { id = "uiLanguage",                type = "dropdown", languages = true },
+        { id = "defaultHardExpert",         type = "toggle" },
+        { id = "showTitleSplash",           type = "toggle" },
+        { id = "showTokenSplash",           type = "toggle" },
+        { id = "enableCardHelpers",         type = "toggle" },
+        { id = "makeDamageHorrorClickable", type = "toggle" },
+        { id = "showOneDamageHorror",       type = "toggle" },
+        {
+          id      = "tokenStatsResetMode",
+          type    = "dropdown",
+          options = { "session", "scenario", "never" }
+        }
+      }
+    },
+    {
+      id      = "playarea",
+      image   = "header_compass",
+      options = {
+        { id = "playAreaSnapTags",        type = "toggle" },
+        { id = "playAreaConnections",     type = "toggle" },
+        { id = "playAreaConnectionColor", type = "color" },
+        { id = "changePlayAreaImage",     type = "toggle" },
+        { id = "highlightMinicards",      type = "toggle" }
+      }
+    },
+    {
+      id      = "playermat",
+      image   = "header_cover",
+      options = {
+        { id = "useSnapTags",             type = "toggle" },
+        { id = "enableCounterLogging",    type = "toggle" },
+        { id = "showDrawButton",          type = "toggle" },
+        { id = "useClassTexture",         type = "toggle" },
+        { id = "useClueClickers",         type = "toggle" },
+        { id = "useCustomResourceImages", type = "toggle" },
+        {
+          id      = "useResourceCounters",
+          type    = "dropdown",
+          options = { "option1", "option2", "option3" }
+        },
+        {
+          id      = "removePlayermat",
+          type    = "dropdown",
+          options = {
+            "dropdown_select",
+            "dropdown_white",
+            "dropdown_orange",
+            "dropdown_green",
+            "dropdown_red"
+          }
+        },
+        {
+          id      = "tableSetup",
+          type    = "dropdown",
+          options = {
+            "dropdown_classic4",
+            "dropdown_classic2",
+            "dropdown_upright4",
+            "dropdown_upright3",
+            "dropdown_sides4",
+            "dropdown_solo",
+            "dropdown_rotated2"
+          }
+        },
+        { id = "customTableSetup", type = "button" }
+      }
+    },
+    {
+      id      = "accessories",
+      image   = "header_olive",
+      options = {
+        { id = "showAttachmentHelper",   type = "toggle" },
+        { id = "showCYOA",               type = "toggle" },
+        { id = "showDisplacementTool",   type = "toggle" },
+        { id = "showHandHelper",         type = "toggle" },
+        { id = "showPlayermatExtension", type = "toggle" },
+        { id = "showSearchAssistant",    type = "toggle" },
+        {
+          id      = "tokenArrangerOdds",
+          type    = "dropdown",
+          options = { "no", "basic", "cumulative", "full" }
+        }
+      }
+    }
+  }
+
+  local function createGroupHeader(group)
+    return {
+      tag = "Row",
+      attributes = { class = "group-header" },
+      children = {
+        {
+          tag = "Cell",
+          attributes = { class = "group-header" },
+          children = {
+            {
+              tag = "Panel",
+              attributes = {
+                class = "group-header",
+                image = group.image
+              },
+              children = {
+                {
+                  tag = "Text",
+                  attributes = {
+                    id    = "OP_group_" .. group.id,
+                    class = "group-header"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  end
+
+  local function createOptionLabel(option)
+    return {
+      tag = "Cell",
+      attributes = {
+        class = option.type == "toggle" and "option-text" or "option-singleColumn"
+      },
+      children = {
+        {
+          tag = "Panel",
+          attributes = { class = "singleColumn-wrapper" },
+          children = {
+            {
+              tag = "Text",
+              attributes = {
+                id    = "OP_" .. option.id,
+                class = "option-header"
+              }
+            }
+          }
+        }
+      }
+    }
+  end
+
+  local function createOptionControl(option)
+    if option.type == "toggle" then
+      return {
+        tag = "Cell",
+        attributes = { class = "option-button" },
+        children = {
+          {
+            tag = "Button",
+            attributes = {
+              class = "optionToggle",
+              id    = option.id
+            }
+          }
+        }
+      }
+    end
+
+    local control
+    if option.type == "dropdown" then
+      local choices = {}
+      if option.languages then
+        for _, language in ipairs(LANGUAGES) do
+          table.insert(choices, { value = language.name })
+        end
+      else
+        for _, suffix in ipairs(option.options) do
+          local choiceId = "OP_" .. option.id .. "_" .. suffix
+          table.insert(choices, {
+            id    = choiceId,
+            value = i18n.getStrById(choiceId)
+          })
+        end
+      end
+
+      control = {
+        tag        = "Dropdown",
+        attributes = { id = option.id },
+        children   = {}
+      }
+      for _, choice in ipairs(choices) do
+        table.insert(control.children, {
+          tag        = "Option",
+          value      = choice.value,
+          attributes = { id = choice.id }
+        })
+      end
+    elseif option.type == "color" then
+      control = {
+        tag = "Button",
+        attributes = {
+          id      = option.id,
+          onClick = "onClick_playAreaConnectionColor"
+        }
+      }
+    elseif option.type == "button" then
+      control = {
+        tag = "Button",
+        attributes = {
+          id      = option.id .. "Button",
+          onClick = "onClick_" .. option.id,
+          text    = "Customize"
+        }
+      }
+    else
+      error("Unsupported Option Panel control type: " .. tostring(option.type))
+    end
+
+    return {
+      tag = "Cell",
+      attributes = { class = "option-doubleColumn" },
+      children = {
+        {
+          tag = "Panel",
+          attributes = { class = "doubleColumn-wrapper" },
+          children = { control }
+        }
+      }
+    }
+  end
+
+  local optionTable = {
+    tag = "TableLayout",
+    attributes = {
+      columnWidths         = "0 100 75",
+      autoCalculateHeight  = 1,
+      useGlobalCellPadding = false
+    },
+    children = {}
+  }
+  local panel = {
+    tag = "TableLayout",
+    attributes = {
+      id            = "optionPanel",
+      class         = "window",
+      rectAlignment = "LowerRight",
+      offsetXY      = "-50 80",
+      raycastTarget = true
+    },
+    children = {
+      {
+        tag = "Row",
+        attributes = { preferredHeight = 60 },
+        children = {
+          {
+            tag = "Cell",
+            children = {
+              {
+                tag = "Panel",
+                attributes = { padding = "10 0 0 0" },
+                children = {
+                  {
+                    tag = "Text",
+                    attributes = {
+                      id       = "OP_Header",
+                      font     = "font_teutonic-arkham",
+                      fontSize = 35
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        tag = "Row",
+        children = {
+          {
+            tag = "Cell",
+            children = {
+              {
+                tag = "VerticalScrollView",
+                attributes = {
+                  horizontalScrollbarVisibility = "AutohideAndExpandViewport",
+                  scrollSensitivity             = 30,
+                  raycastTarget                 = true
+                },
+                children = { optionTable }
+              }
+            }
+          }
+        }
+      },
+      {
+        tag = "Row",
+        attributes = { preferredHeight = 50 },
+        children = {
+          {
+            tag = "Cell",
+            children = {
+              {
+                tag = "HorizontalLayout",
+                attributes = {
+                  minHeight      = 55,
+                  flexibleHeight = 0,
+                  padding        = "10 10 5 10",
+                  spacing        = 225
+                },
+                children = {
+                  {
+                    tag = "Button",
+                    attributes = {
+                      id      = "OP_button_defaults",
+                      class   = "bottomButtons",
+                      onClick = "onClick_defaultSettings"
+                    }
+                  },
+                  {
+                    tag = "Button",
+                    attributes = {
+                      id      = "OP_button_close",
+                      class   = "bottomButtons",
+                      onClick = "onClick_toggleUi(optionPanel)"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  for _, group in ipairs(groups) do
+    table.insert(optionTable.children, createGroupHeader(group))
+    for _, option in ipairs(group.options) do
+      local row = {
+        tag = "Row",
+        attributes = {
+          id = "OP_" .. option.id .. "_tooltip",
+          class = "option-text"
+        },
+        children = {
+          createOptionLabel(option),
+          createOptionControl(option)
+        }
+      }
+      table.insert(optionTable.children, row)
+    end
+  end
+
+  return panel
 end
 
 function createChaosTokenSplashUI()

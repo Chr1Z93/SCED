@@ -203,23 +203,23 @@ msgid "OP_removePlayermat_tooltip"
 msgstr "Remove an unused playermat for more table space.\nDisplayed are the default colors."
 
 # Dropdown Option: Remove Playermat 1
-msgid "OP_removePlayermat_option_select"
+msgid "OP_removePlayermat_dropdown_select"
 msgstr "Click to select"
 
 # Dropdown Option: Remove Playermat 2
-msgid "OP_removePlayermat_option_white"
+msgid "OP_removePlayermat_dropdown_white"
 msgstr "1: White"
 
 # Dropdown Option: Remove Playermat 3
-msgid "OP_removePlayermat_option_orange"
+msgid "OP_removePlayermat_dropdown_orange"
 msgstr "2: Orange"
 
 # Dropdown Option: Remove Playermat 4
-msgid "OP_removePlayermat_option_green"
+msgid "OP_removePlayermat_dropdown_green"
 msgstr "3: Green"
 
 # Dropdown Option: Remove Playermat 5
-msgid "OP_removePlayermat_option_red"
+msgid "OP_removePlayermat_dropdown_red"
 msgstr "4: Red"
 
 # Option: choose a table setup
@@ -231,31 +231,31 @@ msgid "OP_tableSetup_tooltip"
 msgstr "Choose a predetermined table layout."
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_classic4"
+msgid "OP_tableSetup_dropdown_classic4"
 msgstr "Classic (4P)"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_classic2"
+msgid "OP_tableSetup_dropdown_classic2"
 msgstr "Classic (2P)"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_upright4"
+msgid "OP_tableSetup_dropdown_upright4"
 msgstr "Upright (4P)"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_upright3"
+msgid "OP_tableSetup_dropdown_upright3"
 msgstr "Upright (3P)"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_sides4"
+msgid "OP_tableSetup_dropdown_sides4"
 msgstr "Sides (4P)"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_solo"
+msgid "OP_tableSetup_dropdown_solo"
 msgstr "True Solo (1P)"
 
 # Dropdown Option: Table Setup
-msgid "OP_tableSetup_option_rotated2"
+msgid "OP_tableSetup_dropdown_rotated2"
 msgstr "Rotated (2P)"
 
 # Option: customize Table Setup
