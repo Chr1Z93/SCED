@@ -28,9 +28,9 @@ do
     getNOHandler().call("updateVisibility")
   end
 
-  -- creates the XML buttons
-  function NavigationOverlayApi.createXmlButtons()
-    getNOHandler().call("createXmlButtons")
+  -- returns the Navigation Overlay XML elements
+  function NavigationOverlayApi.getXml()
+    return TableLib.copy(getNOHandler().call("getXml"))
   end
 
   -- loads the specified camera for a player

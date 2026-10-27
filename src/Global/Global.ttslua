@@ -251,8 +251,6 @@ function onLoad(savedData)
   -- these things update the Global XML and thus need to happen with delays
   Wait.time(createGlobalXml, getXmlDelay())
   Wait.time(updateBlurseVisibility, getXmlDelay())
-  Wait.time(NavigationOverlayApi.createXmlButtons, getXmlDelay())
-  Wait.time(NavigationOverlayApi.updateVisibility, getXmlDelay())
   Wait.time(PlayAreaApi.updatePlayAreaGallery, getXmlDelay()) -- also selects the first item after 0.1s
   Wait.time(i18n.updateGlobalUiLanguage, getXmlDelay())
 
@@ -265,8 +263,8 @@ function onLoad(savedData)
         attributes = {
           onClick  = "Global/handleStatTrackerClick",
           position = "0 0 -11",
-          width    = "135",
-          height   = "135",
+          width    = 135,
+          height   = 135,
           color    = "#00000000"
         }
       }
@@ -2435,9 +2433,9 @@ end
 --- owner? tts__Object Object that owns the XML (or nil if Global)
 --- time? number Time in seconds for the fade (defaults to 2)
 function fadeXml(params)
-  stopFade = nil -- A global value to allow stopping the animation
+  stopFade         = nil -- A global value to allow stopping the animation
 
-  local targetUi = params.owner and params.owner.UI or UI
+  local targetUi   = params.owner and params.owner.UI or UI
   local xmlElement = getXmlTableElementById(targetUi.getXmlTable(), params.id)
   if not xmlElement then return end
 
@@ -2686,7 +2684,7 @@ function updateDownloadItemList(skipAuthorUpdate)
   if not library then return end
 
   -- addition of list items according to library file
-  local globalXml = Global.UI.getXmlTable() or {}
+  local globalXml   = Global.UI.getXmlTable() or {}
   local contentList = getXmlTableElementById(globalXml, 'contentList')
 
   -- reset the list of authors unless skipping
@@ -3118,181 +3116,18 @@ function createGlobalXml()
   local globalXml = Global.UI.getXmlTable() or {}
 
   -- add additional XML to it
-  table.insert(globalXml, createOptionPanelDefaults())
   table.insert(globalXml, createOptionPanelXml())
   table.insert(globalXml, createActionTrackerUI())
   table.insert(globalXml, createPhaseTrackerUI())
   table.insert(globalXml, createChaosTokenSplashUI())
   table.insert(globalXml, ChaosTokenStatsUi.buildXml())
   table.insert(globalXml, createClueSpendingUI())
+  for _, element in ipairs(NavigationOverlayApi.getXml()) do
+    table.insert(globalXml, element)
+  end
 
   -- finally, apply the updated XML
   updateGlobalXml(globalXml)
-end
-
-function createOptionPanelDefaults()
-  return {
-    tag = "Defaults",
-    children = {
-      {
-        tag = "Text",
-        attributes = { color = "#FFFFFF", alignment = "MiddleLeft" }
-      },
-      {
-        tag = "Dropdown",
-        attributes = {
-          rectAlignment     = "MiddleCenter",
-          onValueChanged    = "onDropdownChange(selectedIndex)",
-          scrollSensitivity = 30
-        }
-      },
-      {
-        tag = "Cell",
-        attributes = {
-          dontUseTableCellBackground = true,
-          outlineSize                = "0 1",
-          outline                    = "grey"
-        }
-      },
-      {
-        tag = "TableLayout",
-        attributes = {
-          class       = "window",
-          width       = 500,
-          height      = 800,
-          active      = false,
-          color       = "#000000",
-          outlineSize = "2 2",
-          outline     = "grey"
-        }
-      },
-      {
-        tag = "Row",
-        attributes = { class = "group-header", preferredHeight = 44 }
-      },
-      {
-        tag = "Cell",
-        attributes = {
-          class      = "group-header",
-          padding    = "10 10 0 0",
-          columnSpan = 3,
-          color      = "#222222"
-        }
-      },
-      {
-        tag = "Panel",
-        attributes = { class = "group-header", padding = "5 0 0 0" }
-      },
-      {
-        tag = "Text",
-        attributes = {
-          class    = "group-header",
-          fontSize = 28,
-          font     = "font_teutonic-arkham"
-        }
-      },
-      {
-        tag = "Row",
-        attributes = {
-          class                  = "option-text",
-          preferredHeight        = 50,
-          tooltipPosition        = "Left",
-          tooltipOffset          = 10,
-          tooltipBackgroundColor = "rgba(0,0,0,1)"
-        }
-      },
-      {
-        tag = "Cell",
-        attributes = {
-          class      = "option-text",
-          padding    = "10 10 5 5",
-          color      = "#333333",
-          columnSpan = 2
-        }
-      },
-      {
-        tag = "Cell",
-        attributes = {
-          class   = "option-button",
-          padding = "10 10 5 5",
-          color   = "#333333"
-        }
-      },
-      {
-        tag = "Cell",
-        attributes = {
-          class      = "option-singleColumn",
-          padding    = "10 10 5 5",
-          color      = "#333333",
-          columnSpan = 1
-        }
-      },
-      {
-        tag = "Cell",
-        attributes = {
-          class      = "option-doubleColumn",
-          padding    = "10 10 5 5",
-          color      = "#333333",
-          columnSpan = 2
-        }
-      },
-      {
-        tag = "Panel",
-        attributes = { class = "singleColumn-wrapper", padding = "10 0 0 0" }
-      },
-      {
-        tag = "Text",
-        attributes = {
-          class    = "option-header",
-          fontSize = 22,
-          font     = "font_teutonic-arkham"
-        }
-      },
-      {
-        tag = "Panel",
-        attributes = { class = "doubleColumn-wrapper", padding = "0 17 3 3" }
-      },
-      {
-        tag = "Button",
-        attributes = {
-          class         = "optionToggle",
-          image         = "option_off",
-          onClick       = "onClick_toggleOption",
-          rectAlignment = "MiddleRight",
-          offsetXY      = "-30 0",
-          colors        = "#FFFFFF|#dfdfdf",
-          height        = 36,
-          width         = 65,
-          ignoreLayout  = true
-        }
-      },
-      {
-        tag = "Button",
-        attributes = {
-          class       = "bottomButtons",
-          hoverClass  = "hover",
-          pressClass  = "press",
-          selectClass = "select",
-          color       = "#888888",
-          minHeight   = 35,
-          fontSize    = 24,
-          font        = "font_teutonic-arkham"
-        }
-      },
-      {
-        tag = "Button",
-        attributes = { class = "hover", color = "grey" }
-      },
-      {
-        tag = "Button",
-        attributes = { class = "press", color = "white" }
-      },
-      {
-        tag = "Button",
-        attributes = { class = "select", color = "white" }
-      }
-    }
-  }
 end
 
 function createOptionPanelXml()
@@ -4105,7 +3940,7 @@ function updateGlobalXml(newXml)
   for _, windowId in ipairs(windowIdList) do
     local element = getXmlTableElementById(newXml, windowId)
     if element and element.attributes then
-      element.attributes.active = UI.getAttribute(windowId, "active")
+      element.attributes.active     = UI.getAttribute(windowId, "active")
       element.attributes.visibility = UI.getAttribute(windowId, "visibility")
     end
   end
