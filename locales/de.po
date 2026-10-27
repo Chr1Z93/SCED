@@ -609,6 +609,18 @@ msgstr "Gezogene Tokens"
 msgid "CT_scope_label"
 msgstr "Filter:"
 
+msgid "CT_scope_overall"
+msgstr "Gesamt"
+
+msgid "CT_filter_tokens_in_bag"
+msgstr "Tokens im Beutel"
+
+msgid "CT_filter_drawn_tokens"
+msgstr "Gezogene Tokens"
+
+msgid "CT_filter_all_tokens"
+msgstr "Alle Tokens"
+
 msgid "CT_button_export"
 msgstr "Stats exportieren"
 

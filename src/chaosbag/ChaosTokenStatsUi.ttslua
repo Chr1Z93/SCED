@@ -9,13 +9,19 @@ do
   local chaosStatScopeOptionsSig  = ""
 
   local CHAOS_STAT_FILTER_OPTIONS = {
-    { key = "inBag", label = "Tokens In Bag" },
-    { key = "drawn", label = "Drawn Tokens" },
-    { key = "all",   label = "All Tokens" }
+    { key = "inBag", labelId = "CT_filter_tokens_in_bag" },
+    { key = "drawn", labelId = "CT_filter_drawn_tokens" },
+    { key = "all",   labelId = "CT_filter_all_tokens" }
   }
 
   function ChaosTokenStatsUi.getChaosStatScopeOptions()
-    local options = { { key = "Overall", label = "Overall" } }
+    local options = {
+      {
+        key   = "Overall",
+        id    = "CT_scope_overall",
+        label = i18nApi.getStrById("CT_scope_overall")
+      }
+    }
     local others = {}
     for key, stats in pairs(tokenDrawingStats) do
       if key ~= "Overall" then
@@ -56,11 +62,16 @@ do
 
     if chaosStatScopeOptionsSig ~= signature then
       local globalXml = Global.UI.getXmlTable() or {}
-      local dropdown = getXmlTableElementById(globalXml, "chaosStatScopeDropdown")
+      local dropdown  = getXmlTableElementById(globalXml, "chaosStatScopeDropdown")
       if dropdown then
         dropdown.children = {}
-        for _, label in ipairs(labels) do
-          table.insert(dropdown.children, { tag = "Option", value = label })
+        for i, label in ipairs(labels) do
+          local option = scopeOptions[i]
+          table.insert(dropdown.children, {
+            tag        = "Option",
+            value      = label,
+            attributes = { id = option.id }
+          })
         end
         updateGlobalXml(globalXml)
       end
@@ -267,10 +278,18 @@ do
   end
 
   function ChaosTokenStatsUi.buildXml()
-    local fontName     = i18n.getFont()
-    local graphColumns = {}
+    local fontName      = i18n.getFont()
+    local graphColumns  = {}
+    local filterOptions = {}
     for _, tokenName in ipairs(ChaosTokenStatsUi.getChaosStatTokenOrder()) do
       table.insert(graphColumns, ChaosTokenStatsUi.createChaosStatGraphColumn(tokenName))
+    end
+    for _, filterOption in ipairs(CHAOS_STAT_FILTER_OPTIONS) do
+      table.insert(filterOptions, {
+        tag        = "Option",
+        value      = i18nApi.getStrById(filterOption.labelId),
+        attributes = { id = filterOption.labelId }
+      })
     end
 
     return {
@@ -338,7 +357,13 @@ do
                 font                 = fontName,
                 onValueChanged       = "onChaosStatScopeDropdownChanged(selectedIndex)"
               },
-              children = { { tag = "Option", value = "Overall" } }
+              children = {
+                {
+                  tag        = "Option",
+                  value      = i18nApi.getStrById("CT_scope_overall"),
+                  attributes = { id = "CT_scope_overall" }
+                }
+              }
             }
             ,
             { tag = "Panel", attributes = { flexibleWidth = 1000 } },
@@ -353,12 +378,7 @@ do
                 font                 = fontName,
                 onValueChanged       = "onChaosStatTokenFilterDropdownChanged(selectedIndex)"
               },
-              children = {
-                -- TODO: localization
-                { tag = "Option", value = "Tokens In Bag" },
-                { tag = "Option", value = "Drawn Tokens" },
-                { tag = "Option", value = "All Tokens" }
-              }
+              children = filterOptions
             },
             {
               tag = "Button",

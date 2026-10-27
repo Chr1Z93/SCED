@@ -601,6 +601,18 @@ msgstr "Getrokken tokens"
 msgid "CT_scope_label"
 msgstr "Scope:"
 
+msgid "CT_scope_overall"
+msgstr "Overall"
+
+msgid "CT_filter_tokens_in_bag"
+msgstr "Tokens In Bag"
+
+msgid "CT_filter_drawn_tokens"
+msgstr "Drawn Tokens"
+
+msgid "CT_filter_all_tokens"
+msgstr "All Tokens"
+
 msgid "CT_button_export"
 msgstr "Export Stats"
 
