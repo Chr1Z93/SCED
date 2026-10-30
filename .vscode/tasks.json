@@ -4,7 +4,7 @@
     {
       "label": "Arkham SCE: Build",
       "type": "process",
-      "command": "python",
+      "command": "py",
       "osx": {
         "command": "python3"
       },
@@ -27,7 +27,7 @@
     {
       "label": "Arkham SCE: Decompose",
       "type": "process",
-      "command": "python",
+      "command": "py",
       "osx": {
         "command": "python3"
       },
@@ -46,7 +46,7 @@
     {
       "label": "Arkham SCE: Debug Line",
       "type": "process",
-      "command": "python",
+      "command": "py",
       "osx": {
         "command": "python3"
       },
