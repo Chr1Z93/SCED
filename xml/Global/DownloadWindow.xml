@@ -143,14 +143,17 @@
         <Text id="previewTitle"
           fontSize="28"
           preferredHeight="65"
+          alignment="MiddleCenter"
           font="font_teutonic-arkham">PreviewTitle</Text>
         <Text id="previewAuthor"
           fontSize="20"
           preferredHeight="30"
+          alignment="MiddleCenter"
           font="font_teutonic-arkham">by PreviewAuthor</Text>
         <Text id="previewScenarioCount"
           fontSize="20"
           preferredHeight="30"
+          alignment="MiddleCenter"
           font="font_teutonic-arkham">Scenarios: </Text>
       </VerticalLayout>
 
