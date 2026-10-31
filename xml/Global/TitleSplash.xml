@@ -15,6 +15,7 @@
     resizeTextForBestFit="true"
     resizeTextMinSize="100"
     resizeTextMaxSize="150"
+    alignment="MiddleCenter"
     font="font_teutonic-arkham"
     outline="black"
     outlineSize="3 -3"
