@@ -3,6 +3,7 @@
   "type": "Treachery",
   "class": "Neutral",
   "traits": "Curse. Omen.",
+  "startsInPlay": true,
   "permanent": true,
   "weakness": true,
   "basicWeaknessCount": 1,
