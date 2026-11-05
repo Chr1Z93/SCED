@@ -24,7 +24,7 @@ do
   -- Spawns a single token at the given global position by copying it from the template bag.
   ---@param position tts__Vector Global position to spawn the token
   ---@param tokenType string Type of token to spawn (template needs to be in source bag)
-  ---@param rotation tts__Vector Rotation to be used for the new token. Only the y-value will be used,
+  ---@param rotation? tts__Vector Rotation to be used for the new token. Only the y-value will be used,
   --     x and z will use the default rotation from the source bag
   ---@param callbackName? string Name of the callback function (in Global)
   ---@param callbackParams? any Parameters for the callback function
