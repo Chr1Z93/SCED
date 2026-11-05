@@ -11,15 +11,18 @@ do
     isUniversalToken = function(x) return x.getMemo() == "universalActionAbility" end,
   }
 
+  ---@class SearchParams
+  ---@field pos tts__Vector Global position
+  ---@field rot? tts__Vector|table Global rotation
+  ---@field size? tts__Vector|table Size of the cast
+  ---@field filter? string|fun(object: tts__Object): boolean Filter name or custom predicate.
+  ---@field direction? tts__Vector|table Cast direction (positive y is up)
+  ---@field maxDistance? number Maximum cast distance
+  ---@field debug? boolean Whether debug boxes should be shown
+
   -- performs the actual search and returns a filtered list of object references
-  ---@param params table Table with parameters:
-  --- pos tts__Vector Global position
-  --- rot? tts__Vector Global rotation
-  --- size? table Size
-  --- filter? string|function Name of the filter function or custom filter function
-  --- direction? table Direction (positive is up)
-  --- maxDistance? number Distance for the cast
-  --- debug? boolean Whether the debug boxes should be shown
+  ---@param params SearchParams
+  ---@return tts__Object[] objects Matching object references
   local function performSearch(params)
     if not params or not params.pos then return {} end
 
