@@ -249,8 +249,8 @@ do
 
   -- Updates the specified owned counter
   ---@param type string Counter to target
-  ---@param newValue number Value to set the counter to
-  ---@param modifier number If newValue is not provided, the existing value will be adjusted by this modifier
+  ---@param newValue? number Value to set the counter to
+  ---@param modifier? number If newValue is not provided, the existing value will be adjusted by this modifier
   function PlayermatApi.updateCounter(matColor, type, newValue, modifier)
     for _, mat in pairs(getMatForColor(matColor)) do
       mat.call("updateCounter", { type = type, newValue = newValue, modifier = modifier })

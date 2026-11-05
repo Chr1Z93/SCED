@@ -39,7 +39,7 @@ do
   end
 
   -- broadcasts the current status for bless/curse tokens
-  ---@param playerColor string Color of the player to show the broadcast to
+  ---@param playerColor? string Color of the player to show the broadcast to
   function BlessCurseManagerApi.broadcastStatus(playerColor)
     getManager().call("broadcastStatus", playerColor)
   end

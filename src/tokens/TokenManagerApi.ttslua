@@ -97,7 +97,7 @@ do
   -- adds a use to a card
   ---@param card tts__Object Card that should get a use added
   ---@param useType string Type of uses to be added
-  ---@param additionalCount number How many uses to add
+  ---@param additionalCount? number How many uses to add
   function TokenManagerApi.addUseToCard(card, useType, additionalCount)
     local result = Global.call("callTable", {
       { "TokenManager", "addUseToCard" },

@@ -21,7 +21,7 @@ do
   -- will be removed from the list and cannot be selected again until a reload occurs
   -- or the indexes are rebuilt, which will refresh the list to include all weaknesses.
   ---@param count number Number of weaknesses
-  ---@param restrictions table Additional restrictions:
+  ---@param restrictions? table Additional restrictions:
   ---  class? string Class to restrict weakness to
   ---  standalone? boolean Whether 'Campaign only' weaknesses should be exluded
   ---  traits? string Trait(s) to use as filter

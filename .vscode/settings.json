@@ -9,5 +9,8 @@
     "need-check-nil",
     "assign-type-mismatch",
     "param-type-mismatch"
+  ],
+  "Lua.runtime.path": [
+    "src/?.ttslua"
   ]
 }

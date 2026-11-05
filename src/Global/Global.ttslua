@@ -807,8 +807,8 @@ function onObjectDrop(playerColor, obj)
     if #searchResult == 0 then return end
 
     -- track dynamic tokens per card
-    local card = searchResult[1]
-    local cardGuid = card.getGUID()
+    local card                 = searchResult[1]
+    local cardGuid             = card.getGUID()
     dynamicTokensPerCard[card] = dynamicTokensPerCard[card] or {}
     table.insert(dynamicTokensPerCard[card], obj)
 
@@ -823,8 +823,8 @@ function onObjectDrop(playerColor, obj)
     waitIds["addToken" .. cardGuid] = Wait.time(function()
       if card ~= nil then
         local result = TokenManager.addUseToCard({
-          card = card,
-          useType = "resource",
+          card            = card,
+          useType         = "resource",
           additionalCount = #dynamicTokensPerCard[card]
         })
         for _, token in ipairs(dynamicTokensPerCard[card]) do
@@ -3224,22 +3224,22 @@ function createOptionPanelXml()
 
   local function createGroupHeader(group)
     return {
-      tag = "Row",
+      tag        = "Row",
       attributes = { class = "group-header" },
-      children = {
+      children   = {
         {
-          tag = "Cell",
+          tag        = "Cell",
           attributes = { class = "group-header" },
-          children = {
+          children   = {
             {
-              tag = "Panel",
+              tag        = "Panel",
               attributes = {
                 class = "group-header",
                 image = group.image
               },
-              children = {
+              children   = {
                 {
-                  tag = "Text",
+                  tag        = "Text",
                   attributes = {
                     id    = "OP_group_" .. group.id,
                     class = "group-header"
@@ -3255,17 +3255,17 @@ function createOptionPanelXml()
 
   local function createOptionLabel(option)
     return {
-      tag = "Cell",
+      tag        = "Cell",
       attributes = {
         class = option.type == "toggle" and "option-text" or "option-singleColumn"
       },
-      children = {
+      children   = {
         {
-          tag = "Panel",
+          tag        = "Panel",
           attributes = { class = "singleColumn-wrapper" },
-          children = {
+          children   = {
             {
-              tag = "Text",
+              tag        = "Text",
               attributes = {
                 id    = "OP_" .. option.id,
                 class = "option-header"
@@ -3280,11 +3280,11 @@ function createOptionPanelXml()
   local function createOptionControl(option)
     if option.type == "toggle" then
       return {
-        tag = "Cell",
+        tag        = "Cell",
         attributes = { class = "option-button" },
-        children = {
+        children   = {
           {
-            tag = "Button",
+            tag        = "Button",
             attributes = {
               class = "optionToggle",
               id    = option.id
@@ -3345,29 +3345,29 @@ function createOptionPanelXml()
     end
 
     return {
-      tag = "Cell",
+      tag        = "Cell",
       attributes = { class = "option-doubleColumn" },
-      children = {
+      children   = {
         {
-          tag = "Panel",
+          tag        = "Panel",
           attributes = { class = "doubleColumn-wrapper" },
-          children = { control }
+          children   = { control }
         }
       }
     }
   end
 
   local optionTable = {
-    tag = "TableLayout",
+    tag        = "TableLayout",
     attributes = {
       columnWidths         = "0 100 75",
       autoCalculateHeight  = 1,
       useGlobalCellPadding = false
     },
-    children = {}
+    children   = {}
   }
   local panel = {
-    tag = "TableLayout",
+    tag        = "TableLayout",
     attributes = {
       id            = "optionPanel",
       class         = "window",
@@ -3375,20 +3375,20 @@ function createOptionPanelXml()
       offsetXY      = "-50 80",
       raycastTarget = true
     },
-    children = {
+    children   = {
       {
-        tag = "Row",
+        tag        = "Row",
         attributes = { preferredHeight = 60 },
-        children = {
+        children   = {
           {
-            tag = "Cell",
+            tag      = "Cell",
             children = {
               {
-                tag = "Panel",
+                tag        = "Panel",
                 attributes = { padding = "10 0 0 0" },
-                children = {
+                children   = {
                   {
-                    tag = "Text",
+                    tag        = "Text",
                     attributes = {
                       id       = "OP_Header",
                       font     = "font_teutonic-arkham",
@@ -5682,8 +5682,8 @@ end
 
 -- adds a use to a card
 function TokenManager.addUseToCard(params)
-  local card = params.card
-  local useType = params.useType
+  local card            = params.card
+  local useType         = params.useType
   local additionalCount = params.additionalCount or 1
 
   -- only allow 1 trigger per 5 frames for the same card
@@ -5749,12 +5749,12 @@ function TokenManager.getDataForInfiniteBag(params)
     Nickname = properTypeName .. " Bag",
     ContainedObjects = { tokenTemplate },
     Transform = {
-      posX = params.position.x,
-      posY = params.position.y,
-      posZ = params.position.z,
-      rotX = params.rotation.x,
-      rotY = params.rotation.y,
-      rotZ = params.rotation.z,
+      posX   = params.position.x,
+      posY   = params.position.y,
+      posZ   = params.position.z,
+      rotX   = params.rotation.x,
+      rotY   = params.rotation.y,
+      rotZ   = params.rotation.z,
       scaleX = 1,
       scaleY = 1,
       scaleZ = 1
