@@ -4,7 +4,7 @@ do
   -- downloads an object from the library and optionally replaces an existing object
   ---@param filename string Path to JSON file (without .json extension) in the library
   ---@param player tts__Player Player that initiated this
-  ---@param replace string GUID of the object to replace
+  ---@param replace? string GUID of the object to replace
   function GlobalApi.placeholderDownload(filename, player, replace)
     Global.call("placeholder_download", {
       filename = filename,
@@ -55,6 +55,7 @@ do
 
   -- returns the colored steam name or color
   ---@param playerColor string Color of the player
+  ---@return string: The colored display name, or the player color if no name is available
   function GlobalApi.getColoredName(playerColor)
     return Global.call("getColoredName", playerColor)
   end
@@ -66,6 +67,8 @@ do
     Global.call("handVisibilityToggle", { playerColor = playerColor, handColor = handColor })
   end
 
+  ---@param cycleId string Cycle code to download
+  ---@return boolean|nil: True if a download was started, false if the cycle was not found, or nil if a download is already pending
   function GlobalApi.downloadCustomCycle(cycleId)
     return Global.call("downloadCustomCycle", cycleId)
   end
@@ -93,7 +96,7 @@ do
 
   -- draws a colored border around a card
   ---@param card tts__Object Card that should get the border
-  ---@param borderColor tts__Color Color for the border
+  ---@param borderColor string Color for the border
   ---@param thickness? number Thickness for the border
   function GlobalApi.drawBorderAroundCard(card, borderColor, thickness)
     Global.call("drawBorderAroundCard", { card = card, borderColor = borderColor, thickness = thickness })
@@ -101,6 +104,7 @@ do
 
   -- constructs the mini ID from an investigator ID
   ---@param investigatorId string ID of the investigator card
+  ---@return string: Mini ID for the investigator
   function GlobalApi.getMiniId(investigatorId)
     return Global.call("getMiniId", investigatorId)
   end
@@ -110,7 +114,7 @@ do
   ---@param ownerRotation? tts__Vector Rotation of the owner
   ---@param smooth? boolean Should the card be rotated smoothly?
   ---@param forceReady? boolean True if this card should be readied regardless of "DoNoReady" tag
-  ---@return boolean success Whether the card was readied
+  ---@return boolean|nil success Whether the card was readied, or nil if it was not eligible to be readied
   function GlobalApi.maybeReadyCard(card, ownerRotation, smooth, forceReady)
     return Global.call("maybeReadyCard", {
       card          = card,
@@ -121,17 +125,22 @@ do
   end
 
   -- updates a card's alt preview
+  ---@param card tts__Object Card to update
+  ---@param useBack? boolean Whether to show the back; defaults to the card's face-down state
   function GlobalApi.updateAltView(card, useBack)
     return Global.call("updateAltViewWrapper", { card = card, useBack = useBack })
   end
 
   -- Removes common suffixes from IDs
+  ---@param id string ID to normalize
+  ---@return string: ID with common suffixes removed
   function GlobalApi.getBaseId(id)
     return Global.call("getBaseId", id)
   end
 
   -- checks if a card is exhausted
   ---@param card tts__Object Card to be checked
+  ---@return boolean: Whether the card is exhausted
   function GlobalApi.isExhausted(card)
     return Global.call("isExhausted", card)
   end

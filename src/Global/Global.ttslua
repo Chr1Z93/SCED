@@ -2365,7 +2365,7 @@ end
 
 -- wrapper for the real function to unpack arguments
 function changeWindowVisibilityForColorWrapper(params)
-  changeWindowVisibilityForColor(params.color, params.windowId, params.overrideState, params.owner)
+  return changeWindowVisibilityForColor(params.color, params.windowId, params.overrideState, params.owner)
 end
 
 -- toggles the visibility of the specific window for the specified color

@@ -1,6 +1,8 @@
 do
   local i18nApi = {}
 
+  ---@param id string The msgid of the string to retrieve
+  ---@return string: The translated string or the id if no translation is found
   function i18nApi.getStrById(id)
     return Global.call("callTable", {
       { "i18n", "getStrById" },
@@ -9,6 +11,7 @@ do
   end
 
   ---@param code? string Language code
+  ---@return string: The name of the font to use
   function i18nApi.getFont(code)
     return Global.call("callTable", {
       { "i18n", "getFont" },
@@ -16,6 +19,8 @@ do
     })
   end
 
+  ---@param id string The msgid of the UI element
+  ---@return string|nil: The font name if a special font should be used, otherwise nil
   function i18nApi.getFontById(id)
     return Global.call("callTable", {
       { "i18n", "getFontById" },
@@ -23,6 +28,8 @@ do
     })
   end
 
+  ---@param str string The input string ID
+  ---@return string|nil: The extracted prefix or nil if not found
   function i18nApi.getPrefix(str)
     return Global.call("callTable", {
       { "i18n", "getPrefix" },
@@ -30,6 +37,7 @@ do
     })
   end
 
+  ---@param obj tts__Object The game object with a UI to translate
   function i18nApi.updateObjectUiLanguage(obj)
     return Global.call("callTable", {
       { "i18n", "updateObjectUiLanguage" },
