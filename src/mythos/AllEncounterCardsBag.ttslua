@@ -150,10 +150,10 @@ function addCardToIndex(cardData)
   end
 
   -- assume name is the ID as fallback
-  local length = string.len(cardData["Nickname"])
+  local length = string.len(cardData.Nickname)
   if length == 5 or length == 6 then
-    local cardId = cardData["Nickname"]
-    cardData["Nickname"] = nil
+    local cardId = cardData.Nickname
+    cardData.Nickname = nil
     cardIdIndex[cardId] = { data = cardData, metadata = { id = cardId } }
   end
 end
@@ -393,7 +393,7 @@ function updateDeckData(deckData)
 
   -- Update individual cards
   for i, objData in ipairs(deckData.ContainedObjects) do
-    local md = JSON.decode(objData["GMNotes"]) or {}
+    local md = JSON.decode(objData.GMNotes) or {}
     local id = getId(md)
     if id then
       local cardData = getCardById({ id = id })
@@ -492,7 +492,7 @@ end
 function updateOriginalItemData(originalData, replaceData)
   local rotationDelta = 0
 
-  for _, tag in ipairs(originalData["Tags"] or {}) do
+  for _, tag in ipairs(originalData.Tags or {}) do
     if tag == "Replaced" then
       return false, rotationDelta
     end
@@ -525,26 +525,26 @@ function updateOriginalItemData(originalData, replaceData)
   end
 
   -- special handling for tags
-  originalData["Tags"] = originalData["Tags"] or replaceData["Tags"] or {}
-  table.insert(originalData["Tags"], "Replaced")
+  originalData.Tags = originalData.Tags or replaceData.Tags or {}
+  table.insert(originalData.Tags, "Replaced")
 
   -- special handling for 'HideWhenFaceDown'
-  if replaceData["HideWhenFaceDown"] ~= nil then
+  if replaceData.HideWhenFaceDown ~= nil then
     -- inherit setting from replacement
-    originalData["HideWhenFaceDown"] = replaceData["HideWhenFaceDown"]
-  elseif originalData["HideWhenFaceDown"] == nil then
+    originalData.HideWhenFaceDown = replaceData.HideWhenFaceDown
+  elseif originalData.HideWhenFaceDown == nil then
     -- special handling for cards
-    if isCardType(replaceData["Name"]) then
+    if isCardType(replaceData.Name) then
       -- If UniqueBack is False, default HideWhenFaceDown is True
       -- If UniqueBack is True, default HideWhenFaceDown is False
-      local _, customDeckData = next(replaceData["CustomDeck"])
-      originalData["HideWhenFaceDown"] = not customDeckData["UniqueBack"]
+      local _, customDeckData = next(replaceData.CustomDeck)
+      originalData.HideWhenFaceDown = not customDeckData.UniqueBack
     else
-      originalData["HideWhenFaceDown"] = true
+      originalData.HideWhenFaceDown = true
     end
   end
 
-  if isCardType(originalData["Name"]) then
+  if isCardType(originalData.Name) then
     return processCard(originalData), rotationDelta
   end
 
@@ -552,20 +552,20 @@ function updateOriginalItemData(originalData, replaceData)
 end
 
 function processCard(cardData)
-  local _, customDeckData = next(cardData["CustomDeck"])
-  customDeckData["BackIsHidden"] = true
+  local _, customDeckData = next(cardData.CustomDeck)
+  customDeckData.BackIsHidden = true
 
   -- skip cards with decksheets as back
-  if (customDeckData["NumHeight"] ~= 1 or customDeckData["NumWidth"] ~= 1) or customDeckData["UniqueBack"] == true then
+  if (customDeckData.NumHeight ~= 1 or customDeckData.NumWidth ~= 1) or customDeckData.UniqueBack == true then
     return true
   end
 
   local newBack
-  for _, tag in ipairs(cardData["Tags"]) do
+  for _, tag in ipairs(cardData.Tags) do
     local back = CARD_BACK_URL[tag]
     if back then
       if newBack then
-        log("Multiple back tags for '" .. cardData["Nickname"] .. "'.")
+        log("Multiple back tags for '" .. cardData.Nickname .. "'.")
         return false
       end
 
@@ -574,10 +574,10 @@ function processCard(cardData)
   end
 
   if not newBack then
-    log("Missing back tag for '" .. cardData["Nickname"] .. "'.")
+    log("Missing back tag for '" .. cardData.Nickname .. "'.")
     return false
   end
 
-  customDeckData["BackURL"] = newBack
+  customDeckData.BackURL = newBack
   return true
 end
