@@ -21,6 +21,36 @@ local REPLACEMENT_FIELDS = {
   "States"
 }
 
+-- Helper functions
+local function isCardType(name)
+  return name == "Card" or name == "CardCustom"
+end
+
+local function getId(md)
+  return md.id or md.TtsZoopGuid
+end
+
+local function addReplacedTag(objectData)
+  objectData.Tags = objectData.Tags or {}
+  table.insert(objectData.Tags, "Replaced")
+end
+
+local function maybeUpdateMemoryBagState(rotationDelta, isMemoryBag, objData, bagScriptState)
+  local guid = objData.GUID
+  if rotationDelta ~= 0 and isMemoryBag and guid and guid ~= "" and bagScriptState.ml[guid] then
+    bagScriptState.ml[guid].rot   = bagScriptState.ml[guid].rot or {}
+    bagScriptState.ml[guid].rot.y = (bagScriptState.ml[guid].rot.y or 0) + rotationDelta
+    return true
+  end
+  return false
+end
+
+local function sameFaceAndBack(t1, t2)
+  return t1.FaceURL == t2.FaceURL and t1.BackURL == t2.BackURL
+end
+
+-- Main functionality
+
 function onLoad()
   self.addContextMenuItem("Rebuild Index", rebuildIndex)
   Wait.frames(startIndexBuild, 30)
@@ -76,7 +106,7 @@ function processContainedObjects(containedObjects, customDeck)
       itemCount = itemCount + 1
       -- recursively process nested containers
       processContainedObjects(objData.ContainedObjects, objData.CustomDeck)
-    elseif objData.Name == "Card" or objData.Name == "CardCustom" then
+    elseif isCardType(objData.Name) then
       if customDeck then
         -- we might need to fix the "CustomDeck" entry for cards inside decks since TTS doesn't update it while they are in bags
         local wantedCustomDeckIdStr = tostring(objData.CardID):sub(1, -3)
@@ -112,7 +142,7 @@ end
 function addCardToIndex(cardData)
   if cardData.GMNotes and cardData.GMNotes ~= "" then
     local md = parseObjectMetadata(cardData) or {}
-    local id = md.id or md.TtsZoopGuid
+    local id = getId(md)
     if id then
       cardIdIndex[id] = { data = cardData, metadata = md }
       return
@@ -131,7 +161,7 @@ end
 function addObjectToIndex(objectData)
   if objectData.GMNotes and objectData.GMNotes ~= "" then
     local md = parseObjectMetadata(objectData) or {}
-    local id = md.id or md.TtsZoopGuid
+    local id = getId(md)
     if id then
       itemIdIndex[id] = { data = objectData, metadata = md }
     end
@@ -199,7 +229,7 @@ function onObjectSpawn(obj)
     handleSpawnedCard(obj)
   elseif obj.type == "Deck" then
     handleSpawnedDeck(obj)
-    -- when campaign/scenario box is downloaded, sometimes (semi-randomly) it has type "Generic"
+    -- when a placeholder box is downloaded, sometimes (semi-randomly) it has type "Generic"
     -- instead of "Bag", so we are also checking the name here
   elseif obj.type == "Bag" or obj.name == "Custom_Model_Bag" then
     handleSpawnedBag(obj)
@@ -214,8 +244,7 @@ function handleSpawnedBag(bag)
       local objData = bag.getData()
       if updateBagData(objData) then
         bag.destruct()
-        objData.Tags = objData.Tags or {}
-        table.insert(objData.Tags, "Replaced")
+        addReplacedTag(objData)
         spawnObjectData({ data = objData })
       end
     end
@@ -228,8 +257,7 @@ function handleSpawnedDeck(deck)
       local objData = deck.getData()
       if updateDeckData(objData) then
         deck.destruct()
-        objData.Tags = objData.Tags or {}
-        table.insert(objData.Tags, "Replaced")
+        addReplacedTag(objData)
         spawnObjectData({ data = objData })
       end
     end
@@ -239,7 +267,7 @@ end
 function handleSpawnedCard(card)
   -- check if the card has metadata
   local md = JSON.decode(card.getGMNotes()) or {}
-  local id = md.id or md.TtsZoopGuid
+  local id = getId(md)
   if not id then return end
 
   -- check if it's in the index
@@ -264,7 +292,7 @@ end
 function handleSpawnedObject(object)
   -- check if the object has metadata
   local md = JSON.decode(object.getGMNotes()) or {}
-  local id = md.id or md.TtsZoopGuid
+  local id = getId(md)
   if not id then return end
 
   -- check if it's in the index
@@ -310,42 +338,30 @@ function updateBagData(bagData)
       if updateBagData(objData) then
         changedSomething = true
       end
-      objData.Tags = objData.Tags or {}
-      table.insert(objData.Tags, "Replaced")
-    elseif objData.Name == "Card" or objData.Name == "CardCustom" then
+      addReplacedTag(objData)
+    elseif isCardType(objData.Name) then
       local md = JSON.decode(objData.GMNotes) or {}
-      local id = md.id or md.TtsZoopGuid
+      local id = getId(md)
       if id then
         local cardData = getCardById({ id = id })
         if cardData then
           local wasUpdated, rotationDelta = updateOriginalItemData(objData, cardData.data)
           if wasUpdated then
-            changedSomething = true
-            local guid = objData.GUID
-            if rotationDelta ~= 0 and isMemoryBag and guid and guid ~= "" and bagScriptState.ml[guid] then
-              bagScriptState.ml[guid].rot   = bagScriptState.ml[guid].rot or {}
-              bagScriptState.ml[guid].rot.y = (bagScriptState.ml[guid].rot.y or 0) + rotationDelta
-              scriptStateChanged            = true
-            end
+            changedSomething   = true
+            scriptStateChanged = maybeUpdateMemoryBagState(rotationDelta, isMemoryBag, objData, bagScriptState) or scriptStateChanged
           end
         end
       end
     elseif objData.Name == "Deck" then
-      objData.Tags = objData.Tags or {}
-      table.insert(objData.Tags, "Replaced")
+      addReplacedTag(objData)
       local wasUpdated, rotationDelta = updateDeckData(objData)
       if wasUpdated then
-        changedSomething = true
-        local guid = objData.GUID
-        if rotationDelta ~= 0 and isMemoryBag and guid and guid ~= "" and bagScriptState.ml[guid] then
-          bagScriptState.ml[guid].rot   = bagScriptState.ml[guid].rot or {}
-          bagScriptState.ml[guid].rot.y = (bagScriptState.ml[guid].rot.y or 0) + rotationDelta
-          scriptStateChanged            = true
-        end
+        changedSomething   = true
+        scriptStateChanged = maybeUpdateMemoryBagState(rotationDelta, isMemoryBag, objData, bagScriptState) or scriptStateChanged
       end
     else
       local md = JSON.decode(objData.GMNotes) or {}
-      local id = md.id or md.TtsZoopGuid
+      local id = getId(md)
       if id then
         local itemData = getItemById({ id = id })
         if itemData and updateOriginalItemData(objData, itemData.data) then
@@ -360,10 +376,6 @@ function updateBagData(bagData)
   end
 
   return changedSomething
-end
-
-function sameFaceAndBack(t1, t2)
-  return t1.FaceURL == t2.FaceURL and t1.BackURL == t2.BackURL
 end
 
 function updateDeckData(deckData)
@@ -382,7 +394,7 @@ function updateDeckData(deckData)
   -- Update individual cards
   for i, objData in ipairs(deckData.ContainedObjects) do
     local md = JSON.decode(objData["GMNotes"]) or {}
-    local id = md.id or md.TtsZoopGuid
+    local id = getId(md)
     if id then
       local cardData = getCardById({ id = id })
       if cardData then
@@ -522,7 +534,7 @@ function updateOriginalItemData(originalData, replaceData)
     originalData["HideWhenFaceDown"] = replaceData["HideWhenFaceDown"]
   elseif originalData["HideWhenFaceDown"] == nil then
     -- special handling for cards
-    if replaceData["Name"] == "Card" or replaceData["Name"] == "CardCustom" then
+    if isCardType(replaceData["Name"]) then
       -- If UniqueBack is False, default HideWhenFaceDown is True
       -- If UniqueBack is True, default HideWhenFaceDown is False
       local _, customDeckData = next(replaceData["CustomDeck"])
@@ -532,7 +544,7 @@ function updateOriginalItemData(originalData, replaceData)
     end
   end
 
-  if originalData["Name"] == "Card" or originalData["Name"] == "CardCustom" then
+  if isCardType(originalData["Name"]) then
     return processCard(originalData), rotationDelta
   end
 
