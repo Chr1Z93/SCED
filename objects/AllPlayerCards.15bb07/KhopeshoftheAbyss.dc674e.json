@@ -1,17 +1,16 @@
 {
-  "CardID": 546916,
+  "CardID": 46916,
   "CustomDeck": {
-    "5469": {
+    "469": {
       "BackIsHidden": true,
-      "BackURL": "https://steamusercontent-a.akamaihd.net/ugc/1747933191218961222/32A8F41F3FDA4387C71BA2668B2645E36EDAE74D/",
+      "BackURL": "https://steamusercontent-a.akamaihd.net/ugc/2342503777940352139/A2D42E7E5C43D045D72CE5CFC907E4F886C8C690/",
       "FaceURL": "https://steamusercontent-a.akamaihd.net/ugc/1747933191218960581/4546AD2542BDA831A52F111505063691712EE74F/",
       "NumHeight": 5,
       "NumWidth": 10,
-      "Type": 0,
-      "UniqueBack": true
+      "Type": 0
     }
   },
-  "Description": "Item. Weapon. Relic. Melee.",
+  "Description": "Manifested Malice.",
   "GMNotes_path": "AllPlayerCards.15bb07/KhopeshoftheAbyss.dc674e.gmnotes",
   "GUID": "dc674e",
   "HideWhenFaceDown": true,

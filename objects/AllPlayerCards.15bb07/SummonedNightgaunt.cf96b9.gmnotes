@@ -10,9 +10,9 @@
   "uses": [
     {
       "count": 3,
-      "type": "",
+      "type": "Whistle",
       "token": "resource"
     }
   ],
-  "cycle": "Standalone"
+  "cycle": "Guardians of the Abyss"
 }

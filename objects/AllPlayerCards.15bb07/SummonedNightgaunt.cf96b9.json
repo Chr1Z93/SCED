@@ -1,17 +1,16 @@
 {
-  "CardID": 546917,
+  "CardID": 46917,
   "CustomDeck": {
-    "5469": {
+    "469": {
       "BackIsHidden": true,
-      "BackURL": "https://steamusercontent-a.akamaihd.net/ugc/1747933191218961222/32A8F41F3FDA4387C71BA2668B2645E36EDAE74D/",
+      "BackURL": "https://steamusercontent-a.akamaihd.net/ugc/2342503777940352139/A2D42E7E5C43D045D72CE5CFC907E4F886C8C690/",
       "FaceURL": "https://steamusercontent-a.akamaihd.net/ugc/1747933191218960581/4546AD2542BDA831A52F111505063691712EE74F/",
       "NumHeight": 5,
       "NumWidth": 10,
-      "Type": 0,
-      "UniqueBack": true
+      "Type": 0
     }
   },
-  "Description": "Monster. Nightgaunt. Power.",
+  "Description": "Gift from Nodens",
   "GMNotes_path": "AllPlayerCards.15bb07/SummonedNightgaunt.cf96b9.gmnotes",
   "GUID": "cf96b9",
   "HideWhenFaceDown": true,

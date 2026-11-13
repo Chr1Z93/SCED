@@ -3,9 +3,10 @@
   "type": "Asset",
   "class": "Neutral",
   "cost": 4,
+  "slot": "Hand x2",
   "traits": "Item. Weapon. Relic. Melee.",
   "willpowerIcons": 1,
   "combatIcons": 1,
   "wildIcons": 1,
-  "cycle": "Standalone"
+  "cycle": "Guardians of the Abyss"
 }
