@@ -12,6 +12,7 @@ local string_lower          = string.lower
 local string_startsWith     = string.startsWith
 local table_insert          = table.insert
 local LOCALIZATION_FIELDS   = { "Nickname", "Description", "LuaScript", "LuaScriptState", "XmlUI", "CustomUIAssets" }
+local METADATA_SORT_OPTIONS = { "class", "cardType", "level", "name" }
 
 local debugSpawnData        = {
   --{ id = "11050", pos = { -55.21, 1.6, 14.96 }, rot = { 0, 270, 0 }, moveCam = true }
@@ -583,7 +584,7 @@ end
 
 -- Sort by class, cardType, level and then name
 function metadataSortFunction(id1, id2)
-  return generalizedCardComparator(id1, id2, { "class", "cardType", "level", "name" })
+  return generalizedCardComparator(id1, id2, METADATA_SORT_OPTIONS)
 end
 
 -- Attempt to sort by ID first if reasonable
