@@ -1,14 +1,13 @@
 {
-  "CardID": 454741,
+  "CardID": 454841,
   "CustomDeck": {
-    "4547": {
+    "4548": {
       "BackIsHidden": true,
-      "BackURL": "https://steamusercontent-a.akamaihd.net/ugc/1747933191218923075/6DE3A0F2FBB17DAA8374540DBE43CE6BD65EB541/",
+      "BackURL": "https://steamusercontent-a.akamaihd.net/ugc/2342503777940352139/A2D42E7E5C43D045D72CE5CFC907E4F886C8C690/",
       "FaceURL": "https://steamusercontent-a.akamaihd.net/ugc/1747933191218921670/8EF5B59C1AC4559A3947140F08010D8B014A11E9/",
       "NumHeight": 5,
       "NumWidth": 10,
-      "Type": 0,
-      "UniqueBack": true
+      "Type": 0
     }
   },
   "Description": "Item. Relic.",

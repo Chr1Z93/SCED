@@ -93,6 +93,9 @@ local CHAPTER_MAP           = {
   ["core 2026"]                         = 2,
   ["starters 2026"]                     = 2,
 
+  -- Chapter 2 - Standalones
+  ["traces to nowhere"]                 = 2,
+
   -- Other
   ["beta"]                              = 0,
   ["promo"]                             = 0
