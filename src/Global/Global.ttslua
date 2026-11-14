@@ -2202,7 +2202,7 @@ end
 -- spawns a placeholder box for the selected object
 function onClick_spawnPlaceholder(player)
   -- get object references
-  local item = library[contentToShow][currentListItem]
+  local item  = library[contentToShow][currentListItem]
   local dummy = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", "PlaceholderBoxDummy")
 
   -- error handling
@@ -4424,13 +4424,13 @@ function spawnPlayermat(matColor, transformData)
     updateTransformData(spawnData.Playermat, transformData.position, transformData.rotation)
 
     -- update color data of mat
-    spawnData.Playermat.Memo = matColor
-    local scriptState = JSON.decode(spawnData.Playermat.LuaScriptState)
-    scriptState.playerColor = matColor
+    local scriptState                  = JSON.decode(spawnData.Playermat.LuaScriptState)
+    scriptState.playerColor            = matColor
     spawnData.Playermat.LuaScriptState = JSON.encode(scriptState)
+    spawnData.Playermat.Memo           = matColor
 
     -- spawn the mat
-    local playermat = spawnObjectData({ data = spawnData.Playermat })
+    local playermat                    = spawnObjectData({ data = spawnData.Playermat })
     CoroutineLib.yieldFrames(5)
     GUIDReferenceApi.editIndex(matColor, "Playermat", playermat.getGUID())
 
@@ -4594,12 +4594,12 @@ end
 
 function moveObjectWithObjectsOnTop(mainObject, position, rotationY, positionOffset)
   -- get current transform data
-  local currentPos = mainObject.getPosition()
+  local currentPos  = mainObject.getPosition()
   local currentRotY = mainObject.getRotation().y
 
   -- use current values if undefined
-  position = Vector(position or currentPos)
-  rotationY = rotationY or currentRotY
+  position          = Vector(position or currentPos)
+  rotationY         = rotationY or currentRotY
 
   if positionOffset then
     position = position + positionOffset
@@ -4778,8 +4778,8 @@ function spawnOrRemoveHelperForPlayermats(helperName, state)
   -- also spawn/remove the search assistant for the encounter deck
   if helperName == "Search Assistant" then
     local MythosArea = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", "MythosArea")
-    local pos = MythosArea.positionToWorld(Vector(0.880, 0.1, 0.868))
-    local rot = MythosArea.getRotation()
+    local pos        = MythosArea.positionToWorld(Vector(0.880, 0.1, 0.868))
+    local rot        = MythosArea.getRotation()
     spawnOrRemoveHelper(state, "Encounter Search Assistant", pos, rot, "Mythos")
   end
 end

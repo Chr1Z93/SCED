@@ -213,16 +213,14 @@ end
 
 function buttonClick_add()
   local count = 0
-  for _ in pairs(tempList) do
-    count = count + 1
-  end
-  broadcastFeedback("Added", count, "object", "from selection")
 
   -- copy data from tempList to memoryList
   for guid, entry in pairs(tempList) do
     memoryList[guid] = entry
+    count = count + 1
   end
 
+  broadcastFeedback("Added", count, "object", "from selection")
   updateSave()
   removeAllHighlights()
   createMemoryActionButtons()
@@ -302,6 +300,7 @@ function buttonClick_internal()
 
   if count > 0 then
     broadcastFeedback("Added", count, "internal bag", "to existing memory")
+    updateSave()
   end
 end
 
