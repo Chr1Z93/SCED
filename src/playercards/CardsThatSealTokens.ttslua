@@ -10,7 +10,7 @@ local ID_URL_MAP           = {}
 local tokensInBag          = {}
 
 -- XML background color for each token for label when stacked
-local tokenColor           = {
+local TOKEN_COLOR          = {
   ["Skull"]       = "#4A0400E6",
   ["Cultist"]     = "#173B0BE6",
   ["Tablet"]      = "#1D2238E6",
@@ -478,7 +478,6 @@ function updateStackSize()
 end
 
 function actualUpdateStackSize()
-  if MAX_SEALED == 1 then return end
   if #sealedTokens <= 1 then return end
 
   -- get topmost sealed token
@@ -493,7 +492,7 @@ function actualUpdateStackSize()
       rotation = "0 0 180",
       scale    = "0.2 0.2 1",
       position = "0 0 -12",
-      color    = tokenColor[topToken.getName()] or "#77674DE6"
+      color    = TOKEN_COLOR[topToken.getName()] or "#77674DE6"
     },
     children = {
       tag = "Text",
