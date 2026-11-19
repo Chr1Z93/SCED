@@ -2,6 +2,8 @@
 
 This file provides options for cards to seal tokens in their context menu. All cards are automatically given the option to release a single token (e.g., for "Hallow" and "A Watchful Peace") and to release all sealed tokens (e.g., when a card leaves play).
 
+When more than three token types are eligible to be sealed, the context menu shows one **Seal token...** entry that opens a token-choice dialog instead of listing each type separately. The dialog refreshes bag contents first when `UPDATE_ON_HOVER` is enabled. `KEEP_OPEN` also applies to the grouped menu entry.
+
 **Note:** The options below must be set on the card before this file is `require`d.
 
 ---

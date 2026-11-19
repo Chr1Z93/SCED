@@ -58,6 +58,71 @@ function onLoad(savedData)
   if onLoad2 then onLoad2(loadedData) end
 end
 
+local function getSealTokenOptions()
+  local options  = {}
+  local included = {}
+
+  for _, map in pairs(ID_URL_MAP) do
+    if (VALID_TOKENS and VALID_TOKENS[map.name] ~= nil) or (UPDATE_ON_HOVER and tokensInBag[map.name] and INVALID_TOKENS and not INVALID_TOKENS[map.name]) then
+      if not included[map.name] then
+        included[map.name] = true
+        table.insert(options, map.name)
+      end
+    end
+  end
+
+  table.sort(options)
+  return options
+end
+
+local function sealTokenFromContextMenu(name, playerColor)
+  self.removeFromPlayerSelection(playerColor)
+  if not ChaosBagApi.canTouchChaosTokens() then return end
+
+  if not SHOW_MULTI_SEAL then
+    sealToken(name, playerColor)
+    return
+  end
+
+  readBag()
+  local allowed = true
+  local notFound
+
+  for tokenName, _ in pairs(VALID_TOKENS) do
+    if (tokensInBag[tokenName] or 0) < SHOW_MULTI_SEAL then
+      allowed  = false
+      notFound = tokenName
+    end
+  end
+
+  if allowed then
+    for i = 1, SHOW_MULTI_SEAL do
+      sealToken(name, playerColor)
+    end
+  else
+    printToColor("Not enough " .. notFound .. " tokens in the chaos bag.", playerColor)
+  end
+end
+
+local function chooseSealToken(playerColor)
+  self.removeFromPlayerSelection(playerColor)
+  if not ChaosBagApi.canTouchChaosTokens() then return end
+
+  if UPDATE_ON_HOVER then
+    readBag()
+  end
+
+  local options = getSealTokenOptions()
+  if #options == 0 then
+    printToColor("No eligible tokens to seal.", playerColor)
+    return
+  end
+
+  Player[playerColor].showOptionsDialog("Choose token to seal:", options, 1, function(optionText)
+    sealTokenFromContextMenu(optionText, playerColor)
+  end)
+end
+
 function generateContextMenu()
   ---@diagnostic disable-next-line: undefined-global
   if hideSealingContextMenu then return end
@@ -95,38 +160,15 @@ function generateContextMenu()
   end
 
   -- main context menu options to seal tokens
-  for _, map in pairs(ID_URL_MAP) do
-    if (VALID_TOKENS and VALID_TOKENS[map.name] ~= nil) or (UPDATE_ON_HOVER and tokensInBag[map.name] and INVALID_TOKENS and not INVALID_TOKENS[map.name]) then
-      if not SHOW_MULTI_SEAL then
-        self.addContextMenuItem("Seal " .. map.name, function(playerColor)
-          self.removeFromPlayerSelection(playerColor)
-          if not ChaosBagApi.canTouchChaosTokens() then return end
-          sealToken(map.name, playerColor)
-        end, KEEP_OPEN)
-      else
-        self.addContextMenuItem("Seal " .. SHOW_MULTI_SEAL .. " " .. map.name, function(playerColor)
-          self.removeFromPlayerSelection(playerColor)
-          if not ChaosBagApi.canTouchChaosTokens() then return end
-          readBag()
-          local allowed = true
-          local notFound
-
-          for name, _ in pairs(VALID_TOKENS) do
-            if (tokensInBag[name] or 0) < SHOW_MULTI_SEAL then
-              allowed = false
-              notFound = name
-            end
-          end
-
-          if allowed then
-            for i = 1, SHOW_MULTI_SEAL do
-              sealToken(map.name, playerColor)
-            end
-          else
-            printToColor("Not enough " .. notFound .. " tokens in the chaos bag.", playerColor)
-          end
-        end)
-      end
+  local sealOptions = getSealTokenOptions()
+  if #sealOptions > 3 then
+    self.addContextMenuItem("Seal token...", chooseSealToken, KEEP_OPEN)
+  else
+    for _, name in ipairs(sealOptions) do
+      local label = SHOW_MULTI_SEAL and "Seal " .. SHOW_MULTI_SEAL .. " " .. name or "Seal " .. name
+      self.addContextMenuItem(label, function(playerColor)
+        sealTokenFromContextMenu(name, playerColor)
+      end, KEEP_OPEN)
     end
   end
 end
