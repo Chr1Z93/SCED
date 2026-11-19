@@ -2,6 +2,7 @@
   "id": "13093a",
   "type": "Asset",
   "class": "Neutral",
+  "level": 0,
   "traits": "Condition. Blight.",
   "permanent": true,
   "startsInPlay": true,
