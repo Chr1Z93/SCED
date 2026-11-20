@@ -94,6 +94,9 @@ local CHAPTER_MAP           = {
   ["core 2026"]                         = 2,
   ["starters 2026"]                     = 2,
 
+  -- Chapter 2 - Player Card Expansions (rotating)
+  ["power of the dreamlands"]           = 2,
+
   -- Chapter 2 - Campaigns
   ["children of blood"]                 = 2,
 
