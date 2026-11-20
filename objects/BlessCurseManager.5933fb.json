@@ -22,7 +22,6 @@
   "HideWhenFaceDown": false,
   "Locked": true,
   "LuaScript": "require(\"chaosbag/BlessCurseManager\")",
-  "LuaScriptState": "false",
   "Name": "Custom_Token",
   "Nickname": "Bless/Curse Manager",
   "Tags": [

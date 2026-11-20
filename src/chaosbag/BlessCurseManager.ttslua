@@ -1,5 +1,6 @@
 local ChaosBagApi               = require("chaosbag/ChaosBagApi")
 local MessageQueue              = require("util/MessageQueue")
+local PlayermatApi              = require("playermat/PlayermatApi")
 local TokenArrangerApi          = require("tokens/TokenArrangerApi")
 
 -- common button parameters
@@ -10,12 +11,28 @@ buttonParamaters.width          = 700
 buttonParamaters.height         = 700
 
 local updating
+local numInPlay                 = {}
+local tokensTaken               = {}
+local sealedTokenGuids          = {}
+local waitIds                   = {}
+
+-- XML background color for each token for label when stacked
+local TOKEN_COLOR               = {
+  ["Bless"] = "#9D702CE6",
+  ["Curse"] = "#633A84E6",
+}
 
 ---------------------------------------------------------
 -- creating buttons and menus + initializing tables
 ---------------------------------------------------------
 
-function onLoad()
+function updateSave()
+  self.script_state = JSON.encode({
+    sealedTokenGuids = sealedTokenGuids
+  })
+end
+
+function onLoad(saveData)
   -- index: 0 - bless
   buttonParamaters.click_function = "clickBless"
   buttonParamaters.position       = { -1.03, 0, 0.46 }
@@ -48,7 +65,7 @@ function onLoad()
   self.addContextMenuItem("Reset", doReset)
 
   -- initializing tables
-  initializeState()
+  initializeState(saveData)
   broadcastCount("Curse")
   broadcastCount("Bless")
 
@@ -75,13 +92,17 @@ function formatBlurseCount(playerColor, messages)
 end
 
 function resetTables()
-  numInPlay        = { Bless = 0, Curse = 0 }
-  tokensTaken      = { Bless = {}, Curse = {} }
-  sealedTokenGuids = {}
+  numInPlay   = { Bless = 0, Curse = 0 }
+  tokensTaken = { Bless = {}, Curse = {} }
 end
 
-function initializeState()
+function initializeState(saveData)
   resetTables()
+
+  if saveData and saveData ~= "" then
+    local loadedData = JSON.decode(saveData)
+    sealedTokenGuids = loadedData.sealedTokenGuids or {}
+  end
 
   -- count tokens in the bag
   local chaosBag = ChaosBagApi.findChaosBag()
@@ -415,21 +436,22 @@ function addBlurseSealingMenu(parameters)
     return
   end
 
-  hoveredObject.addContextMenuItem("Seal Bless", function(color)
-    sealToken("Bless", color, hoveredObject)
-  end, true)
-
-  hoveredObject.addContextMenuItem("Release Bless", function(color)
-    releaseToken("Bless", color, hoveredObject)
-  end)
-
+  local tokenTypes = { "Bless" }
   if not noCurse then
-    hoveredObject.addContextMenuItem("Seal Curse", function(color)
-      sealToken("Curse", color, hoveredObject)
+    table.insert(tokenTypes, "Curse")
+  end
+
+  for _, tokenType in ipairs(tokenTypes) do
+    hoveredObject.addContextMenuItem("Seal " .. tokenType, function(color)
+      sealToken(tokenType, color, hoveredObject)
     end, true)
 
-    hoveredObject.addContextMenuItem("Release Curse", function(color)
-      releaseToken("Curse", color, hoveredObject)
+    hoveredObject.addContextMenuItem("Release " .. tokenType, function(color)
+      releaseToken(tokenType, color, hoveredObject)
+    end)
+
+    hoveredObject.addContextMenuItem("Resolve " .. tokenType, function(color)
+      resolveToken(tokenType, color, hoveredObject)
     end)
   end
 
@@ -437,10 +459,13 @@ function addBlurseSealingMenu(parameters)
   hoveredObject.setVar("MENU_ADDED", true)
   hoveredObject.addTag("CardThatSeals")
   sealedTokenGuids[hoveredObject.getGUID()] = {}
+  updateSave()
 end
 
 function sealToken(type, playerColor, hoveredObject)
   if not ChaosBagApi.canTouchChaosTokens() then return end
+  local parentGuid = hoveredObject.getGUID()
+  local tokenGuids = sealedTokenGuids[parentGuid]
 
   local chaosBag = ChaosBagApi.findChaosBag()
   for i, token in ipairs(chaosBag.getObjects()) do
@@ -451,12 +476,13 @@ function sealToken(type, playerColor, hoveredObject)
         index             = i - 1,
         smooth            = false,
         callback_function = function(obj)
-          local parentGuid = hoveredObject.getGUID()
-          sealedTokenGuids[parentGuid] = sealedTokenGuids[parentGuid] or {}
-          table.insert(sealedTokenGuids[parentGuid], obj.getGUID())
+          tokenGuids = tokenGuids or {}
+          table.insert(tokenGuids, obj.getGUID())
           table.insert(tokensTaken[type], obj.getGUID())
           TokenArrangerApi.layout()
           updateDisplayAndBroadcast(type)
+          updateSave()
+          updateStackSize(parentGuid)
         end
       })
     end
@@ -465,27 +491,112 @@ function sealToken(type, playerColor, hoveredObject)
 end
 
 function releaseToken(type, playerColor, hoveredObject)
-  local chaosBag = ChaosBagApi.findChaosBag()
-  local tokenGuids = sealedTokenGuids[hoveredObject.getGUID()]
+  if not ChaosBagApi.canTouchChaosTokens() then return end
+
+  local chaosBag   = ChaosBagApi.findChaosBag()
+  local parentGuid = hoveredObject.getGUID()
+  local tokenGuids = sealedTokenGuids[parentGuid]
   if tokenGuids == nil or #tokenGuids == 0 then return end
 
   for i, tokenGuid in ipairs(tokenGuids) do
     local token = getObjectFromGUID(tokenGuid)
     if token ~= nil and token.getName() == type then
+      token.UI.setXml("")
       chaosBag.putObject(token)
       TokenArrangerApi.layout()
+      updateStackSize(parentGuid)
 
       for j, v in ipairs(tokensTaken[type]) do
         if v == tokenGuid then
           table.remove(tokensTaken[type], j)
           table.remove(tokenGuids, i)
           updateDisplayAndBroadcast(type)
+          updateSave()
           return
         end
       end
     end
   end
   broadcastToColor(type .. " token not sealed on " .. hoveredObject.getName(), playerColor)
+end
+
+-- resolves sealed token as if it came from the chaos bag
+function resolveToken(type, playerColor, hoveredObject)
+  if not ChaosBagApi.canTouchChaosTokens() then return end
+
+  local parentGuid = hoveredObject.getGUID()
+  local tokenGuids = sealedTokenGuids[parentGuid]
+
+  if tokenGuids == nil or #tokenGuids == 0 then
+    broadcastToColor("No tokens sealed.", playerColor, "Red")
+    return
+  end
+
+  -- release first matching token
+  for i, guid in ipairs(tokenGuids) do
+    local token = getObjectFromGUID(guid)
+    if token ~= nil then
+      if token.getName() == type then
+        token.UI.setXml("")
+        TokenArrangerApi.layout()
+        updateStackSize(parentGuid)
+
+        for j, v in ipairs(tokensTaken[type]) do
+          if v == guid then
+            table.remove(tokensTaken[type], j)
+            table.remove(tokenGuids, i)
+            updateDisplayAndBroadcast(type)
+            updateSave()
+            local closestMatColor = PlayermatApi.getMatColor(playerColor)
+            ChaosBagApi.drawChaosToken(closestMatColor, true, nil, guid)
+            return
+          end
+        end
+      end
+    end
+  end
+
+  broadcastToColor("No matching token sealed.", playerColor, "Red")
+end
+
+-- TODO: unify this with CardsThatSealTokens?
+function updateStackSize(parentGuid)
+  if waitIds[parentGuid] then
+    Wait.stop(waitIds[parentGuid])
+  end
+  waitIds[parentGuid] = Wait.frames(function() actualUpdateStackSize(parentGuid) end, 5)
+end
+
+function actualUpdateStackSize(parentGuid)
+  local tokenGuids = sealedTokenGuids[parentGuid]
+  if #tokenGuids <= 1 then return end
+
+  -- get topmost sealed token
+  local topToken = getObjectFromGUID(tokenGuids[#tokenGuids])
+  if topToken == nil then return end
+
+  topToken.UI.setXmlTable({ {
+    tag = "Panel",
+    attributes = {
+      height   = 380,
+      width    = 380,
+      rotation = "0 0 180",
+      scale    = "0.2 0.2 1",
+      position = "0 0 -12",
+      color    = TOKEN_COLOR[topToken.getName()] or "#77674DE6"
+    },
+    children = {
+      tag = "Text",
+      attributes = {
+        fontSize    = #tokenGuids > 9 and 360 or 380, -- handling for two-digit numbers
+        font        = "font_teutonic-arkham",
+        color       = "#ffffff",
+        outline     = "#000000",
+        outlineSize = "8 -8",
+        text        = "x" .. #tokenGuids
+      }
+    }
+  } })
 end
 
 function none() end
