@@ -1,0 +1,39 @@
+{
+  "ColorDiffuse": {
+    "b": 0,
+    "g": 0,
+    "r": 0
+  },
+  "CustomImage": {
+    "CustomTile": {
+      "Stackable": false,
+      "Stretch": true,
+      "Thickness": 0.1,
+      "Type": 3
+    },
+    "ImageScalar": 1,
+    "ImageSecondaryURL": "",
+    "ImageURL": "https://steamusercontent-a.akamaihd.net/ugc/12964131894514609227/AB81BBA6D75FF3E912103F1A64BC4DFFE4182D55/",
+    "WidthScale": 0
+  },
+  "CustomUIAssets": [
+    {
+      "Name": "font_teutonic-arkham",
+      "Type": 1,
+      "URL": "https://steamusercontent-a.akamaihd.net/ugc/2027213118467703445/89328E273B4C5180BF491516CE998DE3C604E162/"
+    }
+  ],
+  "GUID": "dbdbdb",
+  "Hands": false,
+  "HideWhenFaceDown": false,
+  "LuaScript": "require(\"playermat/DreamingBoard\")",
+  "Name": "Custom_Tile",
+  "Nickname": "Dreaming Board",
+  "Tooltip": false,
+  "Transform": {
+    "rotY": 270,
+    "scaleX": 4,
+    "scaleY": 1,
+    "scaleZ": 4
+  }
+}

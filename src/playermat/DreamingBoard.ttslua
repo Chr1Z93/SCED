@@ -1,0 +1,155 @@
+local TokenManagerApi  = require("tokens/TokenManagerApi")
+
+local CELL_WIDTH       = 765
+local CELL_HEIGHT      = 1050
+local CELL_SCALE       = 0.77
+local CORNER_LENGTH    = 175
+local CORNER_THICKNESS = 20
+
+local collisionEnabled = false
+local collisionTable   = {}
+
+local function createCorner(x, y, rotation)
+  return {
+    tag = "Panel",
+    attributes = {
+      position      = string.format("%d %d -6", x, y),
+      rotation      = string.format("0 0 %d", rotation),
+      scale         = string.format("%s %s 1", CELL_SCALE, CELL_SCALE),
+      width         = CORNER_LENGTH,
+      height        = CORNER_THICKNESS,
+      color         = "#888888",
+      rayCastTarget = false
+    }
+  }
+end
+
+local function createGridCell(x, y)
+  local children      = {}
+  local halfWidth     = CELL_WIDTH / 2 * CELL_SCALE
+  local halfHeight    = CELL_HEIGHT / 2 * CELL_SCALE
+  local halfLength    = CORNER_LENGTH / 2 * CELL_SCALE
+  local halfThickness = CORNER_THICKNESS / 2 * CELL_SCALE
+
+  -- Each entry defines the center position and rotation
+  -- of one horizontal or vertical stroke.
+  local corners       = {
+    -- Top left
+    { -halfWidth + halfLength - halfThickness, halfHeight,                               0 },
+    { -halfWidth,                              halfHeight - halfLength + halfThickness,  90 },
+
+    -- Top right
+    { halfWidth - halfLength + halfThickness,  halfHeight,                               0 },
+    { halfWidth,                               halfHeight - halfLength + halfThickness,  90 },
+
+    -- Bottom right
+    { halfWidth - halfLength + halfThickness,  -halfHeight,                              0 },
+    { halfWidth,                               -halfHeight + halfLength - halfThickness, 90 },
+
+    -- Bottom left
+    { -halfWidth + halfLength - halfThickness, -halfHeight,                              0 },
+    { -halfWidth,                              -halfHeight + halfLength - halfThickness, 90 }
+  }
+
+
+  for _, corner in ipairs(corners) do
+    table.insert(children, createCorner(
+      x + corner[1],
+      y + corner[2],
+      corner[3]
+    ))
+  end
+
+  return { tag = "Panel", children = children }
+end
+
+function createXmlAndSnaps()
+  local children   = {
+    {
+      tag = "Text",
+      attributes = {
+        position = "0 850 -6",
+        rotation = "0 0 0",
+        scale    = "0.35 0.35 1",
+        width    = 3750,
+        height   = 600,
+        fontSize = 575,
+        color    = "#FFFFFF",
+        font     = "font_teutonic-arkham",
+        text     = "Dreaming Board"
+      }
+    }
+  }
+
+  local snapPoints = {}
+  local columns    = 3
+  local rows       = 2
+  local spacingX   = 675
+  local spacingY   = 850
+
+  for row = 1, rows do
+    for column = 1, columns do
+      -- skip the last cell
+      if row ~= rows or column ~= columns then
+        local x = (column - 2) * spacingX
+        local y = 285 - (row - 1) * spacingY
+        table.insert(children, createGridCell(x, y))
+        table.insert(snapPoints, {
+          position      = {
+            x = -x / 1000,
+            y = 0.1,
+            z = -y / 1000
+          },
+          rotation      = { x = 0, y = 0, z = 0 },
+          rotation_snap = true
+        })
+      end
+    end
+  end
+
+  self.setSnapPoints(snapPoints)
+
+  self.UI.setXmlTable({
+    {
+      tag = "Panel",
+      attributes = {
+        id             = "dreamingBoard",
+        active         = true,
+        position       = "0 0 -6",
+        rotation       = "0 0 180",
+        scale          = "0.1 0.1 1",
+        rayCastTarget  = false,
+        color          = "#ffffff45",
+        outline        = "#000000dd",
+        outlineSize    = "25 25",
+        shadow         = "#000000dd",
+        shadowDistance = "35 -35",
+        width          = 2500,
+        height         = 1700
+      },
+      children = children
+    }
+  })
+end
+
+function onLoad()
+  createXmlAndSnaps()
+  Wait.time(function() collisionEnabled = true end, 0.1)
+end
+
+function onCollisionEnter(collisionInfo)
+  local object = collisionInfo.collision_object
+
+  if not collisionEnabled then return end
+  if object.type ~= "Card" then return end
+
+  if collisionTable[object] ~= nil then return end
+  collisionTable[object] = true
+  Wait.frames(function() collisionTable[object] = nil end, 1)
+
+  local md = JSON.decode(object.getGMNotes()) or {}
+
+  if md.dreaming and object.is_face_down then
+    TokenManagerApi.spawnTokenGroup(object, "resource", md.dreaming, nil, "Dream")
+  end
+end
