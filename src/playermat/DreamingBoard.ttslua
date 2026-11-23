@@ -89,7 +89,7 @@ function createXmlAndSnaps()
     {
       tag = "Button",
       attributes = {
-        position = "650 -550 -6",
+        position = "0 -550 -6",
         rotation = "0 0 0",
         scale    = "0.35 0.35 1",
         width    = 1200,
@@ -104,31 +104,27 @@ function createXmlAndSnaps()
   }
 
   local snapPoints = {}
-  local columns    = 3
-  local rows       = 2
-  local spacingX   = 675
-  local spacingY   = 850
+  local columns    = 4
+  local spacingX   = 650
 
   local i          = 0
-  for row = 1, rows do
-    for column = 1, columns do
-      i = i + 1
-      -- skip the last cells
-      if i ~= 5 and i ~= 6 then
-        local x     = (column - 2) * spacingX
-        local y     = 285 - (row - 1) * spacingY
-        local color = (i == 4) and CORNER_RED or CORNER_GRAY -- red for 4th slot
-        table.insert(children, createGridCell(x, y, color))
-        table.insert(snapPoints, {
-          position      = {
-            x = -x / 1000,
-            y = 0.1,
-            z = -y / 1000
-          },
-          rotation      = { x = 0, y = 0, z = 0 },
-          rotation_snap = true
-        })
-      end
+  for column = 1, columns do
+    i = i + 1
+    -- only make 4 cells
+    if i < 5 then
+      local x     = (column - (columns + 1) / 2) * spacingX
+      local y     = 140
+      local color = (i == 4) and CORNER_RED or CORNER_GRAY -- red for 4th slot
+      table.insert(children, createGridCell(x, y, color))
+      table.insert(snapPoints, {
+        position      = {
+          x = -x / 1000,
+          y = 0.1,
+          z = -y / 1000
+        },
+        rotation      = { x = 0, y = 0, z = 0 },
+        rotation_snap = true
+      })
     end
   end
 
