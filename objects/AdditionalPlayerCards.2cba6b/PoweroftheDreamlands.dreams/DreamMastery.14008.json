@@ -1,0 +1,26 @@
+{
+  "CardID": 1400800,
+  "CustomDeck": {
+    "14008": {
+      "BackIsHidden": true,
+      "BackURL": "https://steamusercontent-a.akamaihd.net/ugc/2342503777940352139/A2D42E7E5C43D045D72CE5CFC907E4F886C8C690/",
+      "FaceURL": "https://steamusercontent-a.akamaihd.net/ugc/12059375093738278880/175205334BD19CEF93A8B3CD1574CD32B7907222/",
+      "NumHeight": 1,
+      "NumWidth": 1,
+      "Type": 0
+    }
+  },
+  "GMNotes_path": "AdditionalPlayerCards.2cba6b/PoweroftheDreamlands.dreams/DreamMastery.14008.gmnotes",
+  "GUID": "14008",
+  "Name": "Card",
+  "Nickname": "Dream Mastery",
+  "Tags": [
+    "PlayerCard"
+  ],
+  "Transform": {
+    "rotY": 270,
+    "scaleX": 1,
+    "scaleY": 1,
+    "scaleZ": 1
+  }
+}

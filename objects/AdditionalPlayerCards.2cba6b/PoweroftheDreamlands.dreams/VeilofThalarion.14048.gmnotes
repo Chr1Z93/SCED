@@ -1,0 +1,12 @@
+{
+  "id": "14048",
+  "type": "Event",
+  "class": "Mystic",
+  "cost": 5,
+  "level": 0,
+  "traits": "Spell.",
+  "willpowerIcons": 1,
+  "combatIcons": 1,
+  "agilityIcons": 1,
+  "cycle": "Power of the Dreamlands"
+}

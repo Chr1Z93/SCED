@@ -1,0 +1,12 @@
+{
+  "id": "14057",
+  "type": "Asset",
+  "slot": "Hand",
+  "class": "Survivor",
+  "level": 0,
+  "dreaming": 2,
+  "traits": "Item. Tool. Dreamlands.",
+  "willpowerIcons": 1,
+  "intellectIcons": 1,
+  "cycle": "Power of the Dreamlands"
+}

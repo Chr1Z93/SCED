@@ -1,0 +1,18 @@
+{
+  "id": "14043",
+  "type": "Asset",
+  "slot": "Hand",
+  "class": "Mystic",
+  "cost": 2,
+  "level": 0,
+  "traits": "Dreamlands.",
+  "willpowerIcons": 1,
+  "uses": [
+    {
+      "count": 3,
+      "type": "Charge",
+      "token": "resource"
+    }
+  ],
+  "cycle": "Power of the Dreamlands"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "14013",
+  "type": "Asset",
+  "slot": "Hand",
+  "class": "Guardian",
+  "level": 4,
+  "dreaming": 2,
+  "traits": "Item. Weapon. Firearm. Dreamlands.",
+  "combatIcons": 1,
+  "agilityIcons": 1,
+  "uses": [
+    {
+      "count": 4,
+      "type": "Ammo",
+      "token": "resource"
+    }
+  ],
+  "cycle": "Power of the Dreamlands"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "14042",
+  "type": "Event",
+  "class": "Rogue",
+  "cost": 3,
+  "level": 5,
+  "traits": "Tactic. Trick.",
+  "combatIcons": 2,
+  "agilityIcons": 1,
+  "wildIcons": 1,
+  "cycle": "Power of the Dreamlands"
+}

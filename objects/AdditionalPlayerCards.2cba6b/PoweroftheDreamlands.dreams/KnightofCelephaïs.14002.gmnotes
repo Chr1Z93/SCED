@@ -1,0 +1,12 @@
+{
+  "id": "14002",
+  "type": "Asset",
+  "slot": "Ally",
+  "class": "Guardian",
+  "level": 0,
+  "dreaming": 4,
+  "traits": "Ally. Soldier. Dreamlands.",
+  "intellectIcons": 1,
+  "combatIcons": 1,
+  "cycle": "Power of the Dreamlands"
+}

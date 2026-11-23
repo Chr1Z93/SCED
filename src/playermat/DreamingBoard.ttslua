@@ -1,15 +1,21 @@
+local GlobalApi        = require("Global/GlobalApi")
+local GUIDReferenceApi = require("core/GUIDReferenceApi")
+local SearchLib        = require("util/SearchLib")
 local TokenManagerApi  = require("tokens/TokenManagerApi")
 
 local CELL_WIDTH       = 765
 local CELL_HEIGHT      = 1050
 local CELL_SCALE       = 0.77
 local CORNER_LENGTH    = 175
-local CORNER_THICKNESS = 20
+local CORNER_THICKNESS = 25
+local CORNER_GRAY      = "#777777"
+local CORNER_RED       = "#D65A5A"
 
+local owner
 local collisionEnabled = false
 local collisionTable   = {}
 
-local function createCorner(x, y, rotation)
+local function createCorner(x, y, rotation, color)
   return {
     tag = "Panel",
     attributes = {
@@ -18,13 +24,13 @@ local function createCorner(x, y, rotation)
       scale         = string.format("%s %s 1", CELL_SCALE, CELL_SCALE),
       width         = CORNER_LENGTH,
       height        = CORNER_THICKNESS,
-      color         = "#888888",
+      color         = color,
       rayCastTarget = false
     }
   }
 end
 
-local function createGridCell(x, y)
+local function createGridCell(x, y, color)
   local children      = {}
   local halfWidth     = CELL_WIDTH / 2 * CELL_SCALE
   local halfHeight    = CELL_HEIGHT / 2 * CELL_SCALE
@@ -56,7 +62,8 @@ local function createGridCell(x, y)
     table.insert(children, createCorner(
       x + corner[1],
       y + corner[2],
-      corner[3]
+      corner[3],
+      color
     ))
   end
 
@@ -78,6 +85,21 @@ function createXmlAndSnaps()
         font     = "font_teutonic-arkham",
         text     = "Dreaming Board"
       }
+    },
+    {
+      tag = "Button",
+      attributes = {
+        position = "650 -550 -6",
+        rotation = "0 0 0",
+        scale    = "0.35 0.35 1",
+        width    = 1200,
+        height   = 800,
+        fontSize = 350,
+        color    = "#FFFFFF",
+        onClick  = "removeDreams",
+        font     = "font_teutonic-arkham",
+        text     = "Start of\nTurn"
+      }
     }
   }
 
@@ -87,13 +109,16 @@ function createXmlAndSnaps()
   local spacingX   = 675
   local spacingY   = 850
 
+  local i          = 0
   for row = 1, rows do
     for column = 1, columns do
-      -- skip the last cell
-      if row ~= rows or column ~= columns then
-        local x = (column - 2) * spacingX
-        local y = 285 - (row - 1) * spacingY
-        table.insert(children, createGridCell(x, y))
+      i = i + 1
+      -- skip the last cells
+      if i ~= 5 and i ~= 6 then
+        local x     = (column - 2) * spacingX
+        local y     = 285 - (row - 1) * spacingY
+        local color = (i == 4) and CORNER_RED or CORNER_GRAY -- red for 4th slot
+        table.insert(children, createGridCell(x, y, color))
         table.insert(snapPoints, {
           position      = {
             x = -x / 1000,
@@ -113,7 +138,6 @@ function createXmlAndSnaps()
     {
       tag = "Panel",
       attributes = {
-        id             = "dreamingBoard",
         active         = true,
         position       = "0 0 -6",
         rotation       = "0 0 180",
@@ -134,7 +158,9 @@ end
 
 function onLoad()
   createXmlAndSnaps()
+  owner = GUIDReferenceApi.getOwnerOfObject(self)
   Wait.time(function() collisionEnabled = true end, 0.1)
+  Wait.condition(function() self.setLock(true) end, function() return self.resting end)
 end
 
 function onCollisionEnter(collisionInfo)
@@ -147,9 +173,54 @@ function onCollisionEnter(collisionInfo)
   collisionTable[object] = true
   Wait.frames(function() collisionTable[object] = nil end, 1)
 
-  local md = JSON.decode(object.getGMNotes()) or {}
+  object.setLock(true)
+  if next(object.getAttachments()) == nil then
+    handleDreamSpawning(object)
+  else
+    Wait.time(function() handleDreamSpawning(object) end, 1)
+  end
+end
 
-  if md.dreaming and object.is_face_down then
-    TokenManagerApi.spawnTokenGroup(object, "resource", md.dreaming, nil, "Dream")
+function handleDreamSpawning(card)
+  if card == nil then return end
+  card.setLock(false)
+
+  local md = JSON.decode(card.getGMNotes()) or {}
+  if md.dreaming and card.is_face_down then
+    local foundDream = false
+    for _, token in ipairs(SearchLib.onObject(card, "isTileOrToken")) do
+      if token.getName() == "Dream" then
+        foundDream = true
+      else
+        GlobalApi.discardObjects(token, owner)
+      end
+    end
+
+    if not foundDream then
+      TokenManagerApi.spawnTokenGroup(card, "resource", md.dreaming, nil, "Dream")
+    end
+  end
+end
+
+function removeDreams()
+  for _, snap in ipairs(self.getSnapPoints()) do
+    local pos    = self.positionToWorld(snap.position):setAt("y", self.getPosition().y + 0.5)
+    local card   = nil
+    local tokens = {}
+
+    for _, obj in ipairs(SearchLib.inArea(pos, self.getRotation(), SearchLib.CARD_SIZE)) do
+      if obj.type == "Card" then
+        card = obj
+      elseif obj ~= self and (obj.type == "Tile" or obj.type == "Generic") then
+        table.insert(tokens, obj)
+      end
+    end
+
+    if #tokens > 0 then
+      GlobalApi.discardObjects(tokens[1], owner)
+      if #tokens == 1 and card.is_face_down then
+        card.flip()
+      end
+    end
   end
 end

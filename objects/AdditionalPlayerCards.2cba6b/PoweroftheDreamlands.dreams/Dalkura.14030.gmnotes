@@ -1,0 +1,12 @@
+{
+  "id": "14030",
+  "type": "Asset",
+  "slot": "Hand",
+  "class": "Rogue",
+  "level": 0,
+  "dreaming": 3,
+  "traits": "Ally. Corsair. Dreamlands.",
+  "intellectIcons": 1,
+  "agilityIcons": 1,
+  "cycle": "Power of the Dreamlands"
+}

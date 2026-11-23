@@ -1,0 +1,11 @@
+{
+  "id": "14045",
+  "type": "Asset",
+  "slot": "Ally",
+  "class": "Mystic",
+  "dreaming": 3,
+  "level": 0,
+  "traits": "Ally. Dreamer. Dreamlands.",
+  "willpowerIcons": 1,
+  "cycle": "Power of the Dreamlands"
+}
