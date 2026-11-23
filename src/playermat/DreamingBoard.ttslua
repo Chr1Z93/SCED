@@ -30,7 +30,7 @@ local function createCorner(x, y, rotation, color)
   }
 end
 
-local function createGridCell(x, y, color)
+local function createGridCell(x, y, color, index)
   local children      = {}
   local halfWidth     = CELL_WIDTH / 2 * CELL_SCALE
   local halfHeight    = CELL_HEIGHT / 2 * CELL_SCALE
@@ -67,6 +67,26 @@ local function createGridCell(x, y, color)
     ))
   end
 
+  table.insert(children, {
+    tag = "Text",
+    attributes = {
+      id                   = string.format("dreamCardName%d", index),
+      position             = string.format("%d %d -6", x, y - halfHeight - 200),
+      rotation             = "0 0 0",
+      scale                = "0.35 0.35 1",
+      width                = CELL_WIDTH,
+      height               = 900,
+      resizeTextMaxSize    = 900,
+      color                = "#FFFFFF",
+      font                 = "font_teutonic-arkham",
+      shadow               = "#000000dd",
+      shadowDistance       = "8 -8",
+      alignment            = "MiddleCenter",
+      resizeTextForBestFit = true,
+      rayCastTarget        = false
+    }
+  })
+
   return { tag = "Panel", children = children }
 end
 
@@ -89,16 +109,20 @@ function createXmlAndSnaps()
     {
       tag = "Button",
       attributes = {
-        position = "0 -550 -6",
-        rotation = "0 0 0",
-        scale    = "0.35 0.35 1",
-        width    = 1200,
-        height   = 800,
-        fontSize = 350,
-        color    = "#FFFFFF",
-        onClick  = "removeDreams",
-        font     = "font_teutonic-arkham",
-        text     = "Start of\nTurn"
+        position       = "0 -800 -6",
+        rotation       = "0 0 0",
+        scale          = "0.35 0.35 1",
+        width          = 2400,
+        height         = 400,
+        fontSize       = 350,
+        color          = "#ffffffdd",
+        outline        = "#000000dd",
+        outlineSize    = "8 8",
+        shadow         = "#000000dd",
+        shadowDistance = "10 -10",
+        onClick        = "removeDreams",
+        font           = "font_teutonic-arkham",
+        text           = "Start of Turn"
       }
     }
   }
@@ -115,7 +139,7 @@ function createXmlAndSnaps()
       local x     = (column - (columns + 1) / 2) * spacingX
       local y     = 140
       local color = (i == 4) and CORNER_RED or CORNER_GRAY -- red for 4th slot
-      table.insert(children, createGridCell(x, y, color))
+      table.insert(children, createGridCell(x, y, color, i))
       table.insert(snapPoints, {
         position      = {
           x = -x / 1000,
@@ -161,9 +185,7 @@ end
 
 function onCollisionEnter(collisionInfo)
   local object = collisionInfo.collision_object
-
-  if not collisionEnabled then return end
-  if object.type ~= "Card" then return end
+  if not collisionEnabled or object.type ~= "Card" then return end
 
   if collisionTable[object] ~= nil then return end
   collisionTable[object] = true
@@ -175,6 +197,35 @@ function onCollisionEnter(collisionInfo)
   else
     Wait.time(function() handleDreamSpawning(object) end, 1)
   end
+
+  updateCellLabel(object, "enter")
+end
+
+function onCollisionExit(collisionInfo)
+  local object = collisionInfo.collision_object
+  if not collisionEnabled or object.type ~= "Card" then return end
+
+  updateCellLabel(object, "exit")
+end
+
+function updateCellLabel(object, mode)
+  -- figure out which spot this card was placed in
+  local index  = nil
+  local localX = self.positionToLocal(object.getPosition()).x
+  if localX > 0 then
+    if localX > 0.65 then
+      index = 1
+    else
+      index = 2
+    end
+  else
+    if localX > -0.65 then
+      index = 3
+    else
+      index = 4
+    end
+  end
+  self.UI.setAttribute("dreamCardName" .. index, "text", mode == "enter" and object.getName() or "")
 end
 
 function handleDreamSpawning(card)
