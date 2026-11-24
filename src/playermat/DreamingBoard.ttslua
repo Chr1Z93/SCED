@@ -183,7 +183,6 @@ function onLoad()
   createXmlAndSnaps()
   owner = GUIDReferenceApi.getOwnerOfObject(self)
   Wait.time(function() collisionEnabled = true end, 0.1)
-  Wait.condition(function() self.setLock(true) end, function() return self.resting end)
 end
 
 function onCollisionEnter(collisionInfo)
