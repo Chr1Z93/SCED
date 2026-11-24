@@ -5713,15 +5713,27 @@ function TokenManager.addUseToCard(params)
   end
 
   local match = false
-  for _, useInfo in ipairs(metadata.uses or {}) do
-    if useInfo.token == useType then
-      -- artificially create replenish data to re-use that existing functionality
-      useInfo.count = 999
-      useInfo.replenish = additionalCount
-      match = true
-    else
-      -- artificially disable other uses from replenishing
-      useInfo.replenish = nil
+  if card.is_face_down and metadata.dreaming and useType == "resource" then
+    match         = true
+    metadata.uses = {
+      {
+        count     = 999,
+        type      = "Dream",
+        token     = "resource",
+        replenish = additionalCount
+      }
+    }
+  else
+    for _, useInfo in ipairs(metadata.uses or {}) do
+      if useInfo.token == useType then
+        -- artificially create replenish data to re-use that existing functionality
+        useInfo.count     = 999
+        useInfo.replenish = additionalCount
+        match             = true
+      else
+        -- artificially disable other uses from replenishing
+        useInfo.replenish = nil
+      end
     end
   end
 
