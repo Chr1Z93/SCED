@@ -124,7 +124,7 @@
       },
       "tooltip": "None",
       "value": [
-        "Major Release Notes\n- CRITICAL FIX for Charlie Kane & Nkosi Mabati deployed\n- added a Chaos Token Stat UI (thanks @Jimble!)\n- added a setting to control when chaos tokens stats get reset\n- added Token Arranger to 2p Table Setup\n- improved Clean Up Helper's functionality for Hemlock preludes\n- fixed an issue with replacing cards in containers (relevant for Language Packs)\n- fixed an issue with mini card border drawing not matching the card size properly\n- fixed a bug with doom token rotation for rotated player mats\n\nThis mod is a fan-made adaptation of Arkham Horror LCG.\nIt is not endorsed by Fantasy Flight Games or Asmodee Digital.\nPlease support the game by purchasing the official product."
+        "Major Release Notes\n- CRITICAL FIX for Charlie Kane & Nkosi Mabati deployed\n- added a Chaos Token Stat UI (thanks @Jimble!)\n- added a setting to control when chaos tokens stats get reset\n- added Token Arranger to 2p Table Setup\n- added a Dreaming Board for dreaming cards\n(import a deck with dreaming cards or use the Deck Importer's context menu)\n- improved Clean Up Helper's functionality for Hemlock preludes\n- fixed an issue with replacing cards in containers (relevant for Language Packs)\n- fixed issues with the Customizable Card Replacer\n- fixed an issue with mini card border drawing not matching the card size properly\n- fixed a bug with doom token rotation for rotated player mats\n\nThis mod is a fan-made adaptation of Arkham Horror LCG.\nIt is not endorsed by Fantasy Flight Games or Asmodee Digital.\nPlease support the game by purchasing the official product."
       ]
     }
   ],
