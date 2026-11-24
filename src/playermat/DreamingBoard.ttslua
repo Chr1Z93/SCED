@@ -259,7 +259,8 @@ function handleDreamSpawning(card)
   end
 end
 
-function removeDreams()
+function removeDreams(player)
+  local dreamRemoved = false
   for _, snap in ipairs(self.getSnapPoints()) do
     local pos    = self.positionToWorld(snap.position):setAt("y", self.getPosition().y + 0.5)
     local card   = nil
@@ -275,11 +276,18 @@ function removeDreams()
 
     if #tokens > 0 then
       GlobalApi.discardObjects(tokens[1], owner)
+      dreamRemoved = true
       if #tokens == 1 and card.is_face_down then
         card.flip()
         currentlyFlipping[card] = true
         Wait.frames(function() currentlyFlipping[card] = nil end, 3)
       end
     end
+  end
+
+  if dreamRemoved then
+    broadcastToColor("Removed a dream from each dreaming card.", player.color, "Green")
+  else
+    broadcastToColor("Didn't find any dreams to remove.", player.color, "Orange")
   end
 end
