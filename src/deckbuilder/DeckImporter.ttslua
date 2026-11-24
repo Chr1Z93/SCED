@@ -371,32 +371,33 @@ function loadCards(slots, investigatorId, bondedList, deckMeta, matColor, loadAl
   for cardId, cardCount in pairs(slots) do
     local card = AllCardsBagApi.getCardById(cardId)
     if card ~= nil then
+      local md = card.metadata
       local reservedSlot = cardsWithAttachments[cardId]
       if type(reservedSlot) == "number" and reservedSlot < 6
-          and card.metadata and card.metadata.type ~= "Investigator" then
+          and md and md.type ~= "Investigator" then
         -- keep investigators in the regular spot always
         -- TODO: update the startsInPlayCount so that this doesn't leave an empty spot
         cardZone = "Blank" .. reservedSlot
       else
-        cardZone = getDefaultCardZone(card.metadata, bondedList)
+        cardZone = getDefaultCardZone(md, bondedList)
       end
 
       -- add the owning matColor to the Memo field
       card.data.Memo = matColor
 
       for i = 1, cardCount do
-        table.insert(cardsToSpawn, { data = card.data, metadata = card.metadata, zone = cardZone })
+        table.insert(cardsToSpawn, { data = card.data, metadata = md, zone = cardZone })
       end
 
       slots[cardId] = 0
 
       -- look for starting cards
-      if card.metadata.starting then
+      if md.starting then
         shouldAddStartingReminder = true
       end
 
       -- look for dreaming cards
-      if card.metadata.dreaming then
+      if md.dreaming or md.id == "14060" or md.id == "14011" or md.id == "14021" then
         shouldSpawnDreamingBoard = true
       end
     end
