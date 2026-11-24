@@ -16,19 +16,19 @@
       "SpecularIntensity": 0,
       "SpecularSharpness": 2
     },
-    "DiffuseURL": "https://steamusercontent-a.akamaihd.net/ugc/16929582695947484371/C5D511583DD279E09E16859A504B69AA0BB93AFA/",
+    "DiffuseURL": "https://steamusercontent-a.akamaihd.net/ugc/18256000021000511982/D7AB2332A353EB1289F1200F6AC459C5C081AFF9/",
     "MaterialIndex": 3,
     "MeshURL": "https://steamusercontent-a.akamaihd.net/ugc/62583916778515333/9F0BE0C211BE3BD1725B4B855F5D3C9C0D020394/",
     "TypeIndex": 0
   },
   "Description": "by Fantasy Flight Games",
   "GMNotes": "{\"filename\":\"film_fatale\"}",
-  "GUID": "45e513",
+  "GUID": "63b532",
   "Hands": false,
   "HideWhenFaceDown": false,
   "LuaScript": "require(\"core/DownloadBox\")",
   "Name": "Custom_Model",
-  "Nickname": "Film Fatale",
+  "Nickname": "Traces to Nowhere",
   "Transform": {
     "posX": 40,
     "posY": 1.481,
