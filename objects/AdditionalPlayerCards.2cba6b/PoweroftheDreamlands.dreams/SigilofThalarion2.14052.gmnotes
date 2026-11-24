@@ -1,0 +1,10 @@
+{
+  "id": "14052",
+  "type": "Asset",
+  "class": "Mystic",
+  "level": 2,
+  "permanent": true,
+  "startsInPlay": true,
+  "traits": "Pact. Sigil. Dreamlands.",
+  "cycle": "Power of the Dreamlands"
+}

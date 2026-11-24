@@ -1,0 +1,66 @@
+{
+  "ColorDiffuse": {
+    "b": 1,
+    "g": 1,
+    "r": 1
+  },
+  "ContainedObjects_order": [
+    "CalloftheDreamlands.14071",
+    "StaffofAtal3.14070",
+    "LashofUlthar2.14067",
+    "DreamsofPeace.14061",
+    "DreamQuest.14060",
+    "ExplorersSextant.14057",
+    "RealityFracture3.14055",
+    "LunarSight3.14054",
+    "SigilofThalarion2.14052",
+    "VeilofThalarion.14048",
+    "LukeRobinson.14045",
+    "EnchantingFife.14043",
+    "BoardingParty5.14042",
+    "BladeoftheSky-Sea3.14040",
+    "DoubleTeam.14034",
+    "CorsairsCache.14033",
+    "Dalkura.14030",
+    "IdolofBokrug5.14028",
+    "LightofIlarnek3.14026",
+    "OneiricInsight.14021",
+    "LunarCharts.14017",
+    "GrimoireofAges.14016",
+    "SomniumShotcaster4.14013",
+    "Oathsworn3.14011",
+    "DreamMastery.14008",
+    "KnightsLongsword.14003",
+    "KnightofCelephaïs.14002"
+  ],
+  "ContainedObjects_path": "PoweroftheDreamlands.dreams",
+  "CustomMesh": {
+    "CustomShader": {
+      "FresnelStrength": 0,
+      "SpecularColor": {
+        "b": 1,
+        "g": 1,
+        "r": 1
+      },
+      "SpecularIntensity": 0,
+      "SpecularSharpness": 2
+    },
+    "DiffuseURL": "https://steamusercontent-a.akamaihd.net/ugc/11267371565657646127/A8F0EE15649BD83A48EA8823A62B3C53703F381E/",
+    "MaterialIndex": 3,
+    "MeshURL": "https://steamusercontent-a.akamaihd.net/ugc/62583916778515295/AFB8F257CE1E4973F4C06160A2E156C147AEE1E3/",
+    "TypeIndex": 6
+  },
+  "Description": "by Fantasy Flight Games",
+  "GUID": "dreams",
+  "Hands": false,
+  "HideWhenFaceDown": false,
+  "Name": "Custom_Model_Bag",
+  "Nickname": "Power of the Dreamlands",
+  "Tags": [],
+  "Transform": {
+    "rotY": 270,
+    "scaleX": 1,
+    "scaleY": 0.14,
+    "scaleZ": 1
+  }
+}

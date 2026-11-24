@@ -134,7 +134,7 @@ function startUpdate(delay)
   -- stop if there is already an update call running
   if pendingCall then return end
   pendingCall = true
-  delay = tonumber(delay) or 0
+  delay       = tonumber(delay) or 0
   Wait.time(updateCount, delay + 0.2)
 end
 
@@ -228,7 +228,7 @@ end
 -- toggles the highlight for objects with missing metadata
 function highlightMissingData()
   self.editButton({
-    index = 3,
+    index   = 3,
     tooltip = (highlightMissing and "En" or "Dis") ..
         "able highlighting of cards without metadata (VP on these is not counted)."
   })
@@ -249,7 +249,7 @@ end
 function highlightCountedVP()
   startUpdate()
   self.editButton({
-    index = 4,
+    index   = 4,
     tooltip = (highlightCounted and "Enable" or "Disable") .. " highlighting of cards with VP."
   })
   for obj, _ in pairs(countedVP) do
@@ -287,7 +287,7 @@ function placeCard(card)
   -- get first empty slot
   local emptyIndex, emptyPos
   for i, snap in ipairs(snaps) do
-    local snapPos = self.positionToWorld(snap.position)
+    local snapPos      = self.positionToWorld(snap.position)
     local searchResult = SearchLib.atPosition(snapPos, "isCardOrDeck")
     if #searchResult == 0 then
       emptyPos = snapPos

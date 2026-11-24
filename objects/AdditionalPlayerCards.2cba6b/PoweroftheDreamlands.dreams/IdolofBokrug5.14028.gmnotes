@@ -1,0 +1,20 @@
+{
+  "id": "14028",
+  "type": "Asset",
+  "slot": "Accessory",
+  "class": "Seeker",
+  "cost": 2,
+  "level": 5,
+  "traits": "Item. Relic. Dreamlands.",
+  "willpowerIcons": 1,
+  "intellectIcons": 1,
+  "wildIcons": 2,
+  "uses": [
+    {
+      "count": 0,
+      "type": "Dream",
+      "token": "resource"
+    }
+  ],
+  "cycle": "Power of the Dreamlands"
+}

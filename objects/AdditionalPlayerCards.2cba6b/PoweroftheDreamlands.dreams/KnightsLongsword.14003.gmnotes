@@ -1,0 +1,12 @@
+{
+  "id": "14003",
+  "type": "Asset",
+  "slot": "Hand",
+  "class": "Guardian",
+  "level": 0,
+  "dreaming": 3,
+  "traits": "Item. Weapon. Melee. Dreamlands.",
+  "combatIcons": 1,
+  "wildIcons": 1,
+  "cycle": "Power of the Dreamlands"
+}

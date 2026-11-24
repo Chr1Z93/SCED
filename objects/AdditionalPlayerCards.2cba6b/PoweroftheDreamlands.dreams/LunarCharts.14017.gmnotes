@@ -1,0 +1,19 @@
+{
+  "id": "14017",
+  "type": "Asset",
+  "slot": "Hand",
+  "class": "Seeker",
+  "level": 0,
+  "dreaming": 3,
+  "traits": "Item. Dreamlands.",
+  "willpowerIcons": 1,
+  "intellectIcons": 1,
+  "uses": [
+    {
+      "count": 3,
+      "type": "Secret",
+      "token": "resource"
+    }
+  ],
+  "cycle": "Power of the Dreamlands"
+}

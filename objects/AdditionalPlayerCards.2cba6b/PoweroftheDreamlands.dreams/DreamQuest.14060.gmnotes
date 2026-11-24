@@ -1,0 +1,9 @@
+{
+  "id": "14060",
+  "type": "Event",
+  "class": "Survivor",
+  "cost": 1,
+  "level": 0,
+  "traits": "Insight. Dreamlands.",
+  "cycle": "Power of the Dreamlands"
+}

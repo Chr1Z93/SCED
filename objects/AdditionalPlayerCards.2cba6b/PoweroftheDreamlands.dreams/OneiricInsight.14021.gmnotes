@@ -1,0 +1,11 @@
+{
+  "id": "14021",
+  "type": "Event",
+  "class": "Seeker",
+  "cost": 1,
+  "level": 0,
+  "traits": "Insight. Dreamlands.",
+  "intellectIcons": 1,
+  "agilityIcons": 1,
+  "cycle": "Power of the Dreamlands"
+}

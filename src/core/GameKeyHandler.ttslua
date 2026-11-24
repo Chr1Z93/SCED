@@ -412,12 +412,12 @@ function removeAUse(playerColor, hoveredObject)
   -- feedback message
   local card, cardName
   if hoveredObject.type == "Card" then
-    card = hoveredObject
+    card     = hoveredObject
     cardName = hoveredObject.getName()
   else
     local searchResult = SearchLib.belowPosition(targetObject.getPosition(), "isCard")
     if #searchResult > 0 then
-      card = searchResult[1]
+      card     = searchResult[1]
       cardName = searchResult[1].getName()
     end
   end
@@ -444,7 +444,7 @@ function removeAUse(playerColor, hoveredObject)
 
   -- construct feedback message
   local playerName = GlobalApi.getColoredName(vColor)
-  local cardInfo = ""
+  local cardInfo   = ""
   if cardName and cardName ~= "" and not (card and card.is_face_down and card.hide_when_face_down) then
     cardInfo = " from " .. cardName
   end

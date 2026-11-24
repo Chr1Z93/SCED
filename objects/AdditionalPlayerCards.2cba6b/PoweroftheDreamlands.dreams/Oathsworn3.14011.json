@@ -1,0 +1,26 @@
+{
+  "CardID": 1401100,
+  "CustomDeck": {
+    "14011": {
+      "BackIsHidden": true,
+      "BackURL": "https://steamusercontent-a.akamaihd.net/ugc/2342503777940352139/A2D42E7E5C43D045D72CE5CFC907E4F886C8C690/",
+      "FaceURL": "https://steamusercontent-a.akamaihd.net/ugc/15600392280005321944/C37BA4081C8F0D4BCC52AE1EFD0BC767E78468E5/",
+      "NumHeight": 1,
+      "NumWidth": 1,
+      "Type": 0
+    }
+  },
+  "GMNotes_path": "AdditionalPlayerCards.2cba6b/PoweroftheDreamlands.dreams/Oathsworn3.14011.gmnotes",
+  "GUID": "14011",
+  "Name": "Card",
+  "Nickname": "Oathsworn (3)",
+  "Tags": [
+    "PlayerCard"
+  ],
+  "Transform": {
+    "rotY": 270,
+    "scaleX": 1,
+    "scaleY": 1,
+    "scaleZ": 1
+  }
+}

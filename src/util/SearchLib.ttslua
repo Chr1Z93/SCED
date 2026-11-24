@@ -1,5 +1,5 @@
 do
-  local SearchLib = {}
+  local SearchLib        = {}
   local FILTER_FUNCTIONS = {
     isCard           = function(x) return x.type == "Card" end,
     isDeck           = function(x) return x.type == "Deck" end,
@@ -10,6 +10,8 @@ do
     isTileOrToken    = function(x) return not x.Book and (x.type == "Tile" or x.type == "Generic") end,
     isUniversalToken = function(x) return x.getMemo() == "universalActionAbility" end,
   }
+
+  SearchLib.CARD_SIZE = Vector(2, 1, 2.8)
 
   ---@class SearchParams
   ---@field pos tts__Vector Global position

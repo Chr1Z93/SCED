@@ -1,0 +1,13 @@
+{
+  "id": "14067",
+  "type": "Asset",
+  "slot": "Hand",
+  "class": "Survivor",
+  "level": 2,
+  "dreaming": 2,
+  "traits": "Item. Weapon. Melee. Dreamlands.",
+  "combatIcons": 1,
+  "agilityIcons": 1,
+  "wildIcons": 1,
+  "cycle": "Power of the Dreamlands"
+}

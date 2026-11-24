@@ -1,0 +1,10 @@
+{
+  "id": "14008",
+  "type": "Skill",
+  "class": "Guardian",
+  "level": 0,
+  "traits": "Practiced.",
+  "willpowerIcons": 1,
+  "combatIcons": 1,
+  "cycle": "Power of the Dreamlands"
+}

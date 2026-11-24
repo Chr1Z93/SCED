@@ -1,0 +1,11 @@
+{
+  "id": "14011",
+  "type": "Event",
+  "class": "Guardian",
+  "cost": 0,
+  "level": 3,
+  "traits": "Upgrade. Dreamlands.",
+  "willpowerIcons": 2,
+  "wildIcons": 1,
+  "cycle": "Power of the Dreamlands"
+}

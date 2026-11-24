@@ -1,0 +1,20 @@
+{
+  "id": "14054",
+  "type": "Asset",
+  "slot": "Arcane",
+  "class": "Mystic",
+  "level": 3,
+  "dreaming": 3,
+  "traits": "Spell. Dreamlands.",
+  "willpowerIcons": 1,
+  "intellectIcons": 1,
+  "wildIcons": 1,
+  "uses": [
+    {
+      "count": 4,
+      "type": "Charge",
+      "token": "resource"
+    }
+  ],
+  "cycle": "Power of the Dreamlands"
+}

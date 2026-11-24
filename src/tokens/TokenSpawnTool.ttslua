@@ -21,10 +21,10 @@ function onScriptingButtonDown(index, playerColor)
 
   local position = Player[playerColor].getPointerPosition() + Vector(0, 0.2, 0)
   local rotation = Vector(0, Player[playerColor].getPointerRotation(), 0)
-  callbackName = nil
+  callbackName   = nil
   callbackParams = nil
-  scriptstate = nil
-  addTag = nil
+  scriptstate    = nil
+  addTag         = nil
 
   -- check for subtype of resource based on card below
   if tokenType == "resource" then

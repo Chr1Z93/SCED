@@ -39,6 +39,24 @@ function onSave() return JSON.encode(getUiState()) end
 
 function onLoad(savedData)
   self.addContextMenuItem("Mark Cards", markPlayerCards)
+  self.addContextMenuItem("Dreaming Board",
+    function(handColor)
+      local matColorOptions = {}
+      for matColor, _ in pairs(GUIDReferenceApi.getObjectsByType("Playermat")) do
+        table.insert(matColorOptions, matColor)
+      end
+      local options = TableLib.concat({ "All" }, matColorOptions)
+      Player[handColor].showOptionsDialog("Select Playermat:", options, 1,
+        function(option)
+          if option ~= "All" then
+            spawnDreamingBoard(option)
+            return
+          end
+          for _, matColor in ipairs(matColorOptions) do
+            spawnDreamingBoard(matColor)
+          end
+        end)
+    end)
   initializeUi(JSON.decode(savedData))
   WebInterface.initialize()
 end
@@ -349,6 +367,7 @@ function loadCards(slots, investigatorId, bondedList, deckMeta, matColor, loadAl
 
   -- loop through card list
   local shouldAddStartingReminder = false
+  local shouldSpawnDreamingBoard  = false
   for cardId, cardCount in pairs(slots) do
     local card = AllCardsBagApi.getCardById(cardId)
     if card ~= nil then
@@ -374,6 +393,11 @@ function loadCards(slots, investigatorId, bondedList, deckMeta, matColor, loadAl
       -- look for starting cards
       if card.metadata.starting then
         shouldAddStartingReminder = true
+      end
+
+      -- look for dreaming cards
+      if card.metadata.dreaming then
+        shouldSpawnDreamingBoard = true
       end
     end
 
@@ -479,6 +503,33 @@ function loadCards(slots, investigatorId, bondedList, deckMeta, matColor, loadAl
 
   if not hadError then
     printForMat("Deck loaded successfully!", matColor)
+  end
+
+  -- spawn Dreaming Board if necessary
+  if shouldSpawnDreamingBoard then
+    spawnDreamingBoard(matColor)
+  end
+end
+
+function spawnDreamingBoard(matColor)
+  -- check if already present
+  local board = GUIDReferenceApi.getObjectByOwnerAndType(matColor, "Dreaming Board")
+  if not board then
+    local sourceBag = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", "ObjectSourceBag")
+    for _, objData in ipairs(sourceBag.getData().ContainedObjects) do
+      if objData["Nickname"] == "Dreaming Board" then
+        local pos = Zones.getZonePosition(matColor, "BelowSetAside")
+        objData.Transform.posX = pos.x
+        objData.Transform.posY = 1.5
+        objData.Transform.posZ = pos.z
+        objData.Transform.rotX = 0
+        objData.Transform.rotY = PlayermatApi.returnRotation(matColor).y
+        objData.Transform.rotZ = 0
+        spawnObjectData({ data = objData })
+        return
+      end
+    end
+    printToColor("Spawned a board for your Dreaming cards.", PlayermatApi.getPlayerColor(matColor))
   end
 end
 
