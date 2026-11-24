@@ -2654,7 +2654,7 @@ function downloadCustomCycle(cycleId)
       end
     end
   end
-  print("Requested content couldn't be found in library.")
+  print("Requested content couldn't be found in library (ID: " .. cycleId .. ").", "Orange")
   return false
 end
 
@@ -3984,9 +3984,16 @@ function contentDownloadCallback(request, params)
     if referenceObjectType then
       local referenceObject = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", referenceObjectType)
       if referenceObject then
-        spawnTable.position = referenceObject.getPosition() + Vector(0, 2, 0)
+        spawnTable.position = referenceObject.getPosition() + Vector(0, 0.5, 0)
         spawnTable.rotation = referenceObject.getRotation()
-        printToAll("Requested Content was automatically placed in the correct container.")
+
+        if waitIds["CONTENT_PLACEMENT"] then
+          Wait.stop(waitIds["CONTENT_PLACEMENT"])
+        end
+
+        waitIds["CONTENT_PLACEMENT"] = Wait.time(function()
+          printToAll("Requested Content was automatically placed in the correct container.")
+        end, 0.5)
       end
     else
       -- if position is undefined, get empty position
@@ -4002,7 +4009,18 @@ function contentDownloadCallback(request, params)
   end
 
   spawnTable["callback_function"] = function(obj)
-    Wait.time(function()
+    -- add memo to identify custom content with the AllCardsBag
+    if params.cycle_code then
+      obj.setMemo(params.cycle_code)
+    end
+
+    -- add gmnotes for "reloading"
+    local md    = JSON.decode(obj.getGMNotes()) or {}
+    md.filename = params.filename
+    obj.setGMNotes(JSON.encode(md))
+    obj.addTag("Reloadable")
+
+    Wait.frames(function()
       -- if spawned from menu, move the camera and/or ping the table
       if params.name and not params.keepOpen then
         -- move camera
@@ -4022,20 +4040,9 @@ function contentDownloadCallback(request, params)
         end
       end
 
-      -- add memo to identify custom content with the AllCardsBag
-      if params.cycle_code then
-        obj.setMemo(params.cycle_code)
-      end
-
-      -- add gmnotes for "reloading"
-      local md = JSON.decode(obj.getGMNotes()) or {}
-      md.filename = params.filename
-      obj.setGMNotes(JSON.encode(md))
-      obj.addTag("Reloadable")
-
-      -- trigger event
+      -- trigger event (to pick up on added tag)
       onObjectSpawn(obj)
-    end, 0.1)
+    end, 5)
   end
 
   if not pcall(function() spawnObjectJSON(spawnTable) end) then

@@ -1,5 +1,6 @@
 do
-  local CardSpawner = {}
+  local DeckLib        = require("util/DeckLib")
+  local CardSpawner    = {}
 
   -- Amount to shift for the next card (zShift) or next row of cards (xShift)
   -- Note that the table rotation is weird, and the X axis is vertical while the
@@ -21,8 +22,8 @@ do
       table.sort(cardList, CardSpawner.cardComparator)
     end
 
-    local miniCards = {}
-    local standardCards = {}
+    local miniCards         = {}
+    local standardCards     = {}
     local investigatorCards = {}
 
     for _, card in ipairs(cardList) do
@@ -122,108 +123,31 @@ do
       })
     end
 
-    -- For multiple cards, construct a deck and spawn that
-    local deckScaleX = cardList[1].data.Transform.scaleX
-    local deckScaleZ = cardList[1].data.Transform.scaleZ
-    local deck = CardSpawner.buildDeckDataTemplate(deckScaleX, deckScaleZ)
-
+    -- For multiple cards construct a deck and spawn that
+    local dataList     = {}
     local sidewaysDeck = true
     for _, spawnCard in ipairs(cardList) do
-      CardSpawner.addCardToDeck(deck, spawnCard.data)
+      table.insert(dataList, spawnCard.data)
+
       -- set sidewaysDeck to false if any card is not a sideways card
       sidewaysDeck = (sidewaysDeck and spawnCard.data.SidewaysCard)
     end
 
+    if sidewaysDeck then
+      rot = Vector(rot) - Vector(0, 90, 0)
+    end
+
+    local deck = DeckLib.generateDeckData(dataList, pos, rot)
+
     -- set the alt view angle for sideways decks
     if sidewaysDeck then
       deck.AltLookAngle = { x = 0, y = 180, z = 90 }
-      rot = Vector(rot) - Vector(0, 90, 0)
     end
 
     return spawnObjectData({
       data              = deck,
-      position          = pos,
-      rotation          = rot,
       callback_function = callback
     })
-  end
-
-  -- Inserts a card into the given deck. This does three things:
-  --   1. Add the card's data to ContainedObjects
-  --   2. Add the card's ID (the TTS CardID, not the Arkham ID) to the deck's
-  --      ID list. Note that the deck's ID list is "DeckIDs" even though it
-  --      contains a list of card Ids
-  --   3. Extract the card's CustomDeck table and add it to the deck. The deck's
-  --      "CustomDeck" field is a list of all CustomDecks used by cards within the
-  --      deck, keyed by the DeckID and referencing the custom deck table
-  ---@param deck table TTS deck data structure to add to
-  ---@param cardData table Data for the card to be inserted
-  function CardSpawner.addCardToDeck(deck, cardData)
-    for customDeckId, customDeckData in pairs(cardData.CustomDeck) do
-      if (deck.CustomDeck[customDeckId] == nil) then
-        -- CustomDeck not added to deck yet, add it
-        deck.CustomDeck[customDeckId] = customDeckData
-      elseif (deck.CustomDeck[customDeckId].FaceURL == customDeckData.FaceURL) then
-        -- CustomDeck for this card matches the current one for the deck, do nothing
-      else
-        -- CustomDeck data conflict
-        local newDeckId = nil
-        for deckId, customDeck in pairs(deck.CustomDeck) do
-          if (customDeckData.FaceURL == customDeck.FaceURL) then
-            newDeckId = deckId
-          end
-        end
-        if (newDeckId == nil) then
-          -- No non-conflicting custom deck for this card, add a new one
-          newDeckId = CardSpawner.findNextAvailableId(deck.CustomDeck, "1000")
-          deck.CustomDeck[newDeckId] = customDeckData
-        end
-        -- Update the card with the new CustomDeck info
-        cardData.CardID = newDeckId .. string.sub(cardData.CardID, -2)
-        cardData.CustomDeck[customDeckId] = nil
-        cardData.CustomDeck[newDeckId] = customDeckData
-        break
-      end
-    end
-    table.insert(deck.ContainedObjects, cardData)
-    table.insert(deck.DeckIDs, cardData.CardID)
-  end
-
-  -- Create an empty deck data table which can have cards added to it. This
-  -- creates a new table on each call without using metatables or previous
-  -- definitions because we can't be sure that TTS doesn't modify the structure
-  ---@return table deck Table containing the minimal TTS deck data structure
-  function CardSpawner.buildDeckDataTemplate(deckScaleX, deckScaleZ)
-    local deck = {}
-    deck.Name = "Deck"
-
-    -- Card data. DeckIDs and CustomDeck entries will be built from the cards
-    deck.ContainedObjects = {}
-    deck.DeckIDs = {}
-    deck.CustomDeck = {}
-
-    -- Transform is required, Position and Rotation will be overridden by the spawn call so can be omitted here
-    -- Decks won't inherently scale to the cards in them. The card list being spawned should be all
-    -- the same type/size by this point, so use the first card to set the size
-    deck.Transform = {
-      scaleX = deckScaleX or 1,
-      scaleY = 1,
-      scaleZ = deckScaleZ or 1,
-    }
-
-    return deck
-  end
-
-  -- Returns the first ID which does not exist in the given table, starting at startId and increasing
-  ---@param objectTable table keyed by strings which are numbers
-  ---@param startId string possible ID.
-  ---@return string id >= startId
-  function CardSpawner.findNextAvailableId(objectTable, startId)
-    local id = startId
-    while objectTable[id] ~= nil do
-      id = tostring(tonumber(id) + 1)
-    end
-    return id
   end
 
   -- Comparison function used to sort the cards in a deck in alphabetical order.

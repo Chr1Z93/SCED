@@ -360,7 +360,7 @@ do
 
         if not everythingIndexed then
           for cycleId, cycleName in pairs(necessaryCustomContent) do
-            printForMat("Attempting to download " .. cycleName, matColor)
+            printForMat("Loading " .. cycleName, matColor)
             local foundInLibrary = GlobalApi.downloadCustomCycle(cycleId)
             if foundInLibrary then
               AllCardsBagApi.addCustomCycleToQueueForDeckImporting(cycleId)

@@ -84,9 +84,9 @@ do
     -- Reserve all IDs used by the input cards
     for _, cardData in ipairs(cardList) do
       for customDeckId, _ in pairs(cardData.CustomDeck or {}) do
-        local id = tonumber(customDeckId)
+        local id    = tonumber(customDeckId)
         usedIds[id] = true
-        maxId = math.max(maxId, id)
+        maxId       = math.max(maxId, id)
       end
     end
 

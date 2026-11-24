@@ -261,11 +261,11 @@ function processContainedObjects(containedObjects, customDeck)
     elseif objData.Name == "Card" or objData.Name == "CardCustom" then
       if customDeck then
         -- we might need to fix the "CustomDeck" entry for cards inside decks since TTS doesn't update it while they are in bags
-        local wantedCustomDeckIdStr = tostring(objData.CardID):sub(1, -3)
+        local wantedCustomDeckIdStr  = tostring(objData.CardID):sub(1, -3)
         local presentCustomDeckIdNum = next(objData.CustomDeck)
 
         -- type conversion (TTS seems to store these as strings, but reads them as numbers)
-        local wantedCustomDeckIdNum = tonumber(wantedCustomDeckIdStr)
+        local wantedCustomDeckIdNum  = tonumber(wantedCustomDeckIdStr)
         if wantedCustomDeckIdNum ~= presentCustomDeckIdNum then
           if customDeck[wantedCustomDeckIdNum] then
             objData.CustomDeck = {}
