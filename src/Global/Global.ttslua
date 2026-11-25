@@ -177,7 +177,8 @@ local RESOURCE_STATES             = {
   ["evidence"] = 5,
   ["secret"]   = 6,
   ["supply"]   = 7,
-  ["offering"] = 8
+  ["offering"] = 8,
+  ["dream"]    = 9
 }
 
 ---------------------------------------------------------

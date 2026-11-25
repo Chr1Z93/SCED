@@ -1,0 +1,36 @@
+{
+  "ColorDiffuse": {
+    "b": 1,
+    "g": 1,
+    "r": 1
+  },
+  "CustomImage": {
+    "CustomToken": {
+      "MergeDistancePixels": 10,
+      "Stackable": false,
+      "StandUp": false,
+      "Thickness": 0.3
+    },
+    "ImageScalar": 1,
+    "ImageSecondaryURL": "",
+    "ImageURL": "https://steamusercontent-a.akamaihd.net/ugc/12063609993614645195/BF5395B431CEE22D062BB62AB0512E0AF37B607C/",
+    "WidthScale": 0
+  },
+  "GUID": "ucacher9",
+  "Hands": false,
+  "HideWhenFaceDown": false,
+  "Locked": true,
+  "Memo": "dream",
+  "Name": "Custom_Token",
+  "Nickname": "Use Cache Dream",
+  "Snap": false,
+  "Transform": {
+    "posX": 77,
+    "posY": 1.145,
+    "posZ": -41.9,
+    "rotY": 270,
+    "scaleX": 0.17,
+    "scaleY": 0.17,
+    "scaleZ": 0.17
+  }
+}
