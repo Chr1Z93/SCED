@@ -864,6 +864,11 @@ function getTrackedLocations()
   return locations
 end
 
+function resetConnectionModifications()
+  connectionModifications = {}
+  updateSave()
+end
+
 ---------------------------------------------------------
 -- utility functions
 ---------------------------------------------------------
@@ -872,11 +877,12 @@ end
 ---@param object tts__Object Object to check
 ---@return boolean: True if the object is inside the play area
 function isInPlayArea(object)
-  local bounds = self.getBounds()
+  local bounds   = self.getBounds()
   local position = object.getPosition()
+
   -- Corners are arbitrary since it's all global - c1 goes down both axes, c2 goes up
-  local c1 = { x = bounds.center.x - bounds.size.x / 2, z = bounds.center.z - bounds.size.z / 2 }
-  local c2 = { x = bounds.center.x + bounds.size.x / 2, z = bounds.center.z + bounds.size.z / 2 }
+  local c1       = { x = bounds.center.x - bounds.size.x / 2, z = bounds.center.z - bounds.size.z / 2 }
+  local c2       = { x = bounds.center.x + bounds.size.x / 2, z = bounds.center.z + bounds.size.z / 2 }
 
   return position.x > c1.x and position.x < c2.x and position.z > c1.z and position.z < c2.z
 end
@@ -912,9 +918,9 @@ end
 
 -- Converts world position to grid coordinates (e.g., {x=-30.5, z=8})
 function worldToGrid(pos)
-  pos = self.positionToLocal(pos)
-  local dx = (pos.x - CENTER_X) / STEP_X / 2
-  local dz = (CENTER_Z - pos.z) / STEP_Z / 2
+  local localPos = self.positionToLocal(pos)
+  local dx       = (localPos.x - CENTER_X) / STEP_X / 2
+  local dz       = (CENTER_Z - localPos.z) / STEP_Z / 2
   return { x = MathLib.roundToMultiple(dx, 0.25), y = MathLib.roundToMultiple(dz, 0.25) }
 end
 
@@ -922,7 +928,7 @@ end
 function gridToWorld(grid)
   local localX = CENTER_X + (grid.x or grid[1]) * STEP_X * 2
   local localZ = CENTER_Z - (grid.y or grid[2]) * STEP_Z * 2
-  local pos = self.positionToWorld({ x = localX, y = 0.1, z = localZ })
+  local pos    = self.positionToWorld({ x = localX, y = 0.1, z = localZ })
   return MathLib.roundVector(pos, 3)
 end
 

@@ -325,6 +325,9 @@ function tidyPlayAreaCoroutine()
   local trash = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", "Trash")
   local playAreaZone = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", "PlayAreaZone")
 
+  -- reset manual connections
+  PlayAreaApi.resetConnectionModifications()
+
   -- triggers an update to remove lines from helpers
   PlayAreaApi.rebuildConnectionList()
 
@@ -456,9 +459,8 @@ function shouldTidyPlayermats()
   if isPrelude() then
     -- don't clean up playermats if playing a prelude (Hemlock Vale)
     return false
-  else
-    return options["tidyPlayermats"]
   end
+  return options["tidyPlayermats"]
 end
 
 function isPrelude()

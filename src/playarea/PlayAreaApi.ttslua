@@ -149,5 +149,10 @@ do
     return TableLib.copy(getPlayArea().call("getTrackedLocations", {}))
   end
 
+  -- Reset connection modifications (numpad 0)
+  function PlayAreaApi.resetConnectionModifications()
+    return getPlayArea().call("resetConnectionModifications")
+  end
+
   return PlayAreaApi
 end
